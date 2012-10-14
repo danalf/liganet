@@ -1,3 +1,8 @@
+
+hello:
+    pattern:  /hello/{name}
+    defaults: { _controller: LigawebCoreBundle:Hello:index }
+
 # Internal routing configuration to handle ESI
 #_internal:
 #    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
