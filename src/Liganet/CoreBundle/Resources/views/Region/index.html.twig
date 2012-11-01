@@ -1,0 +1,9 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+{% for vb in region %}
+<h2>
+    <a href="{{ path('region_show', {'id': vb.id}) }}">{{ vb.name }}</a>
+</h2>
+{% endfor %}
+{% endblock %}

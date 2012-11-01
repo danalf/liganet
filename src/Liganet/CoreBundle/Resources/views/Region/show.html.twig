@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+
+{% block content_head %}
+<h1>Hallo {{ region.name }} {{ region.namekurz }}</h1>
+<p>{{ region.description }}</p>
+{% if region.document %}
+<p><img src="{{ asset(region.document.webpath) }}" />{{region.document.mimetype}} {{region.document.name}}</p>
+{% endif %}
+{% endblock %}
+
+    

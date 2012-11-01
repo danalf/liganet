@@ -1,0 +1,62 @@
+jms_security_extra:
+    secure_all_services: false
+    expressions: true
+
+security:
+  
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    role_hierarchy:
+        ROLE_CAPTAIN:     ROLE_USER
+        ROLE_CLUB_MANAGEMENT:  ROLE_CAPTAIN
+        ROLE_LEAGUE_MANAGEMENT: ROLE_CLUB_MANAGEMENT
+        ROLE_REGION_MANAGEMENT: ROLE_LEAGUE_MANAGEMENT
+        ROLE_UNION_MANAGEMENT:  ROLE_REGION_MANAGEMENT
+        ROLE_ADMIN:       ROLE_UNION_MANAGEMENT
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+            logout:       true
+            anonymous:    true
+            
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        login:
+            pattern:  ^/demo/secured/login$
+            security: false
+
+        secured_area:
+            pattern:    ^/demo/secured/
+            form_login:
+                check_path: /login_check
+                login_path: /login
+            logout:
+                path:   /logout
+                target: /
+            anonymous: ~
+            http_basic:
+                realm: "Secured Demo Area"
+
+    access_control:
+        - { path: ^/css/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/js/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /_wdt/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /_profiler/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /.*, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }
+

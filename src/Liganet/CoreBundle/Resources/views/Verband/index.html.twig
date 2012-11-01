@@ -1,0 +1,10 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+{% for vb in verband %}
+<h2>
+    <a href="{{ path('verband_show', {'id': vb.id}) }}">{{ vb.name }}</a>
+</h2>
+<p>{{ vb.number }}</p>
+{% endfor %}
+{% endblock %}

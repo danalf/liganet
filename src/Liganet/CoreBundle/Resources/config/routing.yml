@@ -1,0 +1,4 @@
+liganet_core_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: LiganetCoreBundle:Default:index }
+
