@@ -12,67 +12,59 @@
 {% stylesheets '@LiganetCoreBundle/Resources/public/css/*' filter='cssrewrite' %}
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
  {% endstylesheets %}
-
-        <script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
     </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
-                    </a>
+                    </button>
                     <a class="brand" href="{{ path('_home') }}"><strong>Liganet</strong></a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li><a href="{{ path('_home') }}">Home</a></li>
                             <li><a href="{{ path('verband') }}">Verband</a></li>
-                            <li><a href="#contact">Contact</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li class="divider"></li>
-                                    <li class="nav-header">Nav header</li>
-                                    <li><a href="#">Separated link</a></li>
-                                    <li><a href="#">One more separated link</a></li>
-                                </ul>
-                            </li>
+                            <li><a href="{{ path('region') }}">Region</a></li>
                         </ul>
-                        <form class="navbar-form pull-right">
+                        <ul class="nav pull-right">
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                <p>Hallo {{ app.user.username }}</p>
-                                <a href="{{ path('fos_user_security_logout') }}">
-                                        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                                    </a>
+                                <li class="navbar-text">{{ app.user.username }}</li>
+                                <li class="divider-vertical"></li>
+                                <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                             {% else %}
-                                    <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                                <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
                             {% endif %}
-                                </form>
-                            </div><!--/.nav-collapse -->
-                        </div>
+                            </ul>
+                        </div><!--/.nav-collapse -->
                     </div>
                 </div>
-                    {% block body %}{% endblock %}
-                <div class="container">
+            </div>
 
-                    <!-- Main hero unit for a primary marketing message or call to action -->
-                    <div class="hero-unit">{% block content_head %}{% endblock %}</div>
+            <div class="container">
+                     {% if app.session.hasFlash('error') %}
+                    <div class="alert alert-error" ></button>{{ app.session.flash('error') }}</div>
+                    {% endif %}
+                    {% if app.session.hasFlash('notice') %}
+                    <div class="alert" ></button>{{ app.session.flash('notice') }}</div>
+                    {% endif %}
+                    {% if app.session.hasFlash('success') %}
+                    <div class="alert alert-success" ></button>{{ app.session.flash('success') }}</div>
+                    {% endif %}
+                    <div class="page-header"></div>
+                    {% block content_head %}{% endblock %}
                     <div>{% block content %}{% endblock %}</div>
+                    {% block body %}{% endblock %}
                     <div>{% block fos_user_content %}{% endblock fos_user_content %}</div>
-
-                    <hr>
                     <footer>
                         <p>&copy; Company 2012</p>
                     </footer>
                 </div> <!-- /container -->
         {% javascripts
-    '@LiganetCoreBundle/Resources/public/js/*'
-    '@LiganetCoreBundle/Resources/public/js/vendor/*' %}
+    '@LiganetCoreBundle/Resources/public/js/vendor/*' 
+'@LiganetCoreBundle/Resources/public/js/main.js'%}
                 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
             </body>

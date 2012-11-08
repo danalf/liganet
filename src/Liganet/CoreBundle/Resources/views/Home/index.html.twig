@@ -1,4 +1,12 @@
- {% extends '::base.html.twig' %}
+{% extends '::base.html.twig' %}
 {% block content_head %}
-<h1>1Hello, hello</h1>
+<div class="hero-unit">
+    <h1>Liganet</h1>
+</div>
 {% endblock %}
+{% block content %}
+<div  class="span4">
+    {% render "LiganetCoreBundle:Verband:showStart" with {'max': 3} %}
+</div>
+{% endblock %}
+

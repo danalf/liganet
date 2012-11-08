@@ -29,6 +29,11 @@ class Region {
     protected $name_kurz;
 
     /**
+     * @ORM\OneToMany(targetEntity="Verein", mappedBy="region")
+     */
+    protected $vereine;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $description;
@@ -38,27 +43,27 @@ class Region {
      * @ORM\JoinColumn(name="logo_id", referencedColumnName="id")
      * */
     private $document;
-    
-     /**
+
+    /**
      * @ORM\Column(type="string", length=7)
      */
     protected $farbeTabelleSchrift;
-    
+
     /**
      * @ORM\Column(type="string", length=7)
      */
     protected $farbeTabelleHintergrund;
-    
+
     /**
      * @ORM\Column(type="string", length=7)
      */
     protected $farbeTabelleZeile2Schrift;
-    
+
     /**
      * @ORM\Column(type="string", length=7)
      */
     protected $farbeTabelleZeile2Hintergrund;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Verband", inversedBy="regions")
      * @ORM\JoinColumn(name="verband_id", referencedColumnName="id")
@@ -70,8 +75,7 @@ class Region {
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -81,10 +85,9 @@ class Region {
      * @param string $name
      * @return Region
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
-    
+
         return $this;
     }
 
@@ -93,8 +96,7 @@ class Region {
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -104,10 +106,9 @@ class Region {
      * @param string $nameKurz
      * @return Region
      */
-    public function setNameKurz($nameKurz)
-    {
+    public function setNameKurz($nameKurz) {
         $this->name_kurz = $nameKurz;
-    
+
         return $this;
     }
 
@@ -116,8 +117,7 @@ class Region {
      *
      * @return string 
      */
-    public function getNameKurz()
-    {
+    public function getNameKurz() {
         return $this->name_kurz;
     }
 
@@ -127,10 +127,9 @@ class Region {
      * @param string $description
      * @return Region
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
-    
+
         return $this;
     }
 
@@ -139,8 +138,7 @@ class Region {
      *
      * @return string 
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
@@ -150,10 +148,9 @@ class Region {
      * @param string $farbeTabelleSchrift
      * @return Region
      */
-    public function setFarbeTabelleSchrift($farbeTabelleSchrift)
-    {
+    public function setFarbeTabelleSchrift($farbeTabelleSchrift) {
         $this->farbeTabelleSchrift = $farbeTabelleSchrift;
-    
+
         return $this;
     }
 
@@ -162,8 +159,7 @@ class Region {
      *
      * @return string 
      */
-    public function getFarbeTabelleSchrift()
-    {
+    public function getFarbeTabelleSchrift() {
         return $this->farbeTabelleSchrift;
     }
 
@@ -173,10 +169,9 @@ class Region {
      * @param string $farbeTabelleHintergrund
      * @return Region
      */
-    public function setFarbeTabelleHintergrund($farbeTabelleHintergrund)
-    {
+    public function setFarbeTabelleHintergrund($farbeTabelleHintergrund) {
         $this->farbeTabelleHintergrund = $farbeTabelleHintergrund;
-    
+
         return $this;
     }
 
@@ -185,8 +180,7 @@ class Region {
      *
      * @return string 
      */
-    public function getFarbeTabelleHintergrund()
-    {
+    public function getFarbeTabelleHintergrund() {
         return $this->farbeTabelleHintergrund;
     }
 
@@ -196,10 +190,9 @@ class Region {
      * @param string $farbeTabelleZeile2Schrift
      * @return Region
      */
-    public function setFarbeTabelleZeile2Schrift($farbeTabelleZeile2Schrift)
-    {
+    public function setFarbeTabelleZeile2Schrift($farbeTabelleZeile2Schrift) {
         $this->farbeTabelleZeile2Schrift = $farbeTabelleZeile2Schrift;
-    
+
         return $this;
     }
 
@@ -208,8 +201,7 @@ class Region {
      *
      * @return string 
      */
-    public function getFarbeTabelleZeile2Schrift()
-    {
+    public function getFarbeTabelleZeile2Schrift() {
         return $this->farbeTabelleZeile2Schrift;
     }
 
@@ -219,10 +211,9 @@ class Region {
      * @param string $farbeTabelleZeile2Hintergrund
      * @return Region
      */
-    public function setFarbeTabelleZeile2Hintergrund($farbeTabelleZeile2Hintergrund)
-    {
+    public function setFarbeTabelleZeile2Hintergrund($farbeTabelleZeile2Hintergrund) {
         $this->farbeTabelleZeile2Hintergrund = $farbeTabelleZeile2Hintergrund;
-    
+
         return $this;
     }
 
@@ -231,8 +222,7 @@ class Region {
      *
      * @return string 
      */
-    public function getFarbeTabelleZeile2Hintergrund()
-    {
+    public function getFarbeTabelleZeile2Hintergrund() {
         return $this->farbeTabelleZeile2Hintergrund;
     }
 
@@ -242,10 +232,9 @@ class Region {
      * @param Liganet\CoreBundle\Entity\Document $document
      * @return Region
      */
-    public function setDocument(\Liganet\CoreBundle\Entity\Document $document = null)
-    {
+    public function setDocument(\Liganet\CoreBundle\Entity\Document $document = null) {
         $this->document = $document;
-    
+
         return $this;
     }
 
@@ -254,8 +243,7 @@ class Region {
      *
      * @return Liganet\CoreBundle\Entity\Document 
      */
-    public function getDocument()
-    {
+    public function getDocument() {
         return $this->document;
     }
 
@@ -265,10 +253,9 @@ class Region {
      * @param Liganet\CoreBundle\Entity\Verband $verband
      * @return Region
      */
-    public function setVerband(\Liganet\CoreBundle\Entity\Verband $verband = null)
-    {
+    public function setVerband(\Liganet\CoreBundle\Entity\Verband $verband = null) {
         $this->verband = $verband;
-    
+
         return $this;
     }
 
@@ -277,8 +264,48 @@ class Region {
      *
      * @return Liganet\CoreBundle\Entity\Verband 
      */
-    public function getVerband()
-    {
+    public function getVerband() {
         return $this->verband;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->vereine = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add vereine
+     *
+     * @param Liganet\CoreBundle\Entity\Verein $vereine
+     * @return Region
+     */
+    public function addVereine(\Liganet\CoreBundle\Entity\Verein $vereine)
+    {
+        $this->vereine[] = $vereine;
+    
+        return $this;
+    }
+
+    /**
+     * Remove vereine
+     *
+     * @param Liganet\CoreBundle\Entity\Verein $vereine
+     */
+    public function removeVereine(\Liganet\CoreBundle\Entity\Verein $vereine)
+    {
+        $this->vereine->removeElement($vereine);
+    }
+
+    /**
+     * Get vereine
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getVereine()
+    {
+        return $this->vereine;
     }
 }

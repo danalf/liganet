@@ -1,11 +1,19 @@
 {% extends '::base.html.twig' %}
-
 {% block content_head %}
-<h1>Hallo {{ region.name }} {{ region.namekurz }}</h1>
-<p>{{ region.description }}</p>
+<h1>
 {% if region.document %}
-<p><img src="{{ asset(region.document.webpath) }}" />{{region.document.mimetype}} {{region.document.name}}</p>
-{% endif %}
+<img src="{{ asset(region.document.webpath) }}" />
+{% endif %}{{ region.name }} {{ region.namekurz }}
+</h1>
+<p>Verband: {{ region.verband.name }}</p>
+<p>{{ region.description }}</p>
+
+<p>Vereine</p>
+<ul>
+    {% for verein in region.vereine %}
+        <li>{{ verein.name }}</li>
+    {% endfor %}
+</ul>
 {% endblock %}
 
     

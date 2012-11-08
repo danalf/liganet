@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+{% for user in users %}
+<h1>Hallo {{ user.username }}</h1>
+{% for role in user.roles %}
+<p>Rolle: {{ role }}</p>
+{% endfor %}
+{% if is_granted('ROLE_CLUB_MANAGEMENT') %}
+Editieren
+{% endif %}
+{% endfor %}
+{% endblock %}

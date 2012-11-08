@@ -1,11 +1,9 @@
 <?php
-
-// src/Acme/UserBundle/Entity/User.php
-
 namespace Liganet\UserBundle\Entity;
 
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Liganet\CoreBundle\Entity\Spieler;
 
 /**
  * @ORM\Entity
@@ -20,6 +18,11 @@ class User extends BaseUser {
      */
     protected $id;
     
+    /** @ORM\OneToOne(targetEntity="Liganet\CoreBundle\Entity\Spieler") 
+     *  @ORM\Column(nullable=true)
+     */
+    private $spieler;
+    
     /**
      * Get id
      *
@@ -31,4 +34,27 @@ class User extends BaseUser {
 
 
 
+
+    /**
+     * Set spieler
+     *
+     * @param Liganet\CoreBundle\Entity\Spieler $spieler
+     * @return User
+     */
+    public function setSpieler(\Liganet\CoreBundle\Entity\Spieler $spieler = null)
+    {
+        $this->spieler = $spieler;
+    
+        return $this;
+    }
+
+    /**
+     * Get spieler
+     *
+     * @return Liganet\CoreBundle\Entity\Spieler 
+     */
+    public function getSpieler()
+    {
+        return $this->spieler;
+    }
 }

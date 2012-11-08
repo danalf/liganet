@@ -1,10 +1,30 @@
 {% extends '::base.html.twig' %}
-
+{% block content_head %}
+<div class="page-header">
+    <h1>Verbände</h1>
+</div>{% endblock %}
 {% block content %}
+<p><a href="{{ path('verband_add') }}" class="btn">Verband hinzufügen</a></p>
+<table class="table">
+    <tr>
+        <th></th>
+        <th>Kürzel</th>
+        <th>Name</th>
+        <th></th>
+    </tr>
 {% for vb in verband %}
-<h2>
-    <a href="{{ path('verband_show', {'id': vb.id}) }}">{{ vb.name }}</a>
-</h2>
-<p>{{ vb.number }}</p>
+    <tr>
+        <td><img class="logo" alt="Logo{{ vb.namekurz }}" src="{{ asset(vb.document.webpath) }}" style="height: 100px" ></img></td>
+        <td>{{ vb.namekurz }}</td>
+        <td>{{ vb.name }}</td>
+        <td>
+            <a href="{{ path('verband_show', {'id': vb.id}) }}">x<i class="icon-hand-right"></i></a>
+            {% if is_granted('ROLE_UNION_MANAGEMENT') %}
+            <a href="{{ path('verband_edit', {'id': vb.id}) }}">x<i class="icon-pencil"></i></a>
+            <a href="{{ path('verband_delete', {'id': vb.id}) }}">x<i class="icon-trash"></i></a>
+            {% endif %}
+        </td>
+</tr>
 {% endfor %}
+</table>
 {% endblock %}

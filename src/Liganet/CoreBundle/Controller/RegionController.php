@@ -1,7 +1,7 @@
 <?php
 
 namespace Liganet\CoreBundle\Controller;
-
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Liganet\CoreBundle\Entity\Region;
 //use Liganet\CoreBundle\Entity\Document;
@@ -23,22 +23,22 @@ class RegionController extends Controller {
         return $this->render('LiganetCoreBundle:Region:show.html.twig', array('region' => $region));
     }
 
-    public function addAction($id) {
+    public function addAction(Request $request, $id) {
+        $em = $this->getDoctrine()->getManager();
+        
         if ($id == 0) {
             $region = new Region;
         } else {
-            $region = $this->getDoctrine()
+            $region = $em
                     ->getRepository('LiganetCoreBundle:Region')
                     ->find($id);
         }
         $form = $this->createForm(new RegionType(), $region);
-
         $request = $this->getRequest();
         if ($request->isMethod('POST')) {
             $form->bind($request);
 
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
                 $em->persist($region);
                 $em->flush();
 

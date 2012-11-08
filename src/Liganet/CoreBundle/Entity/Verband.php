@@ -7,12 +7,9 @@ use Liganet\CoreBundle\Entity\Document;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="verband")
+ * @ORM\Table(name="ln_verband")
  */
 class Verband {
-    
-
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -34,6 +31,11 @@ class Verband {
      * @ORM\Column(type="integer")
      */
     protected $number;
+    
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $website;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -230,5 +232,28 @@ class Verband {
     public function getRegions()
     {
         return $this->regions;
+    }
+
+    /**
+     * Set website
+     *
+     * @param string $website
+     * @return Verband
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
+    
+        return $this;
+    }
+
+    /**
+     * Get website
+     *
+     * @return string 
+     */
+    public function getWebsite()
+    {
+        return $this->website;
     }
 }

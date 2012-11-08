@@ -1,11 +1,17 @@
 {% extends '::base.html.twig' %}
-
 {% block content_head %}
-<h1>Hallo {{ verband.name }} {{ verband.number }}</h1>
-<p>{{ verband.description }}</p>
+<h1>
 {% if verband.document %}
-<p><img src="{{ asset(verband.document.webpath) }}" />{{verband.document.mimetype}} {{verband.document.name}}</p>
-{% endif %}
+<img src="{{ asset(verband.document.webpath) }}" />
+{% endif %} {{ verband.namekurz }} </h1>
+<p>{{ verband.name }}</p>
+<p>{{ verband.description }}</p>
+<h2>Regionen</h2>
+<ul>
+    {% for region in verband.regions %}
+        <li><a href="{{ path('region_show', {'id': region.id}) }}">{{ region.name }}</a></li>
+    {% endfor %}
+</ul>
 {% endblock %}
 
     
