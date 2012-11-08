@@ -175,4 +175,8 @@ class Document {
     {
         return $this->mimetype;
     }
+    
+    public function __toString() {
+        return $this->name;
+    }
 }

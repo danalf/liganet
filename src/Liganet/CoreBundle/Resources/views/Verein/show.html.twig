@@ -1,6 +1,4 @@
-{% extends '::base.html.twig' %}
-{% block content %}
-<h1>Verband</h1>
+<h1>Verein</h1>
 
 <table class="record_properties">
     <tbody>
@@ -13,40 +11,43 @@
             <td>{{ entity.name }}</td>
         </tr>
         <tr>
-            <th>Name_kurz</th>
+            <th>Namekurz</th>
             <td>{{ entity.namekurz }}</td>
         </tr>
         <tr>
-            <th>Number</th>
-            <td>{{ entity.number }}</td>
+            <th>Kuerzel</th>
+            <td>{{ entity.kuerzel }}</td>
         </tr>
         <tr>
-            <th>Website</th>
-            <td>{{ entity.website }}</td>
+            <th>Nummer</th>
+            <td>{{ entity.nummer }}</td>
         </tr>
         <tr>
-            <th>Description</th>
-            <td>{{ entity.description }}</td>
+            <th>Kontakt</th>
+            <td>{{ entity.kontakt }}</td>
+        </tr>
+        <tr>
+            <th>Homepage</th>
+            <td>{{ entity.homepage }}</td>
         </tr>
     </tbody>
 </table>
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('verband') }}">
+        <a href="{{ path('verein') }}">
             Back to the list
         </a>
     </li>
     <li>
-        <a href="{{ path('verband_edit', { 'id': entity.id }) }}">
+        <a href="{{ path('verein_edit', { 'id': entity.id }) }}">
             Edit
         </a>
     </li>
     <li>
-        <form action="{{ path('verband_delete', { 'id': entity.id }) }}" method="post">
+        <form action="{{ path('verein_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button type="submit">Delete</button>
         </form>
     </li>
 </ul>
-{% endblock %}

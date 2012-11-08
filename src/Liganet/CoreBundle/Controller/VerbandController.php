@@ -2,113 +2,198 @@
 
 namespace Liganet\CoreBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Liganet\CoreBundle\Entity\Verband;
-use Liganet\CoreBundle\Entity\Document;
-use Liganet\CoreBundle\Form\Type\VerbandType;
+use Liganet\CoreBundle\Form\VerbandType;
 
-class VerbandController extends Controller {
+/**
+ * Verband controller.
+ *
+ * @Route("/verband")
+ */
+class VerbandController extends Controller
+{
+    /**
+     * Lists all Verband entities.
+     *
+     * @Route("/", name="verband")
+     * @Template()
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
 
-    public function indexAction() {
-        $verband = $this->getDoctrine()
-                ->getRepository('LiganetCoreBundle:Verband')
-                ->findAll();
-        return $this->render('LiganetCoreBundle:Verband:index.html.twig', array('verband' => $verband));
+        $entities = $em->getRepository('LiganetCoreBundle:Verband')->findAll();
+
+        return array(
+            'entities' => $entities,
+        );
     }
 
-    public function showAction($id) {
-        $verband = $this->getDoctrine()
-                ->getRepository('LiganetCoreBundle:Verband')
-                ->find($id);
-        if ($verband == false) {
-            $this->get('session')->getFlashBag()->add('error', 'Datensatz nicht vorhanden!');
-            return $this->redirect($this->generateUrl('verband'));
+    /**
+     * Finds and displays a Verband entity.
+     *
+     * @Route("/{id}/show", name="verband_show")
+     * @Template()
+     */
+    public function showAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('LiganetCoreBundle:Verband')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Verband entity.');
         }
-        return $this->render('LiganetCoreBundle:Verband:show.html.twig', array('verband' => $verband));
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'delete_form' => $deleteForm->createView(),
+        );
     }
 
-    public function deleteAction($id) {
-        if (false === $this->get('security.context')->isGranted('ROLE_UNION_MANAGEMENT')) {
-            throw new AccessDeniedException();
-        }
-        $verband = $this->getDoctrine()
-                ->getRepository('LiganetCoreBundle:Verband')
-                ->find($id);
-        if ($verband == false) {
-            $this->get('session')->getFlashBag()->add('error', 'Datensatz nicht vorhanden!');
-        } else {
+    /**
+     * Displays a form to create a new Verband entity.
+     *
+     * @Route("/new", name="verband_new")
+     * @Template()
+     */
+    public function newAction()
+    {
+        $entity = new Verband();
+        $form   = $this->createForm(new VerbandType(), $entity);
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+
+    /**
+     * Creates a new Verband entity.
+     *
+     * @Route("/create", name="verband_create")
+     * @Method("POST")
+     * @Template("LiganetCoreBundle:Verband:new.html.twig")
+     */
+    public function createAction(Request $request)
+    {
+        $entity  = new Verband();
+        $form = $this->createForm(new VerbandType(), $entity);
+        $form->bind($request);
+
+        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($verband);
+            $em->persist($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'Datensatz wurde gelöscht.');
+
+            return $this->redirect($this->generateUrl('verband_show', array('id' => $entity->getId())));
         }
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+
+    /**
+     * Displays a form to edit an existing Verband entity.
+     *
+     * @Route("/{id}/edit", name="verband_edit")
+     * @Template()
+     */
+    public function editAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('LiganetCoreBundle:Verband')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Verband entity.');
+        }
+
+        $editForm = $this->createForm(new VerbandType(), $entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
+     * Edits an existing Verband entity.
+     *
+     * @Route("/{id}/update", name="verband_update")
+     * @Method("POST")
+     * @Template("LiganetCoreBundle:Verband:edit.html.twig")
+     */
+    public function updateAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('LiganetCoreBundle:Verband')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Verband entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createForm(new VerbandType(), $entity);
+        $editForm->bind($request);
+
+        if ($editForm->isValid()) {
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('verband_edit', array('id' => $id)));
+        }
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
+     * Deletes a Verband entity.
+     *
+     * @Route("/{id}/delete", name="verband_delete")
+     * @Method("POST")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $form = $this->createDeleteForm($id);
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('LiganetCoreBundle:Verband')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Verband entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
+        }
+
         return $this->redirect($this->generateUrl('verband'));
     }
 
-    public function addAction() {
-        if (false === $this->get('security.context')->isGranted('ROLE_UNION_MANAGEMENT')) {
-            throw new AccessDeniedException();
-        }
-        $verband = new Verband;
-        $form = $this->createForm(new VerbandType(), $verband);
-
-        $request = $this->getRequest();
-        if ($request->isMethod('POST')) {
-            $form->bind($request);
-
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-
-                $em->persist($verband);
-                $em->flush();
-
-                return $this->redirect($this->generateUrl('verband'));
-            }
-        }
-        return $this->render('LiganetCoreBundle:Verband:add.html.twig', array(
-                    'form' => $form->createView(),
-                ));
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder(array('id' => $id))
+            ->add('id', 'hidden')
+            ->getForm()
+        ;
     }
-
-    public function editAction($id) {
-        $verband = $this->getDoctrine()
-                ->getRepository('LiganetCoreBundle:Verband')
-                ->find($id);
-        if ($verband == false) {
-            $this->get('session')->getFlashBag()->add('error', 'Datensatz nicht vorhanden!');
-            return $this->redirect($this->generateUrl('verband'));
-        }
-        $form = $this->createForm(new VerbandType(), $verband);
-
-        $request = $this->getRequest();
-        if ($request->isMethod('POST')) {
-            $form->bind($request);
-
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-
-                $em->persist($verband);
-                $em->flush();
-                $this->get('session')->getFlashBag()->add('success', 'Die Änderungen wurden gespeichert!');
-
-
-                return $this->redirect($this->generateUrl('verband'));
-            }
-        }
-        return $this->render('LiganetCoreBundle:Verband:edit.html.twig', array(
-                    'form' => $form->createView(),
-                    'verband' => $verband,
-                ));
-    }
-
-    public function showStartAction($max = 3) {
-        $verband = $this->getDoctrine()
-                ->getRepository('LiganetCoreBundle:Verband')
-                ->findAll();
-
-        return $this->render('LiganetCoreBundle:Verband:showStart.html.twig', array('verbaende' => $verband));
-    }
-
 }

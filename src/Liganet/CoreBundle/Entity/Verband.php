@@ -256,4 +256,8 @@ class Verband {
     {
         return $this->website;
     }
+    
+    public function __toString() {
+        return $this->name_kurz;
+    }
 }

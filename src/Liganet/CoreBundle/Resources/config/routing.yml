@@ -12,49 +12,4 @@ admin_index:
 admin_edit:
     pattern:  /admin/edit/{id}
     defaults: { _controller: LiganetCoreBundle:Admin:edit }
-    
-verband:
-    pattern:  /verband
-    defaults: { _controller: LiganetCoreBundle:Verband:index }
-verband_show:
-    pattern:  /verband/show/{id}
-    defaults: { _controller: LiganetCoreBundle:Verband:show }
-verband_add:
-    pattern:  /verband/add
-    defaults: { _controller: LiganetCoreBundle:Verband:add }
-verband_edit:
-    pattern:  /verband/edit/{id}
-    defaults: { _controller: LiganetCoreBundle:Verband:edit }
-verband_delete:
-    pattern:  /verband/delete/{id}
-    defaults: { _controller: LiganetCoreBundle:Verband:delete }
-    
-region:
-    pattern:  /region
-    defaults: { _controller: LiganetCoreBundle:Region:index }
-region_show:
-    pattern:  /region/show/{id}
-    defaults: { _controller: LiganetCoreBundle:Region:show }
-region_add:
-    pattern:  /region/add/{id}
-    defaults: { _controller: LiganetCoreBundle:Region:add, id: 0 }
 
-verein_add:
-    pattern:  /verein/add
-    defaults: { _controller: LiganetCoreBundle:Verein:add }
-
-spieler_show:
-    pattern:  /spieler/show/{id}
-    defaults: { _controller: LiganetCoreBundle:Spieler:show }
-spieler_showAll:
-    pattern:  /spieler/showAll
-    defaults: { _controller: LiganetCoreBundle:Spieler:showAll }
-spieler_add:
-    pattern:  /spieler/add
-    defaults: { _controller: LiganetCoreBundle:Spieler:add }
-spieler_response:
-    pattern:  /spieler/response
-    defaults: { _controller: LiganetCoreBundle:Spieler:response }
-spieler_responseXML:
-    pattern:  /spieler/responseXML
-    defaults: { _controller: LiganetCoreBundle:Spieler:responseXML }

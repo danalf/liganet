@@ -1,11 +1,15 @@
 <?php
 
 namespace Liganet\CoreBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
+use Liganet\CoreBundle\Entity\Document;
 
 /**
- * @ORM\Entity
+ * Acme\DemoBundle\Entity\Tblverein
+ *
  * @ORM\Table(name="ln_verein")
+ * @ORM\Entity
  */
 class Verein
 {
@@ -14,24 +18,62 @@ class Verein
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
-    
+    private $id;
+
     /**
+     * @var string $name
      *
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(name="name", type="string", length=90, nullable=false)
      */
-    protected $name;
-    
-        /**
-     * @ORM\ManyToOne(targetEntity="Region", inversedBy="verein")
+    private $name;
+
+    /**
+     * @var string $namekurz
+     *
+     * @ORM\Column(name="nameKurz", type="string", length=20, nullable=false)
+     */
+    private $namekurz;
+
+    /**
+     * @var string $kuerzel
+     *
+     * @ORM\Column(name="kuerzel", type="string", length=5, nullable=false)
+     */
+    private $kuerzel;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Document",cascade={"persist"})
+     * @ORM\JoinColumn(name="logo_id", referencedColumnName="id")
+     * */
+    private $document;
+
+    /**
+     * @var integer $nummer
+     *
+     * @ORM\Column(name="nummer", type="smallint", nullable=false)
+     */
+    private $nummer;
+
+    /**
+     * @var integer $kontakt
+     *
+     * @ORM\Column(name="kontakt", type="smallint", nullable=true)
+     */
+    private $kontakt;
+
+    /**
+     * @var string $homepage
+     *
+     * @ORM\Column(name="homePage", type="string", length=90, nullable=false)
+     */
+    private $homepage;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Region", inversedBy="vereine")
      * @ORM\JoinColumn(name="region_id", referencedColumnName="id")
      */
     protected $region;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="Spieler", mappedBy="verein")
-     */
-    protected $spieler;
+
 
     /**
      * Get id
@@ -67,44 +109,141 @@ class Verein
     }
 
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->spieler = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Add spieler
+     * Set namekurz
      *
-     * @param Liganet\CoreBundle\Entity\Spieler $spieler
+     * @param string $namekurz
      * @return Verein
      */
-    public function addSpieler(\Liganet\CoreBundle\Entity\Spieler $spieler)
+    public function setNamekurz($namekurz)
     {
-        $this->spieler[] = $spieler;
+        $this->namekurz = $namekurz;
     
         return $this;
     }
 
     /**
-     * Remove spieler
+     * Get namekurz
      *
-     * @param Liganet\CoreBundle\Entity\Spieler $spieler
+     * @return string 
      */
-    public function removeSpieler(\Liganet\CoreBundle\Entity\Spieler $spieler)
+    public function getNamekurz()
     {
-        $this->spieler->removeElement($spieler);
+        return $this->namekurz;
     }
 
     /**
-     * Get spieler
+     * Set kuerzel
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @param string $kuerzel
+     * @return Verein
      */
-    public function getSpieler()
+    public function setKuerzel($kuerzel)
     {
-        return $this->spieler;
+        $this->kuerzel = $kuerzel;
+    
+        return $this;
+    }
+
+    /**
+     * Get kuerzel
+     *
+     * @return string 
+     */
+    public function getKuerzel()
+    {
+        return $this->kuerzel;
+    }
+
+    /**
+     * Set nummer
+     *
+     * @param integer $nummer
+     * @return Verein
+     */
+    public function setNummer($nummer)
+    {
+        $this->nummer = $nummer;
+    
+        return $this;
+    }
+
+    /**
+     * Get nummer
+     *
+     * @return integer 
+     */
+    public function getNummer()
+    {
+        return $this->nummer;
+    }
+
+    /**
+     * Set kontakt
+     *
+     * @param integer $kontakt
+     * @return Verein
+     */
+    public function setKontakt($kontakt)
+    {
+        $this->kontakt = $kontakt;
+    
+        return $this;
+    }
+
+    /**
+     * Get kontakt
+     *
+     * @return integer 
+     */
+    public function getKontakt()
+    {
+        return $this->kontakt;
+    }
+
+    /**
+     * Set homepage
+     *
+     * @param string $homepage
+     * @return Verein
+     */
+    public function setHomepage($homepage)
+    {
+        $this->homepage = $homepage;
+    
+        return $this;
+    }
+
+    /**
+     * Get homepage
+     *
+     * @return string 
+     */
+    public function getHomepage()
+    {
+        return $this->homepage;
+    }
+
+    /**
+     * Set document
+     *
+     * @param Liganet\CoreBundle\Entity\Document $document
+     * @return Verein
+     */
+    public function setDocument(\Liganet\CoreBundle\Entity\Document $document = null)
+    {
+        $this->document = $document;
+    
+        return $this;
+    }
+
+    /**
+     * Get document
+     *
+     * @return Liganet\CoreBundle\Entity\Document 
+     */
+    public function getDocument()
+    {
+        return $this->document;
     }
 
     /**

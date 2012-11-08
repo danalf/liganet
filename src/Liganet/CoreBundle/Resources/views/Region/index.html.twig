@@ -1,9 +1,52 @@
 {% extends '::base.html.twig' %}
-
 {% block content %}
-{% for vb in region %}
-<h2>
-    <a href="{{ path('region_show', {'id': vb.id}) }}">{{ vb.name }}</a>
-</h2>
-{% endfor %}
+<h1>Region list</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Name_kurz</th>
+            <th>Description</th>
+            <th>Farbetabelleschrift</th>
+            <th>Farbetabellehintergrund</th>
+            <th>Farbetabellezeile2schrift</th>
+            <th>Farbetabellezeile2hintergrund</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('region_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.name }}</td>
+            <td>{{ entity.namekurz }}</td>
+            <td>{{ entity.description }}</td>
+            <td>{{ entity.farbeTabelleSchrift }}</td>
+            <td>{{ entity.farbeTabelleHintergrund }}</td>
+            <td>{{ entity.farbeTabelleZeile2Schrift }}</td>
+            <td>{{ entity.farbeTabelleZeile2Hintergrund }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('region_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('region_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('region_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
 {% endblock %}
