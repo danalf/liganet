@@ -9,9 +9,11 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
-{% stylesheets '@LiganetCoreBundle/Resources/public/css/*' filter='cssrewrite' %}
+        {% stylesheets '@LiganetCoreBundle/Resources/public/css/main.css'
+                        'bundles/liganetcore/css/*'
+                         filter='cssrewrite' %}
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
- {% endstylesheets %}
+        {% endstylesheets %}
     </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
@@ -26,8 +28,9 @@
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li><a href="{{ path('_home') }}">Home</a></li>
-                            <li><a href="{{ path('verband') }}">Verband</a></li>
-                            <li><a href="{{ path('region') }}">Region</a></li>
+                            <li><a href="{{ path('verband') }}">Verbände</a></li>
+                            <li><a href="{{ path('region') }}">Regionen</a></li>
+                            <li><a href="{{ path('verein') }}">Vereine</a></li>
                         </ul>
                         <ul class="nav pull-right">
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
@@ -53,19 +56,19 @@
                     {% if app.session.hasFlash('success') %}
                     <div class="alert alert-success" ></button>{{ app.session.flash('success') }}</div>
                     {% endif %}
-                    
+
                     {% block content_head %}{% endblock %}
                     <div>{% block content %}{% endblock %}</div>
                     {% block body %}{% endblock %}
                     <div>{% block fos_user_content %}{% endblock fos_user_content %}</div>
-                    <footer>
-                        <p>&copy; Company 2012</p>
-                    </footer>
                 </div> <!-- /container -->
-        {% javascripts
-    '@LiganetCoreBundle/Resources/public/js/vendor/*' 
-'@LiganetCoreBundle/Resources/public/js/main.js'%}
-                <script src="{{ asset_url }}"></script>
-{% endjavascripts %}
+                <footer>
+                    <p>&copy; Company 2012</p>
+                </footer>
+                {% javascripts
+                    'bundles/liganetcore/js/vendor/*' 
+                    '@LiganetCoreBundle/Resources/public/js/main.js'%}
+                    <script src="{{ asset_url }}"></script>
+                {% endjavascripts %}
             </body>
         </html>
