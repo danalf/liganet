@@ -34,7 +34,7 @@
                         </ul>
                         <ul class="nav pull-right">
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                <li class="navbar-text">{{ app.user.username }}</li>
+                                {% render "LiganetCoreBundle:Spieler:showInMenu" %}
                                 <li class="divider-vertical"></li>
                                 <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                             {% else %}
@@ -48,13 +48,13 @@
 
             <div class="container">
                      {% if app.session.hasFlash('error') %}
-                    <div class="alert alert-error" ></button>{{ app.session.flash('error') }}</div>
+                    <div class="alert alert-error" ><button type="button" class="close" data-dismiss="alert">×</button>{{ app.session.flash('error') }}</div>
                     {% endif %}
                     {% if app.session.hasFlash('notice') %}
-                    <div class="alert" ></button>{{ app.session.flash('notice') }}</div>
+                    <div class="alert" ><button type="button" class="close" data-dismiss="alert">×</button>{{ app.session.flash('notice') }}</div>
                     {% endif %}
                     {% if app.session.hasFlash('success') %}
-                    <div class="alert alert-success" ></button>{{ app.session.flash('success') }}</div>
+                    <div class="alert alert-success" ><button type="button" class="close" data-dismiss="alert">×</button>{{ app.session.flash('success') }}</div>
                     {% endif %}
 
                     {% block content_head %}{% endblock %}
@@ -63,12 +63,14 @@
                     <div>{% block fos_user_content %}{% endblock fos_user_content %}</div>
                 </div> <!-- /container -->
                 <footer>
-                    <p>&copy; Company 2012</p>
+                    <p>&copy; Alfredo 2012</p>
                 </footer>
                 {% javascripts
-                    'bundles/liganetcore/js/vendor/*' 
+                    'bundles/liganetcore/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js'
+                    'bundles/liganetcore/js/vendor/jquery-1.8.2.min.js' 
+                    'bundles/liganetcore/js/vendor/bootstrap.js'
                     '@LiganetCoreBundle/Resources/public/js/main.js'%}
-                    <script src="{{ asset_url }}"></script>
+                <script src="{{ asset_url }}"></script>
                 {% endjavascripts %}
             </body>
         </html>

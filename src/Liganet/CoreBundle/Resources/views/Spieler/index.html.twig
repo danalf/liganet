@@ -1,0 +1,57 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+<h1>Spieler list</h1>
+
+<a class="btn" href="{{ path('spieler_new') }}">
+    Neuen Spieler erstellen
+</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Telefon</th>
+            <th>Verein</th>
+            <th>Nummerlizenz</th>
+            <th>Trainer</th>
+            <th>Schiedsrichter</th>
+            <th>Veraendertvon</th>
+            <th>Veraendertam</th>
+            <th>Bestaetigt</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+            <tr>
+                <td>{{ entity.vorname }} {{ entity.nachname }}</td>
+                <td>
+                    {% if entity.email %}
+                    <a href="mailto:{{ entity.email }}"><i class="icon-envelope"></i></a>
+                    {% endif %}
+                </td>
+                <td>{{ entity.telefon }}</td>
+                <td>{{ entity.verein.namekurz }}</td>
+                <td>{{ entity.nummerlizenz }}</td>
+                <td>{{ entity.trainer }}</td>
+                <td>{{ entity.schiedsrichter }}</td>
+                <td>{{ entity.veraendertvon }}</td>
+                <td>{% if entity.veraendertam %}{{ entity.veraendertam|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.bestaetigt }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('spieler_show', { 'id': entity.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('spieler_edit', { 'id': entity.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

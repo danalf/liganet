@@ -14,6 +14,9 @@ class AdminController extends Controller {
         //$userList->updateUser($user); // persists the object
         //$this->get('session')->getFlashBag()->add('notice', 'Your changes were saved!');
         $users = $this->getDoctrine()->getRepository('UserBundle:User')->findAll();
+        
+        echo $users[1]->getSpieler();
+        
         return $this->render('LiganetCoreBundle:Admin:index.html.twig', array('users' => $users));
     }
 

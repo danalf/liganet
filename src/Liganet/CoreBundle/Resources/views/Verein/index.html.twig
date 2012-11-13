@@ -1,11 +1,16 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<h1>Verein list</h1>
+<div class="page-header">
+    <h1>Vereine</h1>
+</div>
 
-<table class="records_list">
+<a class="btn" href="{{ path('verein_new') }}">
+    Verein hinzufügen
+</a>
+
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Name</th>
             <th>Namekurz</th>
             <th>Kuerzel</th>
@@ -17,34 +22,26 @@
     </thead>
     <tbody>
     {% for entity in entities %}
-        <tr>
-            <td><a href="{{ path('verein_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.name }}</td>
-            <td>{{ entity.namekurz }}</td>
-            <td>{{ entity.kuerzel }}</td>
-            <td>{{ entity.nummer }}</td>
-            <td>{{ entity.kontakt }}</td>
-            <td>{{ entity.homepage }}</td>
-            <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('verein_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('verein_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
-        </tr>
+            <tr>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.namekurz }}</td>
+                <td>{{ entity.kuerzel }}</td>
+                <td>{{ entity.nummer }}</td>
+                <td>{{ entity.kontakt }}</td>
+                <td><a href="{{ entity.homepage }}" target="_blank">{{ entity.homepage }}</a></td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('verein_show', { 'id': entity.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('verein_edit', { 'id': entity.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
     {% endfor %}
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
-<ul>
-    <li>
-        <a href="{{ path('verein_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
 {% endblock %}

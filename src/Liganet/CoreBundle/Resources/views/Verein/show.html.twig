@@ -1,56 +1,71 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<h1>Verein</h1>
+<div class="page-header">
+    <h1>
+        <img alt="Logo {{ entity.namekurz }}" src="{{ asset(entity.document.webpath) }}" class="img-polaroid" /> 
+        {{ entity.namekurz }}
+    </h1>
+    <p>{{ entity.name }}</p>
+</div>
 
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td>{{ entity.name }}</td>
-        </tr>
-        <tr>
-            <th>Namekurz</th>
-            <td>{{ entity.namekurz }}</td>
-        </tr>
-        <tr>
-            <th>Kuerzel</th>
-            <td>{{ entity.kuerzel }}</td>
-        </tr>
-        <tr>
-            <th>Nummer</th>
-            <td>{{ entity.nummer }}</td>
-        </tr>
-        <tr>
-            <th>Kontakt</th>
-            <td>{{ entity.kontakt }}</td>
-        </tr>
-        <tr>
-            <th>Homepage</th>
-            <td>{{ entity.homepage }}</td>
-        </tr>
-    </tbody>
-</table>
+<a class="btn" href="{{ path('verband') }}">
+    Back to the list
+</a>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('verein') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('verein_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('verein_delete', { 'id': entity.id }) }}" method="post">
+<a class="btn" href="{{ path('verband_edit', { 'id': entity.id }) }}">
+    Edit
+</a>
+
+<form action="{{ path('verband_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+        <button class="btn" type="submit">Delete</button>
+    </form>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Kuerzel</th>
+                <td>{{ entity.kuerzel }}</td>
+            </tr>
+            <tr>
+                <th>Nummer</th>
+                <td>{{ entity.nummer }}</td>
+            </tr>
+            <tr>
+                <th>Kontakt</th>
+                <td><a href="{{ path('spieler_show', { 'id': entity.kontakt.id }) }}">{{ entity.kontakt }}</a></td>
+            </tr>
+            <tr>
+                <th>Homepage</th>
+                <td>{{ entity.homepage }}</td>
+            </tr>
+            <tr>
+                <th>Spieler</th>
+                <td>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h2>Spieler</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Lizenznummer</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+         {% for spieler in entity.spieler %}
+        <tr>
+        <td><a href="{{ path('spieler_show', { 'id': spieler.id }) }}">
+{{ spieler.vorname }} {{ spieler.nachname }}
+                    </a></td>
+                <td>{{ spieler.nummerlizenz }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 {% endblock %}

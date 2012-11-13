@@ -45,7 +45,6 @@ class VereinController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Verein')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Verein entity.');
         }
@@ -117,8 +116,7 @@ class VereinController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Verein entity.');
         }
-
-        $editForm = $this->createForm(new VereinType(), $entity);
+        $editForm = $this->createForm(new VereinType(array(), array('id' => $entity->getId())), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -152,6 +150,7 @@ class VereinController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
+            $this->get('session')->getFlashBag()->add('success', 'Die Änderungen wurden gespeichert');
 
             return $this->redirect($this->generateUrl('verein_edit', array('id' => $id)));
         }

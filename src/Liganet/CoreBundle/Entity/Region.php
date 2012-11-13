@@ -308,4 +308,8 @@ class Region {
     {
         return $this->vereine;
     }
+    
+    public function __toString() {
+        return $this->name;
+    }
 }

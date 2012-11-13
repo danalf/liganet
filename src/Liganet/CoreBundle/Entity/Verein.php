@@ -11,8 +11,8 @@ use Liganet\CoreBundle\Entity\Document;
  * @ORM\Table(name="ln_verein")
  * @ORM\Entity
  */
-class Verein
-{
+class Verein {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -56,8 +56,9 @@ class Verein
 
     /**
      * @var integer $kontakt
-     *
-     * @ORM\Column(name="kontakt", type="smallint", nullable=true)
+     * 
+     * @ORM\OneToOne(targetEntity="Spieler")
+     * @ORM\JoinColumn(name="kontakt", referencedColumnName="id")
      */
     private $kontakt;
 
@@ -74,14 +75,17 @@ class Verein
      */
     protected $region;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Spieler", mappedBy="verein")
+     */
+    protected $spieler;
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -91,10 +95,9 @@ class Verein
      * @param string $name
      * @return Verein
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
-    
+
         return $this;
     }
 
@@ -103,8 +106,7 @@ class Verein
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -114,10 +116,9 @@ class Verein
      * @param string $namekurz
      * @return Verein
      */
-    public function setNamekurz($namekurz)
-    {
+    public function setNamekurz($namekurz) {
         $this->namekurz = $namekurz;
-    
+
         return $this;
     }
 
@@ -126,8 +127,7 @@ class Verein
      *
      * @return string 
      */
-    public function getNamekurz()
-    {
+    public function getNamekurz() {
         return $this->namekurz;
     }
 
@@ -137,10 +137,9 @@ class Verein
      * @param string $kuerzel
      * @return Verein
      */
-    public function setKuerzel($kuerzel)
-    {
+    public function setKuerzel($kuerzel) {
         $this->kuerzel = $kuerzel;
-    
+
         return $this;
     }
 
@@ -149,8 +148,7 @@ class Verein
      *
      * @return string 
      */
-    public function getKuerzel()
-    {
+    public function getKuerzel() {
         return $this->kuerzel;
     }
 
@@ -160,10 +158,9 @@ class Verein
      * @param integer $nummer
      * @return Verein
      */
-    public function setNummer($nummer)
-    {
+    public function setNummer($nummer) {
         $this->nummer = $nummer;
-    
+
         return $this;
     }
 
@@ -172,8 +169,7 @@ class Verein
      *
      * @return integer 
      */
-    public function getNummer()
-    {
+    public function getNummer() {
         return $this->nummer;
     }
 
@@ -183,10 +179,9 @@ class Verein
      * @param integer $kontakt
      * @return Verein
      */
-    public function setKontakt($kontakt)
-    {
+    public function setKontakt($kontakt) {
         $this->kontakt = $kontakt;
-    
+
         return $this;
     }
 
@@ -195,8 +190,7 @@ class Verein
      *
      * @return integer 
      */
-    public function getKontakt()
-    {
+    public function getKontakt() {
         return $this->kontakt;
     }
 
@@ -206,10 +200,9 @@ class Verein
      * @param string $homepage
      * @return Verein
      */
-    public function setHomepage($homepage)
-    {
+    public function setHomepage($homepage) {
         $this->homepage = $homepage;
-    
+
         return $this;
     }
 
@@ -218,8 +211,7 @@ class Verein
      *
      * @return string 
      */
-    public function getHomepage()
-    {
+    public function getHomepage() {
         return $this->homepage;
     }
 
@@ -229,10 +221,9 @@ class Verein
      * @param Liganet\CoreBundle\Entity\Document $document
      * @return Verein
      */
-    public function setDocument(\Liganet\CoreBundle\Entity\Document $document = null)
-    {
+    public function setDocument(\Liganet\CoreBundle\Entity\Document $document = null) {
         $this->document = $document;
-    
+
         return $this;
     }
 
@@ -241,8 +232,7 @@ class Verein
      *
      * @return Liganet\CoreBundle\Entity\Document 
      */
-    public function getDocument()
-    {
+    public function getDocument() {
         return $this->document;
     }
 
@@ -252,10 +242,9 @@ class Verein
      * @param Liganet\CoreBundle\Entity\Region $region
      * @return Verein
      */
-    public function setRegion(\Liganet\CoreBundle\Entity\Region $region = null)
-    {
+    public function setRegion(\Liganet\CoreBundle\Entity\Region $region = null) {
         $this->region = $region;
-    
+
         return $this;
     }
 
@@ -264,8 +253,49 @@ class Verein
      *
      * @return Liganet\CoreBundle\Entity\Region 
      */
-    public function getRegion()
-    {
+    public function getRegion() {
         return $this->region;
     }
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->spieler = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add spieler
+     *
+     * @param Liganet\CoreBundle\Entity\Spieler $spieler
+     * @return Verein
+     */
+    public function addSpieler(\Liganet\CoreBundle\Entity\Spieler $spieler) {
+        $this->spieler[] = $spieler;
+
+        return $this;
+    }
+
+    /**
+     * Remove spieler
+     *
+     * @param Liganet\CoreBundle\Entity\Spieler $spieler
+     */
+    public function removeSpieler(\Liganet\CoreBundle\Entity\Spieler $spieler) {
+        $this->spieler->removeElement($spieler);
+    }
+
+    /**
+     * Get spieler
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getSpieler() {
+        return $this->spieler;
+    }
+    
+    public function __toString() {
+        return $this->namekurz;
+    }
+
 }

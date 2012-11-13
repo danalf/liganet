@@ -1,11 +1,13 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<h1>Verein creation</h1>
+<div class="page-header">
+    <h1>Verein hinzufügen</h1>
+</div>
 
 <form action="{{ path('verein_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
-        <button type="submit">Create</button>
+        <button type="submit">Erstellen</button>
     </p>
 </form>
 

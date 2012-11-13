@@ -6,3 +6,7 @@ body {
 .logo img{
     height: 80px;
 }
+
+footer {
+    text-align: center
+}

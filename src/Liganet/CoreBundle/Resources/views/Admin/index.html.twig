@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 {% block content %}
 {% for user in users %}
-<h1>Hallo {{ user.username }}</h1>
+<h1>Hallo {{ user.username }} </h1>
 {% for role in user.roles %}
 <p>Rolle: {{ role }}</p>
 {% endfor %}
