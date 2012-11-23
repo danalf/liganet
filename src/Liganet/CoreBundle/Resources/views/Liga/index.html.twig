@@ -1,0 +1,52 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+<h1>Ligen</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Region</th>
+            <th>Name</th>
+            <th>Tabellenkopf</th>
+            <th>Tabellenüberschrift</th>
+            <th>Email</th>
+            <th>Kuerzel</th>
+            <th>Bemerkung</th>
+            <th>Newsfeed</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.region }}</td>
+            <td>{{ entity.name }}</td>
+            <td style="background-color: {{ entity.farbeTabellenKopf }}; color: {{ entity.farbeTabellenKopfSchrift }};">Beispiel</td>
+            <td style="background-color: {{ entity.farbeUeberschriftHintergrund }}; color: {{ entity.farbeUeberschrift }};">Beispiel</td>
+            <td>{{ entity.email }}</td>
+            <td>{{ entity.kuerzel }}</td>
+            <td>{{ entity.bemerkung }}</td>
+            <td>{{ entity.newsfeed }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('liga_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('liga_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('liga_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
+{% endblock %}

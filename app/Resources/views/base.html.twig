@@ -35,6 +35,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="{{ path('verband') }}">Verbände</a></li>
                                     <li><a href="{{ path('region') }}">Regionen</a></li>
+                                    <li><a href="{{ path('liga') }}">Ligen</a></li>
                                     <li><a href="{{ path('verein') }}">Vereine</a></li>
                                     <li><a href="{{ path('spieler') }}">Spieler</a></li>
                                 </ul>
@@ -46,8 +47,23 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a href="{{ path('saison') }}">Saison</a></li>
+                                    <li><a href="{{ path('ligasaison') }}">Zuordnung Liga und Saison</a></li>
+                                    <li><a href="{{ path('mannschaft') }}">Mannschaften</a></li>
+                                    <li><a href="{{ path('mannschaftspieler') }}">Zurodnung Mannschaften und Spieler</a></li>
+                                    <li><a href="{{ path('spieltag') }}">Spieltage</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Administration
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ path('anrede') }}">Anrede</a></li>
+                                    <li><a href="{{ path('spielerstatus') }}">Status der Mannschaftsspieler</a></li>
                                     <li><a href="{{ path('modus') }}">Modus</a></li>
                                     <li><a href="{{ path('modusrunden') }}">Runden bei Modus</a></li>
+                                    <li><a href="{{ path('document') }}">Dokumente</a></li>
                                 </ul>
                             </li>
                         </ul>

@@ -141,4 +141,8 @@ class Saison
     {
         return $this->liga_saison;
     }
+    
+    public function __toString() {
+        return (string) $this->saison;
+    }
 }

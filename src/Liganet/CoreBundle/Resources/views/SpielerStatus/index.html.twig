@@ -1,29 +1,29 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<h1>Document list</h1>
+<h1>SpielerStatus list</h1>
 
-<table class="table">
+<table class="records_list">
     <thead>
         <tr>
+            <th>Id</th>
             <th>Name</th>
-            <th>Path</th>
-            <th>Mimetype</th>
+            <th>Kurz</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
     {% for entity in entities %}
         <tr>
+            <td><a href="{{ path('spielerstatus_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.name }}</td>
-            <td>{{ entity.path }}</td>
-            <td>{{ entity.mimetype }}</td>
+            <td>{{ entity.kurz }}</td>
             <td>
                 <ul>
                     <li>
-                        <a href="{{ path('document_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('spielerstatus_show', { 'id': entity.id }) }}">show</a>
                     </li>
                     <li>
-                        <a href="{{ path('document_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('spielerstatus_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
                 </ul>
             </td>
@@ -34,7 +34,7 @@
 
 <ul>
     <li>
-        <a href="{{ path('document_new') }}">
+        <a href="{{ path('spielerstatus_new') }}">
             Create a new entry
         </a>
     </li>

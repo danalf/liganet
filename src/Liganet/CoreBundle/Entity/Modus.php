@@ -40,6 +40,11 @@ class Modus
      * @ORM\JoinColumn(name="modusrunden_id", referencedColumnName="id")
      */
     protected $modusRunden;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Liga", mappedBy="modus")
+     */
+    protected $ligen;
 
 
     /**
@@ -119,5 +124,49 @@ class Modus
     public function getModusRunden()
     {
         return $this->modusRunden;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->ligen = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add ligen
+     *
+     * @param \Liganet\CoreBundle\Entity\Liga $ligen
+     * @return Modus
+     */
+    public function addLigen(\Liganet\CoreBundle\Entity\Liga $ligen)
+    {
+        $this->ligen[] = $ligen;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ligen
+     *
+     * @param \Liganet\CoreBundle\Entity\Liga $ligen
+     */
+    public function removeLigen(\Liganet\CoreBundle\Entity\Liga $ligen)
+    {
+        $this->ligen->removeElement($ligen);
+    }
+
+    /**
+     * Get ligen
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLigen()
+    {
+        return $this->ligen;
+    }
+    
+    public function __toString() {
+        return $this->name;
     }
 }

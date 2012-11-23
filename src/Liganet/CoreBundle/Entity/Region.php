@@ -69,6 +69,11 @@ class Region {
      * @ORM\JoinColumn(name="verband_id", referencedColumnName="id")
      */
     protected $verband;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Liga", mappedBy="region")
+     */
+    protected $ligen;
 
     /**
      * Get id
@@ -311,5 +316,38 @@ class Region {
     
     public function __toString() {
         return $this->name;
+    }
+
+    /**
+     * Add ligen
+     *
+     * @param \Liganet\CoreBundle\Entity\Liga $ligen
+     * @return Region
+     */
+    public function addLigen(\Liganet\CoreBundle\Entity\Liga $ligen)
+    {
+        $this->ligen[] = $ligen;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ligen
+     *
+     * @param \Liganet\CoreBundle\Entity\Liga $ligen
+     */
+    public function removeLigen(\Liganet\CoreBundle\Entity\Liga $ligen)
+    {
+        $this->ligen->removeElement($ligen);
+    }
+
+    /**
+     * Get ligen
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLigen()
+    {
+        return $this->ligen;
     }
 }

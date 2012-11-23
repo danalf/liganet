@@ -151,6 +151,16 @@ class Spieler {
      * })
      */
     private $verein;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Liga", mappedBy="staffelleiter")
+     */
+    private $staffelleiter;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="MannschaftSpieler", mappedBy="spieler")
+     */
+    protected $mannschaftSpieler;
 
 
     public function __toString() {
@@ -580,5 +590,111 @@ class Spieler {
     public function getVerein()
     {
         return $this->verein;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->staffelleiter = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add staffelleiter
+     *
+     * @param \Liganet\CoreBundle\Entity\Liga $staffelleiter
+     * @return Spieler
+     */
+    public function addStaffelleiter(\Liganet\CoreBundle\Entity\Liga $staffelleiter)
+    {
+        $this->staffelleiter[] = $staffelleiter;
+    
+        return $this;
+    }
+
+    /**
+     * Remove staffelleiter
+     *
+     * @param \Liganet\CoreBundle\Entity\Liga $staffelleiter
+     */
+    public function removeStaffelleiter(\Liganet\CoreBundle\Entity\Liga $staffelleiter)
+    {
+        $this->staffelleiter->removeElement($staffelleiter);
+    }
+
+    /**
+     * Get staffelleiter
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getStaffelleiter()
+    {
+        return $this->staffelleiter;
+    }
+
+    /**
+     * Add mannschaften
+     *
+     * @param \Liganet\CoreBundle\Entity\MannschaftSpieler $mannschaften
+     * @return Spieler
+     */
+    public function addMannschaften(\Liganet\CoreBundle\Entity\MannschaftSpieler $mannschaften)
+    {
+        $this->mannschaften[] = $mannschaften;
+    
+        return $this;
+    }
+
+    /**
+     * Remove mannschaften
+     *
+     * @param \Liganet\CoreBundle\Entity\MannschaftSpieler $mannschaften
+     */
+    public function removeMannschaften(\Liganet\CoreBundle\Entity\MannschaftSpieler $mannschaften)
+    {
+        $this->mannschaften->removeElement($mannschaften);
+    }
+
+    /**
+     * Get mannschaften
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMannschaften()
+    {
+        return $this->mannschaften;
+    }
+
+    /**
+     * Add mannschaftSpieler
+     *
+     * @param \Liganet\CoreBundle\Entity\MannschaftSpieler $mannschaftSpieler
+     * @return Spieler
+     */
+    public function addMannschaftSpieler(\Liganet\CoreBundle\Entity\MannschaftSpieler $mannschaftSpieler)
+    {
+        $this->mannschaftSpieler[] = $mannschaftSpieler;
+    
+        return $this;
+    }
+
+    /**
+     * Remove mannschaftSpieler
+     *
+     * @param \Liganet\CoreBundle\Entity\MannschaftSpieler $mannschaftSpieler
+     */
+    public function removeMannschaftSpieler(\Liganet\CoreBundle\Entity\MannschaftSpieler $mannschaftSpieler)
+    {
+        $this->mannschaftSpieler->removeElement($mannschaftSpieler);
+    }
+
+    /**
+     * Get mannschaftSpieler
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMannschaftSpieler()
+    {
+        return $this->mannschaftSpieler;
     }
 }

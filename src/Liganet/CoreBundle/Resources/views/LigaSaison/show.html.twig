@@ -1,0 +1,44 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+<h1>LigaSaison</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+       {% if entity.gesperrt > 0 %}
+        <tr>
+            <th>gesperrt</th>
+            <td>
+                <i class="icon-ok"></i>
+            </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <th>Bemerkung</th>
+            <td>{{ entity.bemerkung }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('ligasaison') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('ligasaison_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('ligasaison_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    </ul>
+{% endblock %}

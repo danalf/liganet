@@ -36,7 +36,7 @@ class ModusRunden
     private $beschreibung;
     
     /**
-     * @ORM\OneToMany(targetEntity="Modus", mappedBy="liga_saison")
+     * @ORM\OneToMany(targetEntity="Modus", mappedBy="modusRunden")
      */
     protected $modus;
 
@@ -135,5 +135,9 @@ class ModusRunden
     public function getModus()
     {
         return $this->modus;
+    }
+    
+    public function __toString() {
+        return $this->name;
     }
 }

@@ -79,6 +79,16 @@ class Verein {
      * @ORM\OneToMany(targetEntity="Spieler", mappedBy="verein")
      */
     protected $spieler;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Mannschaft", mappedBy="verein")
+     */
+    protected $mannschaften;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Spieltag", mappedBy="austragenderVerein")
+     */
+    protected $ausgerichteterSpieltag;
 
     /**
      * Get id
@@ -298,4 +308,70 @@ class Verein {
         return $this->namekurz;
     }
 
+
+    /**
+     * Add mannschaften
+     *
+     * @param \Liganet\CoreBundle\Entity\Mannschaft $mannschaften
+     * @return Verein
+     */
+    public function addMannschaften(\Liganet\CoreBundle\Entity\Mannschaft $mannschaften)
+    {
+        $this->mannschaften[] = $mannschaften;
+    
+        return $this;
+    }
+
+    /**
+     * Remove mannschaften
+     *
+     * @param \Liganet\CoreBundle\Entity\Mannschaft $mannschaften
+     */
+    public function removeMannschaften(\Liganet\CoreBundle\Entity\Mannschaft $mannschaften)
+    {
+        $this->mannschaften->removeElement($mannschaften);
+    }
+
+    /**
+     * Get mannschaften
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMannschaften()
+    {
+        return $this->mannschaften;
+    }
+
+    /**
+     * Add ausgerichteterSpieltag
+     *
+     * @param \Liganet\CoreBundle\Entity\Spieltag $ausgerichteterSpieltag
+     * @return Verein
+     */
+    public function addAusgerichteterSpieltag(\Liganet\CoreBundle\Entity\Spieltag $ausgerichteterSpieltag)
+    {
+        $this->ausgerichteterSpieltag[] = $ausgerichteterSpieltag;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ausgerichteterSpieltag
+     *
+     * @param \Liganet\CoreBundle\Entity\Spieltag $ausgerichteterSpieltag
+     */
+    public function removeAusgerichteterSpieltag(\Liganet\CoreBundle\Entity\Spieltag $ausgerichteterSpieltag)
+    {
+        $this->ausgerichteterSpieltag->removeElement($ausgerichteterSpieltag);
+    }
+
+    /**
+     * Get ausgerichteterSpieltag
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAusgerichteterSpieltag()
+    {
+        return $this->ausgerichteterSpieltag;
+    }
 }

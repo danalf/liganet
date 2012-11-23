@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+<h1>Liga creation</h1>
+
+<form action="{{ path('liga_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit">Create</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('liga') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

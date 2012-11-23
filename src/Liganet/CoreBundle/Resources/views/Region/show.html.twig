@@ -1,70 +1,57 @@
 {% extends '::base.html.twig' %}
 {% block content %}
 <div class="page-header">
-    <h1>{{ entity.name }}</h1>
+    <h1>{{ entity.name }} ({{ entity.namekurz }})</h1>
+    <p><a href="{{ path('verband_show', { 'id': entity.verband.id }) }}">{{ entity.verband.name }}</a></p>
+    <p>{{ entity.description }}</p>
 </div>
 
-<table class="table">
-    <tbody>
-        <tr>
-            <th>Name</th>
-            <td>{{ entity.name }}</td>
-        </tr>
-        <tr>
-            <th>Name_kurz</th>
-            <td>{{ entity.namekurz }}</td>
-        </tr>
-        <tr>
-            <th>Verband</th>
-            <td><a href="{{ path('verband_show', { 'id': entity.verband.id }) }}">{{ entity.verband.name }}</a></td>
-        </tr>
-        <tr>
-            <th>Description</th>
-            <td>{{ entity.description }}</td>
-        </tr>
-        <tr>
-            <th>Farbetabelleschrift</th>
-            <td>{{ entity.farbeTabelleSchrift }}</td>
-        </tr>
-        <tr>
-            <th>Farbetabellehintergrund</th>
-            <td>{{ entity.farbeTabelleHintergrund }}</td>
-        </tr>
-        <tr>
-            <th>Farbetabellezeile2schrift</th>
-            <td>{{ entity.farbeTabelleZeile2Schrift }}</td>
-        </tr>
-        <tr>
-            <th>Farbetabellezeile2hintergrund</th>
-            <td>{{ entity.farbeTabelleZeile2Hintergrund }}</td>
-        </tr>
-         <tr>
-            <th>Vereine</th>
-            <td>
-                {% for verein in entity.vereine %}
-                    <p><a href="{{ path('verein_show', { 'id': verein.id }) }}">{{ verein.name }}</a></p>
-                {% endfor %}
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('region') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('region_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('region_delete', { 'id': entity.id }) }}" method="post">
+<div class="page-header row-fluid">
+    <div class="span4">
+        <ul class="record_actions">
+            <li>
+                <a href="{{ path('region') }}">
+                    Back to the list
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('region_edit', { 'id': entity.id }) }}">
+                    Edit
+                </a>
+            </li>
+            <li>
+                <form action="{{ path('region_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            </ul>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td style="background-color: {{ entity.farbeTabelleZeile2Hintergrund }}; color: {{ entity.farbeTabelleZeile2Schrift }};">Beispiel Tabelle Zeile 2</td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: {{ entity.farbeTabelleHintergrund }}; color: {{ entity.farbeTabelleSchrift }};">Beispiel Tabelleninhalt</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="span4">
+            <h2>Ligen</h2>
+                {% for liga in entity.ligen %}
+            <p><a href="{{ path('liga_show', { 'id': liga.id }) }}">{{ liga.name }}</a></p>
+                {% endfor %}
+            </div>
+
+            <div class="span4">
+                <h2>Vereine</h2>
+                {% for verein in entity.vereine %}
+                <p><a href="{{ path('verein_show', { 'id': verein.id }) }}">{{ verein.name }}</a></p>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
 {% endblock %}

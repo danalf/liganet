@@ -40,6 +40,22 @@ class LigaSaison
      * @ORM\JoinColumn(name="saison_id", referencedColumnName="id")
      */
     protected $saison;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Liga", inversedBy="liga_saison")
+     * @ORM\JoinColumn(name="liga_id", referencedColumnName="id")
+     */
+    protected $liga;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Mannschaft", mappedBy="ligasaison")
+     */
+    protected $mannschaften;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Spieltag", mappedBy="ligasaison")
+     */
+    protected $spieltage;
 
 
     /**
@@ -119,5 +135,105 @@ class LigaSaison
     public function getSaison()
     {
         return $this->saison;
+    }
+
+    /**
+     * Set liga
+     *
+     * @param \Liganet\CoreBundle\Entity\Liga $liga
+     * @return LigaSaison
+     */
+    public function setLiga(\Liganet\CoreBundle\Entity\Liga $liga = null)
+    {
+        $this->liga = $liga;
+    
+        return $this;
+    }
+
+    /**
+     * Get liga
+     *
+     * @return \Liganet\CoreBundle\Entity\Liga 
+     */
+    public function getLiga()
+    {
+        return $this->liga;
+    }
+    
+    public function __toString() {
+        return $this->liga->getName()." ".$this->saison->getSaison();
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->mannschaften = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add mannschaften
+     *
+     * @param \Liganet\CoreBundle\Entity\Mannschaft $mannschaften
+     * @return LigaSaison
+     */
+    public function addMannschaften(\Liganet\CoreBundle\Entity\Mannschaft $mannschaften)
+    {
+        $this->mannschaften[] = $mannschaften;
+    
+        return $this;
+    }
+
+    /**
+     * Remove mannschaften
+     *
+     * @param \Liganet\CoreBundle\Entity\Mannschaft $mannschaften
+     */
+    public function removeMannschaften(\Liganet\CoreBundle\Entity\Mannschaft $mannschaften)
+    {
+        $this->mannschaften->removeElement($mannschaften);
+    }
+
+    /**
+     * Get mannschaften
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMannschaften()
+    {
+        return $this->mannschaften;
+    }
+
+    /**
+     * Add spieltage
+     *
+     * @param \Liganet\CoreBundle\Entity\Spieltag $spieltage
+     * @return LigaSaison
+     */
+    public function addSpieltage(\Liganet\CoreBundle\Entity\Spieltag $spieltage)
+    {
+        $this->spieltage[] = $spieltage;
+    
+        return $this;
+    }
+
+    /**
+     * Remove spieltage
+     *
+     * @param \Liganet\CoreBundle\Entity\Spieltag $spieltage
+     */
+    public function removeSpieltage(\Liganet\CoreBundle\Entity\Spieltag $spieltage)
+    {
+        $this->spieltage->removeElement($spieltage);
+    }
+
+    /**
+     * Get spieltage
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSpieltage()
+    {
+        return $this->spieltage;
     }
 }

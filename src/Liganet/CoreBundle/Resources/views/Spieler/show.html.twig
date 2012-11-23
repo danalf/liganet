@@ -1,8 +1,8 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<div class="page-header row-fluid">
-    <div class="span8">
-        <h1>Spieler: {{ entity }}</h1>
+<div class="row-fluid">
+    <div class="page-header span8">
+        <h1>{{ entity }}</h1>
     </div>
     <div class="span4">
         <p>
@@ -53,10 +53,6 @@
                             <th>Fax</th>
                             <td>{{ entity.fax }}</td>
                         </tr>
-                    </table>
-                </div>
-                <div class="span4">
-                    <table class="table">
                         <tr>
                             <th>Lizenznummer</th>
                             <td>{{ "%03s"|format(entity.verein.region.verband.number) }}-{{ "%03s"|format(entity.verein.nummer) }}-{{ "%03s"|format(entity.nummerlizenz) }}</td>
@@ -78,6 +74,13 @@
                         </tr>
                     {% endif %}
                     </table>
+                </div>
+                <div class="span4">
+                    
+                        <h2>Einsätze</h2>
+                        {% for mannschaftspieler in entity.mannschaftspieler %}
+                        <p> {{ mannschaftspieler.mannschaft }} {{ mannschaftspieler.status }}</p>
+                        {% endfor %}
                 </div>
                 <div class="span4">
                     <table class="table">
