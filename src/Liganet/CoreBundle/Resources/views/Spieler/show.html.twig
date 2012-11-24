@@ -7,11 +7,11 @@
     <div class="span4">
         <p>
         {% if entity.verein.document %}
-                <img alt="Logo {{ entity.verein }}" src="{{ asset(entity.verein.document.webpath) }}" style="height: 60px" /> 
+                <img alt="Logo {{ entity.verein }}" src="{{ asset(entity.verein.document.webpath) }}" style="height: 60px" />
         {% endif %}
                 <a href="{{ path('verein_show', { 'id': entity.verein.id }) }}">{{ entity.verein }}</a>
             </p>
-        </div> 
+        </div>
     </div>
     <div class="row-fluid">
         <div class="span2">
@@ -76,28 +76,31 @@
                     </table>
                 </div>
                 <div class="span4">
-                    
-                        <h2>Einsätze</h2>
+
+                    <h2>Einsätze</h2>
                         {% for mannschaftspieler in entity.mannschaftspieler %}
-                        <p> {{ mannschaftspieler.mannschaft }} {{ mannschaftspieler.status }}</p>
+                    <p>
+                        <a href="{{ path('mannschaft_show', { 'id': mannschaftspieler.mannschaft.id }) }}">
+                                {{ mannschaftspieler.mannschaft }}</a> {{ mannschaftspieler.status }}
+                        </p>
                         {% endfor %}
+                    </div>
+                    <div class="span4">
+                        <table class="table">
+                            <tr>
+                                <th>Letzter Bearbeiter</th>
+                                <td>{{ entity.veraendertvon }}</td>
+                            </tr>
+                            <tr>
+                                <th>Datensatz geändert am:</th>
+                                <td>{{ entity.veraendertam|date('d.m.Y H:i:s') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Bestaetigt</th>
+                                <td>{{ entity.bestaetigt }}</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-                <div class="span4">
-                    <table class="table">
-                        <tr>
-                            <th>Letzter Bearbeiter</th>
-                            <td>{{ entity.veraendertvon }}</td>
-                        </tr>
-                        <tr>
-                            <th>Datensatz geändert am:</th>
-                            <td>{{ entity.veraendertam|date('d.m.Y H:i:s') }}</td>
-                        </tr>
-                        <tr>
-                            <th>Bestaetigt</th>
-                            <td>{{ entity.bestaetigt }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
 
 {% endblock %}

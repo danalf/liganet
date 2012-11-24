@@ -1,21 +1,27 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<h1>Mannschaft</h1>
+<div class="page-header">
+    <h1>{{ entity }} <small>{{ entity.verein}} </small></h1>
+    <p>{{ entity.bemerkung }}</p>
+</div>
 
-<table class="record_properties">
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>bestätigt</th>
+        </tr>
+    </thead>
     <tbody>
+        {% for mannschaftspieler in entity.mannschaftspieler %}
         <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
+            <td>{{ mannschaftspieler.spieler }}</td>
+            <td>{{ mannschaftspieler.status }}</td>
+            <td>{% if mannschaftspieler.bestaetigt > 0 %}<i class="icon-ok"></i>{% endif %}</td>
         </tr>
-        <tr>
-            <th>Rang</th>
-            <td>{{ entity.rang }}</td>
-        </tr>
-        <tr>
-            <th>Bemerkung</th>
-            <td>{{ entity.bemerkung }}</td>
-        </tr>
+        {% endfor %}
     </tbody>
 </table>
 

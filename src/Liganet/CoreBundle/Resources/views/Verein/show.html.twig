@@ -51,11 +51,9 @@
                         </tr>
                     </tbody>
                 </table>
-            <h2>Mannschaften</h2>
-            {% for mannschaft in entity.mannschaften %}
-            <p><a href="{{ path('mannschaft_show', { 'id': mannschaft.id }) }}">
-                         {{ mannschaft }}
-                                    </a></p>
+                <h2>Mannschaften</h2>
+                {% for mannschaft in entity.mannschaften %}
+                <p><a href="{{ path('mannschaft_show', { 'id': mannschaft.id }) }}">{{ mannschaft }}</a></p>
                 {% endfor %}
             </div>
             <div class="span4">

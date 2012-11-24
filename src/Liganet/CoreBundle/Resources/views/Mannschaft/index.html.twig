@@ -2,7 +2,7 @@
 {% block content %}
 <h1>Mannschaft list</h1>
 
-<table class="records_list">
+<table class="table">
     <thead>
         <tr>
             <th>Id</th>
@@ -15,7 +15,7 @@
     {% for entity in entities %}
         <tr>
             <td><a href="{{ path('mannschaft_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.rang }}</td>
+            <td>{{ entity }}</td>
             <td>{{ entity.bemerkung }}</td>
             <td>
                 <ul>

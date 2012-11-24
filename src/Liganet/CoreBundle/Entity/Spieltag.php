@@ -48,7 +48,7 @@ class Spieltag
     protected $austragenderVerein;
     
     /**
-     * @ORM\OneToMany(targetEntity="Spielrunde", mappedBy="spieltag")
+     * @ORM\OneToMany(targetEntity="SpielRunde", mappedBy="spieltag")
      */
     protected $runden;
 
