@@ -78,29 +78,45 @@
                 <div class="span4">
 
                     <h2>Einsätze</h2>
-                        {% for mannschaftspieler in entity.mannschaftspieler %}
-                    <p>
-                        <a href="{{ path('mannschaft_show', { 'id': mannschaftspieler.mannschaft.id }) }}">
-                                {{ mannschaftspieler.mannschaft }}</a> {{ mannschaftspieler.status }}
-                        </p>
-                        {% endfor %}
-                    </div>
-                    <div class="span4">
-                        <table class="table">
+
+
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <th>Letzter Bearbeiter</th>
-                                <td>{{ entity.veraendertvon }}</td>
+                                <th>Mannschaft</th>
+                                <th>Status</th>
+                                <th></th>
                             </tr>
-                            <tr>
-                                <th>Datensatz geändert am:</th>
-                                <td>{{ entity.veraendertam|date('d.m.Y H:i:s') }}</td>
-                            </tr>
-                            <tr>
-                                <th>Bestaetigt</th>
-                                <td>{{ entity.bestaetigt }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+                        </thead>
+                        <tbody>
+                            {% for mannschaftspieler in entity.mannschaftspieler %}
+                                <tr>
+                                    <td><a href="{{ path('mannschaft_show', { 'id': mannschaftspieler.mannschaft.id }) }}">
+                                {{ mannschaftspieler.mannschaft }}</a></td>
+                                            <td> {{ mannschaftspieler.status }}</td>
+                                            <td>{% if mannschaftspieler.bestaetigt > 0 %}<i class="icon-ok"></i>{% endif %}</td>
+                                        </tr>   
+                            {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="span4">
+                                <table class="table">
+                                    <tr>
+                                        <th>Letzter Bearbeiter</th>
+                                        <td>{{ entity.veraendertvon }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Datensatz geändert am:</th>
+                                        <td>{{ entity.veraendertam|date('d.m.Y H:i:s') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Bestaetigt</th>
+                                        <td>{{ entity.bestaetigt }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
 
 {% endblock %}

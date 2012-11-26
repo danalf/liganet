@@ -117,8 +117,8 @@ class MannschaftController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Mannschaft entity.');
         }
-
-        $editForm = $this->createForm(new MannschaftType(), $entity);
+        
+        $editForm = $this->createForm(new MannschaftType(array(), array('id' => $entity->getId())), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(

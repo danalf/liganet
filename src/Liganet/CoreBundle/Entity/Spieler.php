@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Liganet\CoreBundle\Entity\Spieler
  *
  * @ORM\Table(name="ln_spieler")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Liganet\CoreBundle\Entity\SpielerRepository")
  */
 class Spieler {
 
@@ -161,6 +161,11 @@ class Spieler {
      * @ORM\OneToMany(targetEntity="MannschaftSpieler", mappedBy="spieler")
      */
     protected $mannschaftSpieler;
+    
+     /**
+     * @ORM\OneToMany(targetEntity="Mannschaft", mappedBy="mannschaft")
+     */
+    protected $captainForMannschaften;
 
 
     public function __toString() {
@@ -696,5 +701,38 @@ class Spieler {
     public function getMannschaftSpieler()
     {
         return $this->mannschaftSpieler;
+    }
+
+    /**
+     * Add captainForMannschaften
+     *
+     * @param \Liganet\CoreBundle\Entity\Mannschaft $captainForMannschaften
+     * @return Spieler
+     */
+    public function addCaptainForMannschaften(\Liganet\CoreBundle\Entity\Mannschaft $captainForMannschaften)
+    {
+        $this->captainForMannschaften[] = $captainForMannschaften;
+    
+        return $this;
+    }
+
+    /**
+     * Remove captainForMannschaften
+     *
+     * @param \Liganet\CoreBundle\Entity\Mannschaft $captainForMannschaften
+     */
+    public function removeCaptainForMannschaften(\Liganet\CoreBundle\Entity\Mannschaft $captainForMannschaften)
+    {
+        $this->captainForMannschaften->removeElement($captainForMannschaften);
+    }
+
+    /**
+     * Get captainForMannschaften
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCaptainForMannschaften()
+    {
+        return $this->captainForMannschaften;
     }
 }

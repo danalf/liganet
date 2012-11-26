@@ -31,7 +31,7 @@ class Mannschaft
     /**
      * @var string
      *
-     * @ORM\Column(name="bemerkung", type="text")
+     * @ORM\Column(name="bemerkung", type="text", nullable=true)
      */
     private $bemerkung;
     
@@ -51,6 +51,12 @@ class Mannschaft
      * @ORM\OneToMany(targetEntity="MannschaftSpieler", mappedBy="mannschaft")
      */
     protected $mannschaftSpieler;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Spieler", inversedBy="captainForMannschaften")
+     * @ORM\JoinColumn(name="captain_id", referencedColumnName="id", nullable=true)
+     */
+    protected $captain;
 
 
     /**
@@ -198,5 +204,28 @@ class Mannschaft
     public function getMannschaftSpieler()
     {
         return $this->mannschaftSpieler;
+    }
+
+    /**
+     * Set captain
+     *
+     * @param \Liganet\CoreBundle\Entity\Spieler $captain
+     * @return Mannschaft
+     */
+    public function setCaptain(\Liganet\CoreBundle\Entity\Spieler $captain = null)
+    {
+        $this->captain = $captain;
+    
+        return $this;
+    }
+
+    /**
+     * Get captain
+     *
+     * @return \Liganet\CoreBundle\Entity\Spieler 
+     */
+    public function getCaptain()
+    {
+        return $this->captain;
     }
 }
