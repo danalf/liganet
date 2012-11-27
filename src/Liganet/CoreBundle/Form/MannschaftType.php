@@ -20,6 +20,7 @@ class MannschaftType extends AbstractType
         ;
         if (isset($mannschaft)) {
             $builder->add('captain', 'entity', array(
+                'required' => false,
                 'class' => 'Liganet\CoreBundle\Entity\Spieler',
                 'query_builder' => function(EntityRepository $er) use ($mannschaft) {
                     return $er->createQueryBuilder('s')

@@ -153,7 +153,9 @@ class MannschaftController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('mannschaft_edit', array('id' => $id)));
+            $this->get('session')->getFlashBag()->add('success', 'Die Änderungen wurden gespeichert');
+
+            return $this->redirect($this->generateUrl('mannschaft_show', array('id' => $id)));
         }
 
         return array(
