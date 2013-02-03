@@ -1,8 +1,8 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<h1>SpielRunde creation</h1>
+<h1>SpielArt creation</h1>
 
-<form action="{{ path('spielrunde_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('spielart_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
         <button type="submit">Create</button>
@@ -11,7 +11,7 @@
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('spielrunde') }}">
+        <a href="{{ path('spielart') }}">
             Back to the list
         </a>
     </li>

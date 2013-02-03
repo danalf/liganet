@@ -45,6 +45,11 @@ class Modus
      * @ORM\OneToMany(targetEntity="Liga", mappedBy="modus")
      */
     protected $ligen;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="SpielArt", mappedBy="modus")
+     */
+    protected $spielArt;
 
 
     /**
@@ -168,5 +173,38 @@ class Modus
     
     public function __toString() {
         return $this->name;
+    }
+
+    /**
+     * Add spielArt
+     *
+     * @param \Liganet\CoreBundle\Entity\SpielArt $spielArt
+     * @return Modus
+     */
+    public function addSpielArt(\Liganet\CoreBundle\Entity\SpielArt $spielArt)
+    {
+        $this->spielArt[] = $spielArt;
+    
+        return $this;
+    }
+
+    /**
+     * Remove spielArt
+     *
+     * @param \Liganet\CoreBundle\Entity\SpielArt $spielArt
+     */
+    public function removeSpielArt(\Liganet\CoreBundle\Entity\SpielArt $spielArt)
+    {
+        $this->spielArt->removeElement($spielArt);
+    }
+
+    /**
+     * Get spielArt
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSpielArt()
+    {
+        return $this->spielArt;
     }
 }
