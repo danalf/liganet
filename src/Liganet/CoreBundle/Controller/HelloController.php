@@ -13,10 +13,10 @@ class HelloController extends Controller {
     }
     
     public function showUsersAction(){
-        //$userManager = $this->container->get('fos_user.user_manager');
-        //$user = $userManager->findUserBy(array('username' => 'dani'));
-        //$user->addRole('ROLE_CAPTAIN');
-        //$userManager->updateUser($user);
+        $userManager = $this->container->get('fos_user.user_manager');
+        $user = $userManager->findUserBy(array('username' => 'Andreas'));
+        $user->addRole('ROLE_REGION_MANAGEMENT');
+        $userManager->updateUser($user);
         $users = $this->getDoctrine()->getRepository('UserBundle:User')->findAll();
         return $this->render('LiganetCoreBundle:Hello:showUsers.html.twig', array('users' => $users));
         return null;

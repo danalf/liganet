@@ -5,6 +5,7 @@ use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Liganet\CoreBundle\Entity\Spieler;
 
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="liganet_user")
@@ -57,4 +58,5 @@ class User extends BaseUser {
     {
         return $this->spieler;
     }
+    
 }

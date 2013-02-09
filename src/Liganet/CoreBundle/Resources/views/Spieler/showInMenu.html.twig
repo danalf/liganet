@@ -19,7 +19,11 @@
             <li class="nav-header">Verein</li>
             <li>
                 <a href="{{ path('verein_show', { 'id': spieler.verein.id }) }}">
-                    <img alt="Logo {{ spieler.verein.namekurz }}" src="{{ asset(spieler.verein.document.webpath) }}" style="height: 40px" /> 
+                    <img alt="Logo {{ spieler.verein.namekurz }}" 
+                         {% if spieler.verein.document %}
+                         src="{{ asset(spieler.verein.document.webpath) }}" 
+                         {% endif %}
+                         style="height: 40px" /> 
                 {{ spieler.verein.namekurz }}
                 </a>
             </li>

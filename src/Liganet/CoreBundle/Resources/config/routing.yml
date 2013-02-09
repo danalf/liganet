@@ -12,4 +12,7 @@ admin_index:
 admin_edit:
     pattern:  /admin/edit/{id}
     defaults: { _controller: LiganetCoreBundle:Admin:edit }
+admin_clear_cache:
+    pattern:  /admin/clear_cache
+    defaults: { _controller: LiganetCoreBundle:Admin:clearCache }
 

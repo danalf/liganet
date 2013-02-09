@@ -11,6 +11,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th></th>
             <th>Name</th>
             <th>Namekurz</th>
             <th>Kuerzel</th>
@@ -23,6 +24,11 @@
     <tbody>
     {% for entity in entities %}
             <tr>
+                <td>
+                    {% if entity.document %}
+                        <img alt="Logo {{ entity }}" src="{{ asset(entity.document.webpath) }}" style="height: 60px" />
+                    {% endif %}
+                        </td>
                 <td>{{ entity.name }}</td>
                 <td>{{ entity.namekurz }}</td>
                 <td>{{ entity.kuerzel }}</td>

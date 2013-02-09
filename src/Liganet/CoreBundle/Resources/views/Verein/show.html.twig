@@ -41,13 +41,7 @@
                         </tr>
                         <tr>
                             <th>Homepage</th>
-                            <td>{{ entity.homepage }}</td>
-                        </tr>
-                        <tr>
-                            <th>Spieler</th>
-                            <td>
-
-                            </td>
+                            <td><a href="{{ entity.homepage }}">{{ entity.homepage }}</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -55,29 +49,29 @@
                 {% for mannschaft in entity.mannschaften %}
                 <p><a href="{{ path('mannschaft_show', { 'id': mannschaft.id }) }}">{{ mannschaft }}</a></p>
                 {% endfor %}
-            </div>
-            <div class="span4">
-                <h2>Spieler</h2>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Lizenznummer</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-         {% for spieler in entity.spieler %}
-                    <tr>
-                        <td><a href="{{ path('spieler_show', { 'id': spieler.id }) }}">
-{{ spieler.vorname }} {{ spieler.nachname }}
-                                    </a></td>
-                                <td>{{ spieler.nummerlizenz }}</td>
-                            </tr>
-                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
+                <div class="span4">
+                    <h2>Spieler</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Lizenznummer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                            {% for spieler in entity.spieler %}
+                        <tr>
+                            <td><a href="{{ path('spieler_show', { 'id': spieler.id }) }}">
+                                {{ spieler.vorname }} {{ spieler.nachname }}
+                                        </a></td>
+                                    <td>{{ spieler.nummerlizenz }}</td>
+                                </tr>
+                                 {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 {% endblock %}

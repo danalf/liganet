@@ -8,15 +8,14 @@ use Liganet\CoreBundle\Form\Type\AdminType;
 class AdminController extends Controller {
 
     public function indexAction() {
-        //$userList = $this->container->get('fos_user.user_manager');
-        //$user = $userList->findUserBy(array('username' => 'alfredo'));
-        //$user->addRole('ROLE_ADMIN');
-        //$userList->updateUser($user); // persists the object
-        //$this->get('session')->getFlashBag()->add('notice', 'Your changes were saved!');
+//        $userManager = $this->container->get('fos_user.user_manager');
+//        $user = $userManager->findUserBy(array('username' => 'Andreas'));
+//        $user->addRole('ROLE_REGION_MANAGEMENT');
+//        $userManager->updateUser($user);
+//        $this->get('session')->getFlashBag()->add('notice', 'Your changes were saved!');
         $users = $this->getDoctrine()->getRepository('UserBundle:User')->findAll();
-        
-        echo $users[1]->getSpieler();
-        
+
+
         return $this->render('LiganetCoreBundle:Admin:index.html.twig', array('users' => $users));
     }
 
@@ -36,7 +35,7 @@ class AdminController extends Controller {
             if ($form->isValid()) {
 
                 $roles = $this->get('request')->request->get('admin');
-                $roles=$roles['roleList'];
+                $roles = $roles['roleList'];
                 foreach ($roles as $key => $value) {
                     var_dump($value);
                     $userList = $this->container->get('fos_user.user_manager');
@@ -58,6 +57,91 @@ class AdminController extends Controller {
                     'form' => $form->createView(),
                     'user' => $user,
                 ));
+    }
+
+    public function clearCacheAction() {
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $this->get('session')->getFlashBag()->add('error', 'Nur für den Admin');
+            return $this->redirect($this->generateUrl('_home'));
+        }
+
+        $erg = $this->rec_rmdir('../app/cache/prod');
+
+        return $this->render('LiganetCoreBundle:Admin:clearCache.html.twig', array('ergebnis' => $erg));
+    }
+
+    // rec_rmdir - loesche ein Verzeichnis rekursiv
+// Rueckgabewerte:
+//   0  - alles ok
+//   -1 - kein Verzeichnis
+//   -2 - Fehler beim Loeschen
+//   -3 - Ein Eintrag eines Verzeichnisses war keine Datei und kein Verzeichnis und
+//        kein Link
+    private function rec_rmdir($path) {
+        // schau' nach, ob das ueberhaupt ein Verzeichnis ist
+        if (!is_dir($path)) {
+            return -1;
+        }
+        // oeffne das Verzeichnis
+        $dir = @opendir($path);
+
+        // Fehler?
+        if (!$dir) {
+            return -2;
+        }
+
+        // gehe durch das Verzeichnis
+        while (($entry = @readdir($dir)) !== false) {
+            // wenn der Eintrag das aktuelle Verzeichnis oder das Elternverzeichnis
+            // ist, ignoriere es
+            if ($entry == '.' || $entry == '..')
+                continue;
+            // wenn der Eintrag ein Verzeichnis ist, dann 
+            if (is_dir($path . '/' . $entry)) {
+                // rufe mich selbst auf
+                $res = $this->rec_rmdir($path . '/' . $entry);
+                // wenn ein Fehler aufgetreten ist
+                if ($res == -1) { // dies duerfte gar nicht passieren
+                    @closedir($dir); // Verzeichnis schliessen
+                    return -2; // normalen Fehler melden
+                } else if ($res == -2) { // Fehler?
+                    @closedir($dir); // Verzeichnis schliessen
+                    return -2; // Fehler weitergeben
+                } else if ($res == -3) { // nicht unterstuetzer Dateityp?
+                    @closedir($dir); // Verzeichnis schliessen
+                    return -3; // Fehler weitergeben
+                } else if ($res != 0) { // das duerfe auch nicht passieren...
+                    @closedir($dir); // Verzeichnis schliessen
+                    return -2; // Fehler zurueck
+                }
+            } else if (is_file($path . '/' . $entry) || is_link($path . '/' . $entry)) {
+                // ansonsten loesche diese Datei / diesen Link
+                $res = @unlink($path . '/' . $entry);
+                // Fehler?
+                if (!$res) {
+                    @closedir($dir); // Verzeichnis schliessen
+                    return -2; // melde ihn
+                }
+            } else {
+                // ein nicht unterstuetzer Dateityp
+                @closedir($dir); // Verzeichnis schliessen
+                return -3; // tut mir schrecklich leid...
+            }
+        }
+
+        // schliesse nun das Verzeichnis
+        @closedir($dir);
+
+        // versuche nun, das Verzeichnis zu loeschen
+        $res = @rmdir($path);
+
+        // gab's einen Fehler?
+        if (!$res) {
+            return -2; // melde ihn
+        }
+
+        // alles ok
+        return 0;
     }
 
 }

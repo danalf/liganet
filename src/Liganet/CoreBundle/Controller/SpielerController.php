@@ -48,12 +48,14 @@ class SpielerController extends Controller {
             $this->get('session')->getFlashBag()->add('error', 'Der Spieler wurde nicht gefunden.');
             return $this->redirect($this->generateUrl('spieler'));
         }
+        
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
+            'isGrantedEdit' => $this->isGrantedEdit($entity)
         );
     }
 
@@ -64,6 +66,10 @@ class SpielerController extends Controller {
      * @Template()
      */
     public function newAction() {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Neuen Spieler anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('_home'));
+        }
         $entity = new Spieler();
         $form = $this->createForm(new SpielerType(), $entity);
 
@@ -110,6 +116,10 @@ class SpielerController extends Controller {
      * @Template()
      */
     public function editAction($id) {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Diesen Spieler zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('spieler_show', array('id' => $id)));
+        }
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Spieler')->find($id);
@@ -209,6 +219,30 @@ class SpielerController extends Controller {
      * @Template()
      */
     public function showInMenuAction() {
+        $spieler=$this->getUserAsSpieler();
+        
+        return array('spieler' => $spieler, 'user' => $this->getUser());
+    }
+    
+    /**
+     * Legt fest, ob der User (den) Spieler verändern darf oder nicht
+     * @param type $spieler
+     * @return boolean
+     */
+    private function isGrantedEdit($spieler=NULL){
+        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
+            return TRUE;
+        }
+        if(!isset($spieler)) return FALSE;
+        if($spieler->getVerein()->getId()==$this->getUserAsSpieler()->getVerein()->getId()){
+            $this->get('session')->getFlashBag()->add('success', 'Funzt');
+
+            return TRUE;
+        }
+        return FALSE;
+    }
+    
+    private function getUserAsSpieler(){
         $user = $this->getUser();
         $id = $user->getSpieler();
         if(isset($id)){
@@ -217,15 +251,7 @@ class SpielerController extends Controller {
         } else{
             $spieler=new Spieler;
         }
-        
-        
-        
-        return array('spieler' => $spieler, 'user' => $user);
-    }
-    
-    private function isGrantedEdit($spieler){
-        
-        return FALSE;
+        return $spieler;
     }
 
 }
