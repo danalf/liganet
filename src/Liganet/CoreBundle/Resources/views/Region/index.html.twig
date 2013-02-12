@@ -1,8 +1,21 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<div class="page-header">
-    <h1>Regionen</h1>
+
+<div class="row-fluid">
+    <div class="span11">
+        <div class="page-header">
+            <h1>Regionen</h1>
+        </div>
+    </div>
+    <div class="span1">
+        {% if is_granted('ROLE_UNION_MANAGEMENT') %}
+        <a class="btn" href="{{ path('region_new') }}">
+            <i class="icon-plus"></i>
+        </a>
+        {% endif %}    
+    </div>
 </div>
+
 
 <table class="table">
     <thead>
@@ -24,20 +37,18 @@
             <td style="background-color: {{ entity.farbeTabelleHintergrund }}; color: {{ entity.farbeTabelleSchrift }};">Beispiel</td>
             <td style="background-color: {{ entity.farbeTabelleZeile2Hintergrund }}; color: {{ entity.farbeTabelleZeile2Schrift }};">Beispiel</td>
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('region_show', { 'id': entity.id }) }}"><i class="icon-hand-right"></i> show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('region_edit', { 'id': entity.id }) }}"><i class="icon-pencil"></i> edit</a>
-                    </li>
-                </ul>
-            </td>
+                        <a class="btn" href="{{ path('region_show', { 'id': entity.id }) }}">
+                            <i class="icon-arrow-right"></i>
+                        </a>
+                        {% if isGrantedEdit == true %}
+                        <a class="btn" href="{{ path('region_edit', { 'id': entity.id }) }}">
+                            <i class="icon-pencil"></i>
+                        </a>
+                        {% endif %}
+                    </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
-
-<a class="btn" href="{{ path('region_new') }}">Region hinzufügen</a>
 
 {% endblock %}

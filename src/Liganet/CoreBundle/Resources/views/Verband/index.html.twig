@@ -1,8 +1,21 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<div class="page-header">
-    <h1>Verbände</h1>
+
+<div class="row-fluid">
+    <div class="span11">
+        <div class="page-header">
+            <h1>Verbände</h1>
+        </div>
+    </div>
+    <div class="span1">
+        {% if is_granted('ROLE_UNION_MANAGEMENT') %}
+        <a class="btn" href="{{ path('verband_new') }}">
+            <i class="icon-plus"></i>
+        </a>
+        {% endif %}    
+    </div>
 </div>
+
 
 <table class="table table-striped">
     <thead>
@@ -24,25 +37,18 @@
             <td>{{ entity.website }}</td>
             <td>{{ entity.description }}</td>
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('verband_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('verband_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
+                        <a class="btn" href="{{ path('verband_show', { 'id': entity.id }) }}">
+                            <i class="icon-arrow-right"></i>
+                        </a>
+                        {% if isGrantedEdit == true %}
+                        <a class="btn" href="{{ path('verband_edit', { 'id': entity.id }) }}">
+                            <i class="icon-pencil"></i>
+                        </a>
+                        {% endif %}
+                    </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 
-<ul>
-    <li>
-        <a href="{{ path('verband_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
 {% endblock %}

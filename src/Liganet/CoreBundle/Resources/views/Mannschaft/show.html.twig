@@ -1,11 +1,30 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<div class="page-header">
-    <h1>{{ entity }} <small>{{ entity.verein}} </small></h1>
-    <p>{{ entity.bemerkung }}</p>
-    <p>Kapitän: {{ entity.captain }}</p>
+<div class="row-fluid">
+    <div class="span11">
+        <div class="page-header">
+            <h1>{{ entity }} <small>{{ entity.verein}} </small></h1>
+            <p>{{ entity.bemerkung }}</p>
+            <p>Kapitän: {{ entity.captain }}</p>
+        </div>
+    </div>
+    <div class="span1">
+        <a class="btn" href="{{ path('mannschaft') }}">
+            <i class="icon-list"></i>
+        </a>
+        {% if isGrantedEdit == true %}
+        <a class="btn" href="{{ path('mannschaft_edit', { 'id': entity.id }) }}">
+            <i class="icon-pencil"></i>
+        </a>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+        <form  action="{{ path('mannschaft_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
+        </form>
+        {% endif %}
+    </div>
 </div>
-
 
 <table class="table">
     <thead>
@@ -26,22 +45,4 @@
     </tbody>
 </table>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('mannschaft') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('mannschaft_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('mannschaft_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
 {% endblock %}

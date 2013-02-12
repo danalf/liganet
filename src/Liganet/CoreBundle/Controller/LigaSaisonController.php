@@ -31,6 +31,7 @@ class LigaSaisonController extends Controller
 
         return array(
             'entities' => $entities,
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -55,6 +56,7 @@ class LigaSaisonController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -66,6 +68,10 @@ class LigaSaisonController extends Controller
      */
     public function newAction()
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Neue Ligasaison anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('ligasaison'));
+        }
         $entity = new LigaSaison();
         $form   = $this->createForm(new LigaSaisonType(), $entity);
 
@@ -110,6 +116,11 @@ class LigaSaisonController extends Controller
      */
     public function editAction($id)
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Diesen Ligasaison zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('ligasaison_show', array('id' => $id)));
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($id);
@@ -195,5 +206,16 @@ class LigaSaisonController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+     /**
+     * Legt fest, ob der User die Modusrunden verändern darf oder nicht
+     * @return boolean
+     */
+    private function isGrantedEdit(){
+        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
+            return TRUE;
+        }
+        return FALSE;
     }
 }

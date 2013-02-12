@@ -44,10 +44,13 @@
                 </a>
 
             </li>
+            <li class="nav-header">Aktionen</li>
+            <li><a href="{{ path('fos_user_change_password') }}">Passwort ändern</a></li>
             <li class="nav-header">Rechte</li>
             {% for role in user.roles %}
             <li>Rolle: {{ role }}</li>
             {% endfor %}
+                
         </ul>
     </li>
 {% else %}

@@ -30,6 +30,7 @@ class SpielerController extends Controller {
 
         return array(
             'entities' => $entities,
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -116,10 +117,7 @@ class SpielerController extends Controller {
      * @Template()
      */
     public function editAction($id) {
-        if(!$this->isGrantedEdit()){
-            $this->get('session')->getFlashBag()->add('error', 'Diesen Spieler zu editieren ist für Dich nicht nicht erlaubt');
-            return $this->redirect($this->generateUrl('spieler_show', array('id' => $id)));
-        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Spieler')->find($id);
@@ -127,6 +125,11 @@ class SpielerController extends Controller {
         if (!$entity) {
             $this->get('session')->getFlashBag()->add('error', 'Der Spieler wurde nicht gefunden.');
             throw $this->createNotFoundException('Unable to find Spieler entity.');
+        }
+        
+        if(!$this->isGrantedEdit($entity)){
+            $this->get('session')->getFlashBag()->add('error', 'Diesen Spieler zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('spieler_show', array('id' => $id)));
         }
 
         $editForm = $this->createForm(new SpielerType(), $entity);
@@ -234,14 +237,18 @@ class SpielerController extends Controller {
             return TRUE;
         }
         if(!isset($spieler)) return FALSE;
-        if($spieler->getVerein()->getId()==$this->getUserAsSpieler()->getVerein()->getId()){
-            $this->get('session')->getFlashBag()->add('success', 'Funzt');
+        if($spieler->getVerein()->getId()==$this->getUserAsSpieler()->getVerein()->getId() 
+                && $this->get('security.context')->isGranted('ROLE_CAPTAIN')){
 
             return TRUE;
         }
         return FALSE;
     }
     
+    /**
+     * Gibt das Spieler-Objekt des Users zurück
+     * @return \Liganet\CoreBundle\Entity\Spieler
+     */
     private function getUserAsSpieler(){
         $user = $this->getUser();
         $id = $user->getSpieler();

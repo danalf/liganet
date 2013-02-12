@@ -10,3 +10,7 @@ body {
 footer {
     text-align: center
 }
+
+.table-edit ul{
+    list-style:none 
+}

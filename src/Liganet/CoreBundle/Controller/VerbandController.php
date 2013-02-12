@@ -15,22 +15,22 @@ use Liganet\CoreBundle\Form\VerbandType;
  *
  * @Route("/verband")
  */
-class VerbandController extends Controller
-{
+class VerbandController extends Controller {
+
     /**
      * Lists all Verband entities.
      *
      * @Route("/", name="verband")
      * @Template()
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('LiganetCoreBundle:Verband')->findAll();
 
         return array(
             'entities' => $entities,
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -40,8 +40,7 @@ class VerbandController extends Controller
      * @Route("/{id}/show", name="verband_show")
      * @Template()
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Verband')->find($id);
@@ -55,6 +54,7 @@ class VerbandController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -64,14 +64,17 @@ class VerbandController extends Controller
      * @Route("/new", name="verband_new")
      * @Template()
      */
-    public function newAction()
-    {
+    public function newAction() {
+        if (!$this->isGrantedEdit()) {
+            $this->get('session')->getFlashBag()->add('error', 'Neuen Verband anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('verband'));
+        }
         $entity = new Verband();
-        $form   = $this->createForm(new VerbandType(), $entity);
+        $form = $this->createForm(new VerbandType(), $entity);
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
@@ -82,9 +85,8 @@ class VerbandController extends Controller
      * @Method("POST")
      * @Template("LiganetCoreBundle:Verband:new.html.twig")
      */
-    public function createAction(Request $request)
-    {
-        $entity  = new Verband();
+    public function createAction(Request $request) {
+        $entity = new Verband();
         $form = $this->createForm(new VerbandType(), $entity);
         $form->bind($request);
 
@@ -98,7 +100,7 @@ class VerbandController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
@@ -108,8 +110,11 @@ class VerbandController extends Controller
      * @Route("/{id}/edit", name="verband_edit")
      * @Template()
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Diesen Verband zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('verband_show', array('id' => $id)));
+        }
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Verband')->find($id);
@@ -122,8 +127,8 @@ class VerbandController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -135,8 +140,7 @@ class VerbandController extends Controller
      * @Method("POST")
      * @Template("LiganetCoreBundle:Verband:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Verband')->find($id);
@@ -157,8 +161,8 @@ class VerbandController extends Controller
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -169,8 +173,7 @@ class VerbandController extends Controller
      * @Route("/{id}/delete", name="verband_delete")
      * @Method("POST")
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -189,11 +192,23 @@ class VerbandController extends Controller
         return $this->redirect($this->generateUrl('verband'));
     }
 
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
+                        ->add('id', 'hidden')
+                        ->getForm()
         ;
     }
+
+    /**
+     * Legt fest, ob der User (den) Spieler verändern darf oder nicht
+     * @param type $spieler
+     * @return boolean
+     */
+    private function isGrantedEdit($spieler = NULL) {
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
 }

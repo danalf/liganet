@@ -31,6 +31,7 @@ class LigaController extends Controller
 
         return array(
             'entities' => $entities,
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -55,6 +56,7 @@ class LigaController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -66,6 +68,10 @@ class LigaController extends Controller
      */
     public function newAction()
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Neue Liga anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('liga'));
+        }
         $entity = new Liga();
         $form   = $this->createForm(new LigaType(), $entity);
 
@@ -110,6 +116,11 @@ class LigaController extends Controller
      */
     public function editAction($id)
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Diese Liga zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('liga_show', array('id' => $id)));
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Liga')->find($id);
@@ -195,5 +206,16 @@ class LigaController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+    /**
+     * Legt fest, ob der User die Modusrunden verändern darf oder nicht
+     * @return boolean
+     */
+    private function isGrantedEdit(){
+        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
+            return TRUE;
+        }
+        return FALSE;
     }
 }

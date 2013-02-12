@@ -31,6 +31,7 @@ class SpielArtController extends Controller
 
         return array(
             'entities' => $entities,
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -55,6 +56,7 @@ class SpielArtController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -66,6 +68,10 @@ class SpielArtController extends Controller
      */
     public function newAction()
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Neue Spielart anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('spielart'));
+        }
         $entity = new SpielArt();
         $form   = $this->createForm(new SpielArtType(), $entity);
 
@@ -110,6 +116,11 @@ class SpielArtController extends Controller
      */
     public function editAction($id)
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Diese Spielart zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('spielart_show', array('id' => $id)));
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:SpielArt')->find($id);
@@ -195,5 +206,16 @@ class SpielArtController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+       /**
+     * Legt fest, ob der User die Speilart verändern darf oder nicht
+     * @return boolean
+     */
+    private function isGrantedEdit(){
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return TRUE;
+        }
+        return FALSE;
     }
 }

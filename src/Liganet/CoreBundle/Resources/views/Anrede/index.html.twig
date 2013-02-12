@@ -1,9 +1,12 @@
-<h1>Anrede list</h1>
+{% extends '::base.html.twig' %}
+{% block content %}
+<div class="page-header">
+    <h1>Anreden</h1>
+</div>
 
-<table class="records_list">
+<table class="table">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Anrede</th>
             <th>Brief</th>
             <th>Actions</th>
@@ -12,18 +15,16 @@
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td><a href="{{ path('anrede_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.anrede }}</td>
             <td>{{ entity.brief }}</td>
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('anrede_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                </ul>
-            </td>
+                        <a class="btn" href="{{ path('anrede_show', { 'id': entity.id }) }}">
+                            <i class="icon-arrow-right"></i>
+                        </a>
+
+                    </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
-
+{% endblock %}

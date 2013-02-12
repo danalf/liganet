@@ -1,11 +1,17 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<h1>Mannschaft list</h1>
+
+<div class="row-fluid">
+    <div class="span11">
+        <div class="page-header">
+            <h1>Vereine</h1>
+        </div>
+    </div>
+</div>
 
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Rang</th>
             <th>Bemerkung</th>
             <th>Kapitän</th>
@@ -15,30 +21,22 @@
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td><a href="{{ path('mannschaft_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity }}</td>
             <td>{{ entity.bemerkung }}</td>
             <td>{{ entity.captain }}</td>
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('mannschaft_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('mannschaft_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
+                        <a class="btn" href="{{ path('mannschaft_show', { 'id': entity.id }) }}">
+                            <i class="icon-arrow-right"></i>
+                        </a>
+                        {% if isGrantedEdit == true %}
+                        <a class="btn" href="{{ path('mannschaft_edit', { 'id': entity.id }) }}">
+                            <i class="icon-pencil"></i>
+                        </a>
+                        {% endif %}
+                    </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 
-<ul>
-    <li>
-        <a href="{{ path('mannschaft_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
 {% endblock %}

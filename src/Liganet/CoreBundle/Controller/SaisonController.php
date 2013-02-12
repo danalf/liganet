@@ -31,6 +31,7 @@ class SaisonController extends Controller
 
         return array(
             'entities' => $entities,
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -55,6 +56,7 @@ class SaisonController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -66,6 +68,10 @@ class SaisonController extends Controller
      */
     public function newAction()
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Neue Saison anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('saison'));
+        }
         $entity = new Saison();
         $form   = $this->createForm(new SaisonType(), $entity);
 
@@ -110,6 +116,11 @@ class SaisonController extends Controller
      */
     public function editAction($id)
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Diesen Saison zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('saison_show', array('id' => $id)));
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Saison')->find($id);
@@ -195,5 +206,16 @@ class SaisonController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+       /**
+     * Legt fest, ob der User die Saison verändern darf oder nicht
+     * @return boolean
+     */
+    private function isGrantedEdit(){
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return TRUE;
+        }
+        return FALSE;
     }
 }

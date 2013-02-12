@@ -31,6 +31,7 @@ class SpielRundeController extends Controller
 
         return array(
             'entities' => $entities,
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -55,6 +56,7 @@ class SpielRundeController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -66,6 +68,10 @@ class SpielRundeController extends Controller
      */
     public function newAction()
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Neue Spielrunde anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('spielrunde'));
+        }
         $entity = new SpielRunde();
         $form   = $this->createForm(new SpielRundeType(), $entity);
 
@@ -110,6 +116,10 @@ class SpielRundeController extends Controller
      */
     public function editAction($id)
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Diese Spielrunde zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('spielrunde_show', array('id' => $id)));
+        }
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:SpielRunde')->find($id);
@@ -195,5 +205,16 @@ class SpielRundeController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+        /**
+     * Legt fest, ob der User (den) Spielrunden verändern darf oder nicht
+     * @return boolean
+     */
+    private function isGrantedEdit(){
+        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
+            return TRUE;
+        }
+        return FALSE;
     }
 }

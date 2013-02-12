@@ -1,8 +1,22 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<h1>SpielRunde list</h1>
 
-<table class="records_list">
+<div class="row-fluid">
+    <div class="span11">
+        <div class="page-header">
+            <h1>Spielrunden</h1>
+        </div>
+    </div>
+    <div class="span1">
+        {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn" href="{{ path('spielrunde_new') }}">
+            <i class="icon-plus"></i>
+        </a>
+        {% endif %}    
+    </div>
+</div>
+
+<table class="table">
     <thead>
         <tr>
             <th>Id</th>
@@ -16,25 +30,18 @@
             <td><a href="{{ path('spielrunde_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nummer }}</td>
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('spielrunde_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('spielrunde_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
+                        <a class="btn" href="{{ path('spielrunde_show', { 'id': entity.id }) }}">
+                            <i class="icon-arrow-right"></i>
+                        </a>
+                        {% if isGrantedEdit == true %}
+                        <a class="btn" href="{{ path('spielrunde_edit', { 'id': entity.id }) }}">
+                            <i class="icon-pencil"></i>
+                        </a>
+                        {% endif %}
+                    </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 
-<ul>
-    <li>
-        <a href="{{ path('spielrunde_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
 {% endblock %}

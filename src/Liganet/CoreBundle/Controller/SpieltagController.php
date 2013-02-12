@@ -31,6 +31,7 @@ class SpieltagController extends Controller
 
         return array(
             'entities' => $entities,
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -55,6 +56,7 @@ class SpieltagController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -66,6 +68,10 @@ class SpieltagController extends Controller
      */
     public function newAction()
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Neuen Spieltag anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('spieltag'));
+        }
         $entity = new Spieltag();
         $form   = $this->createForm(new SpieltagType(), $entity);
 
@@ -110,6 +116,11 @@ class SpieltagController extends Controller
      */
     public function editAction($id)
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Diesen Spieltag zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('spieltag_show', array('id' => $id)));
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Spieltag')->find($id);
@@ -196,4 +207,16 @@ class SpieltagController extends Controller
             ->getForm()
         ;
     }
+    
+    /**
+     * Legt fest, ob der User (den) Spieltag verändern darf oder nicht
+     * @return boolean
+     */
+    private function isGrantedEdit(){
+        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+    
 }

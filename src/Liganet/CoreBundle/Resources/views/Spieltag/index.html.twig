@@ -1,11 +1,25 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<h1>Spieltag list</h1>
 
-<table class="records_list">
+<div class="row-fluid">
+    <div class="span11">
+        <div class="page-header">
+            <h1>Spieltage</h1>
+        </div>
+    </div>
+    <div class="span1">
+        {% if is_granted('ROLE_LEAGUE_MANAGEMENT') %}
+        <a class="btn" href="{{ path('spieltag_new') }}">
+            <i class="icon-plus"></i>
+        </a>
+        {% endif %}    
+    </div>
+</div>
+
+
+<table class="table">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Nummer</th>
             <th>Datum</th>
             <th>Actions</th>
@@ -14,29 +28,21 @@
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td><a href="{{ path('spieltag_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nummer }}</td>
             <td>{% if entity.datum %}{{ entity.datum|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('spieltag_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('spieltag_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
+                        <a class="btn" href="{{ path('spieltag_show', { 'id': entity.id }) }}">
+                            <i class="icon-arrow-right"></i>
+                        </a>
+                        {% if isGrantedEdit == true %}
+                        <a class="btn" href="{{ path('spieltag_edit', { 'id': entity.id }) }}">
+                            <i class="icon-pencil"></i>
+                        </a>
+                        {% endif %}
+                    </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 
-<ul>
-    <li>
-        <a href="{{ path('spieltag_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
 {% endblock %}

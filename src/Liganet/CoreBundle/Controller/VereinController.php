@@ -31,6 +31,7 @@ class VereinController extends Controller
 
         return array(
             'entities' => $entities,
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -54,6 +55,7 @@ class VereinController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'isGrantedEdit' => $this->isGrantedEdit($entity)
         );
     }
 
@@ -65,6 +67,10 @@ class VereinController extends Controller
      */
     public function newAction()
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Neuen Verein anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('verein'));
+        }
         $entity = new Verein();
         $form   = $this->createForm(new VereinType(), $entity);
 
@@ -116,6 +122,12 @@ class VereinController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Verein entity.');
         }
+        
+        if(!$this->isGrantedEdit($entity)){
+            $this->get('session')->getFlashBag()->add('error', 'Diesen Verein zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('verein_show', array('id' => $id)));
+        }
+        
         $editForm = $this->createForm(new VereinType(array(), array('id' => $entity->getId())), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
@@ -194,5 +206,39 @@ class VereinController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+    /**
+     * Legt fest, ob der User (den) Spieler verändern darf oder nicht
+     * @param type $spieler
+     * @return boolean
+     */
+    private function isGrantedEdit($verein=NULL){
+        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
+            return TRUE;
+        }
+        if(!isset($verein)) return FALSE;
+        if($verein->getId()==$this->getUserAsSpieler()->getVerein()->getId() 
+                && $this->get('security.context')->isGranted('ROLE_CLUB_MANAGEMENT')){
+
+            return TRUE;
+        }
+        return FALSE;
+    }
+    
+    /**
+     * Gibt das Spieler-Objekt des Users zurück
+     * @return \Liganet\CoreBundle\Entity\Spieler
+     */
+    private function getUserAsSpieler(){
+        $user = $this->getUser();
+        $id = $user->getSpieler();
+        if(isset($id)){
+            $em = $this->getDoctrine()->getManager();
+        $spieler = $em->getRepository('LiganetCoreBundle:Spieler')->find($id);
+        } else{
+            $spieler=new Spieler;
+        }
+        return $spieler;
     }
 }

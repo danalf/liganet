@@ -31,6 +31,7 @@ class SpielerStatusController extends Controller
 
         return array(
             'entities' => $entities,
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -55,6 +56,7 @@ class SpielerStatusController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -66,6 +68,10 @@ class SpielerStatusController extends Controller
      */
     public function newAction()
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Neuen Spielerstatus anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('spielerstatus'));
+        }
         $entity = new SpielerStatus();
         $form   = $this->createForm(new SpielerStatusType(), $entity);
 
@@ -110,6 +116,11 @@ class SpielerStatusController extends Controller
      */
     public function editAction($id)
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Diesen Spielerstatus zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('spielerstatus_show', array('id' => $id)));
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:SpielerStatus')->find($id);
@@ -195,5 +206,16 @@ class SpielerStatusController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+        /**
+     * Legt fest, ob der User (den) Spieltag verändern darf oder nicht
+     * @return boolean
+     */
+    private function isGrantedEdit(){
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return TRUE;
+        }
+        return FALSE;
     }
 }

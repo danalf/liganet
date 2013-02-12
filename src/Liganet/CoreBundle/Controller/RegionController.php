@@ -31,6 +31,7 @@ class RegionController extends Controller
 
         return array(
             'entities' => $entities,
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -55,6 +56,7 @@ class RegionController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -66,6 +68,10 @@ class RegionController extends Controller
      */
     public function newAction()
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Neue Region anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('region'));
+        }
         $entity = new Region();
         $form   = $this->createForm(new RegionType(), $entity);
 
@@ -110,6 +116,11 @@ class RegionController extends Controller
      */
     public function editAction($id)
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Diese Region zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('region_show', array('id' => $id)));
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Region')->find($id);
@@ -195,6 +206,17 @@ class RegionController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+       /**
+     * Legt fest, ob der User die Region verändern darf oder nicht
+     * @return boolean
+     */
+    private function isGrantedEdit(){
+        if ($this->get('security.context')->isGranted('ROLE_REGION_MANAGEMENT')) {
+            return TRUE;
+        }
+        return FALSE;
     }
     
 }

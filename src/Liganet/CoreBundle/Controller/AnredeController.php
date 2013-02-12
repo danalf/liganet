@@ -30,6 +30,7 @@ class AnredeController extends Controller
 
         return array(
             'entities' => $entities,
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -51,7 +52,19 @@ class AnredeController extends Controller
 
         return array(
             'entity'      => $entity,
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
+    }
+    
+    /**
+     * Legt fest, ob der User die Modusrunden verändern darf oder nicht
+     * @return boolean
+     */
+    private function isGrantedEdit(){
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return TRUE;
+        }
+        return FALSE;
     }
 
 }

@@ -31,6 +31,7 @@ class MannschaftSpielerController extends Controller
 
         return array(
             'entities' => $entities,
+            'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
 
@@ -55,6 +56,7 @@ class MannschaftSpielerController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'isGrantedEdit' => $this->isGrantedEdit($entity)
         );
     }
 
@@ -66,6 +68,10 @@ class MannschaftSpielerController extends Controller
      */
     public function newAction()
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Neuen Mannschaftspieler anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('mannschaftspieler'));
+        }
         $entity = new MannschaftSpieler();
         $form   = $this->createForm(new MannschaftSpielerType(), $entity);
 
@@ -110,6 +116,11 @@ class MannschaftSpielerController extends Controller
      */
     public function editAction($id)
     {
+        if(!$this->isGrantedEdit()){
+            $this->get('session')->getFlashBag()->add('error', 'Diesen Mannschaftspieler zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('mannschaftspieler_show', array('id' => $id)));
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:MannschaftSpieler')->find($id);
@@ -195,5 +206,39 @@ class MannschaftSpielerController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+    /**
+     * Legt fest, ob der User (den) Spieler verändern darf oder nicht
+     * @param type $spieler
+     * @return boolean
+     */
+    private function isGrantedEdit($mannschaftspieler=NULL){
+        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
+            return TRUE;
+        }
+        if(!isset($mannschaftspieler)) return FALSE;
+        if($mannschaftspieler->getMannschaft()->getVerein()->getId()==$this->getUserAsSpieler()->getVerein()->getId() 
+                && $this->get('security.context')->isGranted('ROLE_CAPTAIN')){
+
+            return TRUE;
+        }
+        return FALSE;
+    }
+    
+    /**
+     * Gibt das Spieler-Objekt des Users zurück
+     * @return \Liganet\CoreBundle\Entity\Spieler
+     */
+    private function getUserAsSpieler(){
+        $user = $this->getUser();
+        $id = $user->getSpieler();
+        if(isset($id)){
+            $em = $this->getDoctrine()->getManager();
+        $spieler = $em->getRepository('LiganetCoreBundle:Spieler')->find($id);
+        } else{
+            $spieler=new Spieler;
+        }
+        return $spieler;
     }
 }
