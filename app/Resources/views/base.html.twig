@@ -10,8 +10,9 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         {% stylesheets '@LiganetCoreBundle/Resources/public/css/main.css'
-                         'bundles/liganetcore/css/*'
-                        filter='cssrewrite' %}
+                        'bundles/liganetcore/css/bootstrap.min.css'
+                        'bundles/liganetcore/css/bootstrap-responsive.min.css'
+                         filter='cssrewrite' %}
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
         {% endstylesheets %}
     </head>
@@ -49,7 +50,6 @@
                                     <li><a href="{{ path('saison') }}">Saison</a></li>
                                     <li><a href="{{ path('ligasaison') }}">Zuordnung Liga und Saison</a></li>
                                     <li><a href="{{ path('mannschaft') }}">Mannschaften</a></li>
-                                    <li><a href="{{ path('mannschaftspieler') }}">Zurodnung Mannschaften und Spieler</a></li>
                                     <li><a href="{{ path('spielrunde') }}">Spielrunden</a></li>
                                     <li><a href="{{ path('spieltag') }}">Spieltage</a></li>
                                 </ul>
@@ -83,6 +83,7 @@
                         </div>
                     </div>
 
+
                     <div class="container">
                      {% if app.session.hasFlash('error') %}
                             <div class="alert alert-error" ><button type="button" class="close" data-dismiss="alert">×</button>{{ app.session.flash('error') }}</div>
@@ -100,7 +101,7 @@
                             <div>{% block fos_user_content %}{% endblock fos_user_content %}</div>
                         </div> <!-- /container -->
                         <footer>
-                            <p>&copy; Alfredo 2012</p>
+                            <p>&copy; Alfredo 2013</p>
                         </footer>
                 {% javascripts
                     'bundles/liganetcore/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js'

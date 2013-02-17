@@ -58,7 +58,7 @@ class Verein {
      * @var integer $kontakt
      * 
      * @ORM\OneToOne(targetEntity="Spieler")
-     * @ORM\JoinColumn(name="kontakt", referencedColumnName="id")
+     * @ORM\JoinColumn(name="kontakt", referencedColumnName="id", nullable=true)
      */
     private $kontakt;
 

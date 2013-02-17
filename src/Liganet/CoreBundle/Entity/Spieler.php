@@ -488,9 +488,9 @@ class Spieler {
      * @param \DateTime $veraendertam
      * @return Spieler
      */
-    public function setVeraendertam($veraendertam)
+    public function setVeraendertam()
     {
-        $this->veraendertam = $veraendertam;
+        $this->veraendertam =  new \DateTime("now");
     
         return $this;
     }

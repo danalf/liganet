@@ -28,6 +28,7 @@ class VereinType extends AbstractType {
                                     ->where('u.verein = :id')
                                     ->setParameter('id', $verein);
                 },
+                'required' => false,
                 'empty_value' => 'Wähle einen Kontakt',
             ));
         }

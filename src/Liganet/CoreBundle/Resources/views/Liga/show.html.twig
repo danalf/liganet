@@ -9,16 +9,16 @@
         </div>
     </div>
     <div class="span1">
-        <a class="btn" href="{{ path('region') }}">
+        <a class="btn" href="{{ path('liga') }}">
             <i class="icon-list"></i>
         </a>
         {% if isGrantedEdit == true %}
-        <a class="btn" href="{{ path('region_edit', { 'id': entity.id }) }}">
+        <a class="btn" href="{{ path('liga_edit', { 'id': entity.id }) }}">
             <i class="icon-pencil"></i>
         </a>
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
-        <form  action="{{ path('region_delete', { 'id': entity.id }) }}" method="post">
+        <form  action="{{ path('liga_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
         </form>

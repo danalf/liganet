@@ -50,6 +50,7 @@ class Document {
 
     protected function getUploadRootDir() {
         // the absolute directory path where uploaded documents should be saved
+        
         return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
 
@@ -132,12 +133,13 @@ class Document {
         if (null === $this->file) {
             return;
         }
+        echo $this->getUploadDir(). "  " . $this->path;
 
         // if there is an error when moving the file, an exception will
         // be automatically thrown by move(). This will properly prevent
         // the entity from being persisted to the database on error
+        //$this->file->move($this->getUploadDir(), $this->path);
         $this->file->move($this->getUploadRootDir(), $this->path);
-
         unset($this->file);
     }
 

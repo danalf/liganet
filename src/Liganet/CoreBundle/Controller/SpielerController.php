@@ -49,29 +49,36 @@ class SpielerController extends Controller {
             $this->get('session')->getFlashBag()->add('error', 'Der Spieler wurde nicht gefunden.');
             return $this->redirect($this->generateUrl('spieler'));
         }
-        
+
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
-            'isGrantedEdit' => $this->isGrantedEdit($entity)
+            'isGrantedEdit' => $this->isGrantedEdit($entity->getVerein())
         );
     }
 
     /**
      * Displays a form to create a new Spieler entity.
      *
-     * @Route("/new", name="spieler_new")
+     * @Route("/new/verein/{id}", name="spieler_new")
      * @Template()
      */
-    public function newAction() {
-        if(!$this->isGrantedEdit()){
+    public function newAction($id=0) {
+        if (!$this->isGrantedEdit()) {
             $this->get('session')->getFlashBag()->add('error', 'Neuen Spieler anlegen ist für dich nicht nicht erlaubt');
             return $this->redirect($this->generateUrl('_home'));
         }
         $entity = new Spieler();
+        //Verein suchen
+        if($id>0){
+            $em = $this->getDoctrine()->getManager();
+            $verein = $em->getRepository('LiganetCoreBundle:Verein')->find($id);
+            $entity->setVerein($verein);
+        }
+        
         $form = $this->createForm(new SpielerType(), $entity);
 
         return array(
@@ -96,6 +103,8 @@ class SpielerController extends Controller {
 
         $form = $this->createForm(new SpielerType(), $entity);
         $form->bind($request);
+        
+        $entity=$this->setUpdateInformation($entity);
 
         if ($form->isValid()) {
             $em->persist($entity);
@@ -117,7 +126,7 @@ class SpielerController extends Controller {
      * @Template()
      */
     public function editAction($id) {
-        
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Spieler')->find($id);
@@ -126,8 +135,8 @@ class SpielerController extends Controller {
             $this->get('session')->getFlashBag()->add('error', 'Der Spieler wurde nicht gefunden.');
             throw $this->createNotFoundException('Unable to find Spieler entity.');
         }
-        
-        if(!$this->isGrantedEdit($entity)){
+
+        if (!$this->isGrantedEdit($entity)) {
             $this->get('session')->getFlashBag()->add('error', 'Diesen Spieler zu editieren ist für Dich nicht nicht erlaubt');
             return $this->redirect($this->generateUrl('spieler_show', array('id' => $id)));
         }
@@ -159,13 +168,7 @@ class SpielerController extends Controller {
             throw $this->createNotFoundException('Unable to find Spieler entity.');
         }
 
-        $bearbeiter = $em->getRepository('LiganetCoreBundle:Spieler')->find($this->getUser()->getSpieler());
-        $entity->setVeraendertvon($bearbeiter);
-        //Bei einer Rolle kleiner als Ligaleiter wird Bestaetig auf false gesetzt
-        if (!$this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
-            $entity->setBestaetigt(false);
-        }
-
+        $entity=$this->setUpdateInformation($entity);
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new SpielerType(), $entity);
@@ -184,6 +187,26 @@ class SpielerController extends Controller {
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
+    }
+
+    /**
+     * Setzt die bestätigt und Bearbeitet-Variable des Spielers
+     * @param \Liganet\CoreBundle\Entity\Spieler $entity
+     * @return \Liganet\CoreBundle\Entity\Spieler
+     */
+    private function setUpdateInformation(Spieler $entity) {
+        $em = $this->getDoctrine()->getManager();
+        $bearbeiter_id = $em->getRepository('LiganetCoreBundle:Spieler')->find($this->getUser()->getSpieler());
+        $bearbeiter = $em->getRepository('LiganetCoreBundle:Spieler')->find($bearbeiter_id);
+        $entity->setVeraendertvon($bearbeiter);
+        $entity->setVeraendertam();
+        //Bei einer Rolle kleiner als Staffelleiter wird Bestaetig auf false gesetzt
+        if (!$this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
+            $entity->setBestaetigt(false);
+        } else {
+            $entity->setBestaetigt(true);
+        }
+        return $entity;
     }
 
     /**
@@ -206,6 +229,7 @@ class SpielerController extends Controller {
 
             $em->remove($entity);
             $em->flush();
+            $this->get('session')->getFlashBag()->add('success', 'Der Spieler wurde gelöscht');
         }
 
         return $this->redirect($this->generateUrl('spieler'));
@@ -222,43 +246,70 @@ class SpielerController extends Controller {
      * @Template()
      */
     public function showInMenuAction() {
-        $spieler=$this->getUserAsSpieler();
-        
+        $spieler = $this->getUserAsSpieler();
+
         return array('spieler' => $spieler, 'user' => $this->getUser());
     }
     
+    /**
+     * @Template()
+     */
+    public function showStartAction() {
+        $spieler = $this->getUserAsSpieler();
+
+        return array('spieler' => $spieler);
+    }
+
     /**
      * Legt fest, ob der User (den) Spieler verändern darf oder nicht
      * @param type $spieler
      * @return boolean
      */
-    private function isGrantedEdit($spieler=NULL){
+    private function isGrantedEdit($verein = NULL) {
         if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
             return TRUE;
         }
-        if(!isset($spieler)) return FALSE;
-        if($spieler->getVerein()->getId()==$this->getUserAsSpieler()->getVerein()->getId() 
-                && $this->get('security.context')->isGranted('ROLE_CAPTAIN')){
+        if (!isset($spieler))
+            return FALSE;
+        if ($verein->getId() == $this->getUserAsSpieler()->getVerein()->getId() && $this->get('security.context')->isGranted('ROLE_CAPTAIN')) {
 
             return TRUE;
         }
         return FALSE;
     }
-    
+
     /**
      * Gibt das Spieler-Objekt des Users zurück
      * @return \Liganet\CoreBundle\Entity\Spieler
      */
-    private function getUserAsSpieler(){
+    private function getUserAsSpieler() {
         $user = $this->getUser();
         $id = $user->getSpieler();
-        if(isset($id)){
+        if (isset($id)) {
             $em = $this->getDoctrine()->getManager();
-        $spieler = $em->getRepository('LiganetCoreBundle:Spieler')->find($id);
-        } else{
-            $spieler=new Spieler;
+            $spieler = $em->getRepository('LiganetCoreBundle:Spieler')->find($id);
+        } else {
+            $spieler = new Spieler;
         }
         return $spieler;
+    }
+    
+    /**
+     * Zeigt eine Spielerliste an
+     *
+     * @Route("/{id}/showList", name="spieler_showlist")
+     * @Template()
+     */
+    public function showListAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $verein = $em->getRepository('LiganetCoreBundle:Verein')->find($id);
+        $entities = $em->getRepository('LiganetCoreBundle:Spieler')->findAllByVereinIdOrdered($id);
+        
+        return array(
+            'entities'      => $entities,
+            'verein'        => $entities[0]->getVerein(),
+            'isGrantedEdit' => $this->isGrantedEdit($verein)
+        );
     }
 
 }

@@ -3,13 +3,11 @@
 <div class="row-fluid">
     <div class="span11">
         <div class="page-header">
-            <h1>
-        {% if entity.document %}
-                    <img alt="Logo {{ entity.namekurz }}" src="{{ asset(entity.document.webpath) }}" class="img-polaroid" /> 
-        {% endif %}
-        {{ entity.namekurz }} 
-                    <small>{{ entity.name }}</small>
-                </h1>
+            {% if entity.document %}
+                <img alt="Logo {{ entity.namekurz }}" src="{{ asset(entity.document.webpath) }}" class="img-polaroid" style="float: left; margin: 5px"/> 
+            {% endif %}
+                <h1>{{ entity.namekurz }}</h1>
+                <h1><small>{{ entity.name }}</small></h1>
             </div>
         </div>
         <div class="span1">
@@ -35,7 +33,7 @@
                 <table class="table">
                     <tbody>
                         <tr>
-                            <th>Kuerzel</th>
+                            <th>Kürzel</th>
                             <td>{{ entity.kuerzel }}</td>
                         </tr>
                         <tr>
@@ -48,28 +46,12 @@
                         </tr>
                         <tr>
                             <th>Homepage</th>
-                            <td><a href="{{ entity.homepage }}">{{ entity.homepage }}</a></td>
+                            <td><a href="{{ entity.homepage }}" target="_blank">{{ entity.homepage }}</a></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="span4">
-                {% render "LiganetCoreBundle:Mannschaft:showList" with { 'id': entity.id } %}
-                </div>
-                <div class="span4">
-                    <h2>Spieler</h2>
-                    <table class="table table-striped">
-                        <tbody>
-                            {% for spieler in entity.spieler %}
-                                <tr>
-                                    <td><a href="{{ path('spieler_show', { 'id': spieler.id }) }}">
-                                {{ spieler.vorname }} {{ spieler.nachname }}
-                                                </a></td>
-                                            <td>{{ spieler.nummerlizenz }}</td>
-                                        </tr>
-                                 {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+            <div class="span4">{% render "LiganetCoreBundle:Mannschaft:showList" with { 'id': entity.id } %}</div>
+            <div class="span4">{% render "LiganetCoreBundle:Spieler:showList" with { 'id': entity.id } %}</div>
+        </div>
 {% endblock %}

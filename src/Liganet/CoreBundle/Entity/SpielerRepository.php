@@ -22,4 +22,16 @@ class SpielerRepository extends EntityRepository
         
         return $qb->getResult();
     }
+    
+    public function findAllByVereinIdOrdered($verein_id)
+    {
+        //$qb = $this->getEntityManager()->createQueryBuilder();
+        $qb = $this->_em->createQuery("SELECT s FROM LiganetCoreBundle:Spieler s WHERE s.verein = $verein_id ORDER BY s.nummerlizenz ASC");
+//        $qb->select('s')
+//            ->from('Spieler', 's')
+//            ->where('u.verein.id = ?1')
+//            ->orderBy('s.nummerlizenz ASC')
+//            ->setParameter(1, $verein_id);
+        return $qb->getResult();
+    }
 }

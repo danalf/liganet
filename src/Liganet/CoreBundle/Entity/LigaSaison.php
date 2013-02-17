@@ -24,14 +24,14 @@ class LigaSaison
     /**
      * @var boolean
      *
-     * @ORM\Column(name="gesperrt", type="boolean")
+     * @ORM\Column(name="gesperrt", type="boolean", nullable=true)
      */
     private $gesperrt;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="bemerkung", type="text")
+     * @ORM\Column(name="bemerkung", type="text", nullable=true)
      */
     private $bemerkung;
     

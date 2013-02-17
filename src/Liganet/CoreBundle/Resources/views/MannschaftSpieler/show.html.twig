@@ -1,36 +1,49 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<h1>MannschaftSpieler</h1>
-
-<table class="table">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Bestaetigt</th>
-            <td>{{ entity.bestaetigt }}</td>
-        </tr>
-    </tbody>
-</table>
-
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('mannschaftspieler') }}">
-            Back to the list
+<div class="row-fluid">
+    <div class="span11">
+        <div class="page-header">
+            <h1>{{ entity.spieler }} 
+                <small>{{ entity.status }}</small>
+            </h1>
+            <p>
+                <a href="{{ path('mannschaft_show', { 'id': entity.mannschaft.id }) }}">{{ entity.mannschaft }}</a>
+            </p>
+        </div>
+    </div>
+    <div class="span1">
+        <a class="btn" href="{{ path('spieler') }}">
+            <i class="icon-list"></i>
         </a>
-    </li>
-    <li>
-        <a href="{{ path('mannschaftspieler_edit', { 'id': entity.id }) }}">
-            Edit
+        {% if isGrantedEdit == true %}
+        <a class="btn" href="{{ path('spieler_edit', { 'id': entity.id }) }}">
+            <i class="icon-pencil"></i>
         </a>
-    </li>
-    <li>
-        <form action="{{ path('mannschaftspieler_delete', { 'id': entity.id }) }}" method="post">
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+        <form  action="{{ path('spieler_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+                <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
+            </form>
+        {% endif %}
+        </div>
+    </div>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Spielerinfos</th>
+                <td><a href="{{ path('spieler_show', { 'id': entity.spieler.id }) }}">Spielerinfos</a></td>
+            </tr>
+            <tr>
+                <th>Liga</th>
+                <td><a href="{{ path('liga_show', { 'id': entity.mannschaft.ligasaison.liga.id }) }}">{{ entity.mannschaft.ligasaison.liga }}</a></td>
+            </tr>
+            <tr>
+                <th>Bestätigt</th>
+                <td>{% if entity.bestaetigt > 0 %}<i class="icon-ok"></i>{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
 {% endblock %}

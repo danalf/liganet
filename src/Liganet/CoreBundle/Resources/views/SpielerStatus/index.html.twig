@@ -22,7 +22,7 @@
         <tr>
             <th>Name</th>
             <th>Kurz</th>
-            <th>Actions</th>
+            <th>Aktionen</th>
         </tr>
     </thead>
     <tbody>
@@ -31,11 +31,11 @@
                 <td>{{ entity.name }}</td>
                 <td>{{ entity.kurz }}</td>
                 <td>
-                        <a class="btn" href="{{ path('region_show', { 'id': entity.id }) }}">
+                        <a class="btn" href="{{ path('spielerstatus_show', { 'id': entity.id }) }}">
                             <i class="icon-arrow-right"></i>
                         </a>
                         {% if isGrantedEdit == true %}
-                        <a class="btn" href="{{ path('region_edit', { 'id': entity.id }) }}">
+                        <a class="btn" href="{{ path('spielerstatus_edit', { 'id': entity.id }) }}">
                             <i class="icon-pencil"></i>
                         </a>
                         {% endif %}

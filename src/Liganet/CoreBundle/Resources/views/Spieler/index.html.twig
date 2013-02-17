@@ -9,7 +9,7 @@
     </div>
     <div class="span1">
         {% if is_granted('ROLE_LEAGUE_MANAGEMENT') %}
-        <a class="btn" href="{{ path('spieler_new') }}">
+        <a class="btn" href="{{ path('spieler_new', { 'id': 0 }) }}">
             <i class="icon-plus"></i>
         </a>
         {% endif %}    
@@ -30,7 +30,7 @@
             <th>Veraendertvon</th>
             <th>Veraendertam</th>
             <th>Bestaetigt</th>
-            <th>Actions</th>
+            <th>Aktionen</th>
         </tr>
     </thead>
     <tbody>

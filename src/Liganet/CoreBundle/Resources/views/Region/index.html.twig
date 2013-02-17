@@ -37,9 +37,9 @@
             <td style="background-color: {{ entity.farbeTabelleHintergrund }}; color: {{ entity.farbeTabelleSchrift }};">Beispiel</td>
             <td style="background-color: {{ entity.farbeTabelleZeile2Hintergrund }}; color: {{ entity.farbeTabelleZeile2Schrift }};">Beispiel</td>
             <td>
-                        <a class="btn" href="{{ path('region_show', { 'id': entity.id }) }}">
-                            <i class="icon-arrow-right"></i>
-                        </a>
+                <a class="btn" href="{{ path('region_show', { 'id': entity.id }) }}">
+                    <i class="icon-arrow-right"></i>
+                </a>
                         {% if isGrantedEdit == true %}
                         <a class="btn" href="{{ path('region_edit', { 'id': entity.id }) }}">
                             <i class="icon-pencil"></i>

@@ -24,7 +24,7 @@ class MannschaftSpieler
     /**
      * @var boolean
      *
-     * @ORM\Column(name="bestaetigt", type="boolean")
+     * @ORM\Column(name="bestaetigt", type="boolean", nullable=true)
      */
     private $bestaetigt;
     

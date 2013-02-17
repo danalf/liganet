@@ -78,6 +78,7 @@ class MannschaftController extends Controller
             $this->get('session')->getFlashBag()->add('error', 'Neue Mannschaft anlegen ist für dich nicht nicht erlaubt');
             return $this->redirect($this->generateUrl('mannschaft'));
         }
+        //$form   = $this->createForm(new MannschaftType(array(), array('id' => $entity->getId())), $entity);
         $form   = $this->createForm(new MannschaftType(), $entity);
 
         return array(

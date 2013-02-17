@@ -1,0 +1,119 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+<div class="row-fluid">
+    <div class="span11">
+        <div class="page-header">
+            <h1>{{ entity }} 
+                {% if entity.verein.document %}
+                    <img alt="Logo {{ entity.verein }}" src="{{ asset(entity.verein.document.webpath) }}" style="height: 60px" />
+                {% endif %}
+                    <small><a href="{{ path('verein_show', { 'id': entity.verein.id }) }}">{{ entity.verein }}</a></small>
+                </h1>
+            </div>
+        </div>
+        <div class="span1">
+            <a class="btn" href="{{ path('spieler') }}">
+                <i class="icon-list"></i>
+            </a>
+        {% if isGrantedEdit == true %}
+            <a class="btn" href="{{ path('spieler_edit', { 'id': entity.id }) }}">
+                <i class="icon-pencil"></i>
+            </a>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <form  action="{{ path('spieler_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+                    <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
+                </form>
+        {% endif %}
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span4">
+                <table class="table">
+                    <tr>
+                        <th>Adresse</th>
+                        <td>{{ entity.strasse }}<br />
+                  {{ entity.lkz }} {{ entity.plz }} {{ entity.ort }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td><a href="mailto:{{ entity.email }}">{{ entity.email }}</a></td>
+                        </tr>
+                        <tr>
+                            <th>Telefon</th>
+                            <td>{{ entity.telefon }}</td>
+                        </tr>
+                        <tr>
+                            <th>Fax</th>
+                            <td>{{ entity.fax }}</td>
+                        </tr>
+                        <tr>
+                            <th>Lizenznummer</th>
+                            <td>{{ "%03s"|format(entity.verein.region.verband.number) }}-{{ "%03s"|format(entity.verein.nummer) }}-{{ "%03s"|format(entity.nummerlizenz) }}</td>
+                        </tr>
+                    {% if entity.trainer > 0 %}
+                        <tr>
+                            <th>Trainer</th>
+                            <td>
+                                <i class="icon-ok"></i>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if entity.schiedsrichter > 0 %}
+                        <tr>
+                            <th>Schiedsrichter</th>
+                            <td>
+                                <i class="icon-ok"></i>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    </table>
+                </div>
+                <div class="span4">
+
+                    <h2>Einsätze</h2>
+
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Mannschaft</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for mannschaftspieler in entity.mannschaftspieler %}
+                                <tr>
+                                    <td><a href="{{ path('mannschaft_show', { 'id': mannschaftspieler.mannschaft.id }) }}">
+                                {{ mannschaftspieler.mannschaft }}</a></td>
+                                            <td> {{ mannschaftspieler.status }}</td>
+                                            <td>{% if mannschaftspieler.bestaetigt > 0 %}<i class="icon-ok"></i>{% endif %}</td>
+                                        </tr>   
+                            {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="span4">
+                                <table class="table">
+                                    <tr>
+                                        <th>Letzter Bearbeiter</th>
+                                        <td>{{ entity.veraendertvon }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Datensatz geändert am:</th>
+                                        <td>{{ entity.veraendertam|date('d.m.Y H:i:s') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Bestaetigt</th>
+                                        <td>{{ entity.bestaetigt }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+{% endblock %}

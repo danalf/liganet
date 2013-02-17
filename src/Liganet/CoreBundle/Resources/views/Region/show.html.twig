@@ -20,14 +20,14 @@
         {% if is_granted('ROLE_ADMIN') %}
         <form  action="{{ path('region_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
-        </form>
+                <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
+            </form>
         {% endif %}
+        </div>
     </div>
-</div>
 
-<div class="page-header row-fluid">
-    <div class="span6">
+    <div class="page-header row-fluid">
+        <div class="span6">
             <table class="table">
                 <tbody>
                     <tr>
@@ -38,20 +38,40 @@
                     </tr>
                 </tbody>
             </table>
+                {% if is_granted('ROLE_REGION_MANAGEMENT') %}
+            <a style="float: right" class="btn" href="{{ path('liga_new') }}">
+                <i class="icon-plus"></i>
+            </a>
+                {% endif %}
             <h2>Ligen</h2>
-                {% for liga in entity.ligen %}
-            <p><span  style="background-color: {{ liga.farbeTabellenKopf }}; color: {{ liga.farbeTabellenKopfSchrift }}; ">Liga</span> <a href="{{ path('liga_show', { 'id': liga.id }) }}">{{ liga.name }}</a></p>
-                {% endfor %}
-        </div>
 
-            <div class="span6">
-                <h2>Vereine</h2>
-                {% for verein in entity.vereine %}
-                <p><a href="{{ path('verein_show', { 'id': verein.id }) }}">{{ verein.name }}</a></p>
+            <table class="table">
+                {% for liga in entity.ligen %}
+                    <tr>
+                        <td style="background-color: {{ liga.farbeTabellenKopf }}; color: {{ liga.farbeTabellenKopfSchrift }}; ">
+                            {{ liga.name }}
+                                <a style="float: right" class="btn" href="{{ path('liga_show', { 'id': liga.id }) }}">
+                                    <i class="icon-arrow-right"></i>
+                                </a>
+                            </td>
+                        </tr>
                 {% endfor %}
+                    </table>
                 </div>
-            </div>
-        </div>
+
+                <div class="span6">
+                    {% if is_granted('ROLE_REGION_MANAGEMENT') %}
+                        <a style="float: right" class="btn" href="{{ path('verein_new') }}">
+                            <i class="icon-plus"></i>
+                        </a>
+                    {% endif %}    
+                        <h2>Vereine</h2>
+                    {% for verein in entity.vereine %}
+                        <p><a href="{{ path('verein_show', { 'id': verein.id }) }}">{{ verein.name }}</a></p>
+                    {% endfor %}
+                        </div>
+                    </div>
+                </div>
 
 
 {% endblock %}

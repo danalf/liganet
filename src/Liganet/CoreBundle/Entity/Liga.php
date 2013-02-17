@@ -59,7 +59,7 @@ class Liga
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=100)
+     * @ORM\Column(name="email", type="string", length=100, nullable=true)
      */
     private $email;
 
@@ -73,14 +73,14 @@ class Liga
     /**
      * @var string
      *
-     * @ORM\Column(name="bemerkung", type="text")
+     * @ORM\Column(name="bemerkung", type="text", nullable=true)
      */
     private $bemerkung;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="newsfeed", type="string", length=255)
+     * @ORM\Column(name="newsfeed", type="string", length=255, nullable=true)
      */
     private $newsfeed;
     

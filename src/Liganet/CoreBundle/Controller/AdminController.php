@@ -13,6 +13,7 @@ class AdminController extends Controller {
 //        $user->addRole('ROLE_REGION_MANAGEMENT');
 //        $userManager->updateUser($user);
 //        $this->get('session')->getFlashBag()->add('notice', 'Your changes were saved!');
+        
         $users = $this->getDoctrine()->getRepository('UserBundle:User')->findAll();
 
 
@@ -66,7 +67,7 @@ class AdminController extends Controller {
         }
 
         $erg = $this->rec_rmdir('../app/cache/prod');
-
+        //phpinfo();
         return $this->render('LiganetCoreBundle:Admin:clearCache.html.twig', array('ergebnis' => $erg));
     }
 

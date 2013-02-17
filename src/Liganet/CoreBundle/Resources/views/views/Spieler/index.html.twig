@@ -1,0 +1,68 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+
+<div class="row-fluid">
+    <div class="span11">
+        <div class="page-header">
+            <h1>Spieler</h1>
+        </div>
+    </div>
+    <div class="span1">
+        {% if is_granted('ROLE_LEAGUE_MANAGEMENT') %}
+        <a class="btn" href="{{ path('spieler_new') }}">
+            <i class="icon-plus"></i>
+        </a>
+        {% endif %}    
+    </div>
+</div>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Telefon</th>
+            <th>Verein</th>
+            <th>Nummerlizenz</th>
+            <th>Trainer</th>
+            <th>Schiedsrichter</th>
+            <th>Veraendertvon</th>
+            <th>Veraendertam</th>
+            <th>Bestaetigt</th>
+            <th>Aktionen</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+            <tr>
+                <td>{{ entity.vorname }} {{ entity.nachname }}</td>
+                <td>
+                    {% if entity.email %}
+                    <a href="mailto:{{ entity.email }}"><i class="icon-envelope"></i></a>
+                    {% endif %}
+                </td>
+                <td>{{ entity.telefon }}</td>
+                <td>{{ entity.verein.namekurz }}</td>
+                <td>{{ entity.nummerlizenz }}</td>
+                <td>{{ entity.trainer }}</td>
+                <td>{{ entity.schiedsrichter }}</td>
+                <td>{{ entity.veraendertvon }}</td>
+                <td>{% if entity.veraendertam %}{{ entity.veraendertam|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.bestaetigt }}</td>
+                <td>
+                        <a class="btn" href="{{ path('spieler_show', { 'id': entity.id }) }}">
+                            <i class="icon-arrow-right"></i>
+                        </a>
+                        {% if isGrantedEdit == true %}
+                        <a class="btn" href="{{ path('spieler_edit', { 'id': entity.id }) }}">
+                            <i class="icon-pencil"></i>
+                        </a>
+                        {% endif %}
+                    </td>
+            </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

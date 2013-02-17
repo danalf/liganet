@@ -11,20 +11,20 @@ class MannschaftType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $mannschaft = $options["data"]->getId();
+        $verein = $options["data"]->getVerein();
         $builder
             ->add('rang')
             ->add('bemerkung')
             ->add('verein')
             ->add('ligasaison')
         ;
-        if (isset($mannschaft)) {
+        if (isset($verein)) {
             $builder->add('captain', 'entity', array(
                 'required' => false,
                 'class' => 'Liganet\CoreBundle\Entity\Spieler',
-                'query_builder' => function(EntityRepository $er) use ($mannschaft) {
+                'query_builder' => function(EntityRepository $er) use ($verein) {
                     return $er->createQueryBuilder('s')
-                        ->innerJoin('s.mannschaftSpieler','m',  'WITH', 'm.mannschaft ='.$mannschaft)
+                        ->innerJoin('s.verein','v',  'WITH', 'v.id ='.$verein->getId())
                         ->orderBy('s.nachname', 'ASC');
                 },
                 'empty_value' => 'Wähle einen Kapitän',

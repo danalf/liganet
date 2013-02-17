@@ -3,8 +3,7 @@ jms_security_extra:
     expressions: true
 
 security:
-    acl:
-        connection: default
+  
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
 
@@ -60,5 +59,6 @@ security:
         - { path: /_wdt/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /_profiler/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /.*, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/uploads/, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
 
