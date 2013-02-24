@@ -1,0 +1,16 @@
+<h1>Ergebnis creation</h1>
+
+<form action="{{ path('ergebnis_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit">Erstellen</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('ergebnis') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>

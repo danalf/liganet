@@ -1,0 +1,25 @@
+{% if isGrantedEdit == true %}
+<a class="btn pull-right" href="{{ path('spieltag_new', { 'ligasaison_id': ligasaison.id }) }}">
+    <i class="icon-plus"></i>
+</a>
+{% endif %}  
+<h2>Spieltage</h2>
+<table class="table">
+        {% for spieltag in entities %}
+        <tr>
+            <td>{{ spieltag.nummer }}</td>
+            <td>{{ spieltag.datum|date('d.m.Y H:i') }}</td>
+            <td>{{ spieltag.austragenderverein }}</td>
+            <td>
+                {% for runde in spieltag.runden %}
+                    Runde {{ runde.nummer}} <br />
+                {% endfor %}    
+                </td>
+                <td>
+                <a class="btn pull-right" href="{{ path('spieltag_show', { 'id': spieltag.id }) }}">
+                                <i class="icon-arrow-right"></i>
+                            </a>
+                        </td>
+            </tr>
+        {% endfor %}
+        </table>

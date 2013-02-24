@@ -1,9 +1,9 @@
-{% extends '::base.html.twig' %}
+{% extends 'LiganetCoreBundle::base.html.twig' %}
 {% block content %}
 <div class="row-fluid">
     <div class="span11">
         <div class="page-header">
-            <h1>{{ entity.datum|date('d.m.Y H:i') }} <small>Spieltag {{ entity.nummer }} {{ entity.ligasaison.liga }}</small></h1>
+            <h1>Spieltag {{ entity.nummer }} {{ entity.ligasaison.liga }} <small>{{ entity.datum|date('d.m.Y H:i') }}</small></h1>
         </div>
     </div>
     <div class="span1">
@@ -23,35 +23,31 @@
         {% endif %}
         </div>
     </div>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Liga</th>
-                <td>{{ entity.ligasaison.liga }}</td>
-            </tr>
-            <tr>
-                <th>Nummer</th>
-                <td>{{ entity.nummer }}</td>
-            </tr>
-            <tr>
-                <th>Ort</th>
-                <td>{{ entity.austragenderVerein.name }}</td>
-            </tr>
-            <tr>
-                <th>Datum</th>
-                <td>{{ entity.datum|date('d.m.Y H:i') }}</td>
-            </tr>
-            <tr>
-                <th>Spielrunden</th>
-                <td>
-                {% for spielrunde in entity.runden %}
-                        <p><a href="{{ path('spielrunde_show', { 'id': spielrunde.id }) }}">
-                        {{ spielrunde.nummer }}</a>
-                    {% endfor %}
-                                </p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div class="row-fluid">
+        <div class="span6">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Liga</th>
+                        <td>{{ entity.ligasaison.liga }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nummer</th>
+                        <td>{{ entity.nummer }}</td>
+                    </tr>
+                    <tr>
+                        <th>Ort</th>
+                        <td>{{ entity.austragenderVerein.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Datum</th>
+                        <td>{{ entity.datum|date('d.m.Y H:i') }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="span6">
+{% render "LiganetCoreBundle:SpielRunde:showList" with { 'spieltag_id': entity.id } %}
+            </div>
+        </div>
 {% endblock %}

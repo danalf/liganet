@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/SymfonyRequirements.php';
+require_once dirname(__FILE__).'/SymfonyRequirements.php';
 
 $symfonyRequirements = new SymfonyRequirements();
 
@@ -38,7 +38,8 @@ foreach ($symfonyRequirements->getRecommendations() as $req) {
 /**
  * Prints a Requirement instance
  */
-function echo_requirement(Requirement $requirement) {
+function echo_requirement(Requirement $requirement)
+{
     $result = $requirement->isFulfilled() ? 'OK' : ($requirement->isOptional() ? 'WARNING' : 'ERROR');
     echo ' ' . str_pad($result, 9);
     echo $requirement->getTestMessage() . "\n";
@@ -48,6 +49,7 @@ function echo_requirement(Requirement $requirement) {
     }
 }
 
-function echo_title($title) {
+function echo_title($title)
+{
     echo "\n** $title **\n\n";
 }

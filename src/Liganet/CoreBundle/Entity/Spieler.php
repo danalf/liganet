@@ -166,6 +166,51 @@ class Spieler {
      * @ORM\OneToMany(targetEntity="Mannschaft", mappedBy="mannschaft")
      */
     protected $captainForMannschaften;
+    
+     /**
+     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="spieler1_1")
+     */
+    protected $spieler1_1;
+    
+     /**
+     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="spieler1_2")
+     */
+    protected $spieler1_2;
+     /**
+     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="spieler1_3")
+     */
+    protected $spieler1_3;
+     /**
+     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="spieler2_1")
+     */
+    protected $spieler2_1;
+     /**
+     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="spieler2_2")
+     */
+    protected $spieler2_2;
+     /**
+     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="spieler2_3")
+     */
+    protected $spieler2_3;
+     /**
+     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="ersatz1")
+     */
+    protected $ersatz1;
+    
+     /**
+     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="ersatzFuer1")
+     */
+    protected $ersatzFuer1;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="ersatz2")
+     */
+    protected $ersatz2;
+    
+     /**
+     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="ersatzFuer2")
+     */
+    protected $ersatzFuer2;
 
 
     public function __toString() {
@@ -734,5 +779,335 @@ class Spieler {
     public function getCaptainForMannschaften()
     {
         return $this->captainForMannschaften;
+    }
+
+    /**
+     * Add spieler1_1
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $spieler11
+     * @return Spieler
+     */
+    public function addSpieler11(\Liganet\CoreBundle\Entity\Ergebnis $spieler11)
+    {
+        $this->spieler1_1[] = $spieler11;
+    
+        return $this;
+    }
+
+    /**
+     * Remove spieler1_1
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $spieler11
+     */
+    public function removeSpieler11(\Liganet\CoreBundle\Entity\Ergebnis $spieler11)
+    {
+        $this->spieler1_1->removeElement($spieler11);
+    }
+
+    /**
+     * Get spieler1_1
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSpieler11()
+    {
+        return $this->spieler1_1;
+    }
+
+    /**
+     * Add spieler1_2
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $spieler12
+     * @return Spieler
+     */
+    public function addSpieler12(\Liganet\CoreBundle\Entity\Ergebnis $spieler12)
+    {
+        $this->spieler1_2[] = $spieler12;
+    
+        return $this;
+    }
+
+    /**
+     * Remove spieler1_2
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $spieler12
+     */
+    public function removeSpieler12(\Liganet\CoreBundle\Entity\Ergebnis $spieler12)
+    {
+        $this->spieler1_2->removeElement($spieler12);
+    }
+
+    /**
+     * Get spieler1_2
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSpieler12()
+    {
+        return $this->spieler1_2;
+    }
+
+    /**
+     * Add spieler1_3
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $spieler13
+     * @return Spieler
+     */
+    public function addSpieler13(\Liganet\CoreBundle\Entity\Ergebnis $spieler13)
+    {
+        $this->spieler1_3[] = $spieler13;
+    
+        return $this;
+    }
+
+    /**
+     * Remove spieler1_3
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $spieler13
+     */
+    public function removeSpieler13(\Liganet\CoreBundle\Entity\Ergebnis $spieler13)
+    {
+        $this->spieler1_3->removeElement($spieler13);
+    }
+
+    /**
+     * Get spieler1_3
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSpieler13()
+    {
+        return $this->spieler1_3;
+    }
+
+    /**
+     * Add spieler2_1
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $spieler21
+     * @return Spieler
+     */
+    public function addSpieler21(\Liganet\CoreBundle\Entity\Ergebnis $spieler21)
+    {
+        $this->spieler2_1[] = $spieler21;
+    
+        return $this;
+    }
+
+    /**
+     * Remove spieler2_1
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $spieler21
+     */
+    public function removeSpieler21(\Liganet\CoreBundle\Entity\Ergebnis $spieler21)
+    {
+        $this->spieler2_1->removeElement($spieler21);
+    }
+
+    /**
+     * Get spieler2_1
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSpieler21()
+    {
+        return $this->spieler2_1;
+    }
+
+    /**
+     * Add spieler2_2
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $spieler22
+     * @return Spieler
+     */
+    public function addSpieler22(\Liganet\CoreBundle\Entity\Ergebnis $spieler22)
+    {
+        $this->spieler2_2[] = $spieler22;
+    
+        return $this;
+    }
+
+    /**
+     * Remove spieler2_2
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $spieler22
+     */
+    public function removeSpieler22(\Liganet\CoreBundle\Entity\Ergebnis $spieler22)
+    {
+        $this->spieler2_2->removeElement($spieler22);
+    }
+
+    /**
+     * Get spieler2_2
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSpieler22()
+    {
+        return $this->spieler2_2;
+    }
+
+    /**
+     * Add spieler2_3
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $spieler23
+     * @return Spieler
+     */
+    public function addSpieler23(\Liganet\CoreBundle\Entity\Ergebnis $spieler23)
+    {
+        $this->spieler2_3[] = $spieler23;
+    
+        return $this;
+    }
+
+    /**
+     * Remove spieler2_3
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $spieler23
+     */
+    public function removeSpieler23(\Liganet\CoreBundle\Entity\Ergebnis $spieler23)
+    {
+        $this->spieler2_3->removeElement($spieler23);
+    }
+
+    /**
+     * Get spieler2_3
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSpieler23()
+    {
+        return $this->spieler2_3;
+    }
+
+    /**
+     * Add ersatz1
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $ersatz1
+     * @return Spieler
+     */
+    public function addErsatz1(\Liganet\CoreBundle\Entity\Ergebnis $ersatz1)
+    {
+        $this->ersatz1[] = $ersatz1;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ersatz1
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $ersatz1
+     */
+    public function removeErsatz1(\Liganet\CoreBundle\Entity\Ergebnis $ersatz1)
+    {
+        $this->ersatz1->removeElement($ersatz1);
+    }
+
+    /**
+     * Get ersatz1
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getErsatz1()
+    {
+        return $this->ersatz1;
+    }
+
+    /**
+     * Add ersatzFuer1
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $ersatzFuer1
+     * @return Spieler
+     */
+    public function addErsatzFuer1(\Liganet\CoreBundle\Entity\Ergebnis $ersatzFuer1)
+    {
+        $this->ersatzFuer1[] = $ersatzFuer1;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ersatzFuer1
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $ersatzFuer1
+     */
+    public function removeErsatzFuer1(\Liganet\CoreBundle\Entity\Ergebnis $ersatzFuer1)
+    {
+        $this->ersatzFuer1->removeElement($ersatzFuer1);
+    }
+
+    /**
+     * Get ersatzFuer1
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getErsatzFuer1()
+    {
+        return $this->ersatzFuer1;
+    }
+
+    /**
+     * Add ersatz2
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $ersatz2
+     * @return Spieler
+     */
+    public function addErsatz2(\Liganet\CoreBundle\Entity\Ergebnis $ersatz2)
+    {
+        $this->ersatz2[] = $ersatz2;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ersatz2
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $ersatz2
+     */
+    public function removeErsatz2(\Liganet\CoreBundle\Entity\Ergebnis $ersatz2)
+    {
+        $this->ersatz2->removeElement($ersatz2);
+    }
+
+    /**
+     * Get ersatz2
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getErsatz2()
+    {
+        return $this->ersatz2;
+    }
+
+    /**
+     * Add ersatzFuer2
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $ersatzFuer2
+     * @return Spieler
+     */
+    public function addErsatzFuer2(\Liganet\CoreBundle\Entity\Ergebnis $ersatzFuer2)
+    {
+        $this->ersatzFuer2[] = $ersatzFuer2;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ersatzFuer2
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $ersatzFuer2
+     */
+    public function removeErsatzFuer2(\Liganet\CoreBundle\Entity\Ergebnis $ersatzFuer2)
+    {
+        $this->ersatzFuer2->removeElement($ersatzFuer2);
+    }
+
+    /**
+     * Get ersatzFuer2
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getErsatzFuer2()
+    {
+        return $this->ersatzFuer2;
     }
 }

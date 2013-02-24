@@ -57,6 +57,16 @@ class Mannschaft
      * @ORM\JoinColumn(name="captain_id", referencedColumnName="id", nullable=true)
      */
     protected $captain;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Begegnung", mappedBy="mannschaft1")
+     */
+    protected $begegnungen1;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Begegnung", mappedBy="mannschaft2")
+     */
+    protected $begegnungen2;
 
 
     /**
@@ -227,5 +237,71 @@ class Mannschaft
     public function getCaptain()
     {
         return $this->captain;
+    }
+
+    /**
+     * Add begegnungen1
+     *
+     * @param \Liganet\CoreBundle\Entity\Begegnung $begegnungen1
+     * @return Mannschaft
+     */
+    public function addBegegnungen1(\Liganet\CoreBundle\Entity\Begegnung $begegnungen1)
+    {
+        $this->begegnungen1[] = $begegnungen1;
+    
+        return $this;
+    }
+
+    /**
+     * Remove begegnungen1
+     *
+     * @param \Liganet\CoreBundle\Entity\Begegnung $begegnungen1
+     */
+    public function removeBegegnungen1(\Liganet\CoreBundle\Entity\Begegnung $begegnungen1)
+    {
+        $this->begegnungen1->removeElement($begegnungen1);
+    }
+
+    /**
+     * Get begegnungen1
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBegegnungen1()
+    {
+        return $this->begegnungen1;
+    }
+
+    /**
+     * Add begegnungen2
+     *
+     * @param \Liganet\CoreBundle\Entity\Begegnung $begegnungen2
+     * @return Mannschaft
+     */
+    public function addBegegnungen2(\Liganet\CoreBundle\Entity\Begegnung $begegnungen2)
+    {
+        $this->begegnungen2[] = $begegnungen2;
+    
+        return $this;
+    }
+
+    /**
+     * Remove begegnungen2
+     *
+     * @param \Liganet\CoreBundle\Entity\Begegnung $begegnungen2
+     */
+    public function removeBegegnungen2(\Liganet\CoreBundle\Entity\Begegnung $begegnungen2)
+    {
+        $this->begegnungen2->removeElement($begegnungen2);
+    }
+
+    /**
+     * Get begegnungen2
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBegegnungen2()
+    {
+        return $this->begegnungen2;
     }
 }

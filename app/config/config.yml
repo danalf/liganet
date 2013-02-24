@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: "@LiganetCoreBundle/Resources/config/services.yml" }
 
 framework:
     #esi:             ~
@@ -26,7 +27,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ ]
+    bundles:        [LiganetCoreBundle]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -47,6 +48,7 @@ doctrine:
         charset:  UTF8
 
     orm:
+        default_entity_manager:   default
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
 
@@ -62,4 +64,5 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Liganet\UserBundle\Entity\User
+    
     

@@ -17,6 +17,17 @@ class MannschaftType extends AbstractType
             ->add('bemerkung')
             ->add('verein')
             ->add('ligasaison')
+            ->add('ligasaison', 'entity', array(
+                'required' => false,
+                'class' => 'Liganet\CoreBundle\Entity\LigaSaison',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('ls')
+                        ->where('ls.actual = true');
+                       // ->orderBy('s.nachname', 'ASC');
+                },
+                'empty_value' => 'Wähle eine Liga',
+                'label'     => 'Liga',
+            ))
         ;
         if (isset($verein)) {
             $builder->add('captain', 'entity', array(
@@ -28,6 +39,7 @@ class MannschaftType extends AbstractType
                         ->orderBy('s.nachname', 'ASC');
                 },
                 'empty_value' => 'Wähle einen Kapitän',
+                'label'     => 'Kapitän',
             ));
         }
     }

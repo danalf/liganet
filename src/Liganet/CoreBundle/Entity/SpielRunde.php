@@ -33,6 +33,11 @@ class SpielRunde
      * @ORM\JoinColumn(name="spieltag_id", referencedColumnName="id")
      */
     protected $spieltag;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Begegnung", mappedBy="spielRunde")
+     */
+    protected $begegnungen;
 
 
     /**
@@ -89,5 +94,45 @@ class SpielRunde
     public function getSpieltag()
     {
         return $this->spieltag;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->begegnungen = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add begegnungen
+     *
+     * @param \Liganet\CoreBundle\Entity\Begegnung $begegnungen
+     * @return SpielRunde
+     */
+    public function addBegegnungen(\Liganet\CoreBundle\Entity\Begegnung $begegnungen)
+    {
+        $this->begegnungen[] = $begegnungen;
+    
+        return $this;
+    }
+
+    /**
+     * Remove begegnungen
+     *
+     * @param \Liganet\CoreBundle\Entity\Begegnung $begegnungen
+     */
+    public function removeBegegnungen(\Liganet\CoreBundle\Entity\Begegnung $begegnungen)
+    {
+        $this->begegnungen->removeElement($begegnungen);
+    }
+
+    /**
+     * Get begegnungen
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBegegnungen()
+    {
+        return $this->begegnungen;
     }
 }

@@ -1,6 +1,6 @@
-{% extends '::base.html.twig' %}
+{% extends 'LiganetCoreBundle::base.html.twig' %}
 {% block content %}
-<h1>Spieltag creation</h1>
+<h1>Spieltag anlegen</h1>
 
 <form action="{{ path('spieltag_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}

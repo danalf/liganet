@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'LiganetCoreBundle::base.html.twig' %}
 {% block content %}
 <div class="row-fluid">
     <div class="span11">
@@ -25,7 +25,8 @@
         {% endif %}
     </div>
 </div>
-
+<div class="row-fluid">
+    <div class="span4">
 <table class="table">
     <tbody>
         <tr>
@@ -51,7 +52,10 @@
         </tr>
     </tbody>
 </table>
-
+            
+</div>
+        <div class="span8">{% render "LiganetCoreBundle:LigaSaison:showList" with { 'liga_id': entity.id } %}</div>
+</div>
 <h2>Mannschaften</h2>
 <div class="row-fluid">
         {% for ligasaison in entity.ligasaison %}

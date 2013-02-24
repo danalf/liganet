@@ -68,6 +68,11 @@ class SpielArt
      * @ORM\JoinColumn(name="modus_id", referencedColumnName="id")
      */
     protected $modus;
+    
+     /**
+     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="spielArt")
+     */
+    protected $ergebnisse;
 
 
 
@@ -240,5 +245,45 @@ class SpielArt
     public function getModus()
     {
         return $this->modus;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->ergebnisse = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add ergebnisse
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $ergebnisse
+     * @return SpielArt
+     */
+    public function addErgebnisse(\Liganet\CoreBundle\Entity\Ergebnis $ergebnisse)
+    {
+        $this->ergebnisse[] = $ergebnisse;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ergebnisse
+     *
+     * @param \Liganet\CoreBundle\Entity\Ergebnis $ergebnisse
+     */
+    public function removeErgebnisse(\Liganet\CoreBundle\Entity\Ergebnis $ergebnisse)
+    {
+        $this->ergebnisse->removeElement($ergebnisse);
+    }
+
+    /**
+     * Get ergebnisse
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getErgebnisse()
+    {
+        return $this->ergebnisse;
     }
 }

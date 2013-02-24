@@ -27,6 +27,13 @@ class LigaSaison
      * @ORM\Column(name="gesperrt", type="boolean", nullable=true)
      */
     private $gesperrt;
+    
+     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="actual", type="boolean", nullable=true)
+     */
+    private $actual;
 
     /**
      * @var string
@@ -161,7 +168,7 @@ class LigaSaison
     }
     
     public function __toString() {
-        return $this->liga->getName()." ".$this->saison->getSaison();
+        return $this->liga->getName()." ".$this->liga->getRegion()->getNameKurz()." ".$this->saison->getSaison();
     }
     /**
      * Constructor
@@ -235,5 +242,30 @@ class LigaSaison
     public function getSpieltage()
     {
         return $this->spieltage;
+    }
+
+
+
+    /**
+     * Set actual
+     *
+     * @param boolean $actual
+     * @return LigaSaison
+     */
+    public function setActual($actual)
+    {
+        $this->actual = $actual;
+    
+        return $this;
+    }
+
+    /**
+     * Get actual
+     *
+     * @return boolean 
+     */
+    public function getActual()
+    {
+        return $this->actual;
     }
 }

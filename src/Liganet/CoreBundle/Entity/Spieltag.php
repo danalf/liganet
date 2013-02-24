@@ -194,4 +194,8 @@ class Spieltag
     {
         return $this->runden;
     }
+    
+    public function __toString() {
+        return $this->getLigasaison()." " . $this->getNummer();
+    }
 }

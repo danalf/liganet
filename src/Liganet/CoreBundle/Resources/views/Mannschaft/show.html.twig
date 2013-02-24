@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'LiganetCoreBundle::base.html.twig' %}
 {% block content %}
 <div class="row-fluid">
     <div class="span11">
@@ -25,6 +25,35 @@
         {% endif %}
     </div>
 </div>
-{% render "LiganetCoreBundle:MannschaftSpieler:showList" with { 'id': entity.id } %}
+<div class="row-fluid">
+    <div class="span6">
+        {% render "LiganetCoreBundle:MannschaftSpieler:showList" with { 'id': entity.id } %}
+    </div>
+    <div class="span6">
+        <h2>Begegnungen</h2>
+        <table class="table">
+        {% for begegnung in entity.begegnungen1 %}
+                <tr>
+                    <td>{{ begegnung.spielrunde.nummer }}</td>
+                    <td>{{ begegnung.mannschaft1 }}</td>
+                    <td>{{ begegnung.mannschaft2 }}</td>
+                    <td>{{ begegnung.kugeln1 }} : {{ begegnung.kugeln2 }}</td>
+                    <td>{{ begegnung.siege1 }} : {{ begegnung.siege2 }}</td>
+                    <td>{{ begegnung.punkt1 }} : {{ begegnung.punkt2 }}</td>
+                </tr>
+        {% endfor %}  
+        {% for begegnung in entity.begegnungen2 %}
+                <tr>
+                    <td>{{ begegnung.spielrunde.nummer }}</td>
+                    <td>{{ begegnung.mannschaft1 }}</td>
+                    <td>{{ begegnung.mannschaft2 }}</td>
+                    <td>{{ begegnung.kugeln1 }} : {{ begegnung.kugeln2 }}</td>
+                    <td>{{ begegnung.siege1 }} : {{ begegnung.siege2 }}</td>
+                    <td>{{ begegnung.punkt1 }} : {{ begegnung.punkt2 }}</td>
+                </tr>
+        {% endfor %}
+                </table>
+    </div>
+</div>
 
 {% endblock %}

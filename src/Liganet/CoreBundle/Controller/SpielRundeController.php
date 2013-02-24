@@ -63,16 +63,23 @@ class SpielRundeController extends Controller
     /**
      * Displays a form to create a new SpielRunde entity.
      *
-     * @Route("/new", name="spielrunde_new")
+     * @Route("/new/spieltag/{spieltag_id}", name="spielrunde_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($spieltag_id=0)
     {
         if(!$this->isGrantedEdit()){
             $this->get('session')->getFlashBag()->add('error', 'Neue Spielrunde anlegen ist für dich nicht nicht erlaubt');
             return $this->redirect($this->generateUrl('spielrunde'));
         }
         $entity = new SpielRunde();
+        
+        if($spieltag_id>0){
+            $em = $this->getDoctrine()->getManager();
+        $spieltag = $em->getRepository('LiganetCoreBundle:Spieltag')->find($spieltag_id);
+        $entity->setSpieltag($spieltag);
+        }
+        
         $form   = $this->createForm(new SpielRundeType(), $entity);
 
         return array(
@@ -216,5 +223,23 @@ class SpielRundeController extends Controller
             return TRUE;
         }
         return FALSE;
+    }
+    
+    /**
+     * Zeigt die Runden eines Spieltags an
+     *
+     * @Route("/{spieltag_id}/showList", name="spielrunde_showlist")
+     * @Template()
+     */
+    public function showListAction($spieltag_id) {
+        $em = $this->getDoctrine()->getManager();
+        $spieltag = $em->getRepository('LiganetCoreBundle:Spieltag')->find($spieltag_id);
+        $entities=$spieltag->getRunden();
+        
+        return array(
+            'entities'      => $entities,
+            'spieltag'        => $spieltag,
+            'isGrantedEdit' => $this->isGrantedEdit()
+        );
     }
 }

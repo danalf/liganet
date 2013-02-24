@@ -63,16 +63,23 @@ class SpieltagController extends Controller
     /**
      * Displays a form to create a new Spieltag entity.
      *
-     * @Route("/new", name="spieltag_new")
+     * @Route("/new/ligasaison/{ligasaison_id}", name="spieltag_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($ligasaison_id=0)
     {
         if(!$this->isGrantedEdit()){
             $this->get('session')->getFlashBag()->add('error', 'Neuen Spieltag anlegen ist für dich nicht nicht erlaubt');
             return $this->redirect($this->generateUrl('spieltag'));
         }
-        $entity = new Spieltag();
+        $entity = new Spieltag;
+        
+        if($ligasaison_id>0){
+            $em = $this->getDoctrine()->getManager();
+        $ligasaison = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($ligasaison_id);
+        $entity->setLigasaison($ligasaison);
+        }
+        
         $form   = $this->createForm(new SpieltagType(), $entity);
 
         return array(
@@ -217,6 +224,24 @@ class SpieltagController extends Controller
             return TRUE;
         }
         return FALSE;
+    }
+    
+    /**
+     * Zeigt die Spieltage einer Ligasaison an
+     *
+     * @Route("/{ligasaison_id}/showList", name="spieltag_showlist")
+     * @Template()
+     */
+    public function showListAction($ligasaison_id) {
+        $em = $this->getDoctrine()->getManager();
+        $ligasaison = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($ligasaison_id);
+        $entities=$ligasaison->getSpieltage();
+        
+        return array(
+            'entities'      => $entities,
+            'ligasaison'        => $ligasaison,
+            'isGrantedEdit' => $this->isGrantedEdit()
+        );
     }
     
 }

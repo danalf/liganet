@@ -1,0 +1,69 @@
+<h1>Begegnung</h1>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Kugeln1</th>
+            <td>{{ entity.kugeln1 }}</td>
+        </tr>
+        <tr>
+            <th>Kugeln2</th>
+            <td>{{ entity.kugeln2 }}</td>
+        </tr>
+        <tr>
+            <th>Siege1</th>
+            <td>{{ entity.siege1 }}</td>
+        </tr>
+        <tr>
+            <th>Siege2</th>
+            <td>{{ entity.siege2 }}</td>
+        </tr>
+        <tr>
+            <th>Punkt1</th>
+            <td>{{ entity.punkt1 }}</td>
+        </tr>
+        <tr>
+            <th>Punkt2</th>
+            <td>{{ entity.punkt2 }}</td>
+        </tr>
+        <tr>
+            <th>Unterschrift1</th>
+            <td>{{ entity.unterschrift1 }}</td>
+        </tr>
+        <tr>
+            <th>Unterschrift2</th>
+            <td>{{ entity.unterschrift2 }}</td>
+        </tr>
+        <tr>
+            <th>Unterschriftleiter</th>
+            <td>{{ entity.unterschriftLeiter }}</td>
+        </tr>
+        <tr>
+            <th>Bemerkung</th>
+            <td>{{ entity.bemerkung }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('begegnung') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('begegnung_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('begegnung_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>

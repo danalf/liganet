@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'LiganetCoreBundle::base.html.twig' %}
 {% block content %}
 
 <div class="row-fluid">
@@ -9,40 +9,45 @@
     </div>
     <div class="span1">
         {% if is_granted('ROLE_LEAGUE_MANAGEMENT') %}
-        <a class="btn" href="{{ path('spieltag_new') }}">
-            <i class="icon-plus"></i>
-        </a>
+            <a class="btn" href="{{ path('spieltag_new', { 'ligasaison_id': 0 }) }}">
+                <i class="icon-plus"></i>
+            </a>
         {% endif %}    
+        </div>
     </div>
-</div>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nummer</th>
-            <th>Datum</th>
-            <th>Aktionen</th>
-        </tr>
-    </thead>
-    <tbody>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Liga</th>
+                <th>Nummer</th>
+                <th>Datum</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
     {% for entity in entities %}
-        <tr>
-            <td>{{ entity.nummer }}</td>
-            <td>{% if entity.datum %}{{ entity.datum|date('Y-m-d H:i:s') }}{% endif %}</td>
-            <td>
-                        <a class="btn" href="{{ path('spieltag_show', { 'id': entity.id }) }}">
-                            <i class="icon-arrow-right"></i>
-                        </a>
+                <tr>
+                    <td style="background-color: {{ entity.ligasaison.liga.farbeTabellenKopf }}; color: {{ entity.ligasaison.liga.farbeTabellenKopfSchrift }};">
+                        {{ entity.ligasaison.liga.name }} {{ entity.ligasaison.liga.region.namekurz }}
+                        </td>
+                    <td>{{ entity.nummer }}</td>
+                    <td>{% if entity.datum %}{{ entity.datum|date('d.m.Y H:i') }}{% endif %}</td>
+                    <td>
                         {% if isGrantedEdit == true %}
-                        <a class="btn" href="{{ path('spieltag_edit', { 'id': entity.id }) }}">
-                            <i class="icon-pencil"></i>
-                        </a>
+                            <a class="btn pull-right" href="{{ path('spieltag_edit', { 'id': entity.id }) }}">
+                                <i class="icon-pencil"></i>
+                            </a>
                         {% endif %}
-                    </td>
-        </tr>
+                            <a class="btn pull-right" href="{{ path('spieltag_show', { 'id': entity.id }) }}">
+                                <i class="icon-arrow-right"></i>
+                            </a>
+
+                        </td>
+                    </tr>
     {% endfor %}
-    </tbody>
-</table>
+                </tbody>
+            </table>
 
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'LiganetCoreBundle::base.html.twig' %}
 {% block content %}
 
 <div class="row-fluid">
@@ -9,7 +9,7 @@
     </div>
     <div class="span1">
         {% if is_granted('ROLE_LEAGUE_MANAGEMENT') %}
-        <a class="btn" href="{{ path('ligasaison_new') }}">
+        <a class="btn" href="{{ path('ligasaison_new', { 'liga_id': 0 }) }}">
             <i class="icon-plus"></i>
         </a>
         {% endif %}    
@@ -22,6 +22,7 @@
             <th>Saison</th>
             <th>Liga</th>
             <th>Gesperrt</th>
+            <th>Aktuell</th>
             <th>Bemerkung</th>
             <th>Aktionen</th>
         </tr>
@@ -36,7 +37,11 @@
                     <i class="icon-ok"></i>
                     {% endif %}
                 </td>
-                
+                <td>
+                    {% if entity.actual > 0 %}
+                    <i class="icon-ok"></i>
+                    {% endif %}
+                </td>
                 <td>{{ entity.bemerkung }}</td>
                 <td>
                         <a class="btn" href="{{ path('ligasaison_show', { 'id': entity.id }) }}">

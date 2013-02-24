@@ -15,16 +15,15 @@ use Liganet\CoreBundle\Form\LigaSaisonType;
  *
  * @Route("/ligasaison")
  */
-class LigaSaisonController extends Controller
-{
+class LigaSaisonController extends Controller {
+
     /**
      * Lists all LigaSaison entities.
      *
      * @Route("/", name="ligasaison")
      * @Template()
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('LiganetCoreBundle:LigaSaison')->findAll();
@@ -41,11 +40,21 @@ class LigaSaisonController extends Controller
      * @Route("/{id}/show", name="ligasaison_show")
      * @Template()
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($id);
+        
+        /**
+         * @var \Liganet\CoreBundle\Services\LosenService
+         */
+        $losung = $this->get('liganet_core.losung');
+        if($losung->setLigaSaison($entity)){
+            echo "<h1>alles suber</h1>";
+        } else {
+            echo "<h1>mist</h1>";
+        };
+        
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find LigaSaison entity.');
@@ -54,7 +63,7 @@ class LigaSaisonController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
             'isGrantedEdit' => $this->isGrantedEdit()
         );
@@ -63,21 +72,27 @@ class LigaSaisonController extends Controller
     /**
      * Displays a form to create a new LigaSaison entity.
      *
-     * @Route("/new", name="ligasaison_new")
+     * @Route("/new/liga/{liga_id}", name="ligasaison_new")
      * @Template()
      */
-    public function newAction()
-    {
-        if(!$this->isGrantedEdit()){
+    public function newAction($liga_id = 0) {
+        if (!$this->isGrantedEdit()) {
             $this->get('session')->getFlashBag()->add('error', 'Neue Ligasaison anlegen ist für dich nicht nicht erlaubt');
             return $this->redirect($this->generateUrl('ligasaison'));
         }
         $entity = new LigaSaison();
-        $form   = $this->createForm(new LigaSaisonType(), $entity);
+
+        if ($liga_id > 0) {
+            $em = $this->getDoctrine()->getManager();
+            $liga = $em->getRepository('LiganetCoreBundle:Liga')->find($liga_id);
+            $entity->setLigasaison($liga);
+        }
+
+        $form = $this->createForm(new LigaSaisonType(), $entity);
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
@@ -88,9 +103,8 @@ class LigaSaisonController extends Controller
      * @Method("POST")
      * @Template("LiganetCoreBundle:LigaSaison:new.html.twig")
      */
-    public function createAction(Request $request)
-    {
-        $entity  = new LigaSaison();
+    public function createAction(Request $request) {
+        $entity = new LigaSaison();
         $form = $this->createForm(new LigaSaisonType(), $entity);
         $form->bind($request);
 
@@ -104,7 +118,7 @@ class LigaSaisonController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
@@ -114,13 +128,12 @@ class LigaSaisonController extends Controller
      * @Route("/{id}/edit", name="ligasaison_edit")
      * @Template()
      */
-    public function editAction($id)
-    {
-        if(!$this->isGrantedEdit()){
+    public function editAction($id) {
+        if (!$this->isGrantedEdit()) {
             $this->get('session')->getFlashBag()->add('error', 'Diesen Ligasaison zu editieren ist für Dich nicht nicht erlaubt');
             return $this->redirect($this->generateUrl('ligasaison_show', array('id' => $id)));
         }
-        
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($id);
@@ -133,8 +146,8 @@ class LigaSaisonController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -146,8 +159,7 @@ class LigaSaisonController extends Controller
      * @Method("POST")
      * @Template("LiganetCoreBundle:LigaSaison:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($id);
@@ -168,8 +180,8 @@ class LigaSaisonController extends Controller
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -180,8 +192,7 @@ class LigaSaisonController extends Controller
      * @Route("/{id}/delete", name="ligasaison_delete")
      * @Method("POST")
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -200,22 +211,40 @@ class LigaSaisonController extends Controller
         return $this->redirect($this->generateUrl('ligasaison'));
     }
 
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
+                        ->add('id', 'hidden')
+                        ->getForm()
         ;
     }
-    
-     /**
+
+    /**
      * Legt fest, ob der User die Modusrunden verändern darf oder nicht
      * @return boolean
      */
-    private function isGrantedEdit(){
+    private function isGrantedEdit() {
         if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
             return TRUE;
         }
         return FALSE;
     }
+
+    /**
+     * Displays a form to edit an existing Mannschaft entity.
+     *
+     * @Route("/{liga_id}/showList", name="ligasaison_showlist")
+     * @Template()
+     */
+    public function showListAction($liga_id) {
+        $em = $this->getDoctrine()->getManager();
+        $liga = $em->getRepository('LiganetCoreBundle:Liga')->find($liga_id);
+        $entities = $liga->getLigaSaison();
+
+        return array(
+            'entities' => $entities,
+            'liga' => $liga,
+            'isGrantedEdit' => $this->isGrantedEdit()
+        );
+    }
+
 }

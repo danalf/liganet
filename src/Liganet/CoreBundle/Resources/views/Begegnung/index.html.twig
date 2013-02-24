@@ -1,0 +1,55 @@
+<h1>Begegnung list</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Kugeln1</th>
+            <th>Kugeln2</th>
+            <th>Siege1</th>
+            <th>Siege2</th>
+            <th>Punkt1</th>
+            <th>Punkt2</th>
+            <th>Unterschrift1</th>
+            <th>Unterschrift2</th>
+            <th>Unterschriftleiter</th>
+            <th>Bemerkung</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('begegnung_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.kugeln1 }}</td>
+            <td>{{ entity.kugeln2 }}</td>
+            <td>{{ entity.siege1 }}</td>
+            <td>{{ entity.siege2 }}</td>
+            <td>{{ entity.punkt1 }}</td>
+            <td>{{ entity.punkt2 }}</td>
+            <td>{{ entity.unterschrift1 }}</td>
+            <td>{{ entity.unterschrift2 }}</td>
+            <td>{{ entity.unterschriftLeiter }}</td>
+            <td>{{ entity.bemerkung }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('begegnung_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('begegnung_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('begegnung_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>

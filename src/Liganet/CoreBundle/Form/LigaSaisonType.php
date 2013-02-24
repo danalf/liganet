@@ -11,10 +11,12 @@ class LigaSaisonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('gesperrt')
-            ->add('bemerkung')
             ->add('saison')
             ->add('liga')
+            ->add('gesperrt')
+            ->add('actual')
+            ->add('bemerkung')
+            
         ;
     }
 

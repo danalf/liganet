@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'LiganetCoreBundle::base.html.twig' %}
 {% block content %}
 
 <div class="row-fluid">
@@ -33,7 +33,7 @@
                 <tr>
                     <td>
                     {% if entity.document %}
-                            <img alt="Logo {{ entity }}" src="{{ asset(entity.document.webpath) }}" style="height: 60px" />
+                            <img class="media-object" alt="Logo {{ entity }}" src="{{ asset(entity.document.webpath) }}" style="height: 64px" />
                     {% endif %}
                         </td>
                         <td>{{ entity.namekurz }}</td>
