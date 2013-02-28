@@ -49,68 +49,68 @@ class Begegnung
      *
      * @ORM\Column(name="kugeln1", type="smallint")
      */
-    private $kugeln1;
+    private $kugeln1=0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="kugeln2", type="smallint")
      */
-    private $kugeln2;
+    private $kugeln2=0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="siege1", type="smallint")
      */
-    private $siege1;
+    private $siege1=0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="siege2", type="smallint")
      */
-    private $siege2;
+    private $siege2=0;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="punkt1", type="boolean")
      */
-    private $punkt1;
+    private $punkt1=0;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="punkt2", type="boolean")
      */
-    private $punkt2;
+    private $punkt2=0;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="unterschrift1", type="boolean")
      */
-    private $unterschrift1;
+    private $unterschrift1=false;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="unterschrift2", type="boolean")
      */
-    private $unterschrift2;
+    private $unterschrift2=false;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="unterschriftLeiter", type="boolean")
      */
-    private $unterschriftLeiter;
+    private $unterschriftLeiter=false;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="bemerkung", type="text")
+     * @ORM\Column(name="bemerkung", type="text", nullable=true)
      */
     private $bemerkung;
 

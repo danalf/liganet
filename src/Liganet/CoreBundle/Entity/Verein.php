@@ -89,6 +89,71 @@ class Verein {
      * @ORM\OneToMany(targetEntity="Spieltag", mappedBy="austragenderVerein")
      */
     protected $ausgerichteterSpieltag;
+    
+    /**
+     * Variable zum Losen mit der Anzahl der vereinsinternen Duelle
+     * @var int 
+     */
+    protected $anzahlInterneDuelle;
+    
+    /**
+     * Variable zum Losen mit der Anzahl der vereinsinternen Duelle, die bereits nach der Losung berücksichtigt sind
+     * @var int 
+     */
+    protected $anzahlInterneDuelleGespielt;
+    
+        /**
+     * Set anzahlInterneDuelle
+     *
+     * @param string $name
+     */
+    public function setAnzahlInterneDuelle($anzahlInterneDuelle) {
+        $this->anzahlInterneDuelle = $anzahlInterneDuelle;
+    }
+
+    /**
+     * Get anzahlInterneDuelle
+     *
+     * @return int 
+     */
+    public function getAnzahlInterneDuelle() {
+        return $this->anzahlInterneDuelle;
+    }
+    
+       /**
+     * Set anzahlInterneDuelleGespielt
+     *
+     * @param string $name
+     */
+    public function setAnzahlInterneDuelleGespielt($anzahlInterneDuelleGespielt) {
+        $this->anzahlInterneDuelleGespielt = $anzahlInterneDuelleGespielt;
+    }
+
+    /**
+     * Get anzahlInterneDuelleGespielt
+     *
+     * @return int 
+     */
+    public function getAnzahlInterneDuelleGespielt() {
+        return $this->anzahlInterneDuelleGespielt;
+    }
+    
+    /**
+     * Abfrage zur Losung
+     * @return boolean
+     */
+    public function isInternesDuell(){
+        if($this->anzahlInterneDuelle>$this->anzahlInterneDuelleGespielt){
+            return TRUE;
+        }
+        return FALSE;
+    }
+    /*
+     * Zur Lsung. Erhoeht die Anzahl der gespielten intenren Duelle um 1
+     */
+    public function increaseAnzahlInterneDuelleGespielt(){
+        $this->anzahlInterneDuelleGespielt +=1;
+    }
 
     /**
      * Get id

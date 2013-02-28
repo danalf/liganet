@@ -67,6 +67,38 @@ class Mannschaft
      * @ORM\OneToMany(targetEntity="Begegnung", mappedBy="mannschaft2")
      */
     protected $begegnungen2;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Tabelle", mappedBy="mannschaft")
+     */
+    protected $tabellenzeilen;
+    
+    /**
+     * @var Array 
+     */
+    public $gegner;
+    
+    /**
+     * Variable zum Losen
+     * @var int 
+     */
+    public $nrRundeGespielt;
+    
+    /**
+     * @param int $nrRundeGespielt
+     */
+    public function setNrRundeGespielt($nrRundeGespielt)
+    {
+        $this->nrRundeGespielt = $nrRundeGespielt;
+    }
+
+    /**
+     * @return int 
+     */
+    public function getNrRundeGespielt()
+    {
+        return $this->nrRundeGespielt;
+    }
 
 
     /**
@@ -303,5 +335,42 @@ class Mannschaft
     public function getBegegnungen2()
     {
         return $this->begegnungen2;
+    }
+
+    /**
+     * Add tabellenzeilen
+     *
+     * @param \Liganet\CoreBundle\Entity\Tabelle $tabellenzeilen
+     * @return Mannschaft
+     */
+    public function addTabellenzeilen(\Liganet\CoreBundle\Entity\Tabelle $tabellenzeilen)
+    {
+        $this->tabellenzeilen[] = $tabellenzeilen;
+    
+        return $this;
+    }
+
+    /**
+     * Remove tabellenzeilen
+     *
+     * @param \Liganet\CoreBundle\Entity\Tabelle $tabellenzeilen
+     */
+    public function removeTabellenzeilen(\Liganet\CoreBundle\Entity\Tabelle $tabellenzeilen)
+    {
+        $this->tabellenzeilen->removeElement($tabellenzeilen);
+    }
+
+    /**
+     * Get tabellenzeilen
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTabellenzeilen()
+    {
+        return $this->tabellenzeilen;
+    }
+    
+    public function getNameKurz(){
+        return $this->getVerein()->getKuerzel().$this->getRang();
     }
 }

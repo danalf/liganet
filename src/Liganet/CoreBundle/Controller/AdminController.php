@@ -65,7 +65,7 @@ class AdminController extends Controller {
             $this->get('session')->getFlashBag()->add('error', 'Nur für den Admin');
             return $this->redirect($this->generateUrl('_home'));
         }
-
+        $erg = $this->rec_rmdir('../app/cache/dev');
         $erg = $this->rec_rmdir('../app/cache/prod');
         //phpinfo();
         return $this->render('LiganetCoreBundle:Admin:clearCache.html.twig', array('ergebnis' => $erg));

@@ -1,11 +1,11 @@
 parameters:
     liganet_core.losung.class: Liganet\CoreBundle\Services\LosenService
+    liganet_core.xmlErgebnisse.class: Liganet\CoreBundle\Services\xmlErgebnisseService
 
 services:
-#    liganet_core.example:
-#        class: %liganet_core.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
-
     liganet_core.losung:
         class:  %liganet_core.losung.class%
+        arguments: ["@doctrine.orm.entity_manager"]
+    liganet_core.xmlErgebnisse:
+        class:  %liganet_core.xmlErgebnisse.class%
         arguments: ["@doctrine.orm.entity_manager"]

@@ -169,7 +169,7 @@ class BegegnungController extends Controller
      * @Route("/{id}/delete", name="begegnung_delete")
      * @Method("POST")
      */
-    public function deleteAction(Request $request, $id)
+    public function zzz_deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
         $form->bind($request);

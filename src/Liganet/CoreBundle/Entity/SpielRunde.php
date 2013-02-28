@@ -38,6 +38,11 @@ class SpielRunde
      * @ORM\OneToMany(targetEntity="Begegnung", mappedBy="spielRunde")
      */
     protected $begegnungen;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Tabelle", mappedBy="spielrunde")
+     */
+    protected $tabelle;
 
 
     /**
@@ -134,5 +139,38 @@ class SpielRunde
     public function getBegegnungen()
     {
         return $this->begegnungen;
+    }
+
+    /**
+     * Add tabelle
+     *
+     * @param \Liganet\CoreBundle\Entity\Tabelle $tabelle
+     * @return SpielRunde
+     */
+    public function addTabelle(\Liganet\CoreBundle\Entity\Tabelle $tabelle)
+    {
+        $this->tabelle[] = $tabelle;
+    
+        return $this;
+    }
+
+    /**
+     * Remove tabelle
+     *
+     * @param \Liganet\CoreBundle\Entity\Tabelle $tabelle
+     */
+    public function removeTabelle(\Liganet\CoreBundle\Entity\Tabelle $tabelle)
+    {
+        $this->tabelle->removeElement($tabelle);
+    }
+
+    /**
+     * Get tabelle
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTabelle()
+    {
+        return $this->tabelle;
     }
 }

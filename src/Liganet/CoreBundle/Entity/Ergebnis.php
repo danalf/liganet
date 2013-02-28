@@ -43,7 +43,7 @@ class Ergebnis
     /**
      * @var string
      *
-     * @ORM\Column(name="bemerkung", type="text")
+     * @ORM\Column(name="bemerkung", type="text", nullable=true)
      */
     private $bemerkung;
 
@@ -113,14 +113,14 @@ class Ergebnis
      *
      * @ORM\Column(name="kugeln1", type="smallint")
      */
-    private $kugeln1;
+    private $kugeln1=0;
     
     /**
      * @var integer
      *
      * @ORM\Column(name="kugeln2", type="smallint")
      */
-    private $kugeln2;
+    private $kugeln2=0;
     
 
 

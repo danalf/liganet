@@ -207,4 +207,39 @@ class Modus
     {
         return $this->spielArt;
     }
+    
+    /**
+     * Gibt die maximale Anzahl von Partien gleichzeitig bei einer Begegnung zurück
+     * @return int
+     */
+    public function getMaxAnzahlSpieleGleichzeitig(){
+        $anzahl=array();
+        foreach ($this->getSpielArt() as $spielart) {
+            if(isset($anzahl[$spielart->getReihenfolge()])){
+                $anzahl[$spielart->getReihenfolge()] +=1;
+            } else {
+                $anzahl[$spielart->getReihenfolge()] =1;
+            }
+            
+        }
+        sort($anzahl);
+        return $anzahl[count($anzahl)-1];
+    }
+    
+    /**
+     * Gibt die Anzahl der Partien hintereinander bei einer Begegnung zurück
+     * @return int
+     */
+    public function getAnzahlSpieleHintereinander(){
+        $anzahl=array();
+        foreach ($this->getSpielArt() as $spielart) {
+            if(isset($anzahl[$spielart->getReihenfolge()])){
+                $anzahl[$spielart->getReihenfolge()] +=1;
+            } else {
+                $anzahl[$spielart->getReihenfolge()] =1;
+            }
+            
+        }
+        return count($anzahl);
+    }
 }

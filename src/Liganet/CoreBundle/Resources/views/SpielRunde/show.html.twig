@@ -44,5 +44,13 @@
         </tr>
     </tbody>
 </table>
+<h2>Begegnungen</h2>
+<table>
+    {% for begegnung in entity.begegnungen %}
+        <tr>
+            <td>{{ begegnung.mannschaft1 }} - {{ begegnung.mannschaft2 }}</td>
+        </tr>
+    {% endfor %}
+</table>
 
 {% endblock %}

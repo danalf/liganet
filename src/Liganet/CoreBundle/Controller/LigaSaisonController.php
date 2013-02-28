@@ -44,17 +44,9 @@ class LigaSaisonController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($id);
-        
-        /**
-         * @var \Liganet\CoreBundle\Services\LosenService
-         */
-        $losung = $this->get('liganet_core.losung');
-        if($losung->setLigaSaison($entity)){
-            echo "<h1>alles suber</h1>";
-        } else {
-            echo "<h1>mist</h1>";
-        };
-        
+
+
+
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find LigaSaison entity.');
@@ -62,6 +54,41 @@ class LigaSaisonController extends Controller {
 
         $deleteForm = $this->createDeleteForm($id);
 
+        return array(
+            'entity' => $entity,
+            'delete_form' => $deleteForm->createView(),
+            'isGrantedEdit' => $this->isGrantedEdit()
+        );
+    }
+
+    /**
+     * Finds and displays a LigaSaison entity.
+     *
+     * @Route("/{id}/losung", name="ligasaison_losung")
+     * @Template()
+     */
+    public function losungAction($id) {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($id);
+        /**
+         * @var \Liganet\CoreBundle\Services\LosenService
+         */
+        $losung = $this->get('liganet_core.losung');
+
+        if ($losung->setLigaSaison($entity)) {
+            $losung->losen();
+            /**
+             * @var \Liganet\CoreBundle\Services\xmlErgebnisseService
+             */
+            $xml = $this->get('liganet_core.xmlErgebnisse');
+            $xml->setLigaSaison($entity);
+            $xml->createXmlErgebnisse();
+        } else {
+            $this->get('session')->getFlashBag()->add('error', 'Diese Ligasaison losne ist nicht erlaubt.');
+        };
+
+$deleteForm = $this->createDeleteForm($id);
         return array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),

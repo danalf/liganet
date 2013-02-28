@@ -66,9 +66,24 @@
                         </a>
                     {% endif %}    
                         <h2>Vereine</h2>
+                        <table class="table">
+
                     {% for verein in entity.vereine %}
-                        <p><a href="{{ path('verein_show', { 'id': verein.id }) }}">{{ verein.name }}</a></p>
+                            <tr>
+                                <td>
+                                        {% if verein.document %}
+                                        <img class="media-object" alt="Logo {{ verein }}" src="{{ asset(verein.document.webpath) }}" style="height: 32px" />
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ verein.name }}</td>
+                                    <td>
+                                        <a style="float: right" class="btn" href="{{ path('verein_show', { 'id': verein.id }) }}">
+                                            <i class="icon-arrow-right"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                     {% endfor %}
+                            </table>
                         </div>
                     </div>
                 </div>

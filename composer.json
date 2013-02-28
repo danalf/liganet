@@ -22,7 +22,8 @@
         "jms/di-extra-bundle": "1.1.*",
         "friendsofsymfony/user-bundle": "*",
         "tecnick.com/tcpdf": "dev-master",
-        "whiteoctober/tcpdf-bundle": "dev-master"
+        "whiteoctober/tcpdf-bundle": "dev-master",
+        "twitter/bootstrap": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
