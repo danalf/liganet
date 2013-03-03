@@ -12,6 +12,17 @@
                      {{ spieler.vorname }} {{ spieler.nachname }}
                             </a></td>
                         <td>{{ spieler.nummerlizenz }}</td>
+                        <td>
+                            {% if isGrantedEdit == true %}
+                        <a class="btn pull-right" href="{{ path('spieler_edit', { 'id': spieler.id }) }}">
+                            <i class="icon-pencil"></i>
+                        </a>
+                        {% endif %}
+                        <a class="btn pull-right" href="{{ path('spieler_show', { 'id': spieler.id }) }}">
+                            <i class="icon-arrow-right"></i>
+                        </a>
+                        
+                    </td>
                     </tr>
             {% endfor %}
                 </tbody>

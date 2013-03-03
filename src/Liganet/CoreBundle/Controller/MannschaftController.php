@@ -15,16 +15,15 @@ use Liganet\CoreBundle\Form\MannschaftType;
  *
  * @Route("/mannschaft")
  */
-class MannschaftController extends Controller
-{
+class MannschaftController extends Controller {
+
     /**
      * Lists all Mannschaft entities.
      *
      * @Route("/", name="mannschaft")
      * @Template()
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('LiganetCoreBundle:Mannschaft')->findAll();
@@ -41,8 +40,7 @@ class MannschaftController extends Controller
      * @Route("/{id}/show", name="mannschaft_show")
      * @Template()
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Mannschaft')->find($id);
@@ -54,36 +52,35 @@ class MannschaftController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
-            'isGrantedEdit' => $this->isGrantedEdit($entity)
+            'isGrantedEdit' => $this->isGrantedEdit(NULL, $entity)
         );
     }
-    
+
     /**
      * Displays a form to create a new Mannschaft entity by the verein-id
      *
      * @Route("/new/verein/{id}", name="mannschaft_new")
      * @Template()
      */
-    public function newAction($id)
-    {
-        
+    public function newAction($id) {
+
         $em = $this->getDoctrine()->getManager();
         $verein = $em->getRepository('LiganetCoreBundle:Verein')->find($id);
         $entity = new Mannschaft();
         $entity->setVerein($verein);
-        
-        if(!$this->isGrantedEdit($verein)){
+
+        if (!$this->isGrantedEdit($verein)) {
             $this->get('session')->getFlashBag()->add('error', 'Neue Mannschaft anlegen ist für dich nicht nicht erlaubt');
             return $this->redirect($this->generateUrl('mannschaft'));
         }
         //$form   = $this->createForm(new MannschaftType(array(), array('id' => $entity->getId())), $entity);
-        $form   = $this->createForm(new MannschaftType(), $entity);
+        $form = $this->createForm(new MannschaftType(), $entity);
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
@@ -94,9 +91,8 @@ class MannschaftController extends Controller
      * @Method("POST")
      * @Template("LiganetCoreBundle:Mannschaft:new.html.twig")
      */
-    public function createAction(Request $request)
-    {
-        $entity  = new Mannschaft();
+    public function createAction(Request $request) {
+        $entity = new Mannschaft();
         $form = $this->createForm(new MannschaftType(), $entity);
         $form->bind($request);
 
@@ -110,7 +106,7 @@ class MannschaftController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
@@ -120,9 +116,8 @@ class MannschaftController extends Controller
      * @Route("/{id}/edit", name="mannschaft_edit")
      * @Template()
      */
-    public function editAction($id)
-    {
-        
+    public function editAction($id) {
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Mannschaft')->find($id);
@@ -130,18 +125,18 @@ class MannschaftController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Mannschaft entity.');
         }
-        
-        if(!$this->isGrantedEdit($entity->getVerein())){
+
+        if (!$this->isGrantedEdit(null, $entity)) {
             $this->get('session')->getFlashBag()->add('error', 'Diese Mannschaft zu editieren ist für Dich nicht nicht erlaubt');
             return $this->redirect($this->generateUrl('mannschaft_show', array('id' => $id)));
         }
-        
+
         $editForm = $this->createForm(new MannschaftType(array(), array('id' => $entity->getId())), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -153,8 +148,7 @@ class MannschaftController extends Controller
      * @Method("POST")
      * @Template("LiganetCoreBundle:Mannschaft:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Mannschaft')->find($id);
@@ -177,8 +171,8 @@ class MannschaftController extends Controller
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -189,8 +183,7 @@ class MannschaftController extends Controller
      * @Route("/{id}/delete", name="mannschaft_delete")
      * @Method("POST")
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -209,48 +202,50 @@ class MannschaftController extends Controller
         return $this->redirect($this->generateUrl('mannschaft'));
     }
 
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
+                        ->add('id', 'hidden')
+                        ->getForm()
         ;
     }
-    
+
     /**
      * Legt fest, ob der User (den) Spieler verändern darf oder nicht
      * @param type $spieler
      * @return boolean
      */
-    private function isGrantedEdit($verein=NULL){
-        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
+    private function isGrantedEdit(\Liganet\CoreBundle\Entity\Verein $verein = NULL, Mannschaft $mannschaft = NULL) {
+//        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
+//            return TRUE;
+//        }
+        if (isset($verein)) {
+            foreach ($verein->getLeiter() as $leiter) {
+                if ($this->getUser()->getSpieler() == $leiter->getId())
+                    return TRUE;
+            }
+            foreach ($verein->getRegion()->getLeiter() as $leiter) {
+                if ($this->getUser()->getSpieler() == $leiter->getId())
+                    return TRUE;
+            }
+        };
+        if (isset($mannschaft)) {
+            $captain=$mannschaft->getCaptain();
+            if(isset($captain)){
+                if ($mannschaft->getCaptain()->getId() == $this->getUser()->getSpieler())
             return TRUE;
-        }
-        if(!isset($verein)) return FALSE;
-        if($verein->getId()==$this->getUserAsSpieler()->getVerein()->getId() 
-                && $this->get('security.context')->isGranted('ROLE_CLUB_MANAGEMENT')){
-
-            return TRUE;
+            }
+            foreach ($mannschaft->getLigasaison()->getStaffelleiter() as $leiter) {
+                if ($this->getUser()->getSpieler() == $leiter->getId())
+                    return TRUE;
+            }
+            foreach ($mannschaft->getLigasaison()->getLiga()->getRegion()->getLeiter() as $leiter) {
+                if ($this->getUser()->getSpieler() == $leiter->getId())
+                    return TRUE;
+            }
         }
         return FALSE;
     }
-    
-    /**
-     * Gibt das Spieler-Objekt des Users zurück
-     * @return \Liganet\CoreBundle\Entity\Spieler
-     */
-    private function getUserAsSpieler(){
-        $user = $this->getUser();
-        $id = $user->getSpieler();
-        if(isset($id)){
-            $em = $this->getDoctrine()->getManager();
-        $spieler = $em->getRepository('LiganetCoreBundle:Spieler')->find($id);
-        } else{
-            $spieler=new Spieler;
-        }
-        return $spieler;
-    }
-    
+
     /**
      * Displays a form to edit an existing Mannschaft entity.
      *
@@ -260,12 +255,13 @@ class MannschaftController extends Controller
     public function showListAction($id) {
         $em = $this->getDoctrine()->getManager();
         $verein = $em->getRepository('LiganetCoreBundle:Verein')->find($id);
-        $entities=$verein->getMannschaften();
-        
+        $entities = $verein->getMannschaften();
+
         return array(
-            'entities'      => $entities,
-            'verein'        => $verein,
+            'entities' => $entities,
+            'verein' => $verein,
             'isGrantedEdit' => $this->isGrantedEdit($verein)
         );
     }
+
 }

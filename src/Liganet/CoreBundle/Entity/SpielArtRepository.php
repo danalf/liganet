@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class SpielArtRepository extends EntityRepository
 {
+    public function findByModusOrdered(Modus $modus)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT sa FROM LiganetCoreBundle:SpielArt sa WHERE sa.modus='.$modus->getId()."ORDER BY sa.nummer ASC")
+            ->getResult();
+    }
 }

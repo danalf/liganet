@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class SpielRundeRepository extends EntityRepository
 {
+    public function findBySpieltagOrdered(Spieltag $spieltag)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT r FROM LiganetCoreBundle:SpielRunde r WHERE r.spieltag='.$spieltag->getId()." ORDER BY r.nummer ASC ")
+            ->getResult();
+    }
 }

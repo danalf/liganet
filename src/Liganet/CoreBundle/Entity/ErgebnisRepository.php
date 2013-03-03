@@ -12,4 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class ErgebnisRepository extends EntityRepository
 {
+    public function findByBegegnungOrdered(Begegnung $begegnung)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT e FROM LiganetCoreBundle:Ergebnis e 
+                JOIN e.spielArt sa
+                WHERE e.begegnung='.$begegnung->getId()." ORDER BY sa.nummer ASC")
+            ->getResult();
+    }
 }

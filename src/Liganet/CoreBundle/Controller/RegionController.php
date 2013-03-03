@@ -63,16 +63,25 @@ class RegionController extends Controller
     /**
      * Displays a form to create a new Region entity.
      *
-     * @Route("/new", name="region_new")
+     * @Route("/new/verband/{verband_id}", name="region_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($verband_id=NULL)
     {
+        
+        $entity = new Region();
+        
+        if ($verband_id > 0) {
+            $em = $this->getDoctrine()->getManager();
+            $verband = $em->getRepository('LiganetCoreBundle:Verband')->find($verband_id);
+            $entity->setVerband($verband);
+        }
+        
         if(!$this->isGrantedEdit()){
             $this->get('session')->getFlashBag()->add('error', 'Neue Region anlegen ist für dich nicht nicht erlaubt');
             return $this->redirect($this->generateUrl('region'));
         }
-        $entity = new Region();
+        
         $form   = $this->createForm(new RegionType(), $entity);
 
         return array(
@@ -218,5 +227,24 @@ class RegionController extends Controller
         }
         return FALSE;
     }
+    
+    /**
+     * 
+     *
+     * @Route("/{verband_id}/showList", name="region_showlist")
+     * @Template()
+     */
+    public function showListAction($verband_id) {
+        $em = $this->getDoctrine()->getManager();
+        $verband = $em->getRepository('LiganetCoreBundle:Verband')->find($verband_id);
+        $entities = $verband->getRegions();
+
+        return array(
+            'entities' => $entities,
+            'verband' => $verband,
+            'isGrantedEdit' => $this->isGrantedEdit()
+        );
+    }
+
     
 }

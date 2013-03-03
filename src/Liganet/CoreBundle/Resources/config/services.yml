@@ -1,6 +1,7 @@
 parameters:
     liganet_core.losung.class: Liganet\CoreBundle\Services\LosenService
     liganet_core.xmlErgebnisse.class: Liganet\CoreBundle\Services\xmlErgebnisseService
+    liganet_core.pdfSpielberichtsbogen.class: Liganet\CoreBundle\Services\pdfSpielberichtsbogenService
 
 services:
     liganet_core.losung:
@@ -9,3 +10,7 @@ services:
     liganet_core.xmlErgebnisse:
         class:  %liganet_core.xmlErgebnisse.class%
         arguments: ["@doctrine.orm.entity_manager"]
+    liganet_core.pdf.spielberichtsbogen:
+        class:  %liganet_core.pdfSpielberichtsbogen.class%
+        arguments: ["@doctrine.orm.entity_manager", "@white_october.tcpdf"]
+        

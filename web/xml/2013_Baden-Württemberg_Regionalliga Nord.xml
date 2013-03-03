@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <liga>
-  <update>2013-02-26T06:08:02+00:00</update>
+  <update>2013-03-03T06:54:32+00:00</update>
   <eigenschaften>
     <saison>2013</saison>
     <region name="Baden-W&#xFC;rttemberg" logo="http://www.liga-net.de/uploads/documents/6a6e5b77ac1c54e323ddf04fcf56548d2307fe89.jpeg" farbeTabelleSchrift="black" farbeTabelleHintergrund="#FFC600" farbeTabelleZeile2Schrift="#FFFFFF" farbeTabelleZeile2Hintergrund="#5A5A6B"/>
     <liga name="Regionalliga Nord" farbeTabellenKopf="black" farbeTabellenKopfSchrift="white" farbeUeberschriftHintergrund="black" farbeUeberschrift="white">
-      <staffelleiter>keine @Person</staffelleiter>
+      <staffelleiter>J&#xF6;rg Alfredo Henschel</staffelleiter>
     </liga>
     <modus beschreibung="Doublette und Triplette ohne Mixte">
       <spiel>Trip1</spiel>
@@ -15,9 +15,9 @@
       <spiel>Dou3</spiel>
     </modus>
     <mannschaften>
-      <mannschaft kuerzel="MANN1" name="Bouletten Mannheim 1" logo=""/>
-      <mannschaft kuerzel="MANN2" name="Bouletten Mannheim 2" logo=""/>
-      <mannschaft kuerzel="KAEF1" name="SC 1910 K&#xE4;fertal 1" logo="">
+      <mannschaft kuerzel="MANN1" name="Bouletten Mannheim 1" logo="uploads/documents/f8c59404987c8c4cd5fec3201dc9b5f4e5390feb.gif"/>
+      <mannschaft kuerzel="MANN2" name="Bouletten Mannheim 2" logo="uploads/documents/f8c59404987c8c4cd5fec3201dc9b5f4e5390feb.gif"/>
+      <mannschaft kuerzel="KAEF1" name="SC 1910 K&#xE4;fertal 1" logo="uploads/documents/ecc64f4ee8303756055e52d02e3e50f6b6bd7943.jpeg">
         <spieler name="Elias Alexander" lizenz="50" status="Stammspieler" id="1581"/>
       </mannschaft>
     </mannschaften>
@@ -31,8 +31,8 @@
     <spielrunde nummer="1" spieltagnr="1" datum="2010-01-01T00:00:00+00:00" ort="">
       <begegnungen>
         <begegnung>
-          <team1>MANN1</team1>
-          <team2>MANN2</team2>
+          <team1>MANN2</team1>
+          <team2>MANN1</team2>
           <kugeln team1="0" team2="0"/>
           <siege team1="0" team2="0"/>
           <punkt team1="0" team2="0"/>
@@ -49,7 +49,7 @@
       <begegnungen>
         <begegnung>
           <team1>KAEF1</team1>
-          <team2>MANN1</team2>
+          <team2>MANN2</team2>
           <kugeln team1="0" team2="0"/>
           <siege team1="0" team2="0"/>
           <punkt team1="0" team2="0"/>
@@ -65,7 +65,7 @@
     <spielrunde nummer="3" spieltagnr="1" datum="2010-01-01T00:00:00+00:00" ort="">
       <begegnungen>
         <begegnung>
-          <team1>MANN2</team1>
+          <team1>MANN1</team1>
           <team2>KAEF1</team2>
           <kugeln team1="0" team2="0"/>
           <siege team1="0" team2="0"/>

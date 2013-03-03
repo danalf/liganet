@@ -24,8 +24,9 @@
     </div>
 </div>
 
-
-    <table class="table">
+<div class="row-fluid">
+    <div class="span6">
+        <table class="table">
         <tbody>
             <tr>
                 <th>Verbandsnummer</th>
@@ -39,15 +40,13 @@
                 <th>Beschreibung</th>
                 <td>{{ entity.description }}</td>
             </tr>
-            <tr>
-                <th>Regionen</th>
-                <td>
-                {% for region in entity.regions %}
-                        <p><a href="{{ path('region_show', { 'id': region.id }) }}">{{ region.name }}</a></p>
-                {% endfor %}
-                        </td>
-                    </tr>
                 </tbody>
             </table>
+    </div>
+<div class="span6">
+        {% render "LiganetCoreBundle:Region:showList" with { 'verband_id': entity.id } %}
+    </div>
+</div>
+    
 
 {% endblock %}

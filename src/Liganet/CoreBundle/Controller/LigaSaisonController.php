@@ -45,9 +45,6 @@ class LigaSaisonController extends Controller {
 
         $entity = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($id);
 
-
-
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find LigaSaison entity.');
         }
@@ -58,6 +55,34 @@ class LigaSaisonController extends Controller {
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
             'isGrantedEdit' => $this->isGrantedEdit()
+        );
+    }
+    
+    /**
+     * Finds and displays a LigaSaison entity.
+     *
+     * @Route("/{id}/pdf/spielberichtsbogen", name="ligasaison_pdf_spielberichtsbogen")
+     */
+    public function pdfSpielberichtsbogenAction($id) {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($id);
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find LigaSaison entity.');
+        }
+        /**
+         * @var \Liganet\CoreBundle\Services\pdfSpielberichtsbogenService Description
+         */
+        $pdf = $this->get('liganet_core.pdf.spielberichtsbogen');
+        $pdf->setLigaSaison($entity);
+        $pdf->create();
+        $pdf->ouput();
+
+       
+
+        return array(
+            'entity' => $entity,
         );
     }
 

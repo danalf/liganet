@@ -74,6 +74,12 @@ class Region {
      * @ORM\OneToMany(targetEntity="Liga", mappedBy="region")
      */
     protected $ligen;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Spieler", inversedBy="regionsleiter")
+     * @ORM\JoinTable(name="ln_spieler_regionsleiter")
+     */
+    private $leiter;
 
     /**
      * Get id
@@ -349,5 +355,38 @@ class Region {
     public function getLigen()
     {
         return $this->ligen;
+    }
+
+    /**
+     * Add leiter
+     *
+     * @param \Liganet\CoreBundle\Entity\Spieler $leiter
+     * @return Region
+     */
+    public function addLeiter(\Liganet\CoreBundle\Entity\Spieler $leiter)
+    {
+        $this->leiter[] = $leiter;
+    
+        return $this;
+    }
+
+    /**
+     * Remove leiter
+     *
+     * @param \Liganet\CoreBundle\Entity\Spieler $leiter
+     */
+    public function removeLeiter(\Liganet\CoreBundle\Entity\Spieler $leiter)
+    {
+        $this->leiter->removeElement($leiter);
+    }
+
+    /**
+     * Get leiter
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLeiter()
+    {
+        return $this->leiter;
     }
 }

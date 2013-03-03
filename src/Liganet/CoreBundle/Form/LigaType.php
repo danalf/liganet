@@ -22,7 +22,6 @@ class LigaType extends AbstractType
             ->add('newsfeed')
             ->add('region')
             ->add('modus')
-            ->add('staffelleiter')
         ;
     }
 

@@ -13,7 +13,18 @@ class AdminController extends Controller {
 //        $user->addRole('ROLE_REGION_MANAGEMENT');
 //        $userManager->updateUser($user);
 //        $this->get('session')->getFlashBag()->add('notice', 'Your changes were saved!');
-        
+        $message = \Swift_Message::newInstance()
+        ->setSubject('Hello Email')
+        ->setFrom('admin@liga-net.de')
+        ->setTo('jahenschel@gmail.com')
+        ->setBody(
+            $this->renderView(
+                'LiganetCoreBundle:Admin:email.txt.twig',
+                array('name' => "Welt")
+            )
+        )
+    ;
+    $this->get('mailer')->send($message);
         $users = $this->getDoctrine()->getRepository('UserBundle:User')->findAll();
 
 

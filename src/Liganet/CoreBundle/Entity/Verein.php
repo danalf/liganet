@@ -86,6 +86,12 @@ class Verein {
     protected $mannschaften;
     
     /**
+     * @ORM\ManyToMany(targetEntity="Spieler", inversedBy="vereinsleiter")
+     * @ORM\JoinTable(name="ln_spieler_vereinsleiter")
+     */
+    private $leiter;
+    
+    /**
      * @ORM\OneToMany(targetEntity="Spieltag", mappedBy="austragenderVerein")
      */
     protected $ausgerichteterSpieltag;
@@ -438,5 +444,38 @@ class Verein {
     public function getAusgerichteterSpieltag()
     {
         return $this->ausgerichteterSpieltag;
+    }
+
+    /**
+     * Add leiter
+     *
+     * @param \Liganet\CoreBundle\Entity\Spieler $leiter
+     * @return Verein
+     */
+    public function addLeiter(\Liganet\CoreBundle\Entity\Spieler $leiter)
+    {
+        $this->leiter[] = $leiter;
+    
+        return $this;
+    }
+
+    /**
+     * Remove leiter
+     *
+     * @param \Liganet\CoreBundle\Entity\Spieler $leiter
+     */
+    public function removeLeiter(\Liganet\CoreBundle\Entity\Spieler $leiter)
+    {
+        $this->leiter->removeElement($leiter);
+    }
+
+    /**
+     * Get leiter
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLeiter()
+    {
+        return $this->leiter;
     }
 }

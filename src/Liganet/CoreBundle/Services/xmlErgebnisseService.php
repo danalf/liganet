@@ -143,7 +143,7 @@ class xmlErgebnisseService {
         $ligaElement->appendChild($attribut);
         $text = $this->doc->createTextNode($liga->getFarbeUeberschrift());
         $attribut->appendChild($text);
-        foreach ($liga->getStaffelleiter() as $staffelleiter) {
+        foreach ($this->ligaSaison->getStaffelleiter() as $staffelleiter) {
              $xml = $this->doc->createElement('staffelleiter');
         $ligaElement->appendChild($xml);
         $text = $this->doc->createTextNode($staffelleiter);
@@ -188,12 +188,13 @@ class xmlErgebnisseService {
         $attribut->appendChild($text);
         $element->appendChild($attribut);
         $attribut = $this->doc->createAttribute('logo');
-//Die folgende Zeile ist Mist, geht aber erst mal so
-        //if(isset($mannschaft->getVerein()->getDocument())){
-            //$text = $this->doc->createTextNode( $this->webpath.$mannschaft->getVerein()->getDocument()->getWebPath());
-        //} else{
+
+        $logo=$mannschaft->getVerein()->getDocument();
+        if(isset($logo)){
+            $text = $this->doc->createTextNode( $webpath.$logo->getWebPath());
+        } else{
             $text= $this->doc->createTextNode( "");
-        //}
+        }
         
         $attribut->appendChild($text);
         $element->appendChild($attribut);

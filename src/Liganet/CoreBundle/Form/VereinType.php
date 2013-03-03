@@ -32,6 +32,19 @@ class VereinType extends AbstractType {
                 'empty_value' => 'Wähle einen Kontakt',
             ));
         }
+        if (isset($verein)) {
+            $builder->add('leiter', 'entity', array(
+                'class' => 'Liganet\CoreBundle\Entity\Spieler',
+                'query_builder' => function(EntityRepository $er) use($verein) {
+                    return $er->createQueryBuilder('u')
+                                    ->where('u.verein = :id')
+                                    ->setParameter('id', $verein);
+                },
+                'required' => false,
+                'empty_value' => 'Wähle einen Kontakt',
+                'multiple'  => true,
+            ));
+        }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {

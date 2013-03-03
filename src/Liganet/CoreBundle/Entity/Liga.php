@@ -96,11 +96,7 @@ class Liga
      */
     protected $modus;
     
-    /**
-     * @ORM\ManyToMany(targetEntity="Spieler", inversedBy="staffelleiter")
-     * @ORM\JoinTable(name="ln_spieler_staffelleiter")
-     */
-    private $staffelleiter;
+    
     
     /**
      * @ORM\OneToMany(targetEntity="LigaSaison", mappedBy="liga")
@@ -375,41 +371,10 @@ class Liga
      */
     public function __construct()
     {
-        $this->staffelleiter = new \Doctrine\Common\Collections\ArrayCollection();
+        
     }
     
-    /**
-     * Add staffelleiter
-     *
-     * @param \Liganet\CoreBundle\Entity\Spieler $staffelleiter
-     * @return Liga
-     */
-    public function addStaffelleiter(\Liganet\CoreBundle\Entity\Spieler $staffelleiter)
-    {
-        $this->staffelleiter[] = $staffelleiter;
-    
-        return $this;
-    }
 
-    /**
-     * Remove staffelleiter
-     *
-     * @param \Liganet\CoreBundle\Entity\Spieler $staffelleiter
-     */
-    public function removeStaffelleiter(\Liganet\CoreBundle\Entity\Spieler $staffelleiter)
-    {
-        $this->staffelleiter->removeElement($staffelleiter);
-    }
-
-    /**
-     * Get staffelleiter
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getStaffelleiter()
-    {
-        return $this->staffelleiter;
-    }
 
     /**
      * Add liga_saison

@@ -55,6 +55,7 @@ doctrine:
 # Swiftmailer Configuration
 swiftmailer:
     transport: %mailer_transport%
+    auth_mode: %mailer_login%
     host:      %mailer_host%
     username:  %mailer_user%
     password:  %mailer_password%
@@ -64,5 +65,15 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Liganet\UserBundle\Entity\User
-    
+    from_email:
+        address:        admin@liga-net.de
+        sender_name:    Liganet
+    service:
+        mailer: fos_user.mailer.twig_swift
+    resetting:
+        email:
+            template: LiganetCoreBundle:Admin:email.txt.twig
+    registration:
+        confirmation:
+            enabled:    true
     

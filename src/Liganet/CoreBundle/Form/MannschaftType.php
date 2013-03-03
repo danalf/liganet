@@ -12,13 +12,16 @@ class MannschaftType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $verein = $options["data"]->getVerein();
+        $ligasaison=$options["data"]->getLigaSaison();
         $builder
             ->add('rang')
             ->add('bemerkung')
-            ->add('verein')
-            ->add('ligasaison')
-            ->add('ligasaison', 'entity', array(
-                'required' => false,
+            ->add('verein');
+             if (isset($ligasaison)){
+                 $builder->add('ligasaison');
+             }else {
+                  $builder->add('ligasaison', 'entity', array(
+                'required' => true,
                 'class' => 'Liganet\CoreBundle\Entity\LigaSaison',
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('ls')
@@ -29,6 +32,8 @@ class MannschaftType extends AbstractType
                 'label'     => 'Liga',
             ))
         ;
+             }
+       
         if (isset($verein)) {
             $builder->add('captain', 'entity', array(
                 'required' => false,

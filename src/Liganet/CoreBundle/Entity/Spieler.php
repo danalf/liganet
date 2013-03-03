@@ -153,9 +153,19 @@ class Spieler {
     private $verein;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Liga", mappedBy="staffelleiter")
+     * @ORM\ManyToMany(targetEntity="LigaSaison", mappedBy="staffelleiter")
      */
     private $staffelleiter;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Verein", mappedBy="leiter")
+     */
+    private $vereinsleiter;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Region", mappedBy="leiter")
+     */
+    private $regionsleiter;
     
     /**
      * @ORM\OneToMany(targetEntity="MannschaftSpieler", mappedBy="spieler")
@@ -163,7 +173,7 @@ class Spieler {
     protected $mannschaftSpieler;
     
      /**
-     * @ORM\OneToMany(targetEntity="Mannschaft", mappedBy="mannschaft")
+     * @ORM\OneToMany(targetEntity="Mannschaft", mappedBy="captain")
      */
     protected $captainForMannschaften;
     
@@ -1109,5 +1119,71 @@ class Spieler {
     public function getErsatzFuer2()
     {
         return $this->ersatzFuer2;
+    }
+
+    /**
+     * Add vereinsleiter
+     *
+     * @param \Liganet\CoreBundle\Entity\Verein $vereinsleiter
+     * @return Spieler
+     */
+    public function addVereinsleiter(\Liganet\CoreBundle\Entity\Verein $vereinsleiter)
+    {
+        $this->vereinsleiter[] = $vereinsleiter;
+    
+        return $this;
+    }
+
+    /**
+     * Remove vereinsleiter
+     *
+     * @param \Liganet\CoreBundle\Entity\Verein $vereinsleiter
+     */
+    public function removeVereinsleiter(\Liganet\CoreBundle\Entity\Verein $vereinsleiter)
+    {
+        $this->vereinsleiter->removeElement($vereinsleiter);
+    }
+
+    /**
+     * Get vereinsleiter
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVereinsleiter()
+    {
+        return $this->vereinsleiter;
+    }
+
+    /**
+     * Add regionsleiter
+     *
+     * @param \Liganet\CoreBundle\Entity\Region $regionsleiter
+     * @return Spieler
+     */
+    public function addRegionsleiter(\Liganet\CoreBundle\Entity\Region $regionsleiter)
+    {
+        $this->regionsleiter[] = $regionsleiter;
+    
+        return $this;
+    }
+
+    /**
+     * Remove regionsleiter
+     *
+     * @param \Liganet\CoreBundle\Entity\Region $regionsleiter
+     */
+    public function removeRegionsleiter(\Liganet\CoreBundle\Entity\Region $regionsleiter)
+    {
+        $this->regionsleiter->removeElement($regionsleiter);
+    }
+
+    /**
+     * Get regionsleiter
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRegionsleiter()
+    {
+        return $this->regionsleiter;
     }
 }

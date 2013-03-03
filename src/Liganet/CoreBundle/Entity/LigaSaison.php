@@ -63,6 +63,12 @@ class LigaSaison
      * @ORM\OneToMany(targetEntity="Spieltag", mappedBy="ligasaison")
      */
     protected $spieltage;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Spieler", inversedBy="staffelleiter")
+     * @ORM\JoinTable(name="ln_spieler_staffelleiter")
+     */
+    private $staffelleiter;
 
 
     /**
@@ -267,5 +273,38 @@ class LigaSaison
     public function getActual()
     {
         return $this->actual;
+    }
+
+    /**
+     * Add staffelleiter
+     *
+     * @param \Liganet\CoreBundle\Entity\Spieler $staffelleiter
+     * @return LigaSaison
+     */
+    public function addStaffelleiter(\Liganet\CoreBundle\Entity\Spieler $staffelleiter)
+    {
+        $this->staffelleiter[] = $staffelleiter;
+    
+        return $this;
+    }
+
+    /**
+     * Remove staffelleiter
+     *
+     * @param \Liganet\CoreBundle\Entity\Spieler $staffelleiter
+     */
+    public function removeStaffelleiter(\Liganet\CoreBundle\Entity\Spieler $staffelleiter)
+    {
+        $this->staffelleiter->removeElement($staffelleiter);
+    }
+
+    /**
+     * Get staffelleiter
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getStaffelleiter()
+    {
+        return $this->staffelleiter;
     }
 }

@@ -1,0 +1,27 @@
+{% block subject %}Passwort neu setzen{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Hallo {{ user.username }} !
+
+Du kannst Dein Passwort für das Liganet zurücksetzen, wenn Du auf folgende Adresse klickst:
+{{ confirmationUrl }}
+
+Liebe Grüße,
+Der Liganet-Admin
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+<html>
+    <body>
+        <p>Hallo {{ user.username }} !</p>
+
+        <p>Du kannst Dein Passwort für das Liganet zurücksetzen, wenn Du auf folgende Adresse klickst:</p>
+        <p>{{ confirmationUrl }}</p>
+
+        <p>Liebe Grüße,</p>
+        <p>Der Liganet-Admin</p>
+    </body>
+</html>
+{% endblock %}

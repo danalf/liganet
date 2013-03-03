@@ -4,7 +4,7 @@
     <div class="span11">
         <div class="page-header">
             {% if entity.document %}
-                <img alt="Logo {{ entity.namekurz }}" src="{{ asset(entity.document.webpath) }}" class="img-polaroid" style="float: left; margin: 5px"/> 
+                <img alt="Logo {{ entity.namekurz }}" src="{{ asset(entity.document.webpath) }}" class="img-polaroid pull-left" style="height: 96px; margin-right: 5px"/> 
             {% endif %}
                 <h1>{{ entity.namekurz }}</h1>
                 <h1><small>{{ entity.name }}</small></h1>
@@ -41,17 +41,25 @@
                             <td>{{ entity.nummer }}</td>
                         </tr>
                         <tr>
-                            <th>Kontakt</th>
+                            <th>Veraltet: Kontakt</th>
                             <td><a href="{{ path('spieler_show', { 'id': entity.kontakt.id }) }}">{{ entity.kontakt }}</a></td>
                         </tr>
                         <tr>
-                            <th>Homepage</th>
-                            <td><a href="{{ entity.homepage }}" target="_blank">{{ entity.homepage }}</a></td>
-                        </tr>
-                    </tbody>
-                </table>
+                            <th>Neu: Vereinsleitung</th>
+                            <td>
+                                {% for leiter in entity.leiter %}
+                                    <a href="{{ path('spieler_show', { 'id': leiter.id }) }}">{{ leiter }}</a><br />
+                                {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Homepage</th>
+                                <td><a href="{{ entity.homepage }}" target="_blank">{{ entity.homepage }}</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="span4">{% render "LiganetCoreBundle:Mannschaft:showList" with { 'id': entity.id } %}</div>
+                <div class="span4">{% render "LiganetCoreBundle:Spieler:showList" with { 'id': entity.id } %}</div>
             </div>
-            <div class="span4">{% render "LiganetCoreBundle:Mannschaft:showList" with { 'id': entity.id } %}</div>
-            <div class="span4">{% render "LiganetCoreBundle:Spieler:showList" with { 'id': entity.id } %}</div>
-        </div>
 {% endblock %}

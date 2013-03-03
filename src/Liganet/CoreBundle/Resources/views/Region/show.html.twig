@@ -3,6 +3,9 @@
 <div class="row-fluid">
     <div class="span11">
         <div class="page-header">
+            {% if entity.document %}
+                <img alt="Logo {{ entity.namekurz }}" src="{{ asset(entity.document.webpath) }}" class="img-polaroid pull-left" style="height: 96px; margin-right: 5px"/> 
+            {% endif %}
             <h1>{{ entity.name }} <small>{{ entity.namekurz }}</small></h1>
             <p><a href="{{ path('verband_show', { 'id': entity.verband.id }) }}">{{ entity.verband.name }}</a></p>
             <p>{{ entity.description }}</p>
@@ -28,6 +31,17 @@
 
     <div class="page-header row-fluid">
         <div class="span6">
+            <h2>Allgemein</h2>
+            <table class="table">
+                <tr>
+                    <th>Ligaleitung</th>
+                    <td>
+                        {% for leiter in entity.leiter %}
+                                    <a href="{{ path('spieler_show', { 'id': leiter.id }) }}">{{ leiter }}</a><br />
+                                {% endfor %}
+                    </td>
+                </tr>
+            </table>
             <table class="table">
                 <tbody>
                     <tr>
