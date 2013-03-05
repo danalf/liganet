@@ -159,7 +159,7 @@ class xmlErgebnisseService {
         $modus_element->appendChild($attribut);
         $text = $this->doc->createTextNode($modus->getName());
         $attribut->appendChild($text);
-        $spielart=$this->em->getRepository('LiganetCoreBundle:SpielArt')->findBy(array('modus' => $modus->getId()), array('nummer' => 'ASC'));
+        $spielart=$this->em->getRepository('LiganetCoreBundle:SpielArt')->findByModusOrdered($modus);
         foreach ($spielart as $value) {
             $xml = $this->doc->createElement('spiel');
             $modus_element->appendChild($xml);
@@ -229,7 +229,8 @@ class xmlErgebnisseService {
 
     private function createSpielrunden() {
         $element = $this->doc->createElement('spielrunden');
-        foreach ($this->ligaSaison->getSpieltage() as $spieltag) {
+        $spieltage=$this->em->getRepository('LiganetCoreBundle:Spieltag')->findByLigaSaisonOrdered($this->ligaSaison);
+        foreach ($spieltage as $spieltag) {
             foreach ($spieltag->getRunden() as $runde) {
                 $element->appendChild($this->createSpielRunde($runde));
             }

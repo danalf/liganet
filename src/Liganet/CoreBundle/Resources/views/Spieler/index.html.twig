@@ -27,8 +27,6 @@
             <th>Nummerlizenz</th>
             <th>Trainer</th>
             <th>Schiedsrichter</th>
-            <th>Veraendertvon</th>
-            <th>Veraendertam</th>
             <th>Bestaetigt</th>
             <th>Aktionen</th>
         </tr>
@@ -45,11 +43,9 @@
                 <td>{{ entity.telefon }}</td>
                 <td>{{ entity.verein.namekurz }}</td>
                 <td>{{ entity.nummerlizenz }}</td>
-                <td>{{ entity.trainer }}</td>
-                <td>{{ entity.schiedsrichter }}</td>
-                <td>{{ entity.veraendertvon }}</td>
-                <td>{% if entity.veraendertam %}{{ entity.veraendertam|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.bestaetigt }}</td>
+                <td>{% if  entity.trainer > 0 %}<i class="icon-ok"></i>{% endif %}</td>
+                <td>{% if  entity.schiedsrichter > 0 %}<i class="icon-ok"></i>{% endif %}</td>
+                <td>{% if  entity.bestaetigt > 0 %}<i class="icon-ok"></i>{% endif %}</td>
                 <td>
                         <a class="btn" href="{{ path('spieler_show', { 'id': entity.id }) }}">
                             <i class="icon-arrow-right"></i>

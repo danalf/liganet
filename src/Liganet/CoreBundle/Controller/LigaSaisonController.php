@@ -59,7 +59,7 @@ class LigaSaisonController extends Controller {
     }
     
     /**
-     * Finds and displays a LigaSaison entity.
+     * Erstellt einen Spielberichtsbogen
      *
      * @Route("/{id}/pdf/spielberichtsbogen", name="ligasaison_pdf_spielberichtsbogen")
      */
@@ -80,6 +80,32 @@ class LigaSaisonController extends Controller {
         $pdf->ouput();
 
        
+
+        return array(
+            'entity' => $entity,
+        );
+    }
+    
+    /**
+     * Erstellt einen Spielberichtsbogen
+     *
+     * @Route("/{id}/pdf/spielermeldebogen", name="ligasaison_pdf_spielermeldebogen")
+     */
+    public function pdfSpielermeldebogenAction($id) {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($id);
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find LigaSaison entity.');
+        }
+        /**
+         * @var \Liganet\CoreBundle\Services\pdfSpielberichtsbogenService Description
+         */
+        $pdf = $this->get('liganet_core.pdf.spielermeldebogen');
+        $pdf->setLigaSaison($entity);
+        $pdf->create();
+        $pdf->ouput();
 
         return array(
             'entity' => $entity,
@@ -296,6 +322,27 @@ $deleteForm = $this->createDeleteForm($id);
             'entities' => $entities,
             'liga' => $liga,
             'isGrantedEdit' => $this->isGrantedEdit()
+        );
+    }
+    
+    /**
+     * Zeigt die Ergebnisse an
+     *
+     * @Route("/extern/{id}/showErgebnisse", name="ligasaison_showergebnisse")
+     * @Template()
+     */
+    public function showErgebnisseAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($id);
+        $spielarten=$em->getRepository('LiganetCoreBundle:SpielArt')->findByModusOrdered($entity->getLiga()->getModus());
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find LigaSaison entity.');
+        }
+
+        return array(
+            'entity' => $entity,
+            'spielarten' => $spielarten,
         );
     }
 

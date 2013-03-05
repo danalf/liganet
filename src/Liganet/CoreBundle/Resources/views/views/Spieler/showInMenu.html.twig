@@ -1,0 +1,60 @@
+{% if spieler.id>0 %}
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        Aktive Region: {{ spieler.verein.region.namekurz }}
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li>Eintrag</li>
+        </ul>
+    </li>
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      <i class="icon-user icon-white"></i> {{ app.user.username }}
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li class="nav-header">Name</li>
+            <li><a href="{{ path('spieler_show', { 'id': spieler.id }) }}">{{ spieler }}</a></li>
+            <li class="nav-header">Verein</li>
+            <li>
+                <a href="{{ path('verein_show', { 'id': spieler.verein.id }) }}">
+                    {% if spieler.verein.document %}
+                    <img alt="Logo {{ spieler.verein.namekurz }}"                      
+                         src="{{ asset(spieler.verein.document.webpath) }}"                          
+                         style="height: 40px" /> 
+                    {% endif %}
+                {{ spieler.verein.namekurz }}
+                </a>
+            </li>
+            {% if is_granted('ROLE_REGION_MANAGEMENT') %}
+                <li class="nav-header">Region</li>
+                <li>
+                    <a href="{{ path('region_show', { 'id': spieler.verein.region.id }) }}">
+                        {% if spieler.verein.region.document %}
+                        <img alt="Logo {{ spieler.verein.region.namekurz }}" src="{{ asset(spieler.verein.region.document.webpath) }}" style="height: 40px" /> 
+                     {% endif %}
+                    {{ spieler.verein.region.namekurz }}
+                    </a>
+                </li>
+            {% endif %}
+            <li class="nav-header">Verband</li>
+            <li>
+                <a href="{{ path('verband_show', { 'id': spieler.verein.region.verband.id }) }}">
+                    <img alt="Logo {{ spieler.verein.region.verband.namekurz }}" src="{{ asset(spieler.verein.region.verband.document.webpath) }}" style="height: 40px" /> 
+                    {{ spieler.verein.region.verband.namekurz }}
+                </a>
+
+            </li>
+            <li class="nav-header">Aktionen</li>
+            <li><a href="{{ path('fos_user_change_password') }}">Passwort ändern</a></li>
+            <li class="nav-header">Rechte</li>
+            {% for role in user.roles %}
+            <li>Rolle: {{ role }}</li>
+            {% endfor %}
+                
+        </ul>
+    </li>
+{% else %}
+    <li class="navbar-text"><i class="icon-user icon-white"></i> {{ app.user.username }}</li>
+{% endif %}

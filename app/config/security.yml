@@ -50,6 +50,7 @@ security:
                 realm: "Secured Demo Area"
 
     access_control:
+        - { path: ^/ligasaison/extern/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/css/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/js/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/img/, role: IS_AUTHENTICATED_ANONYMOUSLY }
@@ -61,4 +62,5 @@ security:
         - { path: /.*, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/uploads/, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        
 

@@ -196,4 +196,26 @@ class BegegnungController extends Controller
             ->getForm()
         ;
     }
+    
+    /**
+     * Zeigt die Ergebnisliste an
+     *
+     * @Route("/{runde_id}/showList", name="begegnung_showlist")
+     * @Template()
+     */
+    public function showListAction($runde_id) {
+        $em = $this->getDoctrine()->getManager();
+        $runde = $em->getRepository('LiganetCoreBundle:SpielRunde')->find($runde_id);
+        $entities = $runde->getBegegnungen();
+        $spielart=$em->getRepository('LiganetCoreBundle:SpielArt')->findBy(
+                array('modus' => $runde->getSpieltag()->getLigaSaison()->getLiga()->getModus()->getId()), 
+                array('nummer' => 'ASC')
+                );
+
+        return array(
+            'entities' => $entities,
+            'runde' => $runde,
+            'spielarten' => $spielart
+        );
+    }
 }

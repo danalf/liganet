@@ -18,39 +18,36 @@
         {% if is_granted('ROLE_ADMIN') %}
         <form  action="{{ path('spielrunde_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
-        </form>
+                <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
+            </form>
         {% endif %}
+        </div>
     </div>
-</div>
-
-<table class="table">
-    <tbody>
-        <tr>
-            <th>Saison</th>
-            <td>{{ entity.spieltag.ligasaison.saison }}</td>
-        </tr>
-        <tr>
-            <th>Liga</th>
-            <td>{{ entity.spieltag.ligasaison.liga }}</td>
-        </tr>
-        <tr>
-            <th>Spieltag</th>
-            <td>{{ entity.spieltag.nummer }} </td>
-        </tr>
-        <tr>
-            <th>Nummer</th>
-            <td>{{ entity.nummer }}</td>
-        </tr>
-    </tbody>
-</table>
-<h2>Begegnungen</h2>
-<table>
-    {% for begegnung in entity.begegnungen %}
-        <tr>
-            <td>{{ begegnung.mannschaft1 }} - {{ begegnung.mannschaft2 }}</td>
-        </tr>
-    {% endfor %}
-</table>
-
+    <div class="row-fluid">
+        <div class="span4">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Saison</th>
+                        <td>{{ entity.spieltag.ligasaison.saison }}</td>
+                    </tr>
+                    <tr>
+                        <th>Liga</th>
+                        <td>{{ entity.spieltag.ligasaison.liga }}</td>
+                    </tr>
+                    <tr>
+                        <th>Spieltag</th>
+                        <td>{{ entity.spieltag.nummer }} </td>
+                    </tr>
+                    <tr>
+                        <th>Nummer</th>
+                        <td>{{ entity.nummer }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="span8">
+{% render "LiganetCoreBundle:Begegnung:showList" with { 'runde_id': entity.id } %}
+            </div>
+        </div>
 {% endblock %}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+    </head>
+    <body>
+        <style type="text/css">
+                .table-zeile1{
+                    background-color: {{ entity.liga.farbeTabellenKopf }};
+                    color: {{ entity.liga.farbeTabellenKopfSchrift }};
+                }
+                .table-zeile2{
+                    background-color: {{ entity.liga.region.farbeTabelleZeile2Hintergrund }};
+                    color: {{ entity.liga.region.farbeTabelleZeile2Schrift }};
+                }
+                .table-content{
+                    background-color: {{ entity.liga.region.farbeTabelleHintergrund }};
+                    color: {{ entity.liga.region.farbeTabelleSchrift }};
+                }
+            </style>
+            {% for spieltag in entity.spieltage %}
+            {% for runde in spieltag.runden %}
+            <table class="table">
+                <tr>
+                    <td colspan="10" class="table-zeile1" style="text-align: center">{{runde.spieltag.nummer}}. Spieltag am {{ runde.spieltag.datum|date("d.m.Y H:i") }} - Ausrichter {{ runde.spieltag.austragenderVerein }}</td>
+                </tr>
+                <tr class="table-zeile2">
+                    <td style="text-align: center">Runde</td>
+                    <td style="text-align: center">Begegnung</td>
+                    {% for spielart in spielarten %}
+                    <td style="text-align: center">{{ spielart.namekurz }}</td>
+                    {% endfor %}
+                    <td style="text-align: center">Kugeln</td>
+                    <td style="text-align: center">Spiele</td>
+                    <td style="text-align: center">Punkte</td>
+                </tr>
+                <tbody class="table-content">
+                        {% for begegnung in runde.begegnungen %}
+                        <tr>
+                            <td style="text-align: center">{{ runde.nummer }}</td>
+                            <td style="text-align: center">{{ begegnung.mannschaft1.namekurz }} : {{ begegnung.mannschaft2.namekurz }}</td>
+                            {% for ergebnis in begegnung.ergebnisse %}
+                            <td style="text-align: center">{{ ergebnis.kugeln1 }} : {{ ergebnis.kugeln2 }}</td>
+                            {% endfor %}
+                            <td style="text-align: center">{{ begegnung.kugeln1 }} : {{ begegnung.kugeln2 }}</td>
+                            <td style="text-align: center">{{ begegnung.siege1 }} : {{ begegnung.siege2 }}</td>
+                            <td style="text-align: center">{{ begegnung.punkt1|number_format }} : {{ begegnung.punkt2|number_format }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
+            <br />
+            {% endfor %}
+            </body>
+        </html>
+

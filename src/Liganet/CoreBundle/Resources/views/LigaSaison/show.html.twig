@@ -62,9 +62,12 @@
                 {% endif %}
                     {% if  isGrantedEdit == true %}
                             <tr>
-                            <tr>
                                 <th>Spielberichtsbogen</th>
                                 <td><a class="btn pull-right" href="{{ path('ligasaison_pdf_spielberichtsbogen', { 'id': entity.id }) }}"><i class=" icon-download-alt"></i></a> </td>
+                            </tr>
+                            <tr>
+                                <th>Spielermeldebogen</th>
+                                <td><a class="btn pull-right" href="{{ path('ligasaison_pdf_spielermeldebogen', { 'id': entity.id }) }}"><i class=" icon-download-alt"></i></a> </td>
                             </tr>
                     {% endif %}
 

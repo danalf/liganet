@@ -169,7 +169,7 @@ class ErgebnisController extends Controller
      * @Route("/{id}/delete", name="ergebnis_delete")
      * @Method("POST")
      */
-    public function deleteAction(Request $request, $id)
+    public function zzzdeleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
@@ -196,4 +196,6 @@ class ErgebnisController extends Controller
             ->getForm()
         ;
     }
+    
+    
 }

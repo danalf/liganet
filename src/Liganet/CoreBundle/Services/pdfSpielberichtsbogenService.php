@@ -14,6 +14,8 @@ use Liganet\CoreBundle\Services\pdfService;
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL 3.0
  */
 class pdfSpielberichtsbogenService extends pdfService {
+    
+    
 
     public function create() {
         $this->title = "Spielbericht";

@@ -1,0 +1,36 @@
+<h2>Spieler
+{% if isGrantedEdit == true %}
+        <a style="float: right" class="btn" href="{{ path('mannschaftspieler_new', { 'id': mannschaft.id }) }}">
+            <i class="icon-plus"></i>
+        </a>
+{% endif %}  
+        </h2>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>bestätigt</th>
+            <th>Aktionen</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mannschaftspieler in entities %}
+                <tr>
+                    <td>{{ mannschaftspieler.spieler }}</td>
+                    <td>{{ mannschaftspieler.status }}</td>
+                    <td>{% if mannschaftspieler.bestaetigt > 0 %}<i class="icon-ok"></i>{% endif %}</td>
+                    <td>
+                        <a class="btn" href="{{ path('mannschaftspieler_show', { 'id': mannschaftspieler.id }) }}">
+                            <i class="icon-arrow-right"></i>
+                        </a>
+                        {% if isGrantedEdit == true %}
+                        <a class="btn" href="{{ path('mannschaftspieler_edit', { 'id': mannschaftspieler.id }) }}">
+                            <i class="icon-pencil"></i>
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+        {% endfor %}
+            </tbody>
+        </table>

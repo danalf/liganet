@@ -20,40 +20,51 @@
         {% if is_granted('ROLE_ADMIN') %}
         <form  action="{{ path('mannschaft_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
-        </form>
+                <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
+            </form>
         {% endif %}
+        </div>
     </div>
-</div>
-<div class="row-fluid">
-    <div class="span6">
-        {% render "LiganetCoreBundle:MannschaftSpieler:showList" with { 'id': entity.id } %}
-    </div>
-    <div class="span6">
-        <h2>Begegnungen</h2>
-        <table class="table">
-        {% for begegnung in entity.begegnungen1 %}
+    <div class="row-fluid">
+        <div class="span6">
+            <h2>Allgemein</h2>
+            <table class="table">
                 <tr>
-                    <td>{{ begegnung.spielrunde.nummer }}</td>
-                    <td>{{ begegnung.mannschaft1 }}</td>
-                    <td>{{ begegnung.mannschaft2 }}</td>
-                    <td>{{ begegnung.kugeln1 }} : {{ begegnung.kugeln2 }}</td>
-                    <td>{{ begegnung.siege1 }} : {{ begegnung.siege2 }}</td>
-                    <td>{{ begegnung.punkt1 }} : {{ begegnung.punkt2 }}</td>
+                    <th>Liga</th>
+                    <td>{{ entity.ligasaison }}</td>
                 </tr>
+                <tr>
+                    <th>Spielplan</th>
+                    <td><a class="btn pull-right" href="{{ path('mannschaft_pdf_spielplan', { 'id': entity.id }) }}"><i class=" icon-download-alt"></i></a> </td>
+                </tr>
+            </table>
+        {% render "LiganetCoreBundle:MannschaftSpieler:showList" with { 'id': entity.id } %}
+        </div>
+        <div class="span6">
+            <h2>Begegnungen</h2>
+            <table class="table">
+        {% for begegnung in entity.begegnungen1 %}
+                    <tr>
+                        <td>{{ begegnung.spielrunde.nummer }}</td>
+                        <td>{{ begegnung.mannschaft1 }}</td>
+                        <td>{{ begegnung.mannschaft2 }}</td>
+                        <td>{{ begegnung.kugeln1 }} : {{ begegnung.kugeln2 }}</td>
+                        <td>{{ begegnung.siege1 }} : {{ begegnung.siege2 }}</td>
+                        <td>{{ begegnung.punkt1 }} : {{ begegnung.punkt2 }}</td>
+                    </tr>
         {% endfor %}  
         {% for begegnung in entity.begegnungen2 %}
-                <tr>
-                    <td>{{ begegnung.spielrunde.nummer }}</td>
-                    <td>{{ begegnung.mannschaft1 }}</td>
-                    <td>{{ begegnung.mannschaft2 }}</td>
-                    <td>{{ begegnung.kugeln1 }} : {{ begegnung.kugeln2 }}</td>
-                    <td>{{ begegnung.siege1 }} : {{ begegnung.siege2 }}</td>
-                    <td>{{ begegnung.punkt1 }} : {{ begegnung.punkt2 }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ begegnung.spielrunde.nummer }}</td>
+                        <td>{{ begegnung.mannschaft1 }}</td>
+                        <td>{{ begegnung.mannschaft2 }}</td>
+                        <td>{{ begegnung.kugeln1 }} : {{ begegnung.kugeln2 }}</td>
+                        <td>{{ begegnung.siege1 }} : {{ begegnung.siege2 }}</td>
+                        <td>{{ begegnung.punkt1 }} : {{ begegnung.punkt2 }}</td>
+                    </tr>
         {% endfor %}
                 </table>
-    </div>
-</div>
+            </div>
+        </div>
 
 {% endblock %}

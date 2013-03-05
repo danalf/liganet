@@ -9,7 +9,7 @@
     </div>
     <div class="span1">
         {% if is_granted('ROLE_UNION_MANAGEMENT') %}
-        <a class="btn" href="{{ path('region_new') }}">
+        <a class="btn" href="{{ path('region_new', { 'verband_id': 0 }) }}">
             <i class="icon-plus"></i>
         </a>
         {% endif %}    

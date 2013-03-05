@@ -1,0 +1,73 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+<div class="row-fluid">
+    <div class="span11">
+        <div class="page-header">
+            {% if entity.document %}
+                <img alt="Logo {{ entity.namekurz }}" src="{{ asset(entity.document.webpath) }}" class="img-polaroid" style="float: left; margin: 5px"/> 
+            {% endif %}
+                <h1>{{ entity.namekurz }}</h1>
+                <h1><small>{{ entity.name }}</small></h1>
+            </div>
+        </div>
+        <div class="span1">
+            <a class="btn" href="{{ path('verein') }}">
+                <i class="icon-list"></i>
+            </a>
+            {% if isGrantedEdit == true %}
+            <a class="btn" href="{{ path('verein_edit', { 'id': entity.id }) }}">
+                <i class="icon-pencil"></i>
+            </a>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+            <form  action="{{ path('verein_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+                    <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
+                </form>
+            {% endif %}
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span4">
+                <h2>Details</h2>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Kürzel</th>
+                            <td>{{ entity.kuerzel }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nummer</th>
+                            <td>{{ entity.nummer }}</td>
+                        </tr>
+                        <tr>
+                            <th>Kontakt</th>
+                            <td><a href="{{ path('spieler_show', { 'id': entity.kontakt.id }) }}">{{ entity.kontakt }}</a></td>
+                        </tr>
+                        <tr>
+                            <th>Homepage</th>
+                            <td><a href="{{ entity.homepage }}" target="_blank">{{ entity.homepage }}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="span4">
+                {% render "LiganetCoreBundle:Mannschaft:showList" with { 'id': entity.id } %}
+                </div>
+                <div class="span4">
+                    <h2>Spieler</h2>
+                    <table class="table table-striped">
+                        <tbody>
+                            {% for spieler in entity.spieler %}
+                                <tr>
+                                    <td><a href="{{ path('spieler_show', { 'id': spieler.id }) }}">
+                                {{ spieler.vorname }} {{ spieler.nachname }}
+                                                </a></td>
+                                            <td>{{ spieler.nummerlizenz }}</td>
+                                        </tr>
+                                 {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+{% endblock %}

@@ -228,7 +228,8 @@ class LosenService {
 
                 //Begegnungen in Ergebnistabelle incl. Platz eintragen
                 $spiel = new Entity\SpielArt;
-                foreach ($this->ligaSaison->getLiga()->getModus()->getSpielArt() as $spiel) {
+                $spielart=$this->em->getRepository('LiganetCoreBundle:SpielArt')->findBy(array('modus' => $this->ligaSaison->getLiga()->getModus()->getId()), array('nummer' => 'ASC'));
+                foreach ($spielart as $spiel) {
                     $reihenfolge = $spiel->getReihenfolge();
                     $platz = array_pop($this->plaetze[$reihenfolge - 1]);
                     $ergebnis = new Entity\Ergebnis;

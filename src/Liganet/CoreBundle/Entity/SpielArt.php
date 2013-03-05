@@ -45,7 +45,7 @@ class SpielArt
     /**
      * @var boolean
      *
-     * @ORM\Column(name="mixte", type="boolean")
+     * @ORM\Column(name="mixte", type="boolean", nullable=true)
      */
     private $mixte;
 

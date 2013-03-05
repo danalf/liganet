@@ -263,5 +263,31 @@ class MannschaftController extends Controller {
             'isGrantedEdit' => $this->isGrantedEdit($verein)
         );
     }
+    
+    /**
+     * Erstellt einen Spielberichtsbogen
+     *
+     * @Route("/{id}/pdf/spielplan", name="mannschaft_pdf_spielplan")
+     */
+    public function pdfSpielplanAction($id) {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('LiganetCoreBundle:Mannschaft')->find($id);
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Mannschaft entity.');
+        }
+        /**
+         * @var \Liganet\CoreBundle\Services\pdfSpielberichtsbogenService Description
+         */
+        $pdf = $this->get('liganet_core.pdf.spielplan');
+        $pdf->setMannschaft($entity);
+        $pdf->create();
+        $pdf->ouput();
+
+        return array(
+            'entity' => $entity,
+        );
+    }
 
 }
