@@ -73,7 +73,7 @@ fos_user:
     resetting:
         email:
             template: LiganetCoreBundle:Admin:email.txt.twig
-    registration:
-        confirmation:
-            enabled:    true
+    #registration:
+    #    confirmation:
+    #        enabled:    true
     
