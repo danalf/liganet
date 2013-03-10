@@ -22,8 +22,7 @@ class AdminController extends Controller {
                 'LiganetCoreBundle:Admin:email.txt.twig',
                 array('name' => "Welt")
             )
-        )
-    ;
+        );
     $this->get('mailer')->send($message);
         $users = $this->getDoctrine()->getRepository('UserBundle:User')->findAll();
 
