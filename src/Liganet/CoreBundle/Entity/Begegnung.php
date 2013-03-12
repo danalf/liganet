@@ -89,21 +89,21 @@ class Begegnung
     /**
      * @var boolean
      *
-     * @ORM\Column(name="unterschrift1", type="boolean")
+     * @ORM\Column(name="unterschrift1", type="boolean", nullable=true)
      */
     private $unterschrift1=false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="unterschrift2", type="boolean")
+     * @ORM\Column(name="unterschrift2", type="boolean", nullable=true)
      */
     private $unterschrift2=false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="unterschriftLeiter", type="boolean")
+     * @ORM\Column(name="unterschriftLeiter", type="boolean", nullable=true)
      */
     private $unterschriftLeiter=false;
 
@@ -462,5 +462,9 @@ class Begegnung
     public function getMannschaft2()
     {
         return $this->mannschaft2;
+    }
+    
+    public function __toString() {
+        return $this->getSpielRunde()." ".$this->getMannschaft1()->getNameKurz()." : ".$this->getMannschaft2()->getNameKurz();
     }
 }

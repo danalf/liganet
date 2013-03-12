@@ -173,4 +173,8 @@ class SpielRunde
     {
         return $this->tabelle;
     }
+    
+    public function __toString() {
+        return $this->getSpieltag()->getLigasaison()." Runde ".$this->nummer;
+    }
 }

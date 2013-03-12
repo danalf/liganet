@@ -286,4 +286,8 @@ class SpielArt
     {
         return $this->ergebnisse;
     }
+    
+    public function __toString() {
+       return $this->getName();
+    }
 }

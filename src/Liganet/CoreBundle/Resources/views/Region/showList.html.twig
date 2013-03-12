@@ -15,6 +15,7 @@
                     {% endif %}
                                         </td>
                     <td>{{ region }}</td>
+                    <td>{% if region.vereine.count > 0 %}{{ region.vereine.count }} Vereine{% endif %}</td>
                     <td>
                         {% if isGrantedEdit == true %}
                         <a class="btn pull-right" href="{{ path('region_edit', { 'id': region.id }) }}">

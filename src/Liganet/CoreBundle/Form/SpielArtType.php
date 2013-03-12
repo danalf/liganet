@@ -32,4 +32,6 @@ class SpielArtType extends AbstractType
     {
         return 'liganet_corebundle_spielarttype';
     }
+    
+
 }

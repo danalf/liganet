@@ -1186,4 +1186,8 @@ class Spieler {
     {
         return $this->regionsleiter;
     }
+    
+    public function getNameWithLizenz(){
+        return $this->getNummerlizenz()." ".trim($this->getVorname()." ".$this->getNachname());
+    }
 }

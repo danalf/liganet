@@ -8,22 +8,7 @@
     <table class="table">
         <tbody>
         {% for mannschaft in entities %}
-                <tr>
-                    <td style="background-color: {{ mannschaft.ligasaison.liga.farbeTabellenKopf }}; color: {{ mannschaft.ligasaison.liga.farbeTabellenKopfSchrift }};">{{ mannschaft.ligasaison.liga.kuerzel }}</td>
-                    <td>{{ mannschaft }}</td>
-                    <td>
-                        {% if mannschaft.captain %}
-                        <a href="{{ path('spieler_show', { 'id': mannschaft.captain.id }) }}">{{ mannschaft.captain }}</a>
-                        {% else %}
-                        Kaptän tbf
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a class="btn pull-right" href="{{ path('mannschaft_show', { 'id': mannschaft.id }) }}">
-                            <i class="icon-arrow-right"></i>
-                        </a>
-                    </td>
-                </tr>
+                {% include 'LiganetCoreBundle:Mannschaft:rowContent.html.twig' with {'mannschaft': mannschaft, 'isGrantedEdit': isGrantedEdit } %}
         {% endfor %}
             </tbody>
         </table>

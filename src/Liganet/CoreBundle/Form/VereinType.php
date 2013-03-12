@@ -18,20 +18,7 @@ class VereinType extends AbstractType {
                 ->add('nummer')
                 ->add('homepage')
                 ->add('document')
-                ->add('region')
-        ;
-        if (isset($verein)) {
-            $builder->add('kontakt', 'entity', array(
-                'class' => 'Liganet\CoreBundle\Entity\Spieler',
-                'query_builder' => function(EntityRepository $er) use($verein) {
-                    return $er->createQueryBuilder('u')
-                                    ->where('u.verein = :id')
-                                    ->setParameter('id', $verein);
-                },
-                'required' => false,
-                'empty_value' => 'Wähle einen Kontakt',
-            ));
-        }
+                ->add('region');
         if (isset($verein)) {
             $builder->add('leiter', 'entity', array(
                 'class' => 'Liganet\CoreBundle\Entity\Spieler',

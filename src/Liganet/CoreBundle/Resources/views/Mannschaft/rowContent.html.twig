@@ -1,0 +1,12 @@
+<tr>
+    <td style="background-color: {{ mannschaft.ligasaison.liga.farbeTabellenKopf }}; color: {{ mannschaft.ligasaison.liga.farbeTabellenKopfSchrift }};">{{ mannschaft.ligasaison.liga.kuerzel }}</td>
+    <td>{{ mannschaft }}</td>
+    <td>
+                {% if mannschaft.captain %}
+            <a href="{{ path('spieler_show', { 'id': mannschaft.captain.id }) }}">{{ mannschaft.captain }}</a>
+                        {% else %}
+            Kaptän tbf
+                        {% endif %}
+        </td>
+        <td>{% include 'LiganetCoreBundle::rowActionButtons.html.twig' with {'art': 'mannschaft', 'id': mannschaft.id, 'isGrantedEdit': isGrantedEdit } %}</td>
+    </tr>

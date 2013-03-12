@@ -129,12 +129,6 @@ class LigaSaisonController extends Controller {
 
         if ($losung->setLigaSaison($entity)) {
             $losung->losen();
-            /**
-             * @var \Liganet\CoreBundle\Services\xmlErgebnisseService
-             */
-            $xml = $this->get('liganet_core.xmlErgebnisse');
-            $xml->setLigaSaison($entity);
-            $xml->createXmlErgebnisse();
         } else {
             $this->get('session')->getFlashBag()->add('error', 'Diese Ligasaison losne ist nicht erlaubt.');
         };
@@ -145,6 +139,34 @@ $deleteForm = $this->createDeleteForm($id);
             'delete_form' => $deleteForm->createView(),
             'isGrantedEdit' => $this->isGrantedEdit()
         );
+    }
+    
+    /**
+     * Schreibt das xml-File zur Veroeffentlichung
+     *
+     * @Route("/{id}/writexml", name="ligasaison_writexml")
+     */
+    public function writeXmlAction($id) {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find LigaSaison entity.');
+        }
+        if($this->isGrantedEdit()){
+            /**
+             * @var \Liganet\CoreBundle\Services\xmlErgebnisseService
+             */
+            $xml = $this->get('liganet_core.xmlErgebnisse');
+            $xml->setLigaSaison($entity);
+            $xml->createXmlErgebnisse();
+            $this->get('session')->getFlashBag()->add('success', 'XML für die Ligasaison erstellt');
+        } else {
+            $this->get('session')->getFlashBag()->add('error', 'Diese Aktion ist für dich nicht erlaubt.');
+        }
+        
+
+        return $this->redirect($this->generateUrl('ligasaison_show', array('id' => $entity->getId())));
     }
 
     /**

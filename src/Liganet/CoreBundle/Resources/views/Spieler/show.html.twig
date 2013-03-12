@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="span1">
-            <a class="btn" href="{{ path('spieler') }}">
+            <a class="btn" href="{{ path('verein_show', { 'id': entity.verein.id }) }}">
                 <i class="icon-list"></i>
             </a>
         {% if isGrantedEdit == true %}
@@ -71,9 +71,9 @@
                         </tr>
                     {% endif %}
                     </table>
-                   
-                
-                
+
+
+
                 </div>
                 <div class="span4">
 
@@ -103,6 +103,21 @@
                             </div>
                             <div class="span4">
                                 <table class="table">
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                    <tr>
+                                        <th>Als User anlegen</th>
+                                        <td><a class="btn" href="{{ path('spieler_createuser', { 'id': entity.id }) }}">
+                                                <i class="icon-pencil"></i>
+                                            </a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Passwort-Email absenden</th>
+                                        <td><form action="{{ path('fos_user_resetting_send_email') }}" method="post" >
+                                                <input type="hidden" name="username" value="{{ entity.email }}" />
+                                                <input type="submit" class="btn" />
+                                            </form></td>
+                                    </tr>
+                                    {% endif %}
                                     <tr>
                                         <th>Letzter Bearbeiter</th>
                                         <td>{{ entity.veraendertvon }}</td>
@@ -115,6 +130,15 @@
                                         <th>Bestaetigt</th>
                                         <td>{{ entity.bestaetigt }}</td>
                                     </tr>
+                                </table>
+                                    <h3>Änderungslog</h3>
+                                <table class="table">
+                                    {% for logeintrag in log %}
+                                        <tr>
+                                            <td>{{ logeintrag.date|date("d.m.Y H:i:s") }}</td>
+                                            <td>{{ logeintrag.user }}</td>
+                                        </tr>
+                                    {% endfor %}    
                                 </table>
                             </div>
                         </div>

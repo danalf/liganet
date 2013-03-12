@@ -12,7 +12,8 @@ use Liganet\CoreBundle\Entity\Document;
  * @ORM\Entity
  */
 class Verein {
-
+    
+                
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -65,7 +66,7 @@ class Verein {
     /**
      * @var string $homepage
      *
-     * @ORM\Column(name="homePage", type="string", length=90, nullable=false)
+     * @ORM\Column(name="homePage", type="string", length=90, nullable=true)
      */
     private $homepage;
 
@@ -376,7 +377,12 @@ class Verein {
     }
     
     public function __toString() {
-        return $this->namekurz;
+        if(isset($this->namekurz)){
+            return $this->namekurz;
+        }else{
+            return "";
+        }
+        
     }
 
 

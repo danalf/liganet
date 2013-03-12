@@ -4,10 +4,11 @@
 {% autoescape false %}
 Hallo {{ user.username }} !
 
-Du kannst Dein Passwort für das Liganet zurücksetzen, wenn Du auf folgende Adresse klickst:
+Du kannst Dein Passwort für das Liganet initiieren/zurücksetzen, wenn Du auf folgende Adresse klickst:
 {{ confirmationUrl }}
 
 Liebe Grüße,
+
 Der Liganet-Admin
 {% endautoescape %}
 {% endblock %}
@@ -17,7 +18,7 @@ Der Liganet-Admin
     <body>
         <p>Hallo {{ user.username }} !</p>
 
-        <p>Du kannst Dein Passwort für das Liganet zurücksetzen, wenn Du auf folgende Adresse klickst:</p>
+        <p>Du kannst Dein Passwort für das Liganet initiieren/zurücksetzen, wenn Du auf folgende Adresse klickst:</p>
         <p>{{ confirmationUrl }}</p>
 
         <p>Liebe Grüße,</p>

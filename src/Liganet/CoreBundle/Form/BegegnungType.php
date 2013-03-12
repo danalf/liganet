@@ -10,20 +10,22 @@ class BegegnungType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $begegnung=$options["data"];
         $builder
-            ->add('kugeln1')
-            ->add('kugeln2')
-            ->add('siege1')
-            ->add('siege2')
-            ->add('punkt1')
-            ->add('punkt2')
+            ->add('ergebnisse', 'collection', array('type' => new ErgebnisType(array(), array('id' => $begegnung->getId()))))
+            //->add('kugeln1')
+            //->add('kugeln2')
+            //->add('siege1')
+            //->add('siege2')
+            //->add('punkt1')
+            //->add('punkt2')
             ->add('unterschrift1')
             ->add('unterschrift2')
             ->add('unterschriftLeiter')
             ->add('bemerkung')
-            ->add('spielRunde')
-            ->add('mannschaft1')
-            ->add('mannschaft2')
+            //->add('spielRunde')
+            //->add('mannschaft1')
+            //->add('mannschaft2')
         ;
     }
 

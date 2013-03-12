@@ -209,36 +209,26 @@ class VereinController extends Controller
     }
     
     /**
-     * Legt fest, ob der User (den) Spieler verändern darf oder nicht
+     * Legt fest, ob der User (den) Verein verändern darf oder nicht
      * @param type $spieler
      * @return boolean
      */
-    private function isGrantedEdit($verein=NULL){
-        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
+    private function isGrantedEdit(\Liganet\CoreBundle\Entity\Verein $verein = NULL) {
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
             return TRUE;
         }
-        if(!isset($verein)) return FALSE;
-        if($verein->getId()==$this->getUserAsSpieler()->getVerein()->getId() 
-                && $this->get('security.context')->isGranted('ROLE_CLUB_MANAGEMENT')){
+        if (isset($verein)) {
+            foreach ($verein->getLeiter() as $leiter) {
+                if ($this->getUser()->getSpieler() == $leiter->getId())
+                    return TRUE;
+            }
+            foreach ($verein->getRegion()->getLeiter() as $leiter) {
+                if ($this->getUser()->getSpieler() == $leiter->getId())
+                    return TRUE;
+            }
+        };
 
-            return TRUE;
-        }
         return FALSE;
     }
     
-    /**
-     * Gibt das Spieler-Objekt des Users zurück
-     * @return \Liganet\CoreBundle\Entity\Spieler
-     */
-    private function getUserAsSpieler(){
-        $user = $this->getUser();
-        $id = $user->getSpieler();
-        if(isset($id)){
-            $em = $this->getDoctrine()->getManager();
-        $spieler = $em->getRepository('LiganetCoreBundle:Spieler')->find($id);
-        } else{
-            $spieler=new Spieler;
-        }
-        return $spieler;
-    }
 }

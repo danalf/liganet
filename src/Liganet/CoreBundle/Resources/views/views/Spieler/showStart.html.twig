@@ -1,8 +1,0 @@
-{% if spieler.id>0 %}
-<h2>Hallo {{ spieler.vorname }}</h2>
-<p>Alles zu meinem Verein:</p>
-<p>
-    <a class="btn" href="{{ path('verein_show', { 'id': spieler.verein.id }) }}">Mein Verein</a>
-</p>
-
-{% endif %}

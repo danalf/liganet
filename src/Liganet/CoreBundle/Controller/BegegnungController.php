@@ -118,7 +118,7 @@ class BegegnungController extends Controller
             throw $this->createNotFoundException('Unable to find Begegnung entity.');
         }
 
-        $editForm = $this->createForm(new BegegnungType(), $entity);
+        $editForm = $this->createForm(new BegegnungType(array(), array('id' => $entity->getId())), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(

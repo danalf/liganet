@@ -14,3 +14,11 @@ footer {
 .table-edit ul{
     list-style:none 
 }
+
+.ergebnis-spieler{
+    width: 120px;
+}
+
+.ergebnis-kugeln{
+    width: 30px;
+}

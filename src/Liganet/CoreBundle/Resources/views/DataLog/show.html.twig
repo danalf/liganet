@@ -1,0 +1,37 @@
+{% extends 'LiganetCoreBundle::base.html.twig' %}
+{% block content %}
+<h1>DataLog</h1>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Entity_type</th>
+            <td>{{ entity.entity_type }}</td>
+        </tr>
+        <tr>
+            <th>Entity_id</th>
+            <td>{{ entity.entity_id }}</td>
+        </tr>
+        <tr>
+            <th>Changes</th>
+            <td>{% for value in entity.changes %}
+                <strong>{{ value.type }}: </strong> {{ value.old }} -> {{ value.new }}
+                    <br />
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ entity.date|date('Y-m-d H:i:s') }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('datalog') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

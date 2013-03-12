@@ -24,6 +24,8 @@ class User extends BaseUser {
      */
     private $spieler;
     
+
+    
     /**
      * Get id
      *
@@ -44,7 +46,7 @@ class User extends BaseUser {
      */
     public function setSpieler(\Liganet\CoreBundle\Entity\Spieler $spieler = null)
     {
-        $this->spieler = $spieler;
+        $this->spieler = $spieler->getId();
     
         return $this;
     }
@@ -59,4 +61,5 @@ class User extends BaseUser {
         return $this->spieler;
     }
     
+
 }

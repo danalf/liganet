@@ -234,6 +234,10 @@ class MannschaftController extends Controller {
                 if ($mannschaft->getCaptain()->getId() == $this->getUser()->getSpieler())
             return TRUE;
             }
+            foreach ($mannschaft->getVerein()->getLeiter() as $leiter) {
+                if ($this->getUser()->getSpieler() == $leiter->getId())
+                    return TRUE;
+            }
             foreach ($mannschaft->getLigasaison()->getStaffelleiter() as $leiter) {
                 if ($this->getUser()->getSpieler() == $leiter->getId())
                     return TRUE;

@@ -1,22 +1,103 @@
-<h1>Begegnung edit</h1>
+{% extends 'LiganetCoreBundle::base.html.twig' %}
+{% block content %}
+<div class="page-header">
+    <h1>Ergebnisformular</h1>
+    <table class="table">
+        <tr>
+            <th>Liga</th>
+            <td>{{ entity.spielrunde.spieltag.ligasaison }}</td>
+        </tr>
+        <tr>
+            <th>Spielort</th>
+            <td>{{ entity.spielrunde.spieltag.austragenderverein }}</td>
+        </tr>
+        <tr>
+            <th>Spieltag</th>
+            <td>{{ entity.spielrunde.spieltag.nummer }}</td>
+        </tr>
+        <tr>
+            <th>Begegnung</th>
+            <td>{{ entity.spielrunde.nummer }}</td>
+        </tr>
+    </table>
+</div>
+<div class="row-fluid">
+    <div class="span4 offset1" style="text-align: center">
+            {% if entity.mannschaft1.verein.document %}
+            <img class="media-object" alt="Logo {{ entity.mannschaft1.verein }}" src="{{ asset(entity.mannschaft1.verein.document.webpath) }}" style="height: 32px" />
+            {% endif %}
+            {{ entity.mannschaft1 }}
+        </div>
+        <div class="span4" style="text-align: center">
+            {% if entity.mannschaft2.verein.document %}
+                <img class="media-object" alt="Logo {{ entity.mannschaft2.verein }}" src="{{ asset(entity.mannschaft2.verein.document.webpath) }}" style="height: 32px" />
+            {% endif %}
+            {{ entity.mannschaft2 }}
+            </div>
+        </div>
+<hr />
+        <form action="{{ path('begegnung_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+                {# iterate over each existing tag and render its only field: name #}
+                {% for ergebnis in edit_form.ergebnisse %}
+                <div class="row-fluid">   
+                    <div class="span1">
+                        <p>Platz</p>
+                        <p>{{ ergebnis.vars.value.platz }}</p>
+                    </div>
+                    <div class="span4">
+                        <p>{{ ergebnis.vars.value.spielart }}</p>
+                            {{ form_errors(ergebnis.spieler1_1) }}{{ form_widget(ergebnis.spieler1_1, { 'attr': {'class': 'ergebnis-spieler'} }) }}
+                            {{ form_errors(ergebnis.spieler1_2) }}{{ form_widget(ergebnis.spieler1_2, { 'attr': {'class': 'ergebnis-spieler'} }) }}
+                            {{ form_errors(ergebnis.spieler1_3) }}{{ form_widget(ergebnis.spieler1_3, { 'attr': {'class': 'ergebnis-spieler'} }) }}
+                        <p>Auswechselspieler</p>
+                            {{ form_errors(ergebnis.ersatz1) }}{{ form_widget(ergebnis.ersatz1, { 'attr': {'class': 'ergebnis-spieler'} }) }}
+                        für
+                            {{ form_errors(ergebnis.ersatzFuer1) }}{{ form_widget(ergebnis.ersatzFuer1, { 'attr': {'class': 'ergebnis-spieler'} }) }}
+                    </div>
+                    <div class="span4">
+                        <p>{{ ergebnis.vars.value.spielart }}</p>
+                            {{ form_errors(ergebnis.spieler2_1) }}{{ form_widget(ergebnis.spieler2_1, { 'attr': {'class': 'ergebnis-spieler'} }) }}
+                            {{ form_errors(ergebnis.spieler2_2) }}{{ form_widget(ergebnis.spieler2_2, { 'attr': {'class': 'ergebnis-spieler'} }) }}
+                            {{ form_errors(ergebnis.spieler2_3) }}{{ form_widget(ergebnis.spieler2_3, { 'attr': {'class': 'ergebnis-spieler'} }) }}
+                        <p>Auswechselspieler</p>
+                            {{ form_errors(ergebnis.ersatz2) }}{{ form_widget(ergebnis.ersatz2, { 'attr': {'class': 'ergebnis-spieler'} }) }}
+                        für
+                            {{ form_errors(ergebnis.ersatzFuer2) }}{{ form_widget(ergebnis.ersatzFuer2, { 'attr': {'class': 'ergebnis-spieler'} }) }}
+                    </div>   
+                    <div class="span2">
+                        <p>Kugeln</p>
+                            {{ form_errors(ergebnis.kugeln1) }}{{ form_widget(ergebnis.kugeln1, { 'attr': {'class': 'ergebnis-kugeln'} }) }}
+                            {{ form_errors(ergebnis.kugeln2) }}{{ form_widget(ergebnis.kugeln2, { 'attr': {'class': 'ergebnis-kugeln'} }) }}
+                    </div>
+                </div>
+                        {{ form_rest(ergebnis) }}
+                <hr />
+                {% endfor %}
+                
+                <div class="row-fluid">
+                    <div class="span2">
+                        <p>Unterschrift Kapitän {{ entity.mannschaft1.namekurz }}</p>
+                        {{ form_errors(edit_form.unterschrift1) }}{{ form_widget(edit_form.unterschrift1) }}
+                    </div>
+                    <div class="span2">
+                        <p>Unterschrift Kapitän {{ entity.mannschaft2.namekurz }}</p>
+                        {{ form_errors(edit_form.unterschrift2) }}{{ form_widget(edit_form.unterschrift2) }}
+                    </div>
+                    <div class="span2">
+                        <p>Unterschrift<br />Staffelleiter</p>
+                        {{ form_errors(edit_form.unterschriftLeiter) }}{{ form_widget(edit_form.unterschriftLeiter) }}
+                    </div>
+                    <div class="span4">
+                        <p>Bemerkungen</p>
+                        {{ form_errors(edit_form.bemerkung) }}{{ form_widget(edit_form.bemerkung) }}
+                    </div>
+                    <div class="span2">
+                        {{ form_rest(edit_form) }}
+                            <p>
+                                <button class="btn" type="submit">Edit</button>
+                            </p>
+                        </div>
+                    </div>
 
-<form action="{{ path('begegnung_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
-    <p>
-        <button type="submit">Edit</button>
-    </p>
-</form>
-
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('begegnung') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('begegnung_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+                </form>
+{% endblock %}

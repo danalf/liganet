@@ -191,7 +191,7 @@ class xmlErgebnisseService {
 
         $logo=$mannschaft->getVerein()->getDocument();
         if(isset($logo)){
-            $text = $this->doc->createTextNode( $webpath.$logo->getWebPath());
+            $text = $this->doc->createTextNode( $this->webpath.$logo->getWebPath());
         } else{
             $text= $this->doc->createTextNode( "");
         }
@@ -362,11 +362,11 @@ class xmlErgebnisseService {
         //Punkte
         $xml = $this->doc->createElement('punkt');
         $attribut = $this->doc->createAttribute('team1');
-        $text = $this->doc->createTextNode($begegnung->getPunkt1());
+        $text = $this->doc->createTextNode(number_format($begegnung->getPunkt1()));
         $attribut->appendChild($text);
         $xml->appendChild($attribut);
         $attribut = $this->doc->createAttribute('team2');
-        $text = $this->doc->createTextNode($begegnung->getPunkt2());
+        $text = $this->doc->createTextNode(number_format($begegnung->getPunkt2()));
         $attribut->appendChild($text);
         $xml->appendChild($attribut);
         $element->appendChild($xml);
