@@ -8,11 +8,18 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class BegegnungType extends AbstractType
 {
+    private $session;
+        public function __construct($session)
+        {
+            $this->session = $session;
+        }
+        
+        
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $begegnung=$options["data"];
         $builder
-            ->add('ergebnisse', 'collection', array('type' => new ErgebnisType(array(), array('id' => $begegnung->getId()))))
+            ->add('ergebnisse', 'collection', array('type' => new ErgebnisType($this->session)))
             //->add('kugeln1')
             //->add('kugeln2')
             //->add('siege1')

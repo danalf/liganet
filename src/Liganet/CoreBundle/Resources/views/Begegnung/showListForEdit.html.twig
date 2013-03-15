@@ -1,0 +1,13 @@
+<h2>Ergebnisse eintragen</h2>
+<table class="table">
+    {% for begegnung in begegnungen %}
+        <tr>
+            <td>{{ begegnung.mannschaft1 }} : {{ begegnung.mannschaft2 }}</td>
+            <td>{% if isGrantedEdit == true %}
+                <a class="btn" href="{{ path('begegnung_edit', { 'id': begegnung.id }) }}">
+                    <i class="icon-pencil"></i>
+                </a>
+                {% endif %}</td>
+        </tr>
+    {% endfor %}
+    </table>

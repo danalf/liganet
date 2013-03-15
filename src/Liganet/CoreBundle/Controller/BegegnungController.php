@@ -85,7 +85,7 @@ class BegegnungController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new Begegnung();
-        $form = $this->createForm(new BegegnungType(), $entity);
+        $form = $this->createForm(new BegegnungType($this->get('session')), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -117,8 +117,10 @@ class BegegnungController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Begegnung entity.');
         }
+        $this->get('session')->set('mannschaft1', $entity->getMannschaft1()->getId());
+        $this->get('session')->set('mannschaft2', $entity->getMannschaft2()->getId());
 
-        $editForm = $this->createForm(new BegegnungType(array(), array('id' => $entity->getId())), $entity);
+        $editForm = $this->createForm(new BegegnungType($this->get('session')), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -146,14 +148,20 @@ class BegegnungController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new BegegnungType(), $entity);
+        $editForm = $this->createForm(new BegegnungType($this->get('session')), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            $entity->setErgebnisse();
             $em->persist($entity);
             $em->flush();
+            
+            /* @var $berechnen \Liganet\CoreBundle\Services\berechnenErgebnisService */
+            $berechnen = $this->get('liganet_core.berechnenErgebnis');
+            $berechnen->setLigaSaison($entity->getSpielRunde()->getSpieltag()->getLigaSaison());
+            $berechnen->makeTabellen();
 
-            return $this->redirect($this->generateUrl('begegnung_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('spielrunde_show', array('id' => $entity->getSpielRunde()->getId())));
         }
 
         return array(
@@ -162,6 +170,7 @@ class BegegnungController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
+
 
     /**
      * Deletes a Begegnung entity.

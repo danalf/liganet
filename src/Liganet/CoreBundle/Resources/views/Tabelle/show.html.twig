@@ -1,50 +1,26 @@
-<h1>Tabelle</h1>
-
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Rang</th>
-            <td>{{ entity.rang }}</td>
-        </tr>
-        <tr>
-            <th>Kugeln1</th>
-            <td>{{ entity.kugeln1 }}</td>
-        </tr>
-        <tr>
-            <th>Kugeln2</th>
-            <td>{{ entity.kugeln2 }}</td>
-        </tr>
-        <tr>
-            <th>Differenz</th>
-            <td>{{ entity.differenz }}</td>
-        </tr>
-        <tr>
-            <th>Spiele1</th>
-            <td>{{ entity.spiele1 }}</td>
-        </tr>
-        <tr>
-            <th>Spiele2</th>
-            <td>{{ entity.spiele2 }}</td>
-        </tr>
-        <tr>
-            <th>Punkte1</th>
-            <td>{{ entity.punkte1 }}</td>
-        </tr>
-        <tr>
-            <th>Punkte2</th>
-            <td>{{ entity.punkte2 }}</td>
-        </tr>
+<h2>Tabelle</h2>
+<table class="table ergebnis">
+    <tr>
+        <td colspan="6" class="table-zeile1">Tabelle Runde {{entities[0].spielrunde.spieltag.nummer}} am {{ entities[0].spielrunde.spieltag.datum|date("d.m.Y") }}</td>
+    </tr>
+    <tr class="table-zeile2">
+        <td>Platz</td>
+        <td>Mannschaft</td>
+        <td>Kugeln</td>
+        <td>Differenz</td>
+        <td>Spiele</td>
+        <td>Punkte</td>
+    </tr>
+    <tbody class="table-content">
+        {% for zeile in entities %}
+            <tr>
+                <td>{{ zeile.rang }}</td>
+                <td>{{ zeile.mannschaft.namekurz }}</td>
+                <td>{{ zeile.kugeln1 }} : {{ zeile.kugeln2 }}</td>
+                <td>{{ zeile.differenz }}</td>
+                <td>{{ zeile.spiele1 }} : {{ zeile.spiele2 }}</td>
+                <td>{{ zeile.punkte1 }} : {{ zeile.punkte2 }}</td>
+            </tr>
+        {% endfor %}
     </tbody>
 </table>
-
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('tabelle') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>

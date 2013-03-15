@@ -9,9 +9,17 @@ use Doctrine\ORM\EntityRepository;
 
 class ErgebnisType extends AbstractType
 {
+    private $session;
+        public function __construct($session)
+        {
+            $this->session = $session;
+        }
+        
+        
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $mannschaft=0;
+        $mannschaft1=$this->session->get('mannschaft1');
+        $mannschaft2=$this->session->get('mannschaft2');
         $builder
             //->add('platz')
             //->add('bemerkung')
@@ -23,23 +31,123 @@ class ErgebnisType extends AbstractType
                 'required' => false,
                 'property' => 'nameWithLizenz',
                 'class' => 'Liganet\CoreBundle\Entity\Spieler',
-                'query_builder' => function(EntityRepository $er) use ($mannschaft) {
+                'query_builder' => function(EntityRepository $er) use ($mannschaft1) {
                     return $er->createQueryBuilder('s')
                         ->innerJoin('s.mannschaftSpieler','ms')
-                        ->innerJoin('ms.mannschaft','m',  'WITH', 'm.id =62')
+                        ->innerJoin('ms.mannschaft','m',  'WITH', 'm.id ='.$mannschaft1)
                         ->orderBy('s.nummerlizenz', 'ASC');
                 },
                 'empty_value' => '',
             ))
-            ->add('spieler1_2')
-            ->add('spieler1_3')
-            ->add('spieler2_1')
-            ->add('spieler2_2')
-            ->add('spieler2_3')
-            ->add('ersatz1')
-            ->add('ersatzFuer1')
-            ->add('ersatz2')
-            ->add('ersatzFuer2')
+            ->add('spieler1_2','entity', array(
+                'required' => false,
+                'property' => 'nameWithLizenz',
+                'class' => 'Liganet\CoreBundle\Entity\Spieler',
+                'query_builder' => function(EntityRepository $er) use ($mannschaft1) {
+                    return $er->createQueryBuilder('s')
+                        ->innerJoin('s.mannschaftSpieler','ms')
+                        ->innerJoin('ms.mannschaft','m',  'WITH', 'm.id ='.$mannschaft1)
+                        ->orderBy('s.nummerlizenz', 'ASC');
+                },
+                'empty_value' => '',
+            ))
+            ->add('spieler1_3','entity', array(
+                'required' => false,
+                'property' => 'nameWithLizenz',
+                'class' => 'Liganet\CoreBundle\Entity\Spieler',
+                'query_builder' => function(EntityRepository $er) use ($mannschaft1) {
+                    return $er->createQueryBuilder('s')
+                        ->innerJoin('s.mannschaftSpieler','ms')
+                        ->innerJoin('ms.mannschaft','m',  'WITH', 'm.id ='.$mannschaft1)
+                        ->orderBy('s.nummerlizenz', 'ASC');
+                },
+                'empty_value' => '',
+            ))
+            ->add('spieler2_1','entity', array(
+                'required' => false,
+                'property' => 'nameWithLizenz',
+                'class' => 'Liganet\CoreBundle\Entity\Spieler',
+                'query_builder' => function(EntityRepository $er) use ($mannschaft2) {
+                    return $er->createQueryBuilder('s')
+                        ->innerJoin('s.mannschaftSpieler','ms')
+                        ->innerJoin('ms.mannschaft','m',  'WITH', 'm.id ='.$mannschaft2)
+                        ->orderBy('s.nummerlizenz', 'ASC');
+                },
+                'empty_value' => '',
+            ))
+            ->add('spieler2_2','entity', array(
+                'required' => false,
+                'property' => 'nameWithLizenz',
+                'class' => 'Liganet\CoreBundle\Entity\Spieler',
+                'query_builder' => function(EntityRepository $er) use ($mannschaft2) {
+                    return $er->createQueryBuilder('s')
+                        ->innerJoin('s.mannschaftSpieler','ms')
+                        ->innerJoin('ms.mannschaft','m',  'WITH', 'm.id ='.$mannschaft2)
+                        ->orderBy('s.nummerlizenz', 'ASC');
+                },
+                'empty_value' => '',
+            ))
+            ->add('spieler2_3','entity', array(
+                'required' => false,
+                'property' => 'nameWithLizenz',
+                'class' => 'Liganet\CoreBundle\Entity\Spieler',
+                'query_builder' => function(EntityRepository $er) use ($mannschaft2) {
+                    return $er->createQueryBuilder('s')
+                        ->innerJoin('s.mannschaftSpieler','ms')
+                        ->innerJoin('ms.mannschaft','m',  'WITH', 'm.id ='.$mannschaft2)
+                        ->orderBy('s.nummerlizenz', 'ASC');
+                },
+                'empty_value' => '',
+            ))
+            
+            ->add('ersatz1','entity', array(
+                'required' => false,
+                'property' => 'nameWithLizenz',
+                'class' => 'Liganet\CoreBundle\Entity\Spieler',
+                'query_builder' => function(EntityRepository $er) use ($mannschaft1) {
+                    return $er->createQueryBuilder('s')
+                        ->innerJoin('s.mannschaftSpieler','ms')
+                        ->innerJoin('ms.mannschaft','m',  'WITH', 'm.id ='.$mannschaft1)
+                        ->orderBy('s.nummerlizenz', 'ASC');
+                },
+                'empty_value' => '',
+            ))
+            ->add('ersatzFuer1','entity', array(
+                'required' => false,
+                'property' => 'nameWithLizenz',
+                'class' => 'Liganet\CoreBundle\Entity\Spieler',
+                'query_builder' => function(EntityRepository $er) use ($mannschaft1) {
+                    return $er->createQueryBuilder('s')
+                        ->innerJoin('s.mannschaftSpieler','ms')
+                        ->innerJoin('ms.mannschaft','m',  'WITH', 'm.id ='.$mannschaft1)
+                        ->orderBy('s.nummerlizenz', 'ASC');
+                },
+                'empty_value' => '',
+            ))
+->add('ersatz2','entity', array(
+                'required' => false,
+                'property' => 'nameWithLizenz',
+                'class' => 'Liganet\CoreBundle\Entity\Spieler',
+                'query_builder' => function(EntityRepository $er) use ($mannschaft2) {
+                    return $er->createQueryBuilder('s')
+                        ->innerJoin('s.mannschaftSpieler','ms')
+                        ->innerJoin('ms.mannschaft','m',  'WITH', 'm.id ='.$mannschaft2)
+                        ->orderBy('s.nummerlizenz', 'ASC');
+                },
+                'empty_value' => '',
+            ))
+            ->add('ersatzFuer2','entity', array(
+                'required' => false,
+                'property' => 'nameWithLizenz',
+                'class' => 'Liganet\CoreBundle\Entity\Spieler',
+                'query_builder' => function(EntityRepository $er) use ($mannschaft2) {
+                    return $er->createQueryBuilder('s')
+                        ->innerJoin('s.mannschaftSpieler','ms')
+                        ->innerJoin('ms.mannschaft','m',  'WITH', 'm.id ='.$mannschaft2)
+                        ->orderBy('s.nummerlizenz', 'ASC');
+                },
+                'empty_value' => '',
+            ))
         ;
     }
 
@@ -54,4 +162,6 @@ class ErgebnisType extends AbstractType
     {
         return 'liganet_corebundle_ergebnistype';
     }
+    
+    
 }

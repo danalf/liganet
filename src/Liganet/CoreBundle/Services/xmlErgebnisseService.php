@@ -1,4 +1,5 @@
 <?php
+
 namespace Liganet\CoreBundle\Services;
 
 use Doctrine\ORM\EntityManager;
@@ -15,27 +16,27 @@ use Liganet\CoreBundle\Entity;
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL 3.0
  */
 class xmlErgebnisseService {
-    
-    private $webpath="http://www.liga-net.de/";
-    
+
+    private $webpath = "http://www.liga-net.de/";
+
     /**
      *
      * @var EntityManager 
      */
     protected $em;
-    
-     /**
+
+    /**
      *
      * @var Entity\LigaSaison 
      */
     private $ligaSaison;
-    
-     /**
+
+    /**
      *
      * @var \DOMDocument
      */
     private $doc;
-    
+
     public function __construct(EntityManager $entityManager) {
         $this->em = $entityManager;
     }
@@ -83,15 +84,15 @@ class xmlErgebnisseService {
         //Spielrunden
         $root->appendChild($this->createSpielrunden());
         //speichern
-        $filename=__DIR__ . '/../../../../web/xml/'  . $this->ligaSaison->getSaison() . "_" 
+        $filename = __DIR__ . '/../../../../web/xml/' . $this->ligaSaison->getSaison() . "_"
                 . $this->ligaSaison->getLiga()->getRegion()->getName()
-                ."_".$this->ligaSaison->getLiga()->getName() . ".xml";
-        echo "<p>xml erstellen: letztes Tabellen-Element sicherstellen!!!</p>".$filename;
+                . "_" . $this->ligaSaison->getLiga()->getName() . ".xml";
+        echo "<p>xml erstellen: letztes Tabellen-Element sicherstellen!!!</p>" . $filename;
         $success = $this->doc->save($filename);
     }
 
     private function createRegion() {
-        $region=$this->ligaSaison->getLiga()->getRegion();
+        $region = $this->ligaSaison->getLiga()->getRegion();
         $xml_region = $this->doc->createElement('region');
         $attribut = $this->doc->createAttribute('name');
         $xml_region->appendChild($attribut);
@@ -99,7 +100,7 @@ class xmlErgebnisseService {
         $attribut->appendChild($text);
         $attribut = $this->doc->createAttribute('logo');
         $xml_region->appendChild($attribut);
-        $text = $this->doc->createTextNode($this->webpath.$region->getDocument()->getWebPath());
+        $text = $this->doc->createTextNode($this->webpath . $region->getDocument()->getWebPath());
         $attribut->appendChild($text);
         $attribut = $this->doc->createAttribute('farbeTabelleSchrift');
         $xml_region->appendChild($attribut);
@@ -121,7 +122,7 @@ class xmlErgebnisseService {
     }
 
     private function createLiga() {
-        $liga=$this->ligaSaison->getLiga();
+        $liga = $this->ligaSaison->getLiga();
         $ligaElement = $this->doc->createElement('liga');
         $attribut = $this->doc->createAttribute('name');
         $ligaElement->appendChild($attribut);
@@ -144,22 +145,26 @@ class xmlErgebnisseService {
         $text = $this->doc->createTextNode($liga->getFarbeUeberschrift());
         $attribut->appendChild($text);
         foreach ($this->ligaSaison->getStaffelleiter() as $staffelleiter) {
-             $xml = $this->doc->createElement('staffelleiter');
-        $ligaElement->appendChild($xml);
-        $text = $this->doc->createTextNode($staffelleiter);
-        $xml->appendChild($text);
+            $xml = $this->doc->createElement('staffelleiter');
+            $ligaElement->appendChild($xml);
+            $text = $this->doc->createTextNode($staffelleiter);
+            $xml->appendChild($text);
         }
+        $xml = $this->doc->createElement('anzahl_spieltage');
+        $ligaElement->appendChild($xml);
+        $text = $this->doc->createTextNode($this->ligaSaison->getSpieltage()->count());
+        $xml->appendChild($text);
         return $ligaElement;
     }
 
     private function createModus() {
-        $modus=$this->ligaSaison->getLiga()->getModus();
+        $modus = $this->ligaSaison->getLiga()->getModus();
         $modus_element = $this->doc->createElement('modus');
         $attribut = $this->doc->createAttribute('beschreibung');
         $modus_element->appendChild($attribut);
         $text = $this->doc->createTextNode($modus->getName());
         $attribut->appendChild($text);
-        $spielart=$this->em->getRepository('LiganetCoreBundle:SpielArt')->findByModusOrdered($modus);
+        $spielart = $this->em->getRepository('LiganetCoreBundle:SpielArt')->findByModusOrdered($modus);
         foreach ($spielart as $value) {
             $xml = $this->doc->createElement('spiel');
             $modus_element->appendChild($xml);
@@ -189,13 +194,13 @@ class xmlErgebnisseService {
         $element->appendChild($attribut);
         $attribut = $this->doc->createAttribute('logo');
 
-        $logo=$mannschaft->getVerein()->getDocument();
-        if(isset($logo)){
-            $text = $this->doc->createTextNode( $this->webpath.$logo->getWebPath());
-        } else{
-            $text= $this->doc->createTextNode( "");
+        $logo = $mannschaft->getVerein()->getDocument();
+        if (isset($logo)) {
+            $text = $this->doc->createTextNode($this->webpath . $logo->getWebPath());
+        } else {
+            $text = $this->doc->createTextNode("");
         }
-        
+
         $attribut->appendChild($text);
         $element->appendChild($attribut);
         //Spieler hinzufügen
@@ -229,7 +234,7 @@ class xmlErgebnisseService {
 
     private function createSpielrunden() {
         $element = $this->doc->createElement('spielrunden');
-        $spieltage=$this->em->getRepository('LiganetCoreBundle:Spieltag')->findByLigaSaisonOrdered($this->ligaSaison);
+        $spieltage = $this->em->getRepository('LiganetCoreBundle:Spieltag')->findByLigaSaisonOrdered($this->ligaSaison);
         foreach ($spieltage as $spieltag) {
             foreach ($spieltag->getRunden() as $runde) {
                 $element->appendChild($this->createSpielRunde($runde));
@@ -261,8 +266,8 @@ class xmlErgebnisseService {
         //begegnungen
         $begegnungen = $this->doc->createElement('begegnungen');
         //von hinten durch die Brust ins Auge, weil $runde->getBegegnungen() warumauchimer nicht funktioniert
-        $runde1=$this->em->getRepository('LiganetCoreBundle:Begegnung')->findBy(array('spielRunde' => $runde->getId()));
-        
+        $runde1 = $this->em->getRepository('LiganetCoreBundle:Begegnung')->findBy(array('spielRunde' => $runde->getId()));
+
         foreach ($runde1 as $begegnung) {
             $begegnungen->appendChild($this->createBegegnung($begegnung));
         }
@@ -273,8 +278,8 @@ class xmlErgebnisseService {
 
     private function createTabelle(Entity\SpielRunde $spielrunde) {
         $element = $this->doc->createElement('tabelle');
-        echo "sp".$spielrunde->getTabelle()->count();
-        $tabellen=$this->em->getRepository('LiganetCoreBundle:Tabelle')->findBy(array('spielrunde' => $spielrunde->getId()), array('rang' => 'ASC'));
+        echo "sp" . $spielrunde->getTabelle()->count();
+        $tabellen = $this->em->getRepository('LiganetCoreBundle:Tabelle')->findBy(array('spielrunde' => $spielrunde->getId()), array('rang' => 'ASC'));
         foreach ($tabellen as $tab) {
             $element->appendChild($this->createTabellenZeile($tab));
         }
@@ -402,7 +407,7 @@ class xmlErgebnisseService {
         $text = $this->doc->createTextNode($ergebnis->getKugeln2());
         $attribut->appendChild($text);
         $element->appendChild($attribut);
-        if ($ergebnis->getSpieler11() ) {
+        if ($ergebnis->getSpieler11()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
             $text = $this->doc->createTextNode($ergebnis->getSpieler11());
@@ -438,7 +443,7 @@ class xmlErgebnisseService {
             }
             $element->appendChild($spieler);
         }
-        if ($ergebnis->getSpieler13() ) {
+        if ($ergebnis->getSpieler13()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
             $text = $this->doc->createTextNode($ergebnis->getSpieler13());
@@ -457,7 +462,7 @@ class xmlErgebnisseService {
             $element->appendChild($spieler);
         }
 
-        if ($ergebnis->getErsatz1() ) {
+        if ($ergebnis->getErsatz1()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
             $text = $this->doc->createTextNode($ergebnis->getErsatz1());
@@ -474,7 +479,7 @@ class xmlErgebnisseService {
             $element->appendChild($spieler);
         }
 
-        if ($ergebnis->getSpieler21() ) {
+        if ($ergebnis->getSpieler21()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
             $text = $this->doc->createTextNode($ergebnis->getSpieler21());
@@ -492,7 +497,7 @@ class xmlErgebnisseService {
             }
             $element->appendChild($spieler);
         }
-        if ($ergebnis->getSpieler22() ) {
+        if ($ergebnis->getSpieler22()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
             $text = $this->doc->createTextNode($ergebnis->getSpieler22());
@@ -510,7 +515,7 @@ class xmlErgebnisseService {
             }
             $element->appendChild($spieler);
         }
-        if ($ergebnis->getSpieler23() ) {
+        if ($ergebnis->getSpieler23()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
             $text = $this->doc->createTextNode($ergebnis->getSpieler23());
@@ -528,8 +533,8 @@ class xmlErgebnisseService {
             }
             $element->appendChild($spieler);
         }
-        
-        if ($ergebnis->getErsatz2() ) {
+
+        if ($ergebnis->getErsatz2()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
             $text = $this->doc->createTextNode($ergebnis->getErsatz2());
@@ -545,10 +550,9 @@ class xmlErgebnisseService {
             $spieler->appendChild($attribut);
             $element->appendChild($spieler);
         }
-        
+
         return $element;
     }
-
 
 }
 

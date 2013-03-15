@@ -12,5 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class BegegnungRepository extends EntityRepository
 {
+    /**
+     * Gibt alle Begegnungen einer Ligasaison BIS INCL. der gesuchten Spielrunde aus
+     * @param SpielRunde $spielrunde
+     * @return Begegnung 
+     */
+    public function findBegegnungenUntil(SpielRunde $spielrunde) {
+        return $this->getEntityManager()
+            ->createQuery("SELECT b FROM LiganetCoreBundle:Begegnung b JOIN b.spielRunde r JOIN r.spieltag s WHERE r.nummer<=".$spielrunde->getNummer()
+                ." AND s.ligasaison=".$spielrunde->getSpieltag()->getLigasaison()->getId()." ORDER BY r.nummer ASC ")
+            ->getResult();
+        
+    }
     
 }

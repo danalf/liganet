@@ -18,4 +18,11 @@ class SpielRundeRepository extends EntityRepository
             ->createQuery('SELECT r FROM LiganetCoreBundle:SpielRunde r WHERE r.spieltag='.$spieltag->getId()." ORDER BY r.nummer ASC ")
             ->getResult();
     }
+    
+    public function findByLigaSaisonOrdered(LigaSaison $ligasaison)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT r FROM LiganetCoreBundle:SpielRunde r JOIN r.spieltag s WHERE s.ligasaison='.$ligasaison->getId()." ORDER BY r.nummer ASC ")
+            ->getResult();
+    }
 }

@@ -329,4 +329,32 @@ class Tabelle
     {
         return $this->mannschaft;
     }
+    
+    static function compare(Tabelle $a, Tabelle $b) {
+        $al = $a->compareValue();
+        $bl = $b->compareValue();
+        if ($al == $bl) {
+            //hier muss noch der direkte Vergleich rein
+            return 0;
+        }
+        return ($al < $bl) ? +1 : -1;
+    }
+
+    private function compareValue() {
+        return $this->differenz - (1000 * $this->spiele2) + (100000 * $this->spiele1) - (10000000 * $this->punkte2) + (1000000000 * $this->punkte1);
+    }
+    
+    public function reset(){
+        unset($this->mannschaft1);
+        unset($this->mannschaft2);
+        $this->rang=0;
+        $this->kugeln1=0;
+        $this->kugeln2=0;
+        $this->spiele1=0;
+        $this->spiele2=0;
+        $this->punkte1=0;
+        $this->punkte2=0;
+    }
+    
+    
 }

@@ -45,6 +45,7 @@
                     </tr>
                 </tbody>
             </table>
+                {% include "LiganetCoreBundle:Begegnung:showListForEdit.html.twig" with { 'begegnungen': entity.begegnungen, 'isGrantedEdit': isGrantedEdit } %}
         </div>
         <div class="span8">
 {% render "LiganetCoreBundle:Begegnung:showList" with { 'runde_id': entity.id } %}

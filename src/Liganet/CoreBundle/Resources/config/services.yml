@@ -4,6 +4,7 @@ parameters:
     liganet_core.pdfSpielberichtsbogen.class: Liganet\CoreBundle\Services\pdfSpielberichtsbogenService
     liganet_core.pdfSpielermeldebogen.class: Liganet\CoreBundle\Services\pdfSpielermeldebogenService
     liganet_core.pdfSpielplan.class: Liganet\CoreBundle\Services\pdfSpielplanService
+    liganet_core.berechnenErgebnis.class: Liganet\CoreBundle\Services\berechnenErgebnisService
 
 services:
     liganet_core.losung:
@@ -11,6 +12,9 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
     liganet_core.xmlErgebnisse:
         class:  %liganet_core.xmlErgebnisse.class%
+        arguments: ["@doctrine.orm.entity_manager"]
+    liganet_core.berechnenErgebnis:
+        class:  %liganet_core.berechnenErgebnis.class%
         arguments: ["@doctrine.orm.entity_manager"]
     liganet_core.pdf.spielberichtsbogen:
         class:  %liganet_core.pdfSpielberichtsbogen.class%

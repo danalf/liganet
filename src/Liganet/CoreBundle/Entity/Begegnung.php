@@ -467,4 +467,78 @@ class Begegnung
     public function __toString() {
         return $this->getSpielRunde()." ".$this->getMannschaft1()->getNameKurz()." : ".$this->getMannschaft2()->getNameKurz();
     }
+    
+    /**
+     * Fügt dem übergebenen Objekt Tabelle die Werte der Begegnung zu
+     * 
+     * Gibt 1 zurück, wenn mannschaft 1 der gesuchten Mannschaft entpricht
+     * Gibt 2 zurück, wenn mannschaft 2 der gesuchten Mannschaft entpricht
+     * Gibt 0, bzw. FALSE zurück, wenn die gesuchte Mannschaft nicht an der begegnung teilgenommen hat
+     * @param Mannschaft $mannschaft
+     * @return integer 
+     */
+    public function addToTable(Tabelle &$tabelle) {
+        $idMannschaft = $tabelle->getMannschaft()->getId();
+        if ($idMannschaft == $this->getMannschaft1()->getId()) {
+            $kugeln1=$tabelle->getKugeln1()+$this->kugeln1;
+            $tabelle->setKugeln1($kugeln1);
+            $kugeln2=$tabelle->getKugeln2()+$this->kugeln2;
+            $tabelle->setKugeln2($kugeln2);
+            $spiele1=$tabelle->getSpiele1()+$this->siege1;
+            $tabelle->setSpiele1($spiele1);
+            $spiele2=$tabelle->getSpiele2()+$this->siege2;
+            $tabelle->setSpiele2($spiele2);
+            $punkte1=$tabelle->getPunkte1()+$this->punkt1;
+            $tabelle->setPunkte1($punkte1);
+            $punkte2=$tabelle->getPunkte2()+$this->punkt2;
+            $tabelle->setPunkte2($punkte2);
+            $tabelle->setDifferenz($tabelle->getKugeln1()-$tabelle->getKugeln2());
+            $debug = 1;
+        }
+        if ($idMannschaft == $this->getMannschaft2()->getId()) {
+            $kugeln1=$tabelle->getKugeln1()+$this->kugeln2;
+            $tabelle->setKugeln1($kugeln1);
+            $kugeln2=$tabelle->getKugeln2()+$this->kugeln1;
+            $tabelle->setKugeln2($kugeln2);
+            $spiele1=$tabelle->getSpiele1()+$this->siege2;
+            $tabelle->setSpiele1($spiele1);
+            $spiele2=$tabelle->getSpiele2()+$this->siege1;
+            $tabelle->setSpiele2($spiele2);
+            $punkte1=$tabelle->getPunkte1()+$this->punkt2;
+            $tabelle->setPunkte1($punkte1);
+            $punkte2=$tabelle->getPunkte2()+$this->punkt1;
+            $tabelle->setPunkte2($punkte2);
+            $tabelle->setDifferenz($tabelle->getKugeln1()-$tabelle->getKugeln2());
+            $debug = 2;
+        }
+        if (!isset($debug)) {
+            $debug = 0;
+        }
+        //echo $idMannschaft." ".$this->mannschaft1." ".$this->mannschaft2." $debug"."<br/>";
+        return $debug;
+    }
+    
+    public function setErgebnisse(){
+        $this->setKugeln1(0);
+         $this->setKugeln2(0);
+         $this->setSiege1(0);
+         $this->setSiege2(0);
+         $this->setPunkt1(0);
+         $this->setPunkt2(0);
+        foreach ($this->getErgebnisse() as $ergebnis) {
+            /* @var $ergebnis \Liganet\CoreBundle\Entity\Ergebnis  */
+            $this->setKugeln1($ergebnis->getKugeln1()+$this->getKugeln1());
+            $this->setKugeln2($ergebnis->getKugeln2()+$this->getKugeln2());
+            if($ergebnis->getKugeln1()>$ergebnis->getKugeln2()) {
+                $this->setSiege1($this->getSiege1()+1);
+            }
+            if($ergebnis->getKugeln2()>$ergebnis->getKugeln1()) {
+                $this->setSiege2($this->getSiege2()+1);
+            }
+        }
+        if($this->getSiege1()>$this->getSiege2()) 
+            $this->setPunkt1(1);
+        if($this->getSiege2()>$this->getSiege1()) 
+            $this->setPunkt2(1);
+    }
 }

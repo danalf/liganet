@@ -36,21 +36,18 @@ class TabelleController extends Controller
     /**
      * Finds and displays a Tabelle entity.
      *
-     * @Route("/{id}/show", name="tabelle_show")
+     * @Route("/{id_runde}/show", name="tabelle_show")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction($id_runde)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LiganetCoreBundle:Tabelle')->find($id);
+        $entities = $em->getRepository('LiganetCoreBundle:Tabelle')->findByRunde($id_runde);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tabelle entity.');
-        }
 
         return array(
-            'entity'      => $entity,
+            'entities'      => $entities,
         );
     }
 

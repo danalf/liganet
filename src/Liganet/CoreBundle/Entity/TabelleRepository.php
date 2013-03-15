@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class TabelleRepository extends EntityRepository
 {
+    public function findByRunde($id_spielrunde) {
+        return $this->getEntityManager()
+            ->createQuery("SELECT t FROM LiganetCoreBundle:Tabelle t WHERE t.spielrunde=".$id_spielrunde." ORDER BY t.rang ASC ")
+            ->getResult();
+        
+    }
 }

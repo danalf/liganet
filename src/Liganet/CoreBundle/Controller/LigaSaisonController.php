@@ -185,7 +185,7 @@ $deleteForm = $this->createDeleteForm($id);
         if ($liga_id > 0) {
             $em = $this->getDoctrine()->getManager();
             $liga = $em->getRepository('LiganetCoreBundle:Liga')->find($liga_id);
-            $entity->setLigasaison($liga);
+            $entity->setLiga($liga);
         }
 
         $form = $this->createForm(new LigaSaisonType(), $entity);
