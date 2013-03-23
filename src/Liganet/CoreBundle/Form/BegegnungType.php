@@ -19,7 +19,9 @@ class BegegnungType extends AbstractType
     {
         $begegnung=$options["data"];
         $builder
-            ->add('ergebnisse', 'collection', array('type' => new ErgebnisType($this->session)))
+            ->add('ergebnisse', 'collection', array(
+                'type' => new ErgebnisType($this->session),
+                ))
             //->add('kugeln1')
             //->add('kugeln2')
             //->add('siege1')

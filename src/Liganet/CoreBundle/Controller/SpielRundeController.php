@@ -56,7 +56,7 @@ class SpielRundeController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-            'isGrantedEdit' => $this->isGrantedEdit()
+            'isGrantedEdit' => $this->isGrantedEdit($entity->getSpieltag()->getLigaSaison())
         );
     }
 
@@ -123,16 +123,17 @@ class SpielRundeController extends Controller
      */
     public function editAction($id)
     {
-        if(!$this->isGrantedEdit()){
-            $this->get('session')->getFlashBag()->add('error', 'Diese Spielrunde zu editieren ist für Dich nicht nicht erlaubt');
-            return $this->redirect($this->generateUrl('spielrunde_show', array('id' => $id)));
-        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:SpielRunde')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find SpielRunde entity.');
+        }
+        if(!$this->isGrantedEdit($entity->getSpieltag()->getLigaSaison())){
+            $this->get('session')->getFlashBag()->add('error', 'Diese Spielrunde zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('spielrunde_show', array('id' => $id)));
         }
 
         $editForm = $this->createForm(new SpielRundeType(), $entity);
@@ -214,16 +215,24 @@ class SpielRundeController extends Controller
         ;
     }
     
-        /**
-     * Legt fest, ob der User (den) Spielrunden verändern darf oder nicht
-     * @return boolean
-     */
-    private function isGrantedEdit(){
-        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
-            return TRUE;
+    private function isGrantedEdit(\Liganet\CoreBundle\Entity\LigaSaison $ligasaison=  NULL) {
+//        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
+//            return TRUE;
+//        }
+        if (isset($ligasaison)) {
+            foreach ($ligasaison->getStaffelleiter() as $leiter) {
+                if ($this->getUser()->getSpieler() == $leiter->getId())
+                    return TRUE;
+            }
+            foreach ($ligasaison->getLiga()->getRegion()->getLeiter() as $leiter) {
+                if ($this->getUser()->getSpieler() == $leiter->getId())
+                    return TRUE;
+            }
         }
         return FALSE;
     }
+
+  
     
     /**
      * Zeigt die Runden eines Spieltags an
@@ -239,7 +248,7 @@ class SpielRundeController extends Controller
         return array(
             'entities'      => $entities,
             'spieltag'        => $spieltag,
-            'isGrantedEdit' => $this->isGrantedEdit()
+            'isGrantedEdit' => $this->isGrantedEdit($spieltag->getLigaSaison())
         );
     }
 }

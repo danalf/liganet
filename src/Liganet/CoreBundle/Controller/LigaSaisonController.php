@@ -54,7 +54,7 @@ class LigaSaisonController extends Controller {
         return array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
-            'isGrantedEdit' => $this->isGrantedEdit()
+            'isGrantedEdit' => $this->isGrantedEdit($entity)
         );
     }
     
@@ -137,7 +137,7 @@ $deleteForm = $this->createDeleteForm($id);
         return array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
-            'isGrantedEdit' => $this->isGrantedEdit()
+            'isGrantedEdit' => $this->isGrantedEdit($entity)
         );
     }
     
@@ -153,7 +153,7 @@ $deleteForm = $this->createDeleteForm($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find LigaSaison entity.');
         }
-        if($this->isGrantedEdit()){
+        if($this->isGrantedEdit($entity)){
             /**
              * @var \Liganet\CoreBundle\Services\xmlErgebnisseService
              */
@@ -176,16 +176,18 @@ $deleteForm = $this->createDeleteForm($id);
      * @Template()
      */
     public function newAction($liga_id = 0) {
-        if (!$this->isGrantedEdit()) {
-            $this->get('session')->getFlashBag()->add('error', 'Neue Ligasaison anlegen ist für dich nicht nicht erlaubt');
-            return $this->redirect($this->generateUrl('ligasaison'));
-        }
+        
         $entity = new LigaSaison();
 
         if ($liga_id > 0) {
             $em = $this->getDoctrine()->getManager();
             $liga = $em->getRepository('LiganetCoreBundle:Liga')->find($liga_id);
             $entity->setLiga($liga);
+        }
+        
+        if (!$this->isGrantedEdit($entity)) {
+            $this->get('session')->getFlashBag()->add('error', 'Neue Ligasaison anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('ligasaison'));
         }
 
         $form = $this->createForm(new LigaSaisonType(), $entity);
@@ -229,10 +231,7 @@ $deleteForm = $this->createDeleteForm($id);
      * @Template()
      */
     public function editAction($id) {
-        if (!$this->isGrantedEdit()) {
-            $this->get('session')->getFlashBag()->add('error', 'Diesen Ligasaison zu editieren ist für Dich nicht nicht erlaubt');
-            return $this->redirect($this->generateUrl('ligasaison_show', array('id' => $id)));
-        }
+        
 
         $em = $this->getDoctrine()->getManager();
 
@@ -240,6 +239,11 @@ $deleteForm = $this->createDeleteForm($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find LigaSaison entity.');
+        }
+        
+        if (!$this->isGrantedEdit($entity)) {
+            $this->get('session')->getFlashBag()->add('error', 'Diesen Ligasaison zu editieren ist für Dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('ligasaison_show', array('id' => $id)));
         }
 
         $editForm = $this->createForm(new LigaSaisonType(), $entity);
@@ -317,14 +321,26 @@ $deleteForm = $this->createDeleteForm($id);
                         ->getForm()
         ;
     }
+    
+    
 
     /**
      * Legt fest, ob der User die Modusrunden verändern darf oder nicht
      * @return boolean
      */
-    private function isGrantedEdit() {
-        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
-            return TRUE;
+    private function isGrantedEdit(\Liganet\CoreBundle\Entity\LigaSaison $ligasaison=null) {
+//        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
+//            return TRUE;
+//        }
+        if (isset($ligasaison)) {
+            foreach ($ligasaison->getStaffelleiter() as $leiter) {
+                if ($this->getUser()->getSpieler() == $leiter->getId())
+                    return TRUE;
+            }
+            foreach ($ligasaison->getLiga()->getRegion()->getLeiter() as $leiter) {
+                if ($this->getUser()->getSpieler() == $leiter->getId())
+                    return TRUE;
+            }
         }
         return FALSE;
     }
