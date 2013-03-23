@@ -20,5 +20,7 @@ web/bundles/*
 web/css/*
 web/images/*
 web/js/*
+web/xml/*
+web/img/*
 web/media/cache/*
 *~
