@@ -1,3 +1,0 @@
-ligaweb_core_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: LigawebCoreBundle:Default:index }

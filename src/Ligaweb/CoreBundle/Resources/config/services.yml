@@ -1,7 +1,0 @@
-parameters:
-#    ligaweb_core.example.class: Ligaweb\CoreBundle\Example
-
-services:
-#    ligaweb_core.example:
-#        class: %ligaweb_core.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
