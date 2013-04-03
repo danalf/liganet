@@ -188,6 +188,10 @@ class MannschaftSpielerController extends Controller {
      * @Method("POST")
      */
     public function deleteAction(Request $request, $id) {
+        if (!$this->get('security.context')->isGranted('ROLE_REGION_MANAGEMENT')) {
+            $this->get('session')->getFlashBag()->add('error', 'Löschen ist für dich nicht erlaubt');
+            return $this->redirect($this->generateUrl('mannschaft_show', array('id' => $entity->getMannschaft()->getId())));
+        }
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -201,9 +205,10 @@ class MannschaftSpielerController extends Controller {
 
             $em->remove($entity);
             $em->flush();
+            $this->get('session')->getFlashBag()->add('success', 'Der Mannschaftsspieler wurde gelöscht');
         }
 
-        return $this->redirect($this->generateUrl('mannschaftspieler'));
+        return $this->redirect($this->generateUrl('mannschaft_show', array('id' => $entity->getMannschaft()->getId())));
     }
 
     private function createDeleteForm($id) {

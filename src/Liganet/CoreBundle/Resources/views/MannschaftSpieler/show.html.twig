@@ -20,7 +20,7 @@
             <i class="icon-pencil"></i>
         </a>
         {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_REGION_MANAGEMENT') %}
         <form  action="{{ path('mannschaftspieler_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
                 <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
