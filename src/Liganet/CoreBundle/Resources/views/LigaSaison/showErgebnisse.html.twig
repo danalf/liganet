@@ -19,16 +19,26 @@
                     background-color: {{ entity.liga.region.farbeTabelleHintergrund }};
                     color: {{ entity.liga.region.farbeTabelleSchrift }};
                 }
-                td{
-                    text-align: center;
-                }
+                table.ergebnis td {
+            text-align: center;
+        }
                 .table {
                     width: 100%;
                 }
             </style>
             {% for spieltag in entity.spieltage %}
+            {% if loop.last %}
             {% for runde in spieltag.runden %}
-            <table class="table">
+            {% if loop.last %}
+            {% render "LiganetCoreBundle:Tabelle:show" with { 'id_runde': runde.id } %}
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+            <br />
+            {% for spieltag in entity.spieltage %}
+            {% for runde in spieltag.runden %}
+            <table class="table ergebnis">
                 <tr>
                     <td colspan="10" class="table-zeile1">{{runde.spieltag.nummer}}. Spieltag am {{ runde.spieltag.datum|date("d.m.Y H:i") }} - Ausrichter {{ runde.spieltag.austragenderVerein }}</td>
                 </tr>
