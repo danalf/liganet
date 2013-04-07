@@ -51,6 +51,7 @@ security:
 
     access_control:
         - { path: ^/ligasaison/extern/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/spielrunde/extern/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/css/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/js/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/img/, role: IS_AUTHENTICATED_ANONYMOUSLY }
