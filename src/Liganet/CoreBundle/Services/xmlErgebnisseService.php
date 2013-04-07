@@ -410,7 +410,7 @@ class xmlErgebnisseService {
         if ($ergebnis->getSpieler11()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
-            $text = $this->doc->createTextNode($ergebnis->getSpieler11());
+            $text = $this->doc->createTextNode($ergebnis->getSpieler11()->getId());
             $attribut->appendChild($text);
             $spieler->appendChild($attribut);
             $attribut = $this->doc->createAttribute('team');
@@ -428,7 +428,7 @@ class xmlErgebnisseService {
         if ($ergebnis->getSpieler12()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
-            $text = $this->doc->createTextNode($ergebnis->getSpieler12());
+            $text = $this->doc->createTextNode($ergebnis->getSpieler12()->getId());
             $attribut->appendChild($text);
             $spieler->appendChild($attribut);
             $attribut = $this->doc->createAttribute('team');
@@ -446,7 +446,7 @@ class xmlErgebnisseService {
         if ($ergebnis->getSpieler13()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
-            $text = $this->doc->createTextNode($ergebnis->getSpieler13());
+            $text = $this->doc->createTextNode($ergebnis->getSpieler13()->getId());
             $attribut->appendChild($text);
             $spieler->appendChild($attribut);
             $attribut = $this->doc->createAttribute('team');
@@ -465,7 +465,7 @@ class xmlErgebnisseService {
         if ($ergebnis->getErsatz1()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
-            $text = $this->doc->createTextNode($ergebnis->getErsatz1());
+            $text = $this->doc->createTextNode($ergebnis->getErsatz1()->getId());
             $attribut->appendChild($text);
             $spieler->appendChild($attribut);
             $attribut = $this->doc->createAttribute('team');
@@ -482,7 +482,7 @@ class xmlErgebnisseService {
         if ($ergebnis->getSpieler21()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
-            $text = $this->doc->createTextNode($ergebnis->getSpieler21());
+            $text = $this->doc->createTextNode($ergebnis->getSpieler21()->getId());
             $attribut->appendChild($text);
             $spieler->appendChild($attribut);
             $attribut = $this->doc->createAttribute('team');
@@ -500,7 +500,7 @@ class xmlErgebnisseService {
         if ($ergebnis->getSpieler22()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
-            $text = $this->doc->createTextNode($ergebnis->getSpieler22());
+            $text = $this->doc->createTextNode($ergebnis->getSpieler22()->getId());
             $attribut->appendChild($text);
             $spieler->appendChild($attribut);
             $attribut = $this->doc->createAttribute('team');
@@ -518,7 +518,7 @@ class xmlErgebnisseService {
         if ($ergebnis->getSpieler23()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
-            $text = $this->doc->createTextNode($ergebnis->getSpieler23());
+            $text = $this->doc->createTextNode($ergebnis->getSpieler23()->getId());
             $attribut->appendChild($text);
             $spieler->appendChild($attribut);
             $attribut = $this->doc->createAttribute('team');
@@ -537,7 +537,7 @@ class xmlErgebnisseService {
         if ($ergebnis->getErsatz2()) {
             $spieler = $this->doc->createElement('spieler');
             $attribut = $this->doc->createAttribute('nummer');
-            $text = $this->doc->createTextNode($ergebnis->getErsatz2());
+            $text = $this->doc->createTextNode($ergebnis->getErsatz2()->getId());
             $attribut->appendChild($text);
             $spieler->appendChild($attribut);
             $attribut = $this->doc->createAttribute('team');
