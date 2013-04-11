@@ -1,0 +1,7 @@
+<a class="btn pull-right" href="mailto: 
+   {% for mannschaft in mannschaften if mannschaft.captain %}
+   {% if mannschaft.captain.email %}
+   {{ mannschaft.captain.email }}; 
+   {% endif %}
+   {% endfor %}
+   "><i class="icon-envelope"></i></a>
