@@ -1,0 +1,27 @@
+vagrant box add ubuntu/trusty64
+vagrant box update
+
+#improve vagrant performance 
+https://github.com/winnfsd/vagrant-winnfsd
+https://github.com/fgrehm/vagrant-cachier
+
+vagrant plugin install vagrant-vbguest
+vagrant plugin install vagrant-winnfsd
+vagrant plugin install vagrant-cachier
+
+vagrant up
+vagrant halt
+
+Change RAM to minimum 1GB and CPUs to 2 cores manually in VirtualBox GUI!
+
+vagrant up
+vagrant ssh
+
+cd /var/www/html/sf
+php app/console doctrine:database:create
+
+open in browser: http://192.168.33.22/phpmyadmin and import kfzgewerbe_initial_live.sql
+open http://192.168.33.22/sf/web/app_dev.php and wait until cache is warmed up, after that enjoy ;)
+
+
+If kfz-shop-article customization doesn't work proper, check lineendings of the /docs/fop file. They must be only LF not CRLF!

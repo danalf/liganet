@@ -73,6 +73,10 @@
                                 <th>Spielermeldebogen</th>
                                 <td><a class="btn pull-right" href="{{ path('ligasaison_pdf_spielermeldebogen', { 'id': entity.id }) }}"><i class="icon-download-alt"></i></a> </td>
                             </tr>
+                            <tr>
+                                <th>Email an Kapitäne</th>
+                                <td>{% include "LiganetCoreBundle:Mannschaft:mailtoCaptains.html.twig" with { 'mannschaften': entity.mannschaften } %}</td>
+                            </tr>
                     {% endif %}
 
 

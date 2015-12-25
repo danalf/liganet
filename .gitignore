@@ -2,6 +2,7 @@
 .project
 .settings
 .idea
+.vagrant
 desktop.ini
 Thumbs.db
 .DS_Store

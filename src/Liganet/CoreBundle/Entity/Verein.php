@@ -150,7 +150,7 @@ class Verein {
      * @return boolean
      */
     public function isInternesDuell(){
-        if($this->anzahlInterneDuelle>$this->anzahlInterneDuelleGespielt){
+        if($this->anzahlInterneDuelle > $this->anzahlInterneDuelleGespielt){
             return TRUE;
         }
         return FALSE;

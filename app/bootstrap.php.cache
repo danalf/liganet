@@ -511,12 +511,12 @@ abstract class Kernel implements KernelInterface, TerminableInterface
     protected $classes;
     protected $errorReportingLevel;
 
-    const VERSION         = '2.1.8-DEV';
-    const VERSION_ID      = '20108';
+    const VERSION         = '2.1.13';
+    const VERSION_ID      = '20113';
     const MAJOR_VERSION   = '2';
     const MINOR_VERSION   = '1';
-    const RELEASE_VERSION = '8';
-    const EXTRA_VERSION   = 'DEV';
+    const RELEASE_VERSION = '13';
+    const EXTRA_VERSION   = '';
 
     
     public function __construct($environment, $debug)
@@ -1643,12 +1643,12 @@ class HttpKernel extends BaseHttpKernel
         $request = $this->container->get('request');
 
                 if (0 === strpos($controller, 'http://') || 0 === strpos($controller, 'https://')) {
-            $subRequest = Request::create($controller, 'get', array(), $request->cookies->all(), array(), $request->server->all());
+            $subRequest = $request::create($controller, 'get', array(), $request->cookies->all(), array(), $request->server->all());
             if ($session = $request->getSession()) {
                 $subRequest->setSession($session);
             }
         } elseif (0 === strpos($controller, '/')) {
-            $subRequest = Request::create($request->getUriForPath($controller), 'get', array(), $request->cookies->all(), array(), $request->server->all());
+            $subRequest = $request::create($request->getUriForPath($controller), 'get', array(), $request->cookies->all(), array(), $request->server->all());
             if ($session = $request->getSession()) {
                 $subRequest->setSession($session);
             }

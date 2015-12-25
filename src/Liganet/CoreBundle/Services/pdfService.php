@@ -5,6 +5,8 @@ namespace Liganet\CoreBundle\Services;
 use Doctrine\ORM\EntityManager;
 use Liganet\CoreBundle\Entity;
 
+//define ('K_PATH_IMAGES', $_SERVER['DOCUMENT_ROOT']."web/");
+
 /**
  * Description of class
  *
@@ -77,6 +79,7 @@ class pdfService {
         $this->pdf->SetKeywords($title_long);
         $logo = $this->ligaSaison->getLiga()->getRegion()->getDocument();
         // set default header data
+        
         $this->pdf->SetHeaderData($logo->getWebPath(), 15, $title_long, "");
 
         // set header and footer fonts
@@ -104,7 +107,7 @@ class pdfService {
     public function ouput() {
 
         //Close and output PDF document
-        $this->pdf->Output($this->ligaSaison->getLiga()->getRegion()->getName() . " " . $this->ligaSaison->getSaison() . "- " . $this->title, 'I');
+        $this->pdf->Output($this->ligaSaison->getLiga()->getRegion()->getName() . " " . $this->ligaSaison->getSaison() . "- " . $this->title.".pdf", 'I');
     }
 
 }

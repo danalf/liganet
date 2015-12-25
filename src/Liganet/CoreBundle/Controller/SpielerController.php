@@ -393,5 +393,27 @@ class SpielerController extends Controller {
         $this->get('session')->getFlashBag()->add('success', 'Der Spieler wurde als User hinzugefügt.');
         return $this->redirect($this->generateUrl('spieler_show', array('id' => $id)));
     }
+    
+    /**
+     * Lists all Spieler entities of one region
+     *
+     * @Route("/region/{region_id}", name="spieler_region")
+     * @Template("LiganetCoreBundle:Spieler:index.html.twig")
+     */
+    public function showRegionAction($region_id) {
+        $em = $this->getDoctrine()->getManager();
+        
+        $entities = $em->getRepository('LiganetCoreBundle:Spieler')->findAllByRegionIdOrdered($region_id);
+
+
+        return array(
+            'entities' => $entities,
+            'isGrantedEdit' => $this->isGrantedEdit()
+        );
+    }
+    
+    
+    
+    
 
 }

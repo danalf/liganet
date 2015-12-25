@@ -15,16 +15,15 @@ use Liganet\CoreBundle\Form\SpieltagType;
  *
  * @Route("/spieltag")
  */
-class SpieltagController extends Controller
-{
+class SpieltagController extends Controller {
+
     /**
      * Lists all Spieltag entities.
      *
      * @Route("/", name="spieltag")
      * @Template()
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('LiganetCoreBundle:Spieltag')->findAll();
@@ -41,12 +40,11 @@ class SpieltagController extends Controller
      * @Route("/{id}/show", name="spieltag_show")
      * @Template()
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Spieltag')->find($id);
-
+        $ligasaison = $entity->getLigaSaison();
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Spieltag entity.');
         }
@@ -54,9 +52,9 @@ class SpieltagController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
-            'isGrantedEdit' => $this->isGrantedEdit()
+            'isGrantedEdit' => $this->isGrantedEdit($ligasaison, $ligasaison->getLiga())
         );
     }
 
@@ -66,25 +64,31 @@ class SpieltagController extends Controller
      * @Route("/new/ligasaison/{ligasaison_id}", name="spieltag_new")
      * @Template()
      */
-    public function newAction($ligasaison_id=0)
-    {
-        if(!$this->isGrantedEdit()){
+    public function newAction($ligasaison_id = 0) {
+        $entity = new Spieltag;
+        if ($ligasaison_id > 0) {
+            $em = $this->getDoctrine()->getManager();
+            $ligasaison = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($ligasaison_id);
+            $entity->setLigasaison($ligasaison);
+            if (!$this->isGrantedEdit($ligasaison, $ligasaison->getLiga())) {
+                $this->get('session')->getFlashBag()->add('error', 'Neuen Spieltag anlegen ist für dich nicht nicht erlaubt');
+                return $this->redirect($this->generateUrl('spieltag'));
+            }
+        } else {
             $this->get('session')->getFlashBag()->add('error', 'Neuen Spieltag anlegen ist für dich nicht nicht erlaubt');
             return $this->redirect($this->generateUrl('spieltag'));
         }
-        $entity = new Spieltag;
-        
-        if($ligasaison_id>0){
-            $em = $this->getDoctrine()->getManager();
-        $ligasaison = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($ligasaison_id);
-        $entity->setLigasaison($ligasaison);
-        }
-        
-        $form   = $this->createForm(new SpieltagType(), $entity);
+
+
+
+
+
+
+        $form = $this->createForm(new SpieltagType(), $entity);
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
@@ -95,9 +99,8 @@ class SpieltagController extends Controller
      * @Method("POST")
      * @Template("LiganetCoreBundle:Spieltag:new.html.twig")
      */
-    public function createAction(Request $request)
-    {
-        $entity  = new Spieltag();
+    public function createAction(Request $request) {
+        $entity = new Spieltag();
         $form = $this->createForm(new SpieltagType(), $entity);
         $form->bind($request);
 
@@ -111,7 +114,7 @@ class SpieltagController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
@@ -121,13 +124,17 @@ class SpieltagController extends Controller
      * @Route("/{id}/edit", name="spieltag_edit")
      * @Template()
      */
-    public function editAction($id)
-    {
-        if(!$this->isGrantedEdit()){
+    public function editAction($id) {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('LiganetCoreBundle:Spieltag')->find($id);
+        $ligasaison = $entity->getLigaSaison();
+        
+        if (!$this->isGrantedEdit($ligasaison, $ligasaison->getLiga())) {
             $this->get('session')->getFlashBag()->add('error', 'Diesen Spieltag zu editieren ist für Dich nicht nicht erlaubt');
             return $this->redirect($this->generateUrl('spieltag_show', array('id' => $id)));
         }
-        
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Spieltag')->find($id);
@@ -140,8 +147,8 @@ class SpieltagController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -153,8 +160,7 @@ class SpieltagController extends Controller
      * @Method("POST")
      * @Template("LiganetCoreBundle:Spieltag:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:Spieltag')->find($id);
@@ -175,8 +181,8 @@ class SpieltagController extends Controller
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -187,8 +193,7 @@ class SpieltagController extends Controller
      * @Route("/{id}/delete", name="spieltag_delete")
      * @Method("POST")
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -207,25 +212,37 @@ class SpieltagController extends Controller
         return $this->redirect($this->generateUrl('spieltag'));
     }
 
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
+                        ->add('id', 'hidden')
+                        ->getForm()
         ;
     }
-    
+
     /**
      * Legt fest, ob der User (den) Spieltag verändern darf oder nicht
      * @return boolean
      */
-    private function isGrantedEdit(){
+    private function isGrantedEdit(\Liganet\CoreBundle\Entity\LigaSaison $ligasaison = null, \Liganet\CoreBundle\Entity\Liga $liga = null) {
         if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
             return TRUE;
         }
+        if (isset($ligasaison)) {
+            foreach ($ligasaison->getStaffelleiter() as $leiter) {
+                if ($this->getUser()->getSpieler() == $leiter->getId())
+                    return TRUE;
+            }
+        }
+
+        if (isset($liga)) {
+            foreach ($liga->getRegion()->getLeiter() as $leiter) {
+                if ($this->getUser()->getSpieler() == $leiter->getId())
+                    return TRUE;
+            }
+        }
         return FALSE;
     }
-    
+
     /**
      * Zeigt die Spieltage einer Ligasaison an
      *
@@ -235,13 +252,57 @@ class SpieltagController extends Controller
     public function showListAction($ligasaison_id) {
         $em = $this->getDoctrine()->getManager();
         $ligasaison = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($ligasaison_id);
-        $entities=$ligasaison->getSpieltage();
-        
+        $entities = $ligasaison->getSpieltage();
+
         return array(
-            'entities'      => $entities,
-            'ligasaison'        => $ligasaison,
-            'isGrantedEdit' => $this->isGrantedEdit()
+            'entities' => $entities,
+            'ligasaison' => $ligasaison,
+            'isGrantedEdit' => $this->isGrantedEdit($ligasaison, $ligasaison->getLiga())
         );
     }
     
+    /**
+     * Lists all Spiele from one Spieler
+     *
+     * @Route("/spieler/{spieler_id}", name="spieltag_spieler")
+     * @Template()
+     */
+    public function showBySpielerAction($spieler_id) {
+        $em = $this->getDoctrine()->getManager();
+        $spieler = $em->getRepository('LiganetCoreBundle:Spieler')->find($spieler_id);
+        $entities = $em->getRepository('LiganetCoreBundle:Spieltag')->findBySpieler($spieler);
+
+
+        return array(
+            'entities' => $entities,
+            'isGrantedEdit' => false,
+            'spielerid' => $spieler_id,
+        );
+    }
+    
+    /**
+     * Erstellt einen Spielberichtsbogen
+     *
+     * @Route("/{id}/excel/ergebnisse", name="spieltag_excel_ergebnisse")
+     */
+    public function excelErgebnisseAction($id) {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('LiganetCoreBundle:Spieltag')->find($id);
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find LigaSaison entity.');
+        }
+        /**
+         * @var \Liganet\CoreBundle\Services\pdfSpielberichtsbogenService Description
+         */
+        $excel = $this->get('liganet_core.excel.spieltag');
+        $excel->setSpieltag($entity);
+        $excel->createExcel();
+
+        return array(
+            'entity' => $entity,
+        );
+    }
+
 }

@@ -29,7 +29,7 @@ class pdfSpielermeldebogenService extends pdfService {
             $this->pdf->SetAlpha(0.15);
             $logo=$verein->getDocument();
             if ($logo) {
-                $this->pdf->Image($logo->getWebPath(), 50, 75, 100, 0, strtoupper(substr($logo, strpos($logo, ".") + 1)), '', 'M', TRUE, 300, '');
+                //$this->pdf->Image($logo->getWebPath(), 50, 75, 100, 0, strtoupper(substr($logo, strpos($logo, ".") + 1)), '', 'M', TRUE, 300, '');
             }
             $this->pdf->SetAlpha(1);
             $this->pdf->SetY($y);

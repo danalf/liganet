@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Liganet\CoreBundle\Entity\Ergebnis;
 use Liganet\CoreBundle\Form\ErgebnisType;
+use Liganet\CoreBundle\Entity\Spieler;
 
 /**
  * Ergebnis controller.
@@ -195,6 +196,25 @@ class ErgebnisController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+    /**
+     * Lists all Spiele from one Spieler
+     *
+     * @Route("/spieler/{spieler_id}", name="ergebnis_spieler")
+     * @Template()
+     */
+    public function showBySpielerAction($spieler_id) {
+        $em = $this->getDoctrine()->getManager();
+        $spieler = $em->getRepository('LiganetCoreBundle:Spieler')->find($spieler_id);
+        $entities = $em->getRepository('LiganetCoreBundle:Ergebnis')->findBySpieler($spieler);
+
+
+        return array(
+            'entities' => $entities,
+            'isGrantedEdit' => false,
+            'spielerid' => $spieler_id,
+        );
     }
     
     

@@ -1,4 +1,5 @@
 <?php
+
 namespace Liganet\CoreBundle\Services;
 
 use Doctrine\ORM\EntityManager;
@@ -124,7 +125,7 @@ class LosenService {
         $this->teams = $this->ligaSaison->getMannschaften();
         //teilnehmende Vereine aus der Liga incl Anzahl der internen Duelle
         $query = $this->em->createQuery(
-                'SELECT v.id, count(m.id) -1 AS anzahlInterneGegner
+                'SELECT v.id, count(m.id) AS anzahlInterneGegner
                     FROM LiganetCoreBundle:Verein v 
                     JOIN v.mannschaften m
                     WHERE m.ligasaison=' . $this->ligaSaison->getId() . ' 
@@ -136,7 +137,9 @@ class LosenService {
         //Einzelne Vereins-ID durchgehen und Stück für Stück in ein Array packen
         foreach ($vereine as $verein) {
             $entity = $this->em->getRepository('LiganetCoreBundle:Verein')->find($verein["id"]);
-            $entity->setAnzahlInterneDuelle($verein["anzahlInterneGegner"]);
+            //$entity->setAnzahlInterneDuelle($verein["anzahlInterneGegner"]);
+            //n*(n-1)/k
+            $entity->setAnzahlInterneDuelle($verein["anzahlInterneGegner"]*($verein["anzahlInterneGegner"]-1)/2);
             array_push($this->vereine, $entity);
         }
         return TRUE;
@@ -216,7 +219,7 @@ class LosenService {
             };
             $spielrunde = $this->em->getRepository('LiganetCoreBundle:SpielRunde')->find($spielrunden[$indexRunden]['id']);
             $runde = $this->begegnungen[$indexRunden];
-            $this->fillPlatzArray();
+            $this->fillPlatzArray($indexRunden + 1);
             foreach ($runde as $begegnung) {
                 //Begegnung speichern
                 $begegnung_obj = new Entity\Begegnung;
@@ -228,7 +231,7 @@ class LosenService {
 
                 //Begegnungen in Ergebnistabelle incl. Platz eintragen
                 $spiel = new Entity\SpielArt;
-                $spielart=$this->em->getRepository('LiganetCoreBundle:SpielArt')->findBy(array('modus' => $this->ligaSaison->getLiga()->getModus()->getId()), array('nummer' => 'ASC'));
+                $spielart = $this->em->getRepository('LiganetCoreBundle:SpielArt')->findBy(array('modus' => $this->ligaSaison->getLiga()->getModus()->getId()), array('nummer' => 'ASC'));
                 foreach ($spielart as $spiel) {
                     $reihenfolge = $spiel->getReihenfolge();
                     $platz = array_pop($this->plaetze[$reihenfolge - 1]);
@@ -429,7 +432,7 @@ class LosenService {
      */
     private function setRunden() {
         if ($this->anzahlRunden == 0) {
-            switch ($this->ligaSaison->getLiga()->getModus()->getId()) {
+            switch ($this->ligaSaison->getLiga()->getModus()->getModusRunden()->getId()) {
                 //Jeder gegen jeden
                 case 1:
                     $this->anzahlRunden = (ceil($this->countTeams() / 2) * 2) - 1;
@@ -476,57 +479,65 @@ class LosenService {
     /**
      * Array für Plätze mit Spiele hintereinander füllen
      */
-    private function fillPlatzArray() {
+    private function fillPlatzArray($runde) {
         unset($this->plaetze);
         $this->plaetze = array();
-        for ($index = 0; $index < $this->anzahlSpieleHintereinander; $index++) {
-            $platzArray = array();
-            for ($indexPlatz = 1; $indexPlatz <= $this->anzahlBenoetigtePlaetze; $indexPlatz++) {
-                array_push($platzArray, $indexPlatz);
-            }
-            $this->shuffle_assoc($platzArray);
-            array_push($this->plaetze, $platzArray);
+        switch ($this->ligaSaison->getLiga()->getModus()->getId()) {
+            case 5:
+                $test = 0;
+                for ($index = 0; $index < $this->anzahlSpieleHintereinander; $index++) {
+                    $platzArray = array();
+                    for ($indexPlatz = 1; $indexPlatz <= $this->anzahlBenoetigtePlaetze; $indexPlatz++) {
+                        //Workaround für Plätze bei Doubletten
+                        if ($index == 0 and ( $indexPlatz + 1) % 3 == 0)
+                            $indexPlatz++;
+                        array_push($platzArray, $indexPlatz);
+                    }
+                    //Array Runde für Runde verschieben
+                    //Verschiebung in Abhängigkeit der SPiele gleichzeitig
+                    switch ($index) {
+                        case 0:
+                            $plaetzeGleichzeitig = 2;
+                            break;
+                        default:
+                            $plaetzeGleichzeitig = 3;
+                            break;
+                    }
+
+
+                    $platzArray = array_reverse($platzArray);
+                    $this->verschiebePlatzArray($platzArray, $runde, $index + 1);
+                    array_push($this->plaetze, $platzArray);
+                }
+                break;
+
+            default:
+                for ($index = 0; $index < $this->anzahlSpieleHintereinander; $index++) {
+                    $platzArray = array();
+                    for ($indexPlatz = 1; $indexPlatz <= $this->anzahlBenoetigtePlaetze; $indexPlatz++) {
+                        array_push($platzArray, $indexPlatz);
+                    }
+                    $this->shuffle_assoc($platzArray);
+                    array_push($this->plaetze, $platzArray);
+                }
+                break;
         }
     }
 
-    //Der alte Mist
-
-    private function deleteOldold() {
-        $this->em->createQueryBuilder()
-                ->delete('Begegnung b')
-                ->where('b.id IN (SELECT b.id FROM TableB b INNER JOIN b.TableA a WHERE b.date > NOW() AND a.channel_id = 10)')
-                ->getQuery()
-                ->execute();
-
-
-
-        $sql = "CREATE TABLE temp SELECT idtblErgebnis
-                FROM  `viewErgebnis`
-                WHERE saison =$this->saison
-                AND idtblLiga =$this->idtblLiga";
-        $result = $GLOBALS['DB']->exec($sql);
-        $sql = "DELETE FROM tblErgebnis WHERE idtblErgebnis IN ( SELECT idtblErgebnis FROM temp)";
-        $result = $GLOBALS['DB']->exec($sql);
-        $sql = "DROP TABLE temp";
-        $result = $GLOBALS['DB']->exec($sql);
-        $sql = "SELECT * FROM viewBegegnung WHERE saison=$this->saison AND idtblLiga=$this->idtblLiga";
-        $result = $GLOBALS['DB']->query($sql);
-        $begegnungen = new Begegnung();
-        $begegnungen = $result->fetchALL(PDO::FETCH_CLASS, "Begegnung");
-        foreach ($begegnungen as $begegnung) {
-            $sql = "DELETE FROM tblBegegnung WHERE idtblBegegnung=" . $begegnung->getId();
-            $result = $GLOBALS['DB']->query($sql);
+    /**
+     *
+     * @param array $array Array der Teams als Referenz
+     * @return bool Erfolg
+     */
+    private function verschiebePlatzArray(&$array, $runde, $spieleGleichzeitig) {
+        for ($indexRunde=1;$indexRunde<$runde;$indexRunde++) {
+            for ($indexSpiele = 0; $indexSpiele <= $spieleGleichzeitig; $indexSpiele++) {
+                $temp = array_shift($array);
+                array_push($array, $temp);
+            }
         }
-        $sql = "CREATE TABLE temp SELECT idtblSpielRunde
-                FROM  `viewSpielrunde`
-                WHERE saison =$this->saison
-                AND idtblLiga =$this->idtblLiga
-                GROUP BY idtblSpielRunde";
-        $result = $GLOBALS['DB']->exec($sql);
-        $sql = "DELETE FROM tblTabelle WHERE idtblSpielRunde IN ( SELECT idtblSpielRunde FROM temp)";
-        $result = $GLOBALS['DB']->exec($sql);
-        $sql = "DROP TABLE temp";
-        $result = $GLOBALS['DB']->exec($sql);
+
+        return true;
     }
 
 }

@@ -125,7 +125,7 @@ class pdfSpielplanService extends pdfService {
                     }
                 }
                 if ($isInBegegnung == FALSE)
-                    "Spielfrei";
+                    $text="Spielfrei";
 
                 $this->pdf->MultiCell(10, 5, $runde->getSpieltag()->getNummer(), 1, 'C', 0, 0);
                 $this->pdf->MultiCell(10, 5, $runde->getNummer(), 1, 'C', 0, 0);

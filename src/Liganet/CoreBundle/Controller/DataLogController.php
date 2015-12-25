@@ -28,9 +28,14 @@ class DataLogController extends Controller
         $entity_array=array();
 
         $entities = $em->getRepository('LiganetCoreBundle:DataLog')->findAll();
+        $i=0;
         foreach ($entities as $entity) {
+            $i++;
+            if($i>100)                break;
             array_push($entity_array, $entity->toArray());
         }
+        
+        
         
         return array(
             'entities' => $entity_array,

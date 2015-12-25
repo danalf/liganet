@@ -68,16 +68,20 @@ class SpielRundeController extends Controller
      */
     public function newAction($spieltag_id=0)
     {
-        if(!$this->isGrantedEdit()){
-            $this->get('session')->getFlashBag()->add('error', 'Neue Spielrunde anlegen ist für dich nicht nicht erlaubt');
-            return $this->redirect($this->generateUrl('spielrunde'));
-        }
+        
         $entity = new SpielRunde();
         
         if($spieltag_id>0){
             $em = $this->getDoctrine()->getManager();
         $spieltag = $em->getRepository('LiganetCoreBundle:Spieltag')->find($spieltag_id);
         $entity->setSpieltag($spieltag);
+        if(!$this->isGrantedEdit($spieltag->getLigaSaison())){
+            $this->get('session')->getFlashBag()->add('error', 'Neue Spielrunde anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('spielrunde'));
+        }
+        } else {
+            $this->get('session')->getFlashBag()->add('error', 'Neue Spielrunde anlegen ist für dich nicht nicht erlaubt');
+            return $this->redirect($this->generateUrl('spielrunde'));
         }
         
         $form   = $this->createForm(new SpielRundeType(), $entity);

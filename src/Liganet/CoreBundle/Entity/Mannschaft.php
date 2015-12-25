@@ -373,4 +373,8 @@ class Mannschaft
     public function getNameKurz(){
         return $this->getVerein()->getKuerzel().$this->getRang();
     }
+    
+    public function getName(){
+        return $this->getVerein()->getNamekurz()." ".$this->getRang();
+    }
 }

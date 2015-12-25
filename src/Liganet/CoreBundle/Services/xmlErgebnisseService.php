@@ -217,10 +217,16 @@ class xmlErgebnisseService {
         $text = $this->doc->createTextNode($spieler->getSpieler());
         $attribut->appendChild($text);
         $element->appendChild($attribut);
-        $attribut = $this->doc->createAttribute('lizenz');
-        $text = $this->doc->createTextNode($spieler->getSpieler()->getNummerlizenz());
-        $attribut->appendChild($text);
-        $element->appendChild($attribut);
+        //$nummer=$spieler->getSpieler()->getNummerlizenz();
+        if(is_object($spieler)){
+            $attribut = $this->doc->createAttribute('lizenz');
+            echo $spieler->getId();
+            $text = $this->doc->createTextNode($spieler->getSpieler()->getNummerlizenz());
+            $attribut->appendChild($text);
+            $element->appendChild($attribut);
+        }
+            
+
         $attribut = $this->doc->createAttribute('status');
         $text = $this->doc->createTextNode($spieler->getStatus());
         $attribut->appendChild($text);

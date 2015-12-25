@@ -106,6 +106,7 @@ class pdfSpielberichtsbogenService extends pdfService {
                         $this->pdf->setCellPaddings(1, 1, 1, 1);
                         $this->pdf->setCellMargins(0, 1, 0, 1);
                         $this->pdf->MultiCell(14, 0, $this->ligaSaison->getLiga()->getKuerzel() . " ".$ergebnis->getPlatz(), 1, 'C', 1, 0);
+                        $this->pdf->MultiCell(14, 0, "", 1, 'C', 1, 0);
                         $this->pdf->MultiCell(4, 0, '', 0, 'L', 0, 0);
                         switch ($spielart->getAnzahlSpieler()) {
                             case 1:

@@ -1,0 +1,29 @@
+<table class="table ergebnis">
+    <tr>
+        <td colspan="10" class="table-zeile1">{{runde.spieltag.nummer}}. Spieltag am {{ runde.spieltag.datum|date("d.m.Y H:i") }} - Ausrichter {{ runde.spieltag.austragenderVerein }}</td>
+    </tr>
+    <tr class="table-zeile2">
+        <td>Runde</td>
+        <td>Begegnung</td>
+                    {% for spielart in spielarten %}
+        <td>{{ spielart.namekurz }}</td>
+                    {% endfor %}
+        <td>Kugeln</td>
+        <td>Spiele</td>
+        <td>Punkte</td>
+    </tr>
+    <tbody class="table-content">
+        {% for begegnung in runde.begegnungen %}
+            <tr>
+                <td>{{ runde.nummer }}</td>
+                <td>{{ begegnung.mannschaft1.namekurz }} : {{ begegnung.mannschaft2.namekurz }}</td>
+                            {% for ergebnis in begegnung.ergebnisse %}
+                <td>{{ ergebnis.kugeln1 }} : {{ ergebnis.kugeln2 }}</td>
+                            {% endfor %}
+                <td>{{ begegnung.kugeln1 }} : {{ begegnung.kugeln2 }}</td>
+                <td>{{ begegnung.siege1 }} : {{ begegnung.siege2 }}</td>
+                <td>{{ begegnung.punkt1|number_format }} : {{ begegnung.punkt2|number_format }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>

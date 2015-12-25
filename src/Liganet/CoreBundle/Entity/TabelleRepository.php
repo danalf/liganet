@@ -18,4 +18,13 @@ class TabelleRepository extends EntityRepository
             ->getResult();
         
     }
+    
+    public function findByRundeArray($id_spielrunde) {
+        return $this->getEntityManager()
+            ->createQuery("SELECT t FROM LiganetCoreBundle:Tabelle t WHERE t.spielrunde=".$id_spielrunde." ORDER BY t.rang ASC ")
+            ->getArrayResult();
+        
+    }
+    
+    
 }

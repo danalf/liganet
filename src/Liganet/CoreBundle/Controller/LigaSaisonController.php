@@ -44,6 +44,7 @@ class LigaSaisonController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($id);
+        $liga=$entity->getLiga();
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find LigaSaison entity.');
@@ -54,7 +55,7 @@ class LigaSaisonController extends Controller {
         return array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
-            'isGrantedEdit' => $this->isGrantedEdit($entity)
+            'isGrantedEdit' => $this->isGrantedEdit($entity, $liga)
         );
     }
     
@@ -137,7 +138,36 @@ $deleteForm = $this->createDeleteForm($id);
         return array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
-            'isGrantedEdit' => $this->isGrantedEdit($entity)
+            'isGrantedEdit' => $this->isGrantedEdit($entity,$entity->getLiga())
+        );
+    }
+    
+    /**
+     * Finds and displays a LigaSaison entity.
+     *
+     * @Route("/{id}/losungplatz", name="ligasaison_losungplatz")
+     * @Template("LiganetCoreBundle:LigaSaison:losung.html.twig")
+     */
+    public function losungPlatzAction($id) {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($id);
+        /**
+         * @var \Liganet\CoreBundle\Services\LosenService
+         */
+        $losung = $this->get('liganet_core.platzlosung');
+
+        if ($losung->setLigaSaison($entity)) {
+            $losung->losen();
+        } else {
+            $this->get('session')->getFlashBag()->add('error', 'Diese Ligasaison losne ist nicht erlaubt.');
+        };
+
+$deleteForm = $this->createDeleteForm($id);
+        return array(
+            'entity' => $entity,
+            'delete_form' => $deleteForm->createView(),
+            'isGrantedEdit' => $this->isGrantedEdit($entity,$entity->getLiga())
         );
     }
     
@@ -153,7 +183,7 @@ $deleteForm = $this->createDeleteForm($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find LigaSaison entity.');
         }
-        if($this->isGrantedEdit($entity)){
+        if($this->isGrantedEdit($entity,$entity->getLiga())){
             /**
              * @var \Liganet\CoreBundle\Services\xmlErgebnisseService
              */
@@ -182,13 +212,20 @@ $deleteForm = $this->createDeleteForm($id);
         if ($liga_id > 0) {
             $em = $this->getDoctrine()->getManager();
             $liga = $em->getRepository('LiganetCoreBundle:Liga')->find($liga_id);
+            if (!$this->isGrantedEdit(null, $liga)) {
+                $this->get('session')->getFlashBag()->add('error', 'Neue Ligasaison anlegen ist für dich nicht nicht erlaubt');
+                return $this->redirect($this->generateUrl('ligasaison'));
+            }
+            
             $entity->setLiga($liga);
+        } else {
+            if (!$this->isGrantedEdit($entity)) {
+                $this->get('session')->getFlashBag()->add('error', 'Neue Ligasaison anlegen ist für dich nicht nicht erlaubt');
+                return $this->redirect($this->generateUrl('ligasaison'));
+            }
         }
         
-        if (!$this->isGrantedEdit($entity)) {
-            $this->get('session')->getFlashBag()->add('error', 'Neue Ligasaison anlegen ist für dich nicht nicht erlaubt');
-            return $this->redirect($this->generateUrl('ligasaison'));
-        }
+        
 
         $form = $this->createForm(new LigaSaisonType(), $entity);
 
@@ -241,7 +278,7 @@ $deleteForm = $this->createDeleteForm($id);
             throw $this->createNotFoundException('Unable to find LigaSaison entity.');
         }
         
-        if (!$this->isGrantedEdit($entity)) {
+        if (!$this->isGrantedEdit($entity,$entity->getLiga())) {
             $this->get('session')->getFlashBag()->add('error', 'Diesen Ligasaison zu editieren ist für Dich nicht nicht erlaubt');
             return $this->redirect($this->generateUrl('ligasaison_show', array('id' => $id)));
         }
@@ -328,20 +365,26 @@ $deleteForm = $this->createDeleteForm($id);
      * Legt fest, ob der User die Modusrunden verändern darf oder nicht
      * @return boolean
      */
-    private function isGrantedEdit(\Liganet\CoreBundle\Entity\LigaSaison $ligasaison=null) {
-//        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
-//            return TRUE;
-//        }
+    private function isGrantedEdit(\Liganet\CoreBundle\Entity\LigaSaison $ligasaison=null, \Liganet\CoreBundle\Entity\Liga $liga=null) {
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return TRUE;
+        }
         if (isset($ligasaison)) {
             foreach ($ligasaison->getStaffelleiter() as $leiter) {
                 if ($this->getUser()->getSpieler() == $leiter->getId())
                     return TRUE;
             }
-            foreach ($ligasaison->getLiga()->getRegion()->getLeiter() as $leiter) {
+            
+        }
+        
+        if (isset($liga)) {
+            foreach ($liga->getRegion()->getLeiter() as $leiter) {
                 if ($this->getUser()->getSpieler() == $leiter->getId())
                     return TRUE;
             }
         }
+        
+        
         return FALSE;
     }
 
@@ -359,7 +402,7 @@ $deleteForm = $this->createDeleteForm($id);
         return array(
             'entities' => $entities,
             'liga' => $liga,
-            'isGrantedEdit' => $this->isGrantedEdit()
+            'isGrantedEdit' => $this->isGrantedEdit(null, $liga)
         );
     }
     
