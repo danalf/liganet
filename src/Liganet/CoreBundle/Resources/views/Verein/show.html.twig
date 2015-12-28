@@ -55,7 +55,9 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="span5">{% render "LiganetCoreBundle:Mannschaft:showList" with { 'id': entity.id } %}</div>
-                <div class="span4">{% render "LiganetCoreBundle:Spieler:showList" with { 'id': entity.id } %}</div>
+                <div class="span5">
+                    {{ include('LiganetCoreBundle:Mannschaft:showList.html.twig', { 'verein': entity }) }}
+                </div>
+                <div class="span4">{{ render(controller("LiganetCoreBundle:Spieler:showList" , { 'id': entity.id })) }}</div>
             </div>
 {% endblock %}

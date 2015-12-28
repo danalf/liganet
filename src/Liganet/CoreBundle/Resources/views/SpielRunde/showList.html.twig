@@ -1,18 +1,18 @@
 {% if isGrantedEdit == true %}
-<a class="btn pull-right" href="{{ path('spielrunde_new', { 'spieltag_id': spieltag.id }) }}">
-    <i class="icon-plus"></i>
-</a>
+    <a class="btn pull-right" href="{{ path('spielrunde_new', { 'spieltag_id': spieltag.id }) }}">
+        <i class="icon-plus"></i>
+    </a>
 {% endif %}  
 <h2>Runden</h2>
 <table class="table">
-        {% for spielrunde in entities %}
+    {% for spielrunde in spieltag.runden %}
         <tr>
             <td>{{ spielrunde.nummer }}</td>
-                <td>
+            <td>
                 <a class="btn pull-right" href="{{ path('spielrunde_show', { 'id': spielrunde.id }) }}">
-                                <i class="icon-arrow-right"></i>
-                            </a>
-                        </td>
-            </tr>
-        {% endfor %}
-        </table>
+                    <i class="icon-arrow-right"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>

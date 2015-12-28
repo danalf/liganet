@@ -69,44 +69,43 @@
                         </ul>
                         <ul class="nav pull-right">
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                {% render "LiganetCoreBundle:Spieler:showInMenu" %}
+                                {{ render(controller('LiganetCoreBundle:Spieler:showInMenu')) }}
                                 <li class="divider-vertical"></li>
                                 <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
-                            {% else %}
-                                    <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
-                            {% endif %}
-                                    </ul>
-                                </div><!--/.nav-collapse -->
-                            </div>
-                        </div>
-                    </div>
+                                {% else %}
+                                <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
+                                {% endif %}
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
 
 
-                    <div class="container">
-                     {% if app.session.hasFlash('error') %}
-                            <div class="alert alert-error" ><button type="button" class="close" data-dismiss="alert">×</button>{{ app.session.flash('error') }}</div>
-                    {% endif %}
-                    {% if app.session.hasFlash('notice') %}
-                            <div class="alert" ><button type="button" class="close" data-dismiss="alert">×</button>{{ app.session.flash('notice') }}</div>
-                    {% endif %}
-                    {% if app.session.hasFlash('success') %}
-                            <div class="alert alert-success" ><button type="button" class="close" data-dismiss="alert">×</button>{{ app.session.flash('success') }}</div>
-                    {% endif %}
-
-                    {% block content_head %}{% endblock %}
-                            <div>{% block content %}{% endblock %}</div>
-                    {% block body %}{% endblock %}
-                            <div>{% block fos_user_content %}{% endblock fos_user_content %}</div>
-                        </div> <!-- /container -->
-                        <footer>
-                            <p>&copy; Alfredo 2013</p>
-                        </footer>
-                {% javascripts
+        <div class="container">
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-error" ><button type="button" class="close" data-dismiss="alert">×</button>{{ app.session.flash('error') }}</div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="alert alert-error" ><button type="button" class="close" data-dismiss="alert">×</button>{{ app.session.flash('notice') }}</div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-error" ><button type="button" class="close" data-dismiss="alert">×</button>{{ app.session.flash('success') }}</div>
+            {% endfor %}
+        {% block content_head %}{% endblock %}
+        <div>{% block content %}{% endblock %}</div>
+    {% block body %}{% endblock %}
+    <div>{% block fos_user_content %}{% endblock fos_user_content %}</div>
+</div> <!-- /container -->
+<footer>
+    <p>&copy; Alfredo 2013</p>
+</footer>
+{% javascripts
                     'bundles/liganetcore/js/modernizr.custom.31856.js'
                     'bundles/liganetcore/js/jquery-1.9.1.min.js' 
                     'bundles/liganetcore/js/bootstrap.min.js'
                     '@LiganetCoreBundle/Resources/public/js/main.js'%}
-                        <script src="{{ asset_url }}"></script>
-                {% endjavascripts %}
-                    </body>
-                </html>
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+</body>
+</html>

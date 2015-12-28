@@ -23,7 +23,7 @@
                 <td><a class="btn pull-right" href="{{ path('mannschaft_pdf_spielplan', { 'id': entity.id }) }}"><i class=" icon-download-alt"></i></a> </td>
             </tr>
         </table>
-        {% render "LiganetCoreBundle:MannschaftSpieler:showList" with { 'id': entity.id } %}
+        {{ render(controller('LiganetCoreBundle:MannschaftSpieler:showList',{ 'id': entity.id })) }}  
     </div>
     <div class="span6">
         <h2>Begegnungen</h2>

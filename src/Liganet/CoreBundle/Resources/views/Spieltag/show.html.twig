@@ -51,7 +51,7 @@
             </table>
         </div>
         <div class="span6">
-            {% render "LiganetCoreBundle:SpielRunde:showList" with { 'spieltag_id': entity.id } %}
+            {{ render(controller('LiganetCoreBundle:SpielRunde:showList',{ 'spieltag_id': entity.id })) }}
         </div>
     </div>
 {% endblock %}

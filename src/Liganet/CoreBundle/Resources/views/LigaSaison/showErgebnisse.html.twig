@@ -7,41 +7,41 @@
     </head>
     <body>
         <style type="text/css">
-                .table-zeile1{
-                    background-color: {{ entity.liga.farbeTabellenKopf }};
-                    color: {{ entity.liga.farbeTabellenKopfSchrift }};
-                }
-                .table-zeile2{
-                    background-color: {{ entity.liga.region.farbeTabelleZeile2Hintergrund }};
-                    color: {{ entity.liga.region.farbeTabelleZeile2Schrift }};
-                }
-                .table-content{
-                    background-color: {{ entity.liga.region.farbeTabelleHintergrund }};
-                    color: {{ entity.liga.region.farbeTabelleSchrift }};
-                }
-                table.ergebnis td {
-            text-align: center;
-        }
-                .table {
-                    width: 100%;
-                }
-            </style>
-            {% for spieltag in entity.spieltage %}
+            .table-zeile1{
+                background-color: {{ entity.liga.farbeTabellenKopf }};
+                color: {{ entity.liga.farbeTabellenKopfSchrift }};
+            }
+            .table-zeile2{
+                background-color: {{ entity.liga.region.farbeTabelleZeile2Hintergrund }};
+                color: {{ entity.liga.region.farbeTabelleZeile2Schrift }};
+            }
+            .table-content{
+                background-color: {{ entity.liga.region.farbeTabelleHintergrund }};
+                color: {{ entity.liga.region.farbeTabelleSchrift }};
+            }
+            table.ergebnis td {
+                text-align: center;
+            }
+            .table {
+                width: 100%;
+            }
+        </style>
+        {% for spieltag in entity.spieltage %}
             {% if loop.last %}
+                {% for runde in spieltag.runden %}
+                    {% if loop.last %}
+                        {{ render(controller('LiganetCoreBundle:Tabelle:show',{ 'id_runde': entity.id })) }}  
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+        <br />
+        {% for spieltag in entity.spieltage %}
             {% for runde in spieltag.runden %}
-            {% if loop.last %}
-            {% render "LiganetCoreBundle:Tabelle:show" with { 'id_runde': runde.id } %}
-            {% endif %}
-            {% endfor %}
-            {% endif %}
+                {{ include('LiganetCoreBundle:SpielRunde:showErgebnisse.html.twig', { 'runde': runde, 'spielarten': spielarten }) }}
             {% endfor %}
             <br />
-            {% for spieltag in entity.spieltage %}
-            {% for runde in spieltag.runden %}
-            {% include "LiganetCoreBundle:SpielRunde:showErgebnisse.html.twig" with { 'runde': runde, 'spielarten': spielarten } %}
-            {% endfor %}
-                <br />
-            {% endfor %}
-            </body>
-        </html>
+        {% endfor %}
+    </body>
+</html>
 

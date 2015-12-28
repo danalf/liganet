@@ -271,6 +271,7 @@ class SpielerController extends Controller {
     }
 
     /**
+     * @Route("/", name="showInMenu")
      * @Template()
      */
     public function showInMenuAction() {

@@ -247,10 +247,8 @@ class SpielRundeController extends Controller
     public function showListAction($spieltag_id) {
         $em = $this->getDoctrine()->getManager();
         $spieltag = $em->getRepository('LiganetCoreBundle:Spieltag')->find($spieltag_id);
-        $entities=$spieltag->getRunden();
         
         return array(
-            'entities'      => $entities,
             'spieltag'        => $spieltag,
             'isGrantedEdit' => $this->isGrantedEdit($spieltag->getLigaSaison())
         );

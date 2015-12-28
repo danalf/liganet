@@ -259,10 +259,8 @@ class MannschaftController extends Controller {
     public function showListAction($id) {
         $em = $this->getDoctrine()->getManager();
         $verein = $em->getRepository('LiganetCoreBundle:Verein')->find($id);
-        $entities = $verein->getMannschaften();
 
         return array(
-            'entities' => $entities,
             'verein' => $verein,
             'isGrantedEdit' => $this->isGrantedEdit($verein)
         );

@@ -54,7 +54,9 @@
 </table>
             
 </div>
-        <div class="span8">{% render "LiganetCoreBundle:LigaSaison:showList" with { 'liga_id': entity.id } %}</div>
+        <div class="span8">
+            {{ include('LiganetCoreBundle:LigaSaison:showList.html.twig', { 'liga': entity }) }}
+        </div>
 </div>
 <h2>Mannschaften</h2>
 <div class="row-fluid">

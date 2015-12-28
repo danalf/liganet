@@ -143,12 +143,8 @@ class Spieler {
     private $anrede;
 
     /**
-     * @var verein
-     *
-     * @ORM\ManyToOne(targetEntity="Verein")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="verein_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="Verein", inversedBy="spieler")
+     * @ORM\JoinColumn(name="verein_id", referencedColumnName="id")
      */
     private $verein;
     

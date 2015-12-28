@@ -25,3 +25,5 @@ web/xml/*
 web/img/*
 web/media/cache/*
 *~
+ligasd_db1.sql
+.directory

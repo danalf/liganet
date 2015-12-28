@@ -5,7 +5,7 @@
 {% endif %}  
 <h2>Spieltage</h2>
 <table class="table">
-        {% for spieltag in entities %}
+        {% for spieltag in ligasaison.spieltage %}
         <tr>
             <td>{{ spieltag.nummer }}</td>
             <td>{{ spieltag.datum|date('d.m.Y H:i') }}</td>

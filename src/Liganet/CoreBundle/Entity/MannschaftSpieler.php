@@ -29,7 +29,7 @@ class MannschaftSpieler
     private $bestaetigt;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Spieler", inversedBy="mannschaften")
+     * @ORM\ManyToOne(targetEntity="Spieler", inversedBy="mannschaftSpieler")
      * @ORM\JoinColumn(name="spieler_id", referencedColumnName="id")
      */
     protected $spieler;

@@ -1,6 +1,6 @@
-jms_security_extra:
-    secure_all_services: false
-    expressions: true
+#jms_security_extra:
+    #secure_all_services: false
+    #expressions: true
 
 security:
   
@@ -33,21 +33,21 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        login:
-            pattern:  ^/demo/secured/login$
-            security: false
+        #login:
+            #pattern:  ^/demo/secured/login$
+            #security: false
 
         secured_area:
-            pattern:    ^/demo/secured/
+            #pattern:    ^/demo/secured/
             form_login:
-                check_path: /login_check
+                #check_path: /login_check
                 login_path: /login
             logout:
                 path:   /logout
                 target: /
             anonymous: ~
-            http_basic:
-                realm: "Secured Demo Area"
+            #http_basic:
+                #realm: "Secured Demo Area"
 
     access_control:
         - { path: ^/ligasaison/extern/, role: IS_AUTHENTICATED_ANONYMOUSLY }

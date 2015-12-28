@@ -1,20 +1,20 @@
 <h2>Begegnungen</h2>
 <style type="text/css">
-        .table-zeile1{
-            background-color: {{ runde.spieltag.ligasaison.liga.farbeTabellenKopf }};
-            color: {{ runde.spieltag.ligasaison.liga.farbeTabellenKopfSchrift }};
-        }
-        .table-zeile2{
-            background-color: {{ runde.spieltag.ligasaison.liga.region.farbeTabelleZeile2Hintergrund }};
-            color: {{ runde.spieltag.ligasaison.liga.region.farbeTabelleZeile2Schrift }};
-        }
-        .table-content{
-            background-color: {{ runde.spieltag.ligasaison.liga.region.farbeTabelleHintergrund }};
-            color: {{ runde.spieltag.ligasaison.liga.region.farbeTabelleSchrift }};
-        }
-        table.ergebnis td {
-            text-align: center;
-        }
+    .table-zeile1{
+        background-color: {{ runde.spieltag.ligasaison.liga.farbeTabellenKopf }};
+        color: {{ runde.spieltag.ligasaison.liga.farbeTabellenKopfSchrift }};
+    }
+    .table-zeile2{
+        background-color: {{ runde.spieltag.ligasaison.liga.region.farbeTabelleZeile2Hintergrund }};
+        color: {{ runde.spieltag.ligasaison.liga.region.farbeTabelleZeile2Schrift }};
+    }
+    .table-content{
+        background-color: {{ runde.spieltag.ligasaison.liga.region.farbeTabelleHintergrund }};
+        color: {{ runde.spieltag.ligasaison.liga.region.farbeTabelleSchrift }};
+    }
+    table.ergebnis td {
+        text-align: center;
+    }
 </style>
 <table class="table ergebnis">
     <tr>
@@ -24,26 +24,26 @@
         <td>Runde</td>
         <td>Begegnung</td>
         {% for spielart in spielarten %}
-        <td>{{ spielart.namekurz }}</td>
+            <td>{{ spielart.namekurz }}</td>
         {% endfor %}
         <td>Kugeln</td>
         <td>Spiele</td>
         <td>Punkte</td>
     </tr>
     <tbody class="table-content">
-    {% for begegnung in entities %}
-    <tr>
-        <td>{{ runde.nummer }}</td>
-        <td>{{ begegnung.mannschaft1.namekurz }} : {{ begegnung.mannschaft2.namekurz }}</td>
-        {% for ergebnis in begegnung.ergebnisse %}
-        <td>{{ ergebnis.kugeln1 }} : {{ ergebnis.kugeln2 }}</td>
+        {% for begegnung in entities %}
+            <tr>
+                <td>{{ runde.nummer }}</td>
+                <td>{{ begegnung.mannschaft1.namekurz }} : {{ begegnung.mannschaft2.namekurz }}</td>
+                {% for ergebnis in begegnung.ergebnisse %}
+                    <td>{{ ergebnis.kugeln1 }} : {{ ergebnis.kugeln2 }}</td>
+                {% endfor %}
+                <td>{{ begegnung.kugeln1 }} : {{ begegnung.kugeln2 }}</td>
+                <td>{{ begegnung.siege1 }} : {{ begegnung.siege2 }}</td>
+                <td>{{ begegnung.punkt1|number_format }} : {{ begegnung.punkt2|number_format }}</td>
+            </tr>
         {% endfor %}
-        <td>{{ begegnung.kugeln1 }} : {{ begegnung.kugeln2 }}</td>
-        <td>{{ begegnung.siege1 }} : {{ begegnung.siege2 }}</td>
-        <td>{{ begegnung.punkt1|number_format }} : {{ begegnung.punkt2|number_format }}</td>
-    </tr>
-    {% endfor %}
     </tbody>
 </table>
 <h2>Tabelle</h2>
-{% render "LiganetCoreBundle:Tabelle:show" with { 'id_runde': runde.id } %}
+{{ render(controller('LiganetCoreBundle:Tabelle:show',{ 'id_runde': runde.id })) }}

@@ -68,7 +68,7 @@
                         </table>
                     </div>
                     <div class="span8">
-                {% render "LiganetCoreBundle:Spieltag:showList" with { 'ligasaison_id': entity.id } %}
+                        {{ include('LiganetCoreBundle:Spieltag:showList.html.twig', { 'ligasaison': entity }) }}
                         </div>
                     </div>
 {% endblock %}

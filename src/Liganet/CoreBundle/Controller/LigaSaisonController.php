@@ -397,10 +397,8 @@ $deleteForm = $this->createDeleteForm($id);
     public function showListAction($liga_id) {
         $em = $this->getDoctrine()->getManager();
         $liga = $em->getRepository('LiganetCoreBundle:Liga')->find($liga_id);
-        $entities = $liga->getLigaSaison();
 
         return array(
-            'entities' => $entities,
             'liga' => $liga,
             'isGrantedEdit' => $this->isGrantedEdit(null, $liga)
         );

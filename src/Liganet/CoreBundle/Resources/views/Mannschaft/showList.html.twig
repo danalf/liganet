@@ -7,7 +7,7 @@
     </h2>
     <table class="table">
         <tbody>
-        {% for mannschaft in entities %}
+        {% for mannschaft in verein.mannschaften %}
                 {% include 'LiganetCoreBundle:Mannschaft:rowContent.html.twig' with {'mannschaft': mannschaft, 'isGrantedEdit': isGrantedEdit } %}
         {% endfor %}
             </tbody>

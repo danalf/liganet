@@ -1,26 +1,26 @@
 {% extends 'LiganetCoreBundle::base.html.twig' %}
 {% block content %}
-<div class="row-fluid">
-    <div class="span11">
-        <div class="page-header">
-            <h1>Runde {{ entity.nummer }} <small>Spieltag {{ entity.spieltag.nummer }} {{ entity.spieltag.ligasaison.liga }}</small></h1>
+    <div class="row-fluid">
+        <div class="span11">
+            <div class="page-header">
+                <h1>Runde {{ entity.nummer }} <small>Spieltag {{ entity.spieltag.nummer }} {{ entity.spieltag.ligasaison.liga }}</small></h1>
+            </div>
         </div>
-    </div>
-    <div class="span1">
-        <a class="btn" href="{{ path('spielrunde') }}">
-            <i class="icon-list"></i>
-        </a>
-        {% if isGrantedEdit == true %}
-        <a class="btn" href="{{ path('spielrunde_edit', { 'id': entity.id }) }}">
-            <i class="icon-pencil"></i>
-        </a>
-        {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
-        <form  action="{{ path('spielrunde_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-                <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
-            </form>
-        {% endif %}
+        <div class="span1">
+            <a class="btn" href="{{ path('spielrunde') }}">
+                <i class="icon-list"></i>
+            </a>
+            {% if isGrantedEdit == true %}
+                <a class="btn" href="{{ path('spielrunde_edit', { 'id': entity.id }) }}">
+                    <i class="icon-pencil"></i>
+                </a>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <form  action="{{ path('spielrunde_delete', { 'id': entity.id }) }}" method="post">
+                    {{ form_widget(delete_form) }}
+                    <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
+                </form>
+            {% endif %}
         </div>
     </div>
     <div class="row-fluid">
@@ -45,10 +45,10 @@
                     </tr>
                 </tbody>
             </table>
-                {% include "LiganetCoreBundle:Begegnung:showListForEdit.html.twig" with { 'begegnungen': entity.begegnungen, 'isGrantedEdit': isGrantedEdit } %}
+            {{ include('LiganetCoreBundle:Begegnung:showListForEdit.html.twig', { 'begegnungen': entity.begegnungen, 'isGrantedEdit': isGrantedEdit }) }}
         </div>
         <div class="span8">
-{% render "LiganetCoreBundle:Begegnung:showList" with { 'runde_id': entity.id } %}
-            </div>
+            {{ render(controller('LiganetCoreBundle:Begegnung:showList',{ 'runde_id': entity.id })) }}
         </div>
+    </div>
 {% endblock %}

@@ -252,10 +252,8 @@ class SpieltagController extends Controller {
     public function showListAction($ligasaison_id) {
         $em = $this->getDoctrine()->getManager();
         $ligasaison = $em->getRepository('LiganetCoreBundle:LigaSaison')->find($ligasaison_id);
-        $entities = $ligasaison->getSpieltage();
 
         return array(
-            'entities' => $entities,
             'ligasaison' => $ligasaison,
             'isGrantedEdit' => $this->isGrantedEdit($ligasaison, $ligasaison->getLiga())
         );

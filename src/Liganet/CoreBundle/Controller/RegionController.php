@@ -237,10 +237,8 @@ class RegionController extends Controller
     public function showListAction($verband_id) {
         $em = $this->getDoctrine()->getManager();
         $verband = $em->getRepository('LiganetCoreBundle:Verband')->find($verband_id);
-        $entities = $verband->getRegions();
 
         return array(
-            'entities' => $entities,
             'verband' => $verband,
             'isGrantedEdit' => $this->isGrantedEdit()
         );

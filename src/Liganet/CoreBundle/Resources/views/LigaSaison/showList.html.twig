@@ -7,7 +7,7 @@
     </h2>
     <table class="table">
         <tbody>
-        {% for ligasaison in entities %}
+        {% for ligasaison in liga.ligasaison %}
                 <tr>
                     <td style="background-color: {{ ligasaison.liga.farbeTabellenKopf }}; color: {{ ligasaison.liga.farbeTabellenKopfSchrift }};">{{ ligasaison.liga.kuerzel }}</td>
                     <td>{{ ligasaison }}</td>

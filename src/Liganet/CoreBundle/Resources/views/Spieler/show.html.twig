@@ -135,9 +135,7 @@
         </div>
         
         <div class="span9">
-            {% render "LiganetCoreBundle:Ergebnis:showBySpieler" with { 'spieler_id': entity.id } %}
-            
-
+            {{ render(controller('LiganetCoreBundle:SpielRunde:showBySpieler',{ 'spieler_id': entity.id })) }}
         </div>
 </div>
 
