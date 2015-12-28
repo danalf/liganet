@@ -1,14 +1,14 @@
 <h2>Mannschaften
-{% if isGrantedEdit == true %}
+    {% if isGrantedEdit == true %}
         <a style="float: right" class="btn" href="{{ path('mannschaft_new', { 'id': verein.id }) }}">
             <i class="icon-plus"></i>
         </a>
-{% endif %}  
-    </h2>
-    <table class="table">
-        <tbody>
+    {% endif %}  
+</h2>
+<table class="table">
+    <tbody>
         {% for mannschaft in verein.mannschaften %}
-                {% include 'LiganetCoreBundle:Mannschaft:rowContent.html.twig' with {'mannschaft': mannschaft, 'isGrantedEdit': isGrantedEdit } %}
+            {{ include('LiganetCoreBundle:Mannschaft:rowContent.html.twig', { 'mannschaft': mannschaft, 'isGrantedEdit': isGrantedEdit }) }}
         {% endfor %}
-            </tbody>
-        </table>
+    </tbody>
+</table>
