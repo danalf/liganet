@@ -153,27 +153,6 @@ class DataLog {
         return $this->date;
     }
 
-    /**
-     * Set user
-     *
-     * @param \Liganet\UserBundle\Entity\User $user
-     * @return Log
-     */
-    public function setUser(\Liganet\UserBundle\Entity\User $user = null) {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Liganet\UserBundle\Entity\User 
-     */
-    public function getUser() {
-        return $this->user;
-    }
-
     public function toArray() {
         $array = array();
         $array["user"] = $this->getUser();
@@ -201,4 +180,28 @@ class DataLog {
         return $arr;
     }
 
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return DataLog
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

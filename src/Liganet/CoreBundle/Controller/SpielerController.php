@@ -125,38 +125,52 @@ class SpielerController extends Controller {
             'form' => $form->createView(),
         );
     }
-
+    
     /**
      * Displays a form to edit an existing Spieler entity.
      *
      * @Route("/{id}/edit", name="spieler_edit")
-     * @Template()
+     * @Method({"GET", "POST"})
      */
-    public function editAction($id) {
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('LiganetCoreBundle:Spieler')->find($id);
-
-        if (!$entity) {
-            $this->get('session')->getFlashBag()->add('error', 'Der Spieler wurde nicht gefunden.');
-            throw $this->createNotFoundException('Unable to find Spieler entity.');
-        }
-
-        if (!$this->isGrantedEdit($entity->getVerein())) {
+    public function editAction(Request $request, Spieler $spieler)
+    {
+        if (!$this->isGrantedEdit($spieler->getVerein())) {
             $this->get('session')->getFlashBag()->add('error', 'Diesen Spieler zu editieren ist für Dich nicht nicht erlaubt');
-            return $this->redirect($this->generateUrl('spieler_show', array('id' => $id)));
+            return $this->redirect($this->generateUrl('spieler_show', array('id' => $spieler->getId())));
+        }
+        
+        $deleteForm = $this->createDeleteForm($spieler);
+        $editForm = $this->createForm('AppBundle\Form\SpielerType', $spieler);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+ 
+            //Änderungen im Log speichern
+            $unitOfWork = $em->getUnitOfWork();
+            $unitOfWork->computeChangeSets();
+            $changes = $unitOfWork->getEntityChangeSet($spieler);
+            $log=new DataLog();
+            $log->setUser($this->getUser());
+            $log->setChanges($changes);
+            $log->setEntityId($spieler->getId());
+            $log->setEntityType(get_class($spieler));
+            $em->persist($log);
+            $em->persist($spieler);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('success', 'Die Änderungen wurden gespeichert');
+
+            return $this->redirectToRoute('spieler_show', array('id' => $spieler->getId()));
         }
 
-        $editForm = $this->createForm(new SpielerType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity' => $entity,
+        return $this->render('spieler/edit.html.twig', array(
+            'spieler' => $spieler,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
+
 
     /**
      * Edits an existing Spieler entity.
@@ -292,21 +306,6 @@ class SpielerController extends Controller {
         return FALSE;
     }
 
-    /**
-     * Gibt das Spieler-Objekt des Users zurück
-     * @return \Liganet\CoreBundle\Entity\Spieler
-     */
-    private function zzzgetUserAsSpieler() {
-        $user = $this->getUser();
-        $id = $user->getSpieler();
-        if (isset($id)) {
-            $em = $this->getDoctrine()->getManager();
-            $spieler = $em->getRepository('LiganetCoreBundle:Spieler')->find($id);
-        } else {
-            $spieler = new Spieler;
-        }
-        return $spieler;
-    }
 
     /**
      * Zeigt eine Spielerliste an

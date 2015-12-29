@@ -1191,4 +1191,28 @@ class Spieler {
     public function getNameWithLizenz(){
         return $this->getNummerlizenz()." ".trim($this->getVorname()." ".$this->getNachname());
     }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Spieler
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }
