@@ -1,5 +1,5 @@
 _home:
-    pattern:  /
+    path:  /
     defaults: { _controller: LiganetCoreBundle:Home:index }
 liganet_core:
     resource: "@LiganetCoreBundle/Resources/config/routing.yml"

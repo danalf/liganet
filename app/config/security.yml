@@ -1,7 +1,3 @@
-#jms_security_extra:
-    #secure_all_services: false
-    #expressions: true
-
 security:
   
     encoders:
@@ -25,7 +21,7 @@ security:
             pattern: ^/
             form_login:
                 provider: fos_userbundle
-                csrf_provider: security.csrf.token_manager
+                csrf_token_generator: security.csrf.token_manager
             logout:       true
             anonymous:    true
             
@@ -33,21 +29,13 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        #login:
-            #pattern:  ^/demo/secured/login$
-            #security: false
-
         secured_area:
-            #pattern:    ^/demo/secured/
             form_login:
-                #check_path: /login_check
                 login_path: /login
             logout:
                 path:   /logout
                 target: /
             anonymous: ~
-            #http_basic:
-                #realm: "Secured Demo Area"
 
     access_control:
         - { path: ^/ligasaison/extern/, role: IS_AUTHENTICATED_ANONYMOUSLY }
@@ -64,4 +52,3 @@ security:
         - { path: ^/uploads/, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
         
-

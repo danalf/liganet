@@ -219,7 +219,7 @@ class Spieler {
     protected $ersatzFuer2;
     
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", mappedBy="spieler")
      */
     protected $user;
 
