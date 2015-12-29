@@ -13,9 +13,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "private_network", ip: "192.168.33.22"
   config.vm.network "private_network", type: "dhcp"
 
-  #config.winnfsd.uid = 1
-  #config.winnfsd.gid = 1
-
   # Share an additional folder to the guest VM. The first argument is the path on the host to the actual folder.
   # The second argument is the path on the guest to mount the folder.
   config.vm.synced_folder "./", "/var/www/html"

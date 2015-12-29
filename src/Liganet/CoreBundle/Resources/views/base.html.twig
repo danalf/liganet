@@ -67,9 +67,9 @@
                                 </ul>
                             </li>
                         </ul>
-                        <ul class="nav pull-right">
+                        <ul class="nav pull-right">                               
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                {{ render(controller('LiganetCoreBundle:Spieler:showInMenu')) }}
+                                {{ include('LiganetCoreBundle:Spieler:showInMenu.html.twig') }}
                                 <li class="divider-vertical"></li>
                                 <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                                 {% else %}

@@ -1,4 +1,4 @@
-{% if spieler.id>0 %}
+{% if app.user.spieler %}
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
       <i class="icon-user icon-white"></i> {{ app.user.username }}
@@ -6,16 +6,16 @@
         </a>
         <ul class="dropdown-menu">
             <li class="nav-header">Name</li>
-            <li><a href="{{ path('spieler_show', { 'id': spieler.id }) }}">{{ spieler }}</a></li>
+            <li><a href="{{ path('spieler_show', { 'id': app.user.spieler.id }) }}">{{ app.user.spieler }}</a></li>
             <li class="nav-header">Verein</li>
             <li>
-                <a href="{{ path('verein_show', { 'id': spieler.verein.id }) }}">
-                    {% if spieler.verein.document %}
-                    <img alt="Logo {{ spieler.verein.namekurz }}"                      
-                         src="{{ asset(spieler.verein.document.webpath) }}"                          
+                <a href="{{ path('verein_show', { 'id': app.user.spieler.verein.id }) }}">
+                    {% if app.user.spieler.verein.document %}
+                    <img alt="Logo {{ app.user.spieler.verein.namekurz }}"                      
+                         src="{{ asset(app.user.spieler.verein.document.webpath) }}"                          
                          style="height: 32px" /> 
                     {% endif %}
-                {{ spieler.verein.namekurz }}
+                {{ app.user.spieler.verein.namekurz }}
                 </a>
             </li>
             <li class="nav-header">Aktionen</li>
@@ -24,16 +24,16 @@
              <li><a href="{{ path('admin_clear_cache') }}">Cache leeren</a></li>
             {% endif %}
             <li class="nav-header">Funktionen</li>
-            {% for region in spieler.regionsleiter %}
+            {% for region in app.user.spieler.regionsleiter %}
             <li><a href="{{ path('region_show', { 'id': region.id }) }}">Ligaleitung {{ region.name }}</a></li>
             {% endfor %}
-            {% for ligasaison in spieler.staffelleiter %}
+            {% for ligasaison in app.user.spieler.staffelleiter %}
             <li><a href="{{ path('ligasaison_show', { 'id': ligasaison.id }) }}">Staffelleitung {{ ligasaison }}</a></li>
             {% endfor %}
-            {% for verein in spieler.vereinsleiter %}
+            {% for verein in app.user.spieler.vereinsleiter %}
             <li><a href="{{ path('verein_show', { 'id': verein.id }) }}">Vereinsleitung {{ verein.namekurz }}</a></li>
             {% endfor %}
-            {% for mannschaft in spieler.captainformannschaften %}
+            {% for mannschaft in app.user.spieler.captainformannschaften %}
             <li><a href="{{ path('mannschaft_show', { 'id': mannschaft.id }) }}">Kapitän {{ mannschaft }}</a></li>
             {% endfor %}
             

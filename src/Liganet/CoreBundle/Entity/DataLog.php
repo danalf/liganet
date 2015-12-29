@@ -51,7 +51,7 @@ class DataLog {
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Liganet\UserBundle\Entity\User", inversedBy="changes")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="changes")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;

@@ -25,10 +25,9 @@ twig:
 
 # Assetic Configuration
 assetic:
-    debug:          %kernel.debug%
+    debug:          "%kernel.debug%"
     use_controller: false
     bundles:        [LiganetCoreBundle]
-    #java: /usr/bin/java
     filters:
         cssrewrite: ~
         #closure:
@@ -39,13 +38,13 @@ assetic:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   %database_driver%
-        host:     %database_host%
-        port:     %database_port%
-        dbname:   %database_name%
-        user:     %database_user%
-        password: %database_password%
-        charset:  UTF8
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        #charset:  UTF8
 
     orm:
         default_entity_manager:   default
@@ -64,7 +63,7 @@ swiftmailer:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: Liganet\UserBundle\Entity\User
+    user_class: AppBundle\Entity\User
     from_email:
         address:        admin@liga-net.de
         sender_name:    Liganet

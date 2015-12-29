@@ -217,6 +217,11 @@ class Spieler {
      * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="ersatzFuer2")
      */
     protected $ersatzFuer2;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
+     */
+    protected $user;
 
 
     public function __toString() {

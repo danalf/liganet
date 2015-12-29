@@ -274,18 +274,17 @@ class SpielerController extends Controller {
      * @Route("/", name="showInMenu")
      * @Template()
      */
-    public function showInMenuAction() {
-        $spieler = $this->getUserAsSpieler();
-
-        return array('spieler' => $spieler, 'user' => $this->getUser());
+    public function zzzshowInMenuAction() {
+        $spieler = $this->getUser()->getSpieler();
+        
+        return array();
     }
 
     /**
      * @Template()
      */
     public function showStartAction() {
-        $spieler = $this->getUserAsSpieler();
-
+        $spieler = $this->getUser()->getSpieler();
         return array('spieler' => $spieler);
     }
 
@@ -316,7 +315,7 @@ class SpielerController extends Controller {
      * Gibt das Spieler-Objekt des Users zurück
      * @return \Liganet\CoreBundle\Entity\Spieler
      */
-    private function getUserAsSpieler() {
+    private function zzzgetUserAsSpieler() {
         $user = $this->getUser();
         $id = $user->getSpieler();
         if (isset($id)) {
