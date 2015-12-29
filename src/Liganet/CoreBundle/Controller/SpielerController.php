@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Liganet\CoreBundle\Entity\Spieler;
 use Liganet\CoreBundle\Form\SpielerType;
 use Liganet\CoreBundle\Entity\DataLog;
@@ -21,7 +22,7 @@ class SpielerController extends Controller {
     /**
      * Lists all Spieler entities.
      *
-     * @Route("/", name="spieler")
+     * @Route("/", name="spieler_index")
      * @Template()
      */
     public function indexAction() {
@@ -41,24 +42,18 @@ class SpielerController extends Controller {
      * @Route("/{id}/show", name="spieler_show")
      * @Template()
      */
-    public function showAction($id) {
+    public function showAction(Spieler $spieler) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LiganetCoreBundle:Spieler')->find($id);
+        $log = $em->getRepository('LiganetCoreBundle:DataLog')->findBy(array('entity_id' => $spieler->getId(), 'entity_type' => get_class($spieler)));
 
-        if (!$entity) {
-            $this->get('session')->getFlashBag()->add('error', 'Der Spieler wurde nicht gefunden.');
-            return $this->redirect($this->generateUrl('spieler'));
-        }
-        $log = $em->getRepository('LiganetCoreBundle:DataLog')->findBy(array('entity_id' => $id, 'entity_type' => get_class($entity)));
-
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($spieler);
 
         return array(
-            'entity' => $entity,
+            'entity' => $spieler,
             'log'   =>  $log,
             'delete_form' => $deleteForm->createView(),
-            'isGrantedEdit' => $this->isGrantedEdit($entity->getVerein())
+            'isGrantedEdit' => $this->isGrantedEdit($spieler->getVerein())
         );
     }
 
@@ -225,88 +220,74 @@ class SpielerController extends Controller {
         $entity->setVeraendertvon($bearbeiter);
         $entity->setVeraendertam();
         //Bei einer Rolle kleiner als Staffelleiter wird Bestaetig auf false gesetzt
-        if (!$this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_LEAGUE_MANAGEMENT'))  {
             $entity->setBestaetigt(false);
         } else {
             $entity->setBestaetigt(true);
         }
         return $entity;
     }
-
+    
+    
     /**
      * Deletes a Spieler entity.
      *
-     * @Route("/{id}/delete", name="spieler_delete")
-     * @Method("POST")
+     * @Route("/{id}", name="spieler_delete")
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_ADMIN')")
      */
-    public function deleteAction(Request $request, $id) {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('session')->getFlashBag()->add('error', 'Löschen ist für dich nicht erlaubt');
-            return $this->redirect($this->generateUrl('spieler'));
-        }
-        $form = $this->createDeleteForm($id);
-        $form->bind($request);
+    public function deleteAction(Request $request, Spieler $spieler)
+    {
+        $form = $this->createDeleteForm($spieler);
+        $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LiganetCoreBundle:Spieler')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Spieler entity.');
-            }
-
-            $em->remove($entity);
+            $em->remove($spieler);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'Der Spieler wurde gelöscht');
         }
 
-        return $this->redirect($this->generateUrl('spieler'));
+        return $this->redirectToRoute('spieler_index');
     }
 
-    private function createDeleteForm($id) {
-        return $this->createFormBuilder(array('id' => $id))
-                        ->add('id', 'hidden')
-                        ->getForm()
+    
+    /**
+     * Creates a form to delete a Spieler entity.
+     *
+     * @param Spieler $spieler The Spieler entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(Spieler $spieler)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('spieler_delete', array('id' => $spieler->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
         ;
     }
 
-    /**
-     * @Route("/", name="showInMenu")
-     * @Template()
-     */
-    public function zzzshowInMenuAction() {
-        $spieler = $this->getUser()->getSpieler();
-        
-        return array();
-    }
 
     /**
-     * @Template()
-     */
-    public function showStartAction() {
-        $spieler = $this->getUser()->getSpieler();
-        return array('spieler' => $spieler);
-    }
-
-    /**
-     * Legt fest, ob der User (den) Verein verändern darf oder nicht
-     * @param type $spieler
+     * Legt fest, ob der User (den) Spieler verändern darf oder nicht
+     * @param \Liganet\CoreBundle\Entity\Verein $verein
      * @return boolean
      */
     private function isGrantedEdit(\Liganet\CoreBundle\Entity\Verein $verein = NULL) {
-        if ($this->get('security.context')->isGranted('ROLE_REGION_MANAGEMENT')) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_REGION_MANAGEMENT'))  {
             return TRUE;
         }
         if (isset($verein)) {
             foreach ($verein->getLeiter() as $leiter) {
-                if ($this->getUser()->getSpieler() == $leiter->getId())
+                if ($this->getUser()->getSpieler()->getId() == $leiter->getId())
                     return TRUE;
             }
             foreach ($verein->getRegion()->getLeiter() as $leiter) {
-                if ($this->getUser()->getSpieler() == $leiter->getId())
+                if ($this->getUser()->getSpieler()->getId() == $leiter->getId())
                     return TRUE;
             }
-        };
+        }
 
         return FALSE;
     }

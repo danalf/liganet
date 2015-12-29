@@ -7,7 +7,7 @@ use Liganet\CoreBundle\Entity\Spieler;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\Table(name="liganet_user")
  */
 class User extends BaseUser {
@@ -25,6 +25,10 @@ class User extends BaseUser {
      */
     private $spieler;
     
+    /**
+     * @ORM\OneToMany(targetEntity="Liganet\CoreBundle\Entity\DataLog", mappedBy="user")
+     */
+    private $changes;
 
     
     /**
@@ -63,4 +67,38 @@ class User extends BaseUser {
     }
     
 
+
+    /**
+     * Add change
+     *
+     * @param \Liganet\CoreBundle\Entity\DataLog $change
+     *
+     * @return User
+     */
+    public function addChange(\Liganet\CoreBundle\Entity\DataLog $change)
+    {
+        $this->changes[] = $change;
+
+        return $this;
+    }
+
+    /**
+     * Remove change
+     *
+     * @param \Liganet\CoreBundle\Entity\DataLog $change
+     */
+    public function removeChange(\Liganet\CoreBundle\Entity\DataLog $change)
+    {
+        $this->changes->removeElement($change);
+    }
+
+    /**
+     * Get changes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChanges()
+    {
+        return $this->changes;
+    }
 }

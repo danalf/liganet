@@ -1,4 +1,4 @@
-{% extends 'LiganetCoreBundle::base.html.twig' %}
+{% extends '::base.html.twig' %}
 {% block content %}
     <div class="row-fluid">
         <div class="span11">
@@ -93,8 +93,8 @@
                     {% endfor %}
                 </tbody>
             </table>
-                <h2>Aktionen</h2>
-        <table class="table">
+            <h2>Aktionen</h2>
+            <table class="table">
                 {% if is_granted('ROLE_REGION_MANAGEMENT') %}
                     <tr>
                         <th>Als User anlegen</th>
@@ -104,10 +104,20 @@
                     </tr>
                     <tr>
                         <th>Passwort-Email absenden</th>
-                        <td><form action="{{ path('fos_user_resetting_send_email') }}" method="post" >
-                                <input type="hidden" name="username" value="{{ entity.email }}" />
-                                <input type="submit" class="btn" />
-                            </form></td>
+                        <td>
+                            <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+                                <div>
+                                    {% if invalid_username is defined %}
+                                        <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</p>
+                                    {% endif %}
+                                    <label for="username">{{ 'resetting.request.username'|trans }}</label>
+                                    <input type="text" id="username" name="username" required="required" />
+                                </div>
+                                <div>
+                                    <input type="submit" value="{{ 'resetting.request.submit'|trans }}" />
+                                </div>
+                            </form>
+                        </td>
                     </tr>
                 {% endif %}
                 <tr>
@@ -133,10 +143,10 @@
                 {% endfor %}    
             </table>
         </div>
-        
+
         <div class="span9">
-            {{ render(controller('LiganetCoreBundle:SpielRunde:showBySpieler',{ 'spieler_id': entity.id })) }}
+            {{ render(controller('LiganetCoreBundle:Ergebnis:showBySpieler',{ 'spieler_id': entity.id })) }}
         </div>
-</div>
+    </div>
 
 {% endblock %}

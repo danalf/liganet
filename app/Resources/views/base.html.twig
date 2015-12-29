@@ -67,9 +67,9 @@
                                 </ul>
                             </li>
                         </ul>
-                        <ul class="nav pull-right">
+                        <ul class="nav pull-right">                               
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                {{ render(controller('LiganetCoreBundle:Spieler:showInMenu')) }}
+                                {{ include('LiganetCoreBundle:Spieler:showInMenu.html.twig') }}
                                 <li class="divider-vertical"></li>
                                 <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                                 {% else %}
@@ -83,14 +83,14 @@
 
 
         <div class="container">
-            {% for flashMessage in app.session.flashbag.get('error') %}
-                <div class="alert alert-error" ><button type="button" class="close" data-dismiss="alert">×</button>{{ app.session.flash('error') }}</div>
+            {% for flash_message in app.session.flashbag.get('error') %}
+                <div class="alert alert-error" ><button type="button" class="close" data-dismiss="alert">×</button>{{ flash_message }}</div>
             {% endfor %}
-            {% for flashMessage in app.session.flashbag.get('notice') %}
-                <div class="alert alert-error" ><button type="button" class="close" data-dismiss="alert">×</button>{{ app.session.flash('notice') }}</div>
+            {% for flash_message in app.session.flashbag.get('notice') %}
+                <div class="alert alert-error" ><button type="button" class="close" data-dismiss="alert">×</button>{{ flash_message }}</div>
             {% endfor %}
-            {% for flashMessage in app.session.flashbag.get('success') %}
-                <div class="alert alert-error" ><button type="button" class="close" data-dismiss="alert">×</button>{{ app.session.flash('success') }}</div>
+            {% for flash_message in app.session.flashbag.get('success') %}
+                <div class="alert alert-error" ><button type="button" class="close" data-dismiss="alert">×</button>{{ flash_message }}</div>
             {% endfor %}
         {% block content_head %}{% endblock %}
         <div>{% block content %}{% endblock %}</div>

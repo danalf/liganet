@@ -6,6 +6,28 @@ use Doctrine\ORM\EntityRepository;
 
 class SpielerRepository extends EntityRepository
 {
+    public function zzzfind($id)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('s,v')
+                ->from('LiganetCoreBundle:Spieler', 's')
+                ->innerJoin('s.Verein', 'v')
+                ->where('s.id = ?1')
+                ->setParameter(1, $id);
+        
+        return $qb->getQuery()->getSingleResult();
+    }
+    
+    public function zzzfindAll()
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('s,v')
+                ->from('LiganetCoreBundle:Spieler', 's')
+                ->innerJoin('s.verein', 'v');
+        
+        return $qb->getQuery()->getResult();
+    }
+    
     public function findAllByVerein(Verein $verein)
     {
         return $verein->getSpieler();
