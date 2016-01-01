@@ -173,56 +173,6 @@ class SpielerController extends Controller {
 
 
     /**
-     * Edits an existing Spieler entity.
-     *
-     * @Route("/{id}/update", name="spieler_update")
-     * @Method("POST")
-     * @Template("LiganetCoreBundle:Spieler:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id) {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('LiganetCoreBundle:Spieler')->find($id);
-
-        if (!$entity) {
-            $this->get('session')->getFlashBag()->add('error', 'Der Spieler wurde nicht gefunden.');
-            throw $this->createNotFoundException('Unable to find Spieler entity.');
-        }
-
-        $entity = $this->setUpdateInformation($entity);
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new SpielerType(), $entity);
-        $editForm->bind($request);
-
-
-        if ($editForm->isValid()) {
-            //Änderungen im Log speichern
-            $unitOfWork = $em->getUnitOfWork();
-            $unitOfWork->computeChangeSets();
-            $changes = $unitOfWork->getEntityChangeSet($entity);
-            $log=new DataLog();
-            $log->setUser($this->getUser());
-            $log->setChanges($changes);
-            $log->setEntityId($entity->getId());
-            $log->setEntityType(get_class($entity));
-            $em->persist($log);
-            $em->persist($entity);
-            $em->flush();
-
-            $this->get('session')->getFlashBag()->add('success', 'Die Änderungen wurden gespeichert');
-
-            return $this->redirect($this->generateUrl('spieler_show', array('id' => $id)));
-        }
-
-        return array(
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
      * Setzt die bestätigt und Bearbeitet-Variable des Spielers
      * @param \Liganet\CoreBundle\Entity\Spieler $entity
      * @return \Liganet\CoreBundle\Entity\Spieler
@@ -391,9 +341,5 @@ class SpielerController extends Controller {
             'isGrantedEdit' => $this->isGrantedEdit()
         );
     }
-    
-    
-    
-    
 
 }

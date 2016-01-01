@@ -5,7 +5,7 @@
             <td>{{ begegnung.mannschaft1 }} : {{ begegnung.mannschaft2 }}</td>
             <td>{% if isGrantedEdit == true %}
                 <a class="btn" href="{{ path('begegnung_edit', { 'id': begegnung.id }) }}">
-                    <i class="icon-pencil"></i>
+                    <i class="fa fa-pencil"></i>
                 </a>
                 {% endif %}</td>
         </tr>

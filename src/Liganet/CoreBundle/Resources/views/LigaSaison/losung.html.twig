@@ -11,17 +11,17 @@
     </div>
     <div class="span1">
         <a class="btn" href="{{ path('ligasaison') }}">
-            <i class="icon-list"></i>
+            <i class="fa fa-list"></i>
         </a>
         {% if isGrantedEdit == true %}
         <a class="btn" href="{{ path('ligasaison_edit', { 'id': entity.id }) }}">
-            <i class="icon-pencil"></i>
+            <i class="fa fa-pencil"></i>
         </a>
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
         <form  action="{{ path('ligasaison_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-                <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
+                <button  class="btn"  type="submit"><i class="fa fa-trash"></i></button>
             </form>
         {% endif %}
         </div>
@@ -60,7 +60,7 @@
                                 <td>{{ mannschaft.verein }} {{ mannschaft.rang }}</td>
                                 <td>
                                     <a class="btn pull-right" href="{{ path('mannschaft_show', { 'id': mannschaft.id }) }}">
-                                        <i class="icon-arrow-right"></i>
+                                        <i class="fa fa-arrow-right"></i>
                                     </a>
                                 </td>
                             </tr>

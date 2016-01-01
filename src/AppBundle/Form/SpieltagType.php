@@ -24,4 +24,4 @@ class SpieltagType extends AbstractType
             'data_class' => 'Liganet\CoreBundle\Entity\Spieltag'
         ));
     }
-
+}

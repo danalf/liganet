@@ -10,7 +10,7 @@
     <div class="span1">
         {% if is_granted('ROLE_LEAGUE_MANAGEMENT') %}
             <a class="btn" href="{{ path('spieltag_new', { 'ligasaison_id': 0 }) }}">
-                <i class="icon-plus"></i>
+                <i class="fa fa-plus"></i>
             </a>
         {% endif %}    
         </div>
@@ -37,11 +37,11 @@
                     <td>
                         {% if isGrantedEdit == true %}
                             <a class="btn pull-right" href="{{ path('spieltag_edit', { 'id': entity.id }) }}">
-                                <i class="icon-pencil"></i>
+                                <i class="fa fa-pencil"></i>
                             </a>
                         {% endif %}
                             <a class="btn pull-right" href="{{ path('spieltag_show', { 'id': entity.id }) }}">
-                                <i class="icon-arrow-right"></i>
+                                <i class="fa fa-arrow-right"></i>
                             </a>
 
                         </td>

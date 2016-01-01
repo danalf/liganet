@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="row-fluid">
+        <div class="span11">
+            <div class="page-header">
+                {% if region.document %}
+                    <img alt="Logo {{ region.namekurz }}" src="{{ asset(region.document.webpath) }}" class="img-polaroid pull-left" style="height: 96px; margin-right: 5px"/> 
+                {% endif %}
+                <h1>{{ region.name }} <small>{{ region.namekurz }}</small></h1>
+                <p><a href="{{ path('verband_show', { 'id': region.verband.id }) }}">{{ region.verband.name }}</a></p>
+                <p>{{ region.description }}</p>
+            </div>
+        </div>
+        <div class="span1">
+            <a class="btn" href="{{ path('region_index') }}">
+                <i class="fa fa-list"></i>
+            </a>
+            {% if is_granted('ROLE_REGION_MANAGEMENT') %}
+                <a class="btn" href="{{ path('region_edit', { 'id': region.id }) }}">
+                    <i class="fa fa-pencil"></i>
+                </a>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <form  action="{{ path('region_delete', { 'id': region.id }) }}" method="post">
+                    {{ form_widget(delete_form) }}
+                    <button  class="btn"  type="submit"><i class="fa fa-trash"></i></button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    <div class="page-header row-fluid">
+        <div class="span6">
+            <h2>Allgemein</h2>
+            <table class="table">
+                <tr>
+                    <th>Ligaleitung</th>
+                    <td>
+                        {% for leiter in region.leiter %}
+                            <a href="{{ path('spieler_show', { 'id': leiter.id }) }}">{{ leiter }}</a><br />
+                        {% endfor %}
+                    </td>
+                </tr>
+            </table>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td style="background-color: {{ region.farbeTabelleZeile2Hintergrund }}; color: {{ region.farbeTabelleZeile2Schrift }};">Beispiel Tabelle Zeile 2</td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: {{ region.farbeTabelleHintergrund }}; color: {{ region.farbeTabelleSchrift }};">Beispiel Tabelleninhalt</td>
+                    </tr>
+                </tbody>
+            </table>
+            {% if is_granted('ROLE_REGION_MANAGEMENT') %}
+                <a style="float: right" class="btn" href="{{ path('liga_new') }}">
+                    <i class="fa fa-plus"></i>
+                </a>
+            {% endif %}
+            <h2>Ligen</h2>
+
+            <table class="table">
+                {% for liga in region.ligen %}
+                    <tr>
+                        <td style="background-color: {{ liga.farbeTabellenKopf }}; color: {{ liga.farbeTabellenKopfSchrift }}; ">
+                            {{ liga.name }}
+                            <a style="float: right" class="btn" href="{{ path('liga_show', { 'id': liga.id }) }}">
+                                <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="span6">
+            {% if is_granted('ROLE_REGION_MANAGEMENT') %}
+                <a style="float: right" class="btn" href="{{ path('verein_new') }}">
+                    <i class="fa fa-plus"></i>
+                </a>
+            {% endif %}    
+            <h2>Vereine</h2>
+            <table class="table">
+                {% for verein in region.vereine %}
+                    <tr>
+                        <td>
+                            {% if verein.document %}
+                                <img class="media-object" alt="Logo {{ verein }}" src="{{ asset(verein.document.webpath) }}" style="height: 32px" />
+                            {% endif %}
+                        </td>
+                        <td>{{ verein.name }}</td>
+                        <td>
+                            <a style="float: right" class="btn" href="{{ path('verein_show', { 'id': verein.id }) }}">
+                                <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

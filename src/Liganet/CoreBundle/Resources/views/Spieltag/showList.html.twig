@@ -1,6 +1,6 @@
 {% if isGrantedEdit == true %}
 <a class="btn pull-right" href="{{ path('spieltag_new', { 'ligasaison_id': ligasaison.id }) }}">
-    <i class="icon-plus"></i>
+    <i class="fa fa-plus"></i>
 </a>
 {% endif %}  
 <h2>Spieltage</h2>
@@ -17,7 +17,7 @@
                 </td>
                 <td>
                 <a class="btn pull-right" href="{{ path('spieltag_show', { 'id': spieltag.id }) }}">
-                                <i class="icon-arrow-right"></i>
+                                <i class="fa fa-arrow-right"></i>
                             </a>
                         </td>
             </tr>

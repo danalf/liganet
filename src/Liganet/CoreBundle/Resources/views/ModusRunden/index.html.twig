@@ -10,7 +10,7 @@
     <div class="span1">
         {% if is_granted('ROLE_ADMIN') %}
         <a class="btn" href="{{ path('modusrunden_new') }}">
-            <i class="icon-plus"></i>
+            <i class="fa fa-plus"></i>
         </a>
         {% endif %}    
     </div>
@@ -32,11 +32,11 @@
             <td>{{ entity.beschreibung }}</td>
             <td>
                         <a class="btn" href="{{ path('modusrunden_show', { 'id': entity.id }) }}">
-                            <i class="icon-arrow-right"></i>
+                            <i class="fa fa-arrow-right"></i>
                         </a>
                         {% if isGrantedEdit == true %}
                         <a class="btn" href="{{ path('modusrunden_edit', { 'id': entity.id }) }}">
-                            <i class="icon-pencil"></i>
+                            <i class="fa fa-pencil"></i>
                         </a>
                         {% endif %}
                     </td>

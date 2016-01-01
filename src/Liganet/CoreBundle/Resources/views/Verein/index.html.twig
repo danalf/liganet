@@ -10,7 +10,7 @@
     <div class="span1">
         {% if is_granted('ROLE_REGION_MANAGEMENT') %}
             <a class="btn" href="{{ path('verein_new') }}">
-                <i class="icon-plus"></i>
+                <i class="fa fa-plus"></i>
             </a>
         {% endif %}    
         </div>
@@ -47,11 +47,11 @@
                             <td><a href="{{ entity.homepage }}" target="_blank">{{ entity.homepage }}</a></td>
                             <td>
                                 <a class="btn" href="{{ path('verein_show', { 'id': entity.id }) }}">
-                                    <i class="icon-arrow-right"></i>
+                                    <i class="fa fa-arrow-right"></i>
                                 </a>
                         {% if isGrantedEdit == true %}
                                 <a class="btn" href="{{ path('verein_edit', { 'id': entity.id }) }}">
-                                    <i class="icon-pencil"></i>
+                                    <i class="fa fa-pencil"></i>
                                 </a>
                         {% endif %}
                             </td>

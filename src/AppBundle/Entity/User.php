@@ -3,7 +3,7 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
-use Liganet\CoreBundle\Entity\Spieler;
+use AppBundle\Entity\Spieler;
 
 
 /**
@@ -20,13 +20,13 @@ class User extends BaseUser {
     protected $id;
     
     /**
-     * @ORM\OneToOne(targetEntity="Liganet\CoreBundle\Entity\Spieler", inversedBy="user")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Spieler", inversedBy="user")
      * @ORM\JoinColumn(name="spieler", referencedColumnName="id")
      */
     private $spieler;
     
     /**
-     * @ORM\OneToMany(targetEntity="Liganet\CoreBundle\Entity\DataLog", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\DataLog", mappedBy="user")
      */
     private $changes;
 
@@ -46,10 +46,10 @@ class User extends BaseUser {
     /**
      * Set spieler
      *
-     * @param Liganet\CoreBundle\Entity\Spieler $spieler
+     * @param AppBundle\Entity\Spieler $spieler
      * @return User
      */
-    public function setSpieler(\Liganet\CoreBundle\Entity\Spieler $spieler = null)
+    public function setSpieler(\AppBundle\Entity\Spieler $spieler = null)
     {
         $this->spieler = $spieler->getId();
     
@@ -59,7 +59,7 @@ class User extends BaseUser {
     /**
      * Get spieler
      *
-     * @return Liganet\CoreBundle\Entity\Spieler 
+     * @return AppBundle\Entity\Spieler 
      */
     public function getSpieler()
     {
@@ -71,11 +71,11 @@ class User extends BaseUser {
     /**
      * Add change
      *
-     * @param \Liganet\CoreBundle\Entity\DataLog $change
+     * @param \AppBundle\Entity\DataLog $change
      *
      * @return User
      */
-    public function addChange(\Liganet\CoreBundle\Entity\DataLog $change)
+    public function addChange(\AppBundle\Entity\DataLog $change)
     {
         $this->changes[] = $change;
 
@@ -85,9 +85,9 @@ class User extends BaseUser {
     /**
      * Remove change
      *
-     * @param \Liganet\CoreBundle\Entity\DataLog $change
+     * @param \AppBundle\Entity\DataLog $change
      */
-    public function removeChange(\Liganet\CoreBundle\Entity\DataLog $change)
+    public function removeChange(\AppBundle\Entity\DataLog $change)
     {
         $this->changes->removeElement($change);
     }

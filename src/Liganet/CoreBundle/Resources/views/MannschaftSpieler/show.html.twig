@@ -13,17 +13,17 @@
     </div>
     <div class="span1">
         <a class="btn" href="{{ path('mannschaftspieler') }}">
-            <i class="icon-list"></i>
+            <i class="fa fa-list"></i>
         </a>
         {% if isGrantedEdit == true %}
         <a class="btn" href="{{ path('mannschaftspieler_edit', { 'id': entity.id }) }}">
-            <i class="icon-pencil"></i>
+            <i class="fa fa-pencil"></i>
         </a>
         {% endif %}
         {% if is_granted('ROLE_REGION_MANAGEMENT') %}
         <form  action="{{ path('mannschaftspieler_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-                <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
+                <button  class="btn"  type="submit"><i class="fa fa-trash"></i></button>
             </form>
         {% endif %}
         </div>

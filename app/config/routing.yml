@@ -1,3 +1,7 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+    
 _home:
     path:  /
     defaults: { _controller: LiganetCoreBundle:Home:index }

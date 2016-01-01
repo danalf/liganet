@@ -1,6 +1,6 @@
 {% if is_granted('ROLE_REGION_MANAGEMENT') %}
 <a style="float: right" class="btn" href="{{ path('spieler_new', { 'id': verein.id }) }}">
-    <i class="icon-plus"></i>
+    <i class="fa fa-plus"></i>
 </a>
 {% endif %}  
 <h2>Spieler</h2>
@@ -15,11 +15,11 @@
                         <td>
                             {% if isGrantedEdit == true %}
                         <a class="btn pull-right" href="{{ path('spieler_edit', { 'id': spieler.id }) }}">
-                            <i class="icon-pencil"></i>
+                            <i class="fa fa-pencil"></i>
                         </a>
                         {% endif %}
                         <a class="btn pull-right" href="{{ path('spieler_show', { 'id': spieler.id }) }}">
-                            <i class="icon-arrow-right"></i>
+                            <i class="fa fa-arrow-right"></i>
                         </a>
                         
                     </td>

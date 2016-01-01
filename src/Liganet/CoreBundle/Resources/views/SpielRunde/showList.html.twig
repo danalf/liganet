@@ -1,6 +1,6 @@
 {% if isGrantedEdit == true %}
     <a class="btn pull-right" href="{{ path('spielrunde_new', { 'spieltag_id': spieltag.id }) }}">
-        <i class="icon-plus"></i>
+        <i class="fa fa-plus"></i>
     </a>
 {% endif %}  
 <h2>Runden</h2>
@@ -10,7 +10,7 @@
             <td>{{ spielrunde.nummer }}</td>
             <td>
                 <a class="btn pull-right" href="{{ path('spielrunde_show', { 'id': spielrunde.id }) }}">
-                    <i class="icon-arrow-right"></i>
+                    <i class="fa fa-arrow-right"></i>
                 </a>
             </td>
         </tr>

@@ -15,6 +15,7 @@
                          filter='cssrewrite' %}
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
         {% endstylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
@@ -34,8 +35,8 @@
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ path('verband') }}">Verbände</a></li>
-                                    <li><a href="{{ path('region') }}">Regionen</a></li>
+                                    <li><a href="{{ path('verband_index') }}">Verbände</a></li>
+                                    <li><a href="{{ path('region_index') }}">Regionen</a></li>
                                     <li><a href="{{ path('liga') }}">Ligen</a></li>
                                     <li><a href="{{ path('verein') }}">Vereine</a></li>
                                 </ul>
@@ -98,7 +99,7 @@
     <div>{% block fos_user_content %}{% endblock fos_user_content %}</div>
 </div> <!-- /container -->
 <footer>
-    <p>&copy; Alfredo 2013</p>
+    <p>&copy; Alfredo 2016</p>
 </footer>
 {% javascripts
                     'bundles/liganetcore/js/modernizr.custom.31856.js'

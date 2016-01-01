@@ -27,11 +27,11 @@
             <td>{{ entity.nummer }}</td>
             <td>
                         <a class="btn" href="{{ path('spielrunde_show', { 'id': entity.id }) }}">
-                            <i class="icon-arrow-right"></i>
+                            <i class="fa fa-arrow-right"></i>
                         </a>
                         {% if isGrantedEdit == true %}
                         <a class="btn" href="{{ path('spielrunde_edit', { 'id': entity.id }) }}">
-                            <i class="icon-pencil"></i>
+                            <i class="fa fa-pencil"></i>
                         </a>
                         {% endif %}
                     </td>

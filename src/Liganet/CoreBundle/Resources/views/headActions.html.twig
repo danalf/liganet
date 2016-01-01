@@ -1,16 +1,16 @@
 <div class="span1">
     <a class="btn" href="{{ path(art) }}">
-        <i class="icon-list"></i>
+        <i class="fa fa-list"></i>
     </a>
     {% if isGrantedEdit == true %}
     <a class="btn" href="{{ path(art ~ '_edit', { 'id': id }) }}">
-        <i class="icon-pencil"></i>
+        <i class="fa fa-pencil"></i>
     </a>
     {% endif %}
     {% if is_granted('ROLE_ADMIN') %}
     <form  action="{{ path(art ~ '_delete', { 'id': id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button  class="btn"  type="submit"><i class="icon-trash"></i></button>
+            <button  class="btn"  type="submit"><i class="fa fa-trash"></i></button>
         </form>
         {% endif %}
     </div>
