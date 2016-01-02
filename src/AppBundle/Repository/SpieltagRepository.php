@@ -1,6 +1,6 @@
 <?php
 
-namespace Liganet\CoreBundle\Entity;
+namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
