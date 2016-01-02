@@ -1,8 +1,8 @@
-<a class="btn" href="{{ path(art ~ '_show', { 'id': id }) }}">
+<a class="btn btn-default" href="{{ path(art ~ '_show', { 'id': id }) }}">
     <i class="fa fa-arrow-right"></i>
 </a>
 {% if isGrantedEdit == true %}
-<a class="btn" href="{{ path(art ~ '_edit', { 'id': id }) }}">
+<a class="btn btn-default" href="{{ path(art ~ '_edit', { 'id': id }) }}">
     <i class="fa fa-pencil"></i>
 </a>
 {% endif %}

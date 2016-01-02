@@ -1,6 +1,6 @@
 <h2>Mannschaften
     {% if isGrantedEdit == true %}
-        <a style="float: right" class="btn" href="{{ path('mannschaft_new', { 'id': verein.id }) }}">
+        <a style="float: right" class="btn btn-default" href="{{ path('mannschaft_new', { 'id': verein.id }) }}">
             <i class="fa fa-plus"></i>
         </a>
     {% endif %}  

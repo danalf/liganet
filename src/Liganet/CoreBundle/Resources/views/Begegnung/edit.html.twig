@@ -21,14 +21,14 @@
         </tr>
     </table>
 </div>
-<div class="row-fluid">
-    <div class="span4 offset1" style="text-align: center">
+<div class="row">
+    <div class="col-md-4 offset1" style="text-align: center">
             {% if entity.mannschaft1.verein.document %}
             <img class="media-object" alt="Logo {{ entity.mannschaft1.verein }}" src="{{ asset(entity.mannschaft1.verein.document.webpath) }}" style="height: 32px" />
             {% endif %}
             {{ entity.mannschaft1 }}
         </div>
-        <div class="span4" style="text-align: center">
+        <div class="col-md-4" style="text-align: center">
             {% if entity.mannschaft2.verein.document %}
                 <img class="media-object" alt="Logo {{ entity.mannschaft2.verein }}" src="{{ asset(entity.mannschaft2.verein.document.webpath) }}" style="height: 32px" />
             {% endif %}
@@ -39,12 +39,12 @@
         <form action="{{ path('begegnung_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
                 {# iterate over each existing tag and render its only field: name #}
                 {% for ergebnis in edit_form.ergebnisse %}
-                <div class="row-fluid">   
-                    <div class="span1">
+                <div class="row">   
+                    <div class="col-md-1">
                         <p>Platz</p>
                         <p>{{ ergebnis.vars.value.platz }}</p>
                     </div>
-                    <div class="span4">
+                    <div class="col-md-4">
                         <p>{{ ergebnis.vars.value.spielart }}</p>
                             {{ form_errors(ergebnis.spieler1_1) }}{{ form_widget(ergebnis.spieler1_1, { 'attr': {'class': 'ergebnis-spieler'} }) }}
                             {{ form_errors(ergebnis.spieler1_2) }}{{ form_widget(ergebnis.spieler1_2, { 'attr': {'class': 'ergebnis-spieler'} }) }}
@@ -54,7 +54,7 @@
                         für
                             {{ form_errors(ergebnis.ersatzFuer1) }}{{ form_widget(ergebnis.ersatzFuer1, { 'attr': {'class': 'ergebnis-spieler'} }) }}
                     </div>
-                    <div class="span4">
+                    <div class="col-md-4">
                         <p>{{ ergebnis.vars.value.spielart }}</p>
                             {{ form_errors(ergebnis.spieler2_1) }}{{ form_widget(ergebnis.spieler2_1, { 'attr': {'class': 'ergebnis-spieler'} }) }}
                             {{ form_errors(ergebnis.spieler2_2) }}{{ form_widget(ergebnis.spieler2_2, { 'attr': {'class': 'ergebnis-spieler'} }) }}
@@ -64,7 +64,7 @@
                         für
                             {{ form_errors(ergebnis.ersatzFuer2) }}{{ form_widget(ergebnis.ersatzFuer2, { 'attr': {'class': 'ergebnis-spieler'} }) }}
                     </div>   
-                    <div class="span2">
+                    <div class="col-md-2">
                         <p>Kugeln</p>
                             {{ form_errors(ergebnis.kugeln1) }}{{ form_widget(ergebnis.kugeln1, { 'attr': {'class': 'ergebnis-kugeln'} }) }}
                             {{ form_errors(ergebnis.kugeln2) }}{{ form_widget(ergebnis.kugeln2, { 'attr': {'class': 'ergebnis-kugeln'} }) }}
@@ -74,27 +74,27 @@
                 <hr />
                 {% endfor %}
                 
-                <div class="row-fluid">
-                    <div class="span2">
+                <div class="row">
+                    <div class="col-md-2">
                         <p>Unterschrift Kapitän {{ entity.mannschaft1.namekurz }}</p>
                         {{ form_errors(edit_form.unterschrift1) }}{{ form_widget(edit_form.unterschrift1) }}
                     </div>
-                    <div class="span2">
+                    <div class="col-md-2">
                         <p>Unterschrift Kapitän {{ entity.mannschaft2.namekurz }}</p>
                         {{ form_errors(edit_form.unterschrift2) }}{{ form_widget(edit_form.unterschrift2) }}
                     </div>
-                    <div class="span2">
+                    <div class="col-md-2">
                         <p>Unterschrift<br />Staffelleiter</p>
                         {{ form_errors(edit_form.unterschriftLeiter) }}{{ form_widget(edit_form.unterschriftLeiter) }}
                     </div>
-                    <div class="span4">
+                    <div class="col-md-4">
                         <p>Bemerkungen</p>
                         {{ form_errors(edit_form.bemerkung) }}{{ form_widget(edit_form.bemerkung) }}
                     </div>
-                    <div class="span2">
+                    <div class="col-md-2">
                         {{ form_rest(edit_form) }}
                             <p>
-                                <button class="btn" type="submit">Edit</button>
+                                <button class="btn btn-default" type="submit">Edit</button>
                             </p>
                         </div>
                     </div>

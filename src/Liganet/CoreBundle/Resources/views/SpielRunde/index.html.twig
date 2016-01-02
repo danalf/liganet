@@ -1,13 +1,13 @@
 {% extends '::base.html.twig' %}
 {% block content %}
 
-<div class="row-fluid">
-    <div class="span11">
+<div class="row">
+    <div class="col-md-11">
         <div class="page-header">
             <h1>Spielrunden</h1>
         </div>
     </div>
-    <div class="span1">
+    <div class="col-md-1">
  
     </div>
 </div>
@@ -26,11 +26,11 @@
             <td><a href="{{ path('spielrunde_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nummer }}</td>
             <td>
-                        <a class="btn" href="{{ path('spielrunde_show', { 'id': entity.id }) }}">
+                        <a class="btn btn-default" href="{{ path('spielrunde_show', { 'id': entity.id }) }}">
                             <i class="fa fa-arrow-right"></i>
                         </a>
                         {% if isGrantedEdit == true %}
-                        <a class="btn" href="{{ path('spielrunde_edit', { 'id': entity.id }) }}">
+                        <a class="btn btn-default" href="{{ path('spielrunde_edit', { 'id': entity.id }) }}">
                             <i class="fa fa-pencil"></i>
                         </a>
                         {% endif %}

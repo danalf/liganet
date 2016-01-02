@@ -2,7 +2,7 @@
 <h2>Hallo {{ app.user.spieler.vorname }}</h2>
 <p>Alles zu meinem Verein:</p>
 <p>
-    <a class="btn" href="{{ path('verein_show', { 'id': app.user.spieler.verein.id }) }}">Mein Verein</a>
+    <a class="btn btn-default" href="{{ path('verein_show', { 'id': app.user.spieler.verein.id }) }}">Mein Verein</a>
 </p>
 
 {% endif %}

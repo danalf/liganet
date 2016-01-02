@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <div class="row-fluid">
-        <div class="span11">
+    <div class="row">
+        <div class="col-md-11">
             <div class="page-header">
                 {% if region.document %}
                     <img alt="Logo {{ region.namekurz }}" src="{{ asset(region.document.webpath) }}" class="img-polaroid pull-left" style="height: 96px; margin-right: 5px"/> 
@@ -12,25 +12,25 @@
                 <p>{{ region.description }}</p>
             </div>
         </div>
-        <div class="span1">
-            <a class="btn" href="{{ path('region_index') }}">
+        <div class="col-md-1">
+            <a class="btn btn-default" href="{{ path('region_index') }}">
                 <i class="fa fa-list"></i>
             </a>
             {% if is_granted('ROLE_REGION_MANAGEMENT') %}
-                <a class="btn" href="{{ path('region_edit', { 'id': region.id }) }}">
+                <a class="btn btn-default" href="{{ path('region_edit', { 'id': region.id }) }}">
                     <i class="fa fa-pencil"></i>
                 </a>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
                 <form  action="{{ path('region_delete', { 'id': region.id }) }}" method="post">
                     {{ form_widget(delete_form) }}
-                    <button  class="btn"  type="submit"><i class="fa fa-trash"></i></button>
+                    <button  class="btn btn-default"  type="submit"><i class="fa fa-trash"></i></button>
                 </form>
             {% endif %}
         </div>
     </div>
-    <div class="page-header row-fluid">
-        <div class="span6">
+    <div class="page-header row">
+        <div class="col-md-6">
             <h2>Allgemein</h2>
             <table class="table">
                 <tr>
@@ -53,7 +53,7 @@
                 </tbody>
             </table>
             {% if is_granted('ROLE_REGION_MANAGEMENT') %}
-                <a style="float: right" class="btn" href="{{ path('liga_new') }}">
+                <a style="float: right" class="btn btn-default" href="{{ path('liga_new') }}">
                     <i class="fa fa-plus"></i>
                 </a>
             {% endif %}
@@ -64,7 +64,7 @@
                     <tr>
                         <td style="background-color: {{ liga.farbeTabellenKopf }}; color: {{ liga.farbeTabellenKopfSchrift }}; ">
                             {{ liga.name }}
-                            <a style="float: right" class="btn" href="{{ path('liga_show', { 'id': liga.id }) }}">
+                            <a style="float: right" class="btn btn-default" href="{{ path('liga_show', { 'id': liga.id }) }}">
                                 <i class="fa fa-arrow-right"></i>
                             </a>
                         </td>
@@ -72,9 +72,9 @@
                 {% endfor %}
             </table>
         </div>
-        <div class="span6">
+        <div class="col-md-6">
             {% if is_granted('ROLE_REGION_MANAGEMENT') %}
-                <a style="float: right" class="btn" href="{{ path('verein_new') }}">
+                <a style="float: right" class="btn btn-default" href="{{ path('verein_new') }}">
                     <i class="fa fa-plus"></i>
                 </a>
             {% endif %}    
@@ -89,7 +89,7 @@
                         </td>
                         <td>{{ verein.name }}</td>
                         <td>
-                            <a style="float: right" class="btn" href="{{ path('verein_show', { 'id': verein.id }) }}">
+                            <a style="float: right" class="btn btn-default" href="{{ path('verein_show', { 'id': verein.id }) }}">
                                 <i class="fa fa-arrow-right"></i>
                             </a>
                         </td>

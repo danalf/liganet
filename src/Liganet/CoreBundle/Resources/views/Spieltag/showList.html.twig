@@ -1,5 +1,5 @@
 {% if isGrantedEdit == true %}
-<a class="btn pull-right" href="{{ path('spieltag_new', { 'ligasaison_id': ligasaison.id }) }}">
+<a class="btn btn-default pull-right" href="{{ path('spieltag_new', { 'ligasaison_id': ligasaison.id }) }}">
     <i class="fa fa-plus"></i>
 </a>
 {% endif %}  
@@ -16,7 +16,7 @@
                 {% endfor %}    
                 </td>
                 <td>
-                <a class="btn pull-right" href="{{ path('spieltag_show', { 'id': spieltag.id }) }}">
+                <a class="btn btn-default pull-right" href="{{ path('spieltag_show', { 'id': spieltag.id }) }}">
                                 <i class="fa fa-arrow-right"></i>
                             </a>
                         </td>

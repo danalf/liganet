@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-<div class="row-fluid">
-    <div class="span11">
+<div class="row">
+    <div class="col-md-11">
         <div class="page-header">
             <h1>{{ entity.spieler }} 
                 <small>{{ entity.status }}</small>
@@ -11,19 +11,19 @@
             </p>
         </div>
     </div>
-    <div class="span1">
-        <a class="btn" href="{{ path('mannschaftspieler') }}">
+    <div class="col-md-1">
+        <a class="btn btn-default" href="{{ path('mannschaftspieler') }}">
             <i class="fa fa-list"></i>
         </a>
         {% if isGrantedEdit == true %}
-        <a class="btn" href="{{ path('mannschaftspieler_edit', { 'id': entity.id }) }}">
+        <a class="btn btn-default" href="{{ path('mannschaftspieler_edit', { 'id': entity.id }) }}">
             <i class="fa fa-pencil"></i>
         </a>
         {% endif %}
         {% if is_granted('ROLE_REGION_MANAGEMENT') %}
         <form  action="{{ path('mannschaftspieler_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-                <button  class="btn"  type="submit"><i class="fa fa-trash"></i></button>
+                <button  class="btn btn-default"  type="submit"><i class="fa fa-trash"></i></button>
             </form>
         {% endif %}
         </div>

@@ -1,6 +1,6 @@
 <h2>Spieler
 {% if isGrantedEdit == true %}
-        <a style="float: right" class="btn" href="{{ path('mannschaftspieler_new', { 'id': mannschaft.id }) }}">
+        <a style="float: right" class="btn btn-default" href="{{ path('mannschaftspieler_new', { 'id': mannschaft.id }) }}">
             <i class="fa fa-plus"></i>
         </a>
 {% endif %}  
@@ -22,11 +22,11 @@
                     <td>{% if mannschaftspieler.bestaetigt > 0 %}<i class="icon-ok"></i>{% endif %}</td>
                     <td>
                         {% if isGrantedEdit == true %}
-                        <a class="btn pull-right" href="{{ path('mannschaftspieler_edit', { 'id': mannschaftspieler.id }) }}">
+                        <a class="btn btn-default pull-right" href="{{ path('mannschaftspieler_edit', { 'id': mannschaftspieler.id }) }}">
                             <i class="fa fa-pencil"></i>
                         </a>
                         {% endif %}
-                        <a class="btn pull-right" href="{{ path('mannschaftspieler_show', { 'id': mannschaftspieler.id }) }}">
+                        <a class="btn btn-default pull-right" href="{{ path('mannschaftspieler_show', { 'id': mannschaftspieler.id }) }}">
                             <i class="fa fa-arrow-right"></i>
                         </a>
                         

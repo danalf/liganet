@@ -9,104 +9,31 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
-        {% stylesheets '@LiganetCoreBundle/Resources/public/css/main.css'
-                        'bundles/liganetcore/css/bootstrap.min.css'
-                        'bundles/liganetcore/css/bootstrap-responsive.min.css'
-                         filter='cssrewrite' %}
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
-        {% endstylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/bootstrap-theme.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     </head>
     <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="brand" href="{{ path('_home') }}"><strong>Liganet</strong></a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    Stammdaten
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ path('verband_index') }}">Verbände</a></li>
-                                    <li><a href="{{ path('region_index') }}">Regionen</a></li>
-                                    <li><a href="{{ path('liga') }}">Ligen</a></li>
-                                    <li><a href="{{ path('verein') }}">Vereine</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    Ligaeinstellungen
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ path('saison') }}">Saison</a></li>
-                                    <li><a href="{{ path('ligasaison') }}">Zuordnung Liga und Saison</a></li>
-                                    <li><a href="{{ path('mannschaft') }}">Mannschaften</a></li>
-                                    <li><a href="{{ path('spieltag') }}">Spieltage</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    Administration
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ path('anrede') }}">Anrede</a></li>
-                                    <li><a href="{{ path('spielerstatus') }}">Status der Mannschaftsspieler</a></li>
-                                    <li><a href="{{ path('modus') }}">Modus</a></li>
-                                    <li><a href="{{ path('modusrunden') }}">Runden bei Modus</a></li>
-                                    <li><a href="{{ path('spielart') }}">Spieldefinition bei Modus</a></li>
-                                    <li><a href="{{ path('document') }}">Dokumente</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <ul class="nav pull-right">                               
-                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                {{ include('LiganetCoreBundle:Spieler:showInMenu.html.twig') }}
-                                <li class="divider-vertical"></li>
-                                <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
-                                {% else %}
-                                <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
-                                {% endif %}
-                        </ul>
-                    </div><!--/.nav-collapse -->
-                </div>
-            </div>
-        </div>
-
+        {{ include('menu.html.twig') }}
 
         <div class="container">
-            {% for flash_message in app.session.flashbag.get('error') %}
-                <div class="alert alert-error" ><button type="button" class="close" data-dismiss="alert">×</button>{{ flash_message }}</div>
-            {% endfor %}
-            {% for flash_message in app.session.flashbag.get('notice') %}
-                <div class="alert alert-info" ><button type="button" class="close" data-dismiss="alert">×</button>{{ flash_message }}</div>
-            {% endfor %}
-            {% for flash_message in app.session.flashbag.get('success') %}
-                <div class="alert alert-success" ><button type="button" class="close" data-dismiss="alert">×</button>{{ flash_message }}</div>
-            {% endfor %}
-        {% block content_head %}{% endblock %}
-        <div>{% block content %}{% endblock %}</div>
-    {% block body %}{% endblock %}
-    <div>{% block fos_user_content %}{% endblock fos_user_content %}</div>
-</div> <!-- /container -->
-<footer>
-    <p>&copy; Alfredo 2016</p>
-</footer>
-{% javascripts
-                    'bundles/liganetcore/js/modernizr.custom.31856.js'
-                    'bundles/liganetcore/js/jquery-1.9.1.min.js' 
-                    'bundles/liganetcore/js/bootstrap.min.js'
-                    '@LiganetCoreBundle/Resources/public/js/main.js'%}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
+            {{ include('alerts.html.twig') }}
+            <div>
+                {% block content %}
+                    {% block fos_user_content %}
+                    {% endblock fos_user_content %}
+                {% endblock %}
+            </div>
+        {% block body %}{% endblock %}
+        <div></div>
+    </div> 
+    <footer>
+        <p>&copy; Alfredo 2016</p>
+    </footer>
+    <script src="{{ asset('js/modernizr.custom.31856.js') }}"></script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 </body>
 </html>

@@ -2,15 +2,15 @@
 
 {% block content %}
 
-    <div class="row-fluid">
-        <div class="span11">
+    <div class="row">
+        <div class="col-md-11">
             <div class="page-header">
                 <h1>Regionen</h1>
             </div>
         </div>
-        <div class="span1">
+        <div class="col-md-1">
             {% if is_granted('ROLE_UNION_MANAGEMENT') %}
-                <a class="btn" href="{{ path('region_new', { 'verband_id': 0 }) }}">
+                <a class="btn btn-default" href="{{ path('region_new', { 'verband_id': 0 }) }}">
                     <i class="fa fa-plus"></i>
                 </a>
             {% endif %}    
@@ -43,11 +43,11 @@
                     <td style="background-color: {{ entity.farbeTabelleHintergrund }}; color: {{ entity.farbeTabelleSchrift }};">Beispiel</td>
                     <td style="background-color: {{ entity.farbeTabelleZeile2Hintergrund }}; color: {{ entity.farbeTabelleZeile2Schrift }};">Beispiel</td>
                     <td>
-                        <a class="btn" href="{{ path('region_show', { 'id': entity.id }) }}">
+                        <a class="btn btn-default" href="{{ path('region_show', { 'id': entity.id }) }}">
                             <i class="fa fa-arrow-right"></i>
                         </a>
                         {% if is_granted('ROLE_REGION_MANAGEMENT') %}
-                            <a class="btn" href="{{ path('region_edit', { 'id': entity.id }) }}">
+                            <a class="btn btn-default" href="{{ path('region_edit', { 'id': entity.id }) }}">
                                 <i class="fa fa-pencil"></i>
                             </a>
                         {% endif %}

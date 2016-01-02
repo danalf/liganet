@@ -17,11 +17,11 @@
                 <td>{% if entity.datum %}{{ entity.datum|date('d.m.Y H:i') }}{% endif %}</td>
                 <td>
                     {% if isGrantedEdit == true %}
-                        <a class="btn pull-right" href="{{ path('spieltag_edit', { 'id': entity.id }) }}">
+                        <a class="btn btn-default pull-right" href="{{ path('spieltag_edit', { 'id': entity.id }) }}">
                             <i class="fa fa-pencil"></i>
                         </a>
                     {% endif %}
-                    <a class="btn pull-right" href="{{ path('spieltag_show', { 'id': entity.id }) }}">
+                    <a class="btn btn-default pull-right" href="{{ path('spieltag_show', { 'id': entity.id }) }}">
                         <i class="fa fa-arrow-right"></i>
                     </a>
 
