@@ -12,19 +12,29 @@ use Doctrine\ORM\EntityRepository;
  */
 class TabelleRepository extends EntityRepository
 {
-    public function findByRunde($id_spielrunde) {
-        return $this->getEntityManager()
-            ->createQuery("SELECT t FROM AppBundle:Tabelle t WHERE t.spielrunde=".$id_spielrunde." ORDER BY t.rang ASC ")
-            ->getResult();
-        
+
+    public function findAll()
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('t')
+                ->from('AppBundle:Tabelle', 't')
+                ->orderBy('t.rang');
+
+        return $qb->getQuery()->getResult();
     }
-    
-    public function findByRundeArray($id_spielrunde) {
+
+    public function findByRunde($id_spielrunde)
+    {
         return $this->getEntityManager()
-            ->createQuery("SELECT t FROM AppBundle:Tabelle t WHERE t.spielrunde=".$id_spielrunde." ORDER BY t.rang ASC ")
-            ->getArrayResult();
-        
+                        ->createQuery("SELECT t FROM AppBundle:Tabelle t WHERE t.spielrunde=" . $id_spielrunde . " ORDER BY t.rang ASC ")
+                        ->getResult();
     }
-    
-    
+
+    public function findByRundeArray($id_spielrunde)
+    {
+        return $this->getEntityManager()
+                        ->createQuery("SELECT t FROM AppBundle:Tabelle t WHERE t.spielrunde=" . $id_spielrunde . " ORDER BY t.rang ASC ")
+                        ->getArrayResult();
+    }
+
 }

@@ -36,6 +36,12 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    app.spielrunde_voter:
+        class: AppBundle\Security\SpielRundeVoter
+        arguments: ['@security.access.decision_manager']
+        public: false
+        tags:
+            - { name: security.voter }
 
 #Utils
     app.util.losung:

@@ -1,14 +1,15 @@
 <?php
 
-namespace Liganet\CoreBundle\Controller;
+namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Liganet\CoreBundle\Entity\SpielRunde;
-use Liganet\CoreBundle\Form\SpielRundeType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use AppBundle\Entity\SpielRunde;
+use AppBundle\Entity\Spieltag;
+use AppBundle\Form\SpielRundeType;
 
 /**
  * SpielRunde controller.
@@ -18,239 +19,115 @@ use Liganet\CoreBundle\Form\SpielRundeType;
 class SpielRundeController extends Controller
 {
     /**
-     * Lists all SpielRunde entities.
+     * Creates a new SpielRunde entity.
      *
-     * @Route("/", name="spielrunde")
-     * @Template()
+     * @Route("/new/{spieltag_id}", name="spielrunde_new")
+     * @Method({"GET", "POST"})
+     * @ParamConverter("spieltag", options={"mapping": {"spieltag_id": "id"}})
      */
-    public function indexAction()
+    public function newAction(Request $request, Spieltag $spieltag)
     {
-        $em = $this->getDoctrine()->getManager();
+        $this->denyAccessUnlessGranted('edit', $spieltag);
+        
+        $spielRunde = new SpielRunde();
+        $spielRunde->setSpieltag($spieltag);
+        $form = $this->createForm('AppBundle\Form\SpielRundeType', $spielRunde);
+        $form->handleRequest($request);
 
-        $entities = $em->getRepository('LiganetCoreBundle:SpielRunde')->findAll();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($spielRunde);
+            $em->flush();
 
-        return array(
-            'entities' => $entities,
-            'isGrantedEdit' => $this->isGrantedEdit()
-        );
+            return $this->redirectToRoute('spielrunde_show', array('id' => $spielrunde->getId()));
+        }
+
+        return $this->render('spielrunde/new.html.twig', array(
+            'spielRunde' => $spielRunde,
+            'form' => $form->createView(),
+        ));
     }
 
     /**
      * Finds and displays a SpielRunde entity.
      *
-     * @Route("/{id}/show", name="spielrunde_show")
-     * @Template()
+     * @Route("/{id}", name="spielrunde_show")
+     * @Method("GET")
      */
-    public function showAction($id)
+    public function showAction(SpielRunde $spielRunde)
     {
-        $em = $this->getDoctrine()->getManager();
+        $deleteForm = $this->createDeleteForm($spielRunde);
 
-        $entity = $em->getRepository('LiganetCoreBundle:SpielRunde')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find SpielRunde entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
+        return $this->render('spielrunde/show.html.twig', array(
+            'spielRunde' => $spielRunde,
             'delete_form' => $deleteForm->createView(),
-            'isGrantedEdit' => $this->isGrantedEdit($entity->getSpieltag()->getLigaSaison())
-        );
-    }
-
-    /**
-     * Displays a form to create a new SpielRunde entity.
-     *
-     * @Route("/new/spieltag/{spieltag_id}", name="spielrunde_new")
-     * @Template()
-     */
-    public function newAction($spieltag_id=0)
-    {
-        
-        $entity = new SpielRunde();
-        
-        if($spieltag_id>0){
-            $em = $this->getDoctrine()->getManager();
-        $spieltag = $em->getRepository('LiganetCoreBundle:Spieltag')->find($spieltag_id);
-        $entity->setSpieltag($spieltag);
-        if(!$this->isGrantedEdit($spieltag->getLigaSaison())){
-            $this->get('session')->getFlashBag()->add('error', 'Neue Spielrunde anlegen ist für dich nicht nicht erlaubt');
-            return $this->redirect($this->generateUrl('spielrunde'));
-        }
-        } else {
-            $this->get('session')->getFlashBag()->add('error', 'Neue Spielrunde anlegen ist für dich nicht nicht erlaubt');
-            return $this->redirect($this->generateUrl('spielrunde'));
-        }
-        
-        $form   = $this->createForm(new SpielRundeType(), $entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Creates a new SpielRunde entity.
-     *
-     * @Route("/create", name="spielrunde_create")
-     * @Method("POST")
-     * @Template("LiganetCoreBundle:SpielRunde:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $entity  = new SpielRunde();
-        $form = $this->createForm(new SpielRundeType(), $entity);
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('spielrunde_show', array('id' => $entity->getId())));
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing SpielRunde entity.
      *
      * @Route("/{id}/edit", name="spielrunde_edit")
-     * @Template()
+     * @Method({"GET", "POST"})
      */
-    public function editAction($id)
+    public function editAction(Request $request, SpielRunde $spielRunde)
     {
+        $this->denyAccessUnlessGranted('edit', $spielRunde);
         
-        $em = $this->getDoctrine()->getManager();
+        $deleteForm = $this->createDeleteForm($spielRunde);
+        $editForm = $this->createForm('AppBundle\Form\SpielRundeType', $spielRunde);
+        $editForm->handleRequest($request);
 
-        $entity = $em->getRepository('LiganetCoreBundle:SpielRunde')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find SpielRunde entity.');
-        }
-        if(!$this->isGrantedEdit($entity->getSpieltag()->getLigaSaison())){
-            $this->get('session')->getFlashBag()->add('error', 'Diese Spielrunde zu editieren ist für Dich nicht nicht erlaubt');
-            return $this->redirect($this->generateUrl('spielrunde_show', array('id' => $id)));
-        }
-
-        $editForm = $this->createForm(new SpielRundeType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Edits an existing SpielRunde entity.
-     *
-     * @Route("/{id}/update", name="spielrunde_update")
-     * @Method("POST")
-     * @Template("LiganetCoreBundle:SpielRunde:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('LiganetCoreBundle:SpielRunde')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find SpielRunde entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new SpielRundeType(), $entity);
-        $editForm->bind($request);
-
-        if ($editForm->isValid()) {
-            $em->persist($entity);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($spielRunde);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('spielrunde_edit', array('id' => $id)));
+            return $this->redirectToRoute('spielrunde_edit', array('id' => $spielRunde->getId()));
         }
 
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+        return $this->render('spielrunde/edit.html.twig', array(
+            'spielRunde' => $spielRunde,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Deletes a SpielRunde entity.
      *
-     * @Route("/{id}/delete", name="spielrunde_delete")
-     * @Method("POST")
+     * @Route("/{id}", name="spielrunde_delete")
+     * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, SpielRunde $spielRunde)
     {
-        $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $this->denyAccessUnlessGranted('edit', $spielRunde);
+        
+        $form = $this->createDeleteForm($spielRunde);
+        $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LiganetCoreBundle:SpielRunde')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find SpielRunde entity.');
-            }
-
-            $em->remove($entity);
+            $em->remove($spielRunde);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('spielrunde'));
+        return $this->redirectToRoute('spielrunde_index');
     }
 
-    private function createDeleteForm($id)
+    /**
+     * Creates a form to delete a SpielRunde entity.
+     *
+     * @param SpielRunde $spielRunde The SpielRunde entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(SpielRunde $spielRunde)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('spielrunde_delete', array('id' => $spielRunde->getId())))
+            ->setMethod('DELETE')
             ->getForm()
         ;
-    }
-    
-    private function isGrantedEdit(\Liganet\CoreBundle\Entity\LigaSaison $ligasaison=  NULL) {
-//        if ($this->get('security.context')->isGranted('ROLE_LEAGUE_MANAGEMENT')) {
-//            return TRUE;
-//        }
-        if (isset($ligasaison)) {
-            foreach ($ligasaison->getStaffelleiter() as $leiter) {
-                if ($this->getUser()->getSpieler() == $leiter->getId())
-                    return TRUE;
-            }
-            foreach ($ligasaison->getLiga()->getRegion()->getLeiter() as $leiter) {
-                if ($this->getUser()->getSpieler() == $leiter->getId())
-                    return TRUE;
-            }
-        }
-        return FALSE;
-    }
-
-  
-    
-    /**
-     * Zeigt die Runden eines Spieltags an
-     *
-     * @Route("/{spieltag_id}/showList", name="spielrunde_showlist")
-     * @Template()
-     */
-    public function showListAction($spieltag_id) {
-        $em = $this->getDoctrine()->getManager();
-        $spieltag = $em->getRepository('LiganetCoreBundle:Spieltag')->find($spieltag_id);
-        
-        return array(
-            'spieltag'        => $spieltag,
-            'isGrantedEdit' => $this->isGrantedEdit($spieltag->getLigaSaison())
-        );
     }
 }

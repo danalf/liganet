@@ -1,22 +1,20 @@
-{% extends '::base.html.twig' %}
+{% extends 'base.html.twig' %}
+
 {% block content %}
     <div class="row">
         <div class="col-md-11">
             <div class="page-header">
-                <h1>Runde {{ entity.nummer }} <small>Spieltag {{ entity.spieltag.nummer }} {{ entity.spieltag.ligasaison.liga }}</small></h1>
+                <h1>Runde {{ spielRunde.nummer }} <small>Spieltag {{ spielRunde.spieltag.nummer }} {{ spielRunde.spieltag.ligasaison.liga }}</small></h1>
             </div>
         </div>
         <div class="col-md-1">
-            <a class="btn btn-default" href="{{ path('spielrunde') }}">
-                <i class="fa fa-list"></i>
-            </a>
-            {% if isGrantedEdit == true %}
-                <a class="btn btn-default" href="{{ path('spielrunde_edit', { 'id': entity.id }) }}">
+            {% if is_granted('edit', spielRunde) %}
+                <a class="btn btn-default" href="{{ path('spielrunde_edit', { 'id': spielRunde.id }) }}">
                     <i class="fa fa-pencil"></i>
                 </a>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
-                <form  action="{{ path('spielrunde_delete', { 'id': entity.id }) }}" method="post">
+                <form  action="{{ path('spielrunde_delete', { 'id': spielRunde.id }) }}" method="post">
                     {{ form_widget(delete_form) }}
                     <button  class="btn btn-default"  type="submit"><i class="fa fa-trash"></i></button>
                 </form>
@@ -29,26 +27,26 @@
                 <tbody>
                     <tr>
                         <th>Saison</th>
-                        <td>{{ entity.spieltag.ligasaison.saison }}</td>
+                        <td>{{ spielRunde.spieltag.ligasaison.saison }}</td>
                     </tr>
                     <tr>
                         <th>Liga</th>
-                        <td>{{ entity.spieltag.ligasaison.liga }}</td>
+                        <td>{{ spielRunde.spieltag.ligasaison.liga }}</td>
                     </tr>
                     <tr>
                         <th>Spieltag</th>
-                        <td>{{ entity.spieltag.nummer }} </td>
+                        <td>{{ spielRunde.spieltag.nummer }} </td>
                     </tr>
                     <tr>
                         <th>Nummer</th>
-                        <td>{{ entity.nummer }}</td>
+                        <td>{{ spielRunde.nummer }}</td>
                     </tr>
                 </tbody>
             </table>
-            {{ include('LiganetCoreBundle:Begegnung:showListForEdit.html.twig', { 'begegnungen': entity.begegnungen, 'isGrantedEdit': isGrantedEdit }) }}
+            {{ include('begegnung/showListForEdit.html.twig', { 'begegnungen': spielRunde.begegnungen }) }}
         </div>
         <div class="col-md-8">
-            {{ render(controller('LiganetCoreBundle:Begegnung:showList',{ 'runde_id': entity.id })) }}
+            {{ include('begegnung/showList.html.twig',{ 'spielRunde': spielRunde }) }}
         </div>
     </div>
 {% endblock %}

@@ -14,6 +14,20 @@ use AppBundle\Entity\LigaSaison;
  */
 class SpielRundeRepository extends EntityRepository
 {
+    public function find($id)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('s,t,b')
+                ->from('AppBundle:SpielRunde', 's')
+                ->join('s.tabelle', 't')
+                ->join('s.begegnungen', 'b')
+                ->where('s.id = ?1')
+                ->orderBy('t.rang')
+                ->setParameter(1, $id);
+        
+        return $qb->getQuery()->getSingleResult();
+    }
+    
     public function findBySpieltagOrdered(Spieltag $spieltag)
     {
         return $this->getEntityManager()

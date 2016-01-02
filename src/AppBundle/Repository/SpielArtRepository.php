@@ -12,6 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class SpielArtRepository extends EntityRepository
 {
+    public function findAll()
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('s')
+                ->from('AppBundle:SpielArt', 's')
+                ->orderBy('s.nummer');
+
+        return $qb->getQuery()->getResult();
+    }
+    
     public function findByModusOrdered(Modus $modus)
     {
         return $this->getEntityManager()

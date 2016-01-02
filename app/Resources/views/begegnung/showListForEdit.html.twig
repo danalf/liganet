@@ -3,7 +3,7 @@
     {% for begegnung in begegnungen %}
         <tr>
             <td>{{ begegnung.mannschaft1 }} : {{ begegnung.mannschaft2 }}</td>
-            <td>{% if isGrantedEdit == true %}
+            <td>{% if is_granted('edit', begegnung.spielRunde ) %}
                 <a class="btn btn-default" href="{{ path('begegnung_edit', { 'id': begegnung.id }) }}">
                     <i class="fa fa-pencil"></i>
                 </a>
