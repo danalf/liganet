@@ -1,16 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Verein creation</h1>
+{% block content %}
+    <div class="page-header">
+        <h1>Verein hinzufügen</h1>
+    </div>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+    {{ form_widget(form) }}
+    <input type="submit" value="Erstellen" />
     {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('verein_index') }}">Back to the list</a>
-        </li>
-    </ul>
 {% endblock %}

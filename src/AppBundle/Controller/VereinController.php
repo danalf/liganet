@@ -85,6 +85,7 @@ class VereinController extends Controller
      */
     public function editAction(Request $request, Verein $verein)
     {
+        $this->denyAccessUnlessGranted('edit', $verein);
         $deleteForm = $this->createDeleteForm($verein);
         $editForm = $this->createForm('AppBundle\Form\VereinType', $verein);
         $editForm->handleRequest($request);
@@ -112,6 +113,7 @@ class VereinController extends Controller
      */
     public function deleteAction(Request $request, Verein $verein)
     {
+        $this->denyAccessUnlessGranted('edit', $verein);
         $form = $this->createDeleteForm($verein);
         $form->handleRequest($request);
 

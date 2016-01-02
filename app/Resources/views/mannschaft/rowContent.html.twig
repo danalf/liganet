@@ -9,6 +9,6 @@
         {% endif %}
     </td>
     <td>
-        {{ include('LiganetCoreBundle::rowActionButtons.html.twig', { 'art': 'mannschaft', 'id': mannschaft.id,'isGrantedEdit': isGrantedEdit }) }}
+        {{ include('rowActionButtons.html.twig', { 'art': 'mannschaft', 'id': mannschaft.id,'isGrantedEdit': is_granted("edit", mannschaft) }) }}
     </td>
 </tr>

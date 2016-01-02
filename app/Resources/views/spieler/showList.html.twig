@@ -1,0 +1,30 @@
+{% if is_granted("edit", verein) %}
+    <a style="float: right" class="btn btn-default" href="{{ path('spieler_new', { 'id': verein.id }) }}">
+        <i class="fa fa-plus"></i>
+    </a>
+{% endif %}  
+<h2>Spieler</h2>
+<table class="table table-striped">
+    <tbody>
+        {% for spieler in verein.spieler %}
+            <tr>
+                <td><a href="{{ path('spieler_show', { 'id': spieler.id }) }}">
+                        {{ spieler.vorname }} {{ spieler.nachname }}
+                    </a></td>
+                <td>{{ spieler.nummerlizenz }}</td>
+                <td>
+                    {% if is_granted("edit", spieler) %}
+                        <a class="btn btn-default pull-right" href="{{ path('spieler_edit', { 'id': spieler.id }) }}">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    {% endif %}
+                    {% if is_granted("view", spieler) %}
+                        <a class="btn btn-default pull-right" href="{{ path('spieler_show', { 'id': spieler.id }) }}">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

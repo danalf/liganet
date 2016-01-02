@@ -1,6 +1,19 @@
 services:
+    #Voters
     app.verein_voter:
         class: AppBundle\Security\VereinVoter
+        arguments: ['@security.access.decision_manager']
+        public: false
+        tags:
+            - { name: security.voter }
+    app.mannschaft_voter:
+        class: AppBundle\Security\MannschaftVoter
+        arguments: ['@security.access.decision_manager']
+        public: false
+        tags:
+            - { name: security.voter }
+    app.spieler_voter:
+        class: AppBundle\Security\SpielerVoter
         arguments: ['@security.access.decision_manager']
         public: false
         tags:

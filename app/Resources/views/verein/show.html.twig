@@ -57,10 +57,10 @@
             </table>
         </div>
         <div class="col-md-5">
-            {#TODO: INCLUDE{{ include('LiganetCoreBundle:Mannschaft:showList.html.twig', { 'verein': verein }) }}#}
+            {{ include('mannschaft/showList.html.twig', { 'verein': verein }) }}
         </div>
         <div class="col-md-4">
-            {#TODO: INCLUDE{{ render(controller("LiganetCoreBundle:Spieler:showList" , { 'id': verein.id })) }}#}
+            {{ include("spieler/showList.html.twig" , { 'verein': verein }) }}
         </div>
     </div>
 {% endblock %}

@@ -1,5 +1,5 @@
 <h2>Mannschaften
-    {% if isGrantedEdit == true %}
+    {% if is_granted("edit", verein) %}
         <a style="float: right" class="btn btn-default" href="{{ path('mannschaft_new', { 'id': verein.id }) }}">
             <i class="fa fa-plus"></i>
         </a>
@@ -8,7 +8,7 @@
 <table class="table">
     <tbody>
         {% for mannschaft in verein.mannschaften %}
-            {{ include('LiganetCoreBundle:Mannschaft:rowContent.html.twig', { 'mannschaft': mannschaft, 'isGrantedEdit': isGrantedEdit }) }}
+            {{ include('mannschaft/rowContent.html.twig', { 'mannschaft': mannschaft }) }}
         {% endfor %}
     </tbody>
 </table>

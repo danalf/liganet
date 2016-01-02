@@ -1,21 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Verein edit</h1>
+{% block content %}
+    <div class="page-header">
+        <h1>Verein bearbeiten: {{ verein.namekurz }}</h1>
+    </div>
 
     {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+    {{ form_widget(edit_form) }}
+    <p>
+        <button class="btn btn-default" type="submit">Speichern</button>
+    </p>
     {{ form_end(edit_form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('verein_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
 {% endblock %}

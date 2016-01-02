@@ -1,47 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Verein list</h1>
+{% block content %}
+    <div class="row">
+        <div class="col-md-11">
+            <div class="page-header">
+                <h1>Vereine</h1>
+            </div>
+        </div>
+        <div class="col-md-1">
+            {% if is_granted('ROLE_REGION_MANAGEMENT') %}
+                <a class="btn btn-default" href="{{ path('verein_new') }}">
+                    <i class="fa fa-plus"></i>
+                </a>
+            {% endif %}    
+        </div>
+    </div>
 
-    <table>
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
+                <th></th>
                 <th>Name</th>
-                <th>Namekurz</th>
-                <th>Kuerzel</th>
+                <th>Kürzel</th>
                 <th>Nummer</th>
+                <th>Kontakt</th>
                 <th>Homepage</th>
-                <th>Actions</th>
+                <th>Aktionen</th>
             </tr>
         </thead>
         <tbody>
-        {% for verein in vereins %}
-            <tr>
-                <td><a href="{{ path('verein_show', { 'id': verein.id }) }}">{{ verein.id }}</a></td>
-                <td>{{ verein.name }}</td>
-                <td>{{ verein.namekurz }}</td>
-                <td>{{ verein.kuerzel }}</td>
-                <td>{{ verein.nummer }}</td>
-                <td>{{ verein.homepage }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('verein_show', { 'id': verein.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('verein_edit', { 'id': verein.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
+            {% for verein in vereins %}
+                <tr>
+                    <td>
+                        {% if verein.document %}
+                            <img class="media-object" alt="Logo {{ verein }}" src="{{ asset(verein.document.webpath) }}" style="height: 64px" />
+                        {% endif %}
+                    </td>
+                    <td>{{ verein.namekurz }}</td>
+                    <td>{{ verein.kuerzel }}</td>
+                    <td>{{ verein.nummer }}</td>
+                    <td>
+                        {% if verein.kontakt %}
+                            <a href="{{ path('spieler_show', { 'id': verein.kontakt.id }) }}">{{ verein.kontakt }}</a>
+                        {% endif %}
+                    </td>
+                    <td><a href="{{ verein.homepage }}" target="_blank">{{ verein.homepage }}</a></td>
+                    <td>
+                        <a class="btn btn-default" href="{{ path('verein_show', { 'id': verein.id }) }}">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                        {% if is_granted("edit", verein) %}
+                            <a class="btn btn-default" href="{{ path('verein_edit', { 'id': verein.id }) }}">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('verein_new') }}">Create a new entry</a>
-        </li>
-    </ul>
 {% endblock %}
