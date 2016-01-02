@@ -47,9 +47,9 @@
                         {% endif %}
                     </td>
                     <td>{{ entity.nummerlizenz }}</td>
-                    <td>{% if  entity.trainer > 0 %}<i class="icon-ok"></i>{% endif %}</td>
-                    <td>{% if  entity.schiedsrichter > 0 %}<i class="icon-ok"></i>{% endif %}</td>
-                    <td>{% if  entity.bestaetigt > 0 %}<i class="icon-ok"></i>{% endif %}</td>
+                    <td>{% if  entity.trainer > 0 %}<i class="fa fa-check"></i>{% endif %}</td>
+                    <td>{% if  entity.schiedsrichter > 0 %}<i class="fa fa-check"></i>{% endif %}</td>
+                    <td>{% if  entity.bestaetigt > 0 %}<i class="fa fa-check"></i>{% endif %}</td>
                     <td>
                         <a class="btn btn-default" href="{{ path('spieler_show', { 'id': entity.id }) }}">
                             <i class="fa fa-arrow-right"></i>

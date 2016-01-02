@@ -3,7 +3,7 @@
 namespace AppBundle\Util;
 
 use Doctrine\ORM\EntityManager;
-use Liganet\CoreBundle\Entity;
+use AppBundle\Entity;
 
 /**
  * Description of class
@@ -46,12 +46,12 @@ class berechnenErgebnisService {
 
         $mannschaften = $this->ligaSaison->getMannschaften();
 
-        $spielrunden = $this->em->getRepository('LiganetCoreBundle:SpielRunde')->findByLigaSaisonOrdered($this->ligaSaison);
+        $spielrunden = $this->em->getRepository('AppBundle:SpielRunde')->findByLigaSaisonOrdered($this->ligaSaison);
 
         foreach ($spielrunden as $runde) {
             /* @var $runde SpielRunde  */
             
-            $begegnungen = $this->em->getRepository('LiganetCoreBundle:Begegnung')->findBegegnungenUntil($runde);
+            $begegnungen = $this->em->getRepository('AppBundle:Begegnung')->findBegegnungenUntil($runde);
             //Tabellenelememente mit allen bis zur Spielrunde stattgefundenen Begegnungen füllen
             foreach ($runde->getTabelle() as $tab) {
                  /* @var $tab Entity\Tabelle */
@@ -84,11 +84,11 @@ class berechnenErgebnisService {
             $tab->reset();
             $arrayTabelle[] = $tab;
         }
-        $spielrunden = $this->em->getRepository('LiganetCoreBundle:SpielRunde')->findByLigaSaisonOrdered($this->ligaSaison);
+        $spielrunden = $this->em->getRepository('AppBundle:SpielRunde')->findByLigaSaisonOrdered($this->ligaSaison);
 
         foreach ($spielrunden as $runde) {
             /* @var $runde SpielRunde  */
-            $begegnungen = $this->em->getRepository('LiganetCoreBundle:Begegnung')->findBegegnungenUntil($runde);
+            $begegnungen = $this->em->getRepository('AppBundle:Begegnung')->findBegegnungenUntil($runde);
             foreach ($arrayTabelle as $tab) {
                 /* @var $tab Entity\Tabelle */
                 $tab->reset();

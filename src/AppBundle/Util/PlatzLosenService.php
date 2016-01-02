@@ -3,7 +3,7 @@
 namespace AppBundle\Util;
 
 use Doctrine\ORM\EntityManager;
-use Liganet\CoreBundle\Entity;
+use AppBundle\Entity;
 
 /**
  * Klasse zum Losen einer Ligasaison
@@ -85,7 +85,7 @@ class PlatzLosenService {
 
     private function writeDb() {
         
-        $spielrunden =  $this->em->getRepository('LiganetCoreBundle:SpielRunde')->findByLigaSaisonOrdered($this->ligaSaison);
+        $spielrunden =  $this->em->getRepository('AppBundle:SpielRunde')->findByLigaSaisonOrdered($this->ligaSaison);
         
         
         foreach ($spielrunden as $spielrunde) {
@@ -93,7 +93,7 @@ class PlatzLosenService {
             var_dump($this->plaetze);
             foreach ($spielrunde->getBegegnungen() as $begegnung) {
                 //Begegnungen in Ergebnistabelle incl. Platz eintragen
-                $spielart = $this->em->getRepository('LiganetCoreBundle:SpielArt')->findBy(array('modus' => $this->ligaSaison->getLiga()->getModus()->getId()), array('nummer' => 'ASC'));
+                $spielart = $this->em->getRepository('AppBundle:SpielArt')->findBy(array('modus' => $this->ligaSaison->getLiga()->getModus()->getId()), array('nummer' => 'ASC'));
                 foreach ($spielart as $spiel) {
                     $reihenfolge = $spiel->getReihenfolge();
                     $platz = array_pop($this->plaetze[$reihenfolge - 1]);

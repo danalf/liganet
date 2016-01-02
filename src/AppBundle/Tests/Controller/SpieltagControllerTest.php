@@ -1,10 +1,10 @@
 <?php
 
-namespace Liganet\CoreBundle\Tests\Controller;
+namespace AppBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class MannschaftControllerTest extends WebTestCase
+class SpieltagControllerTest extends WebTestCase
 {
     /*
     public function testCompleteScenario()
@@ -13,13 +13,13 @@ class MannschaftControllerTest extends WebTestCase
         $client = static::createClient();
 
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/mannschaft/');
-        $this->assertTrue(200 === $client->getResponse()->getStatusCode());
+        $crawler = $client->request('GET', '/spieltag/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /spieltag/");
         $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
-            'liganet_corebundle_mannschafttype[field_name]'  => 'Test',
+            'appbundle_spieltag[field_name]'  => 'Test',
             // ... other fields to fill
         ));
 
@@ -27,13 +27,13 @@ class MannschaftControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         // Check data in the show view
-        $this->assertTrue($crawler->filter('td:contains("Test")')->count() > 0);
+        $this->assertGreaterThan(0, $crawler->filter('td:contains("Test")')->count(), 'Missing element td:contains("Test")');
 
         // Edit the entity
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
-        $form = $crawler->selectButton('Edit')->form(array(
-            'liganet_corebundle_mannschafttype[field_name]'  => 'Foo',
+        $form = $crawler->selectButton('Update')->form(array(
+            'appbundle_spieltag[field_name]'  => 'Foo',
             // ... other fields to fill
         ));
 
@@ -41,7 +41,7 @@ class MannschaftControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         // Check the element contains an attribute with value equals "Foo"
-        $this->assertTrue($crawler->filter('[value="Foo"]')->count() > 0);
+        $this->assertGreaterThan(0, $crawler->filter('[value="Foo"]')->count(), 'Missing element [value="Foo"]');
 
         // Delete the entity
         $client->submit($crawler->selectButton('Delete')->form());

@@ -1,4 +1,4 @@
-{% if isGrantedEdit == true %}
+{% if is_granted('edit', spieltag) %}
     <a class="btn btn-default pull-right" href="{{ path('spielrunde_new', { 'spieltag_id': spieltag.id }) }}">
         <i class="fa fa-plus"></i>
     </a>

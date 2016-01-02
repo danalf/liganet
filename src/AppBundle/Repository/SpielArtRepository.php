@@ -15,7 +15,7 @@ class SpielArtRepository extends EntityRepository
     public function findByModusOrdered(Modus $modus)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT sa FROM LiganetCoreBundle:SpielArt sa WHERE sa.modus='.$modus->getId()."ORDER BY sa.nummer ASC")
+            ->createQuery('SELECT sa FROM AppBundle:SpielArt sa WHERE sa.modus='.$modus->getId()."ORDER BY sa.nummer ASC")
             ->getResult();
     }
 }

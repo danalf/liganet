@@ -2,7 +2,7 @@
 
 namespace AppBundle\Util;
 
-use Liganet\CoreBundle\Services\pdfService;
+use AppBundle\Services\pdfService;
 
 /**
  * Description of class

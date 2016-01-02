@@ -14,7 +14,7 @@ class ErgebnisRepository extends EntityRepository {
 
     public function findByBegegnungOrdered(Begegnung $begegnung) {
         return $this->getEntityManager()
-                        ->createQuery('SELECT e FROM LiganetCoreBundle:Ergebnis e 
+                        ->createQuery('SELECT e FROM AppBundle:Ergebnis e 
                 JOIN e.spielArt sa
                 WHERE e.begegnung=' . $begegnung->getId() . " ORDER BY sa.nummer ASC")
                         ->getResult();
@@ -24,7 +24,7 @@ class ErgebnisRepository extends EntityRepository {
         $qb = $this->_em->createQueryBuilder();
 
         $qb->select('e')
-                ->from('LiganetCoreBundle:Ergebnis', 'e')
+                ->from('AppBundle:Ergebnis', 'e')
                 ->orderBy('e.id', 'DESC')
                 ->where($qb->expr()->orx(
                                 $qb->expr()->eq('e.spieler1_1', '?1'), 

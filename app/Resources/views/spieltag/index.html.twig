@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-11">
+            <div class="page-header">
+                <h1>Spieltage</h1>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Liga</th>
+                <th>Nummer</th>
+                <th>Datum</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for runde in spieltage %}
+                <tr>
+                    <td style="background-color: {{ runde.ligasaison.liga.farbeTabellenKopf }}; color: {{ runde.ligasaison.liga.farbeTabellenKopfSchrift }};">
+                        {{ runde.ligasaison.liga.name }} {{ runde.ligasaison.liga.region.namekurz }}
+                    </td>
+                    <td>{{ runde.nummer }}</td>
+                    <td>{% if runde.datum %}{{ runde.datum|date('d.m.Y H:i') }}{% endif %}</td>
+                    <td>
+                        {% if is_granted('edit', runde) %}
+                            <a class="btn btn-default pull-right" href="{{ path('spieltag_edit', { 'id': runde.id }) }}">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                        {% endif %}
+                        <a class="btn btn-default pull-right" href="{{ path('spieltag_show', { 'id': runde.id }) }}">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

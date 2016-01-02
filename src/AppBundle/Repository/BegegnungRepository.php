@@ -19,7 +19,7 @@ class BegegnungRepository extends EntityRepository
      */
     public function findBegegnungenUntil(SpielRunde $spielrunde) {
         return $this->getEntityManager()
-            ->createQuery("SELECT b FROM LiganetCoreBundle:Begegnung b JOIN b.spielRunde r JOIN r.spieltag s WHERE r.nummer<=".$spielrunde->getNummer()
+            ->createQuery("SELECT b FROM AppBundle:Begegnung b JOIN b.spielRunde r JOIN r.spieltag s WHERE r.nummer<=".$spielrunde->getNummer()
                 ." AND s.ligasaison=".$spielrunde->getSpieltag()->getLigasaison()->getId()." ORDER BY r.nummer ASC ")
             ->getResult();
         

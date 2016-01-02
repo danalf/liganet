@@ -1,7 +1,7 @@
 <?php
 
 namespace AppBundle\Util;
-use Liganet\CoreBundle\Services\pdfService;
+use AppBundle\Services\pdfService;
 
 /**
  * Description of class
@@ -21,10 +21,10 @@ class pdfSpielberichtsbogenService extends pdfService {
         $this->title = "Spielbericht";
         $this->setDefaults();
 
-        $spieltage = $this->em->getRepository('LiganetCoreBundle:Spieltag')->findByLigaSaisonOrdered($this->ligaSaison);
+        $spieltage = $this->em->getRepository('AppBundle:Spieltag')->findByLigaSaisonOrdered($this->ligaSaison);
         $spieltag=new \Liganet\CoreBundle\Entity\Spieltag;
         foreach ($spieltage as $spieltag) {
-            $runden = $this->em->getRepository('LiganetCoreBundle:SpielRunde')->findBySpieltagOrdered($spieltag);
+            $runden = $this->em->getRepository('AppBundle:SpielRunde')->findBySpieltagOrdered($spieltag);
             foreach ($runden as $runde) {
                 $begegnungen = $runde->getBegegnungen();
                 $begegnung=new \Liganet\CoreBundle\Entity\Begegnung;
@@ -79,7 +79,7 @@ class pdfSpielberichtsbogenService extends pdfService {
                     $this->pdf->MultiCell(46, 0, $begegnung->getMannschaft2(), 1, 'C', 1, 0);
                     $this->pdf->MultiCell(8, 0, 'B', 1, 'C', 0, 1);
                     
-                    $ergebnisse = $this->em->getRepository('LiganetCoreBundle:Ergebnis')->findByBegegnungOrdered($begegnung);
+                    $ergebnisse = $this->em->getRepository('AppBundle:Ergebnis')->findByBegegnungOrdered($begegnung);
                     $ergebnis = new \Liganet\CoreBundle\Entity\Ergebnis();
                     foreach ($ergebnisse as $ergebnis) {
                         $spielart = $ergebnis->getSpielArt();
@@ -199,7 +199,7 @@ class pdfSpielberichtsbogenService extends pdfService {
                     $starty+=4.5;
                     $currentx = $startx + 8;
                     $this->pdf->SetFont('dejavusans', 'B', 6, '', true);
-                    $spielarten=$this->em->getRepository('LiganetCoreBundle:SpielArt')->findByModusOrdered($this->ligaSaison->getLiga()->getModus());
+                    $spielarten=$this->em->getRepository('AppBundle:SpielArt')->findByModusOrdered($this->ligaSaison->getLiga()->getModus());
                     foreach ($spielarten as $spielart) {
                         $this->pdf->MultiCell(10, 0, $spielart->getNameKurz(), 0, 'C', 0, 0, $currentx, $starty);
                         $currentx+=10;

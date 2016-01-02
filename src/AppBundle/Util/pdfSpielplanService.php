@@ -2,7 +2,7 @@
 
 namespace AppBundle\Util;
 
-use Liganet\CoreBundle\Services\pdfService;
+use AppBundle\Services\pdfService;
 
 /**
  * Description of class
@@ -97,17 +97,17 @@ class pdfSpielplanService extends pdfService {
         $this->pdf->MultiCell(10, 5, "Nr.", 1, 'C', 1, 0);
         $this->pdf->MultiCell(30, 5, "Begegnung", 1, 'C', 1, 0);
 
-        $spielArten = $this->em->getRepository('LiganetCoreBundle:SpielArt')->findByModusOrdered($this->ligaSaison->getLiga()->getModus());
+        $spielArten = $this->em->getRepository('AppBundle:SpielArt')->findByModusOrdered($this->ligaSaison->getLiga()->getModus());
         foreach ($spielArten as $spielArt) {
             $this->pdf->MultiCell(10, 5, $spielArt->getNameKurz(), 1, 'C', 1, 0);
         }
         $this->pdf->MultiCell(1, 5, "", 0, 'C', 0, 1);
         $this->pdf->SetFont('helvetica', '', 7, '', true);
 
-        $spieltage = $this->em->getRepository('LiganetCoreBundle:Spieltag')->findByLigaSaisonOrdered($this->ligaSaison);
+        $spieltage = $this->em->getRepository('AppBundle:Spieltag')->findByLigaSaisonOrdered($this->ligaSaison);
         $spieltag = new \Liganet\CoreBundle\Entity\Spieltag;
         foreach ($spieltage as $spieltag) {
-            $runden = $this->em->getRepository('LiganetCoreBundle:SpielRunde')->findBySpieltagOrdered($spieltag);
+            $runden = $this->em->getRepository('AppBundle:SpielRunde')->findBySpieltagOrdered($spieltag);
             foreach ($runden as $runde) {
                 $isInBegegnung = FALSE;
                 $begegnung = new \Liganet\CoreBundle\Entity\Begegnung;

@@ -3,7 +3,7 @@
 namespace AppBundle\Util;
 
 use Doctrine\ORM\EntityManager;
-use Liganet\CoreBundle\Entity;
+use AppBundle\Entity;
 
 /**
  * Klasse zum Losen einer Ligasaison
@@ -126,17 +126,14 @@ class LosenService {
         //teilnehmende Vereine aus der Liga incl Anzahl der internen Duelle
         $query = $this->em->createQuery(
                 'SELECT v.id, count(m.id) AS anzahlInterneGegner
-                    FROM LiganetCoreBundle:Verein v 
+                    FROM AppBundle:Verein v 
                     JOIN v.mannschaften m
                     WHERE m.ligasaison=' . $this->ligaSaison->getId() . ' 
                     GROUP BY v.id');
         $vereine = $query->getResult();
-        //echo "<pre>";
-        //print_r($vereine);
-        //return true;
         //Einzelne Vereins-ID durchgehen und Stück für Stück in ein Array packen
         foreach ($vereine as $verein) {
-            $entity = $this->em->getRepository('LiganetCoreBundle:Verein')->find($verein["id"]);
+            $entity = $this->em->getRepository('AppBundle:Verein')->find($verein["id"]);
             //$entity->setAnzahlInterneDuelle($verein["anzahlInterneGegner"]);
             //n*(n-1)/k
             $entity->setAnzahlInterneDuelle($verein["anzahlInterneGegner"]*($verein["anzahlInterneGegner"]-1)/2);
@@ -205,7 +202,7 @@ class LosenService {
         $fehler = FALSE;
 
         $query = $this->em->createQuery(
-                "SELECT sr FROM LiganetCoreBundle:SpielRunde sr 
+                "SELECT sr FROM AppBundle:SpielRunde sr 
                     JOIN sr.spieltag t
                     WHERE t.ligasaison=" . $this->ligaSaison->getId() . " 
                     ORDER BY sr.nummer");
@@ -217,7 +214,7 @@ class LosenService {
                 $fehler = true;
                 echo "Nicht alle Runden eingetragen";
             };
-            $spielrunde = $this->em->getRepository('LiganetCoreBundle:SpielRunde')->find($spielrunden[$indexRunden]['id']);
+            $spielrunde = $this->em->getRepository('AppBundle:SpielRunde')->find($spielrunden[$indexRunden]['id']);
             $runde = $this->begegnungen[$indexRunden];
             $this->fillPlatzArray($indexRunden + 1);
             foreach ($runde as $begegnung) {
@@ -231,7 +228,7 @@ class LosenService {
 
                 //Begegnungen in Ergebnistabelle incl. Platz eintragen
                 $spiel = new Entity\SpielArt;
-                $spielart = $this->em->getRepository('LiganetCoreBundle:SpielArt')->findBy(array('modus' => $this->ligaSaison->getLiga()->getModus()->getId()), array('nummer' => 'ASC'));
+                $spielart = $this->em->getRepository('AppBundle:SpielArt')->findBy(array('modus' => $this->ligaSaison->getLiga()->getModus()->getId()), array('nummer' => 'ASC'));
                 foreach ($spielart as $spiel) {
                     $reihenfolge = $spiel->getReihenfolge();
                     $platz = array_pop($this->plaetze[$reihenfolge - 1]);

@@ -3,6 +3,8 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Entity\Spieltag;
+use AppBundle\Entity\LigaSaison;
 
 /**
  * SpielRundeRepository
@@ -15,14 +17,14 @@ class SpielRundeRepository extends EntityRepository
     public function findBySpieltagOrdered(Spieltag $spieltag)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT r FROM LiganetCoreBundle:SpielRunde r WHERE r.spieltag='.$spieltag->getId()." ORDER BY r.nummer ASC ")
+            ->createQuery('SELECT r FROM AppBundle:SpielRunde r WHERE r.spieltag='.$spieltag->getId()." ORDER BY r.nummer ASC ")
             ->getResult();
     }
     
     public function findByLigaSaisonOrdered(LigaSaison $ligasaison)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT r FROM LiganetCoreBundle:SpielRunde r JOIN r.spieltag s WHERE s.ligasaison='.$ligasaison->getId()." ORDER BY r.nummer ASC ")
+            ->createQuery('SELECT r FROM AppBundle:SpielRunde r JOIN r.spieltag s WHERE s.ligasaison='.$ligasaison->getId()." ORDER BY r.nummer ASC ")
             ->getResult();
     }
 }

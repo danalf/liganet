@@ -1,22 +1,23 @@
-{% extends '::base.html.twig' %}
+{% extends 'base.html.twig' %}
+
 {% block content %}
     <div class="row">
         <div class="col-md-11">
             <div class="page-header">
-                <h1>Spieltag {{ entity.nummer }} {{ entity.ligasaison.liga }} <small>{{ entity.datum|date('d.m.Y H:i') }}</small></h1>
+                <h1>Spieltag {{ spieltag.nummer }} {{ spieltag.ligasaison.liga }} <small>{{ spieltag.datum|date('d.m.Y H:i') }}</small></h1>
             </div>
         </div>
         <div class="col-md-1">
-            <a class="btn btn-default" href="{{ path('spieltag') }}">
+            <a class="btn btn-default" href="{{ path('spieltag_index') }}">
                 <i class="fa fa-list"></i>
             </a>
-            {% if isGrantedEdit == true %}
-                <a class="btn btn-default" href="{{ path('spieltag_edit', { 'id': entity.id }) }}">
+            {% if is_granted('edit', spieltag) %}
+                <a class="btn btn-default" href="{{ path('spieltag_edit', { 'id': spieltag.id }) }}">
                     <i class="fa fa-pencil"></i>
                 </a>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
-                <form  action="{{ path('spieltag_delete', { 'id': entity.id }) }}" method="post">
+                <form  action="{{ path('spieltag_delete', { 'id': spieltag.id }) }}" method="post">
                     {{ form_widget(delete_form) }}
                     <button  class="btn btn-default"  type="submit"><i class="fa fa-trash"></i></button>
                 </form>
@@ -29,29 +30,33 @@
                 <tbody>
                     <tr>
                         <th>Liga</th>
-                        <td>{{ entity.ligasaison.liga }}</td>
+                        <td>{{ spieltag.ligasaison.liga }}</td>
                     </tr>
                     <tr>
                         <th>Nummer</th>
-                        <td>{{ entity.nummer }}</td>
+                        <td>{{ spieltag.nummer }}</td>
                     </tr>
                     <tr>
                         <th>Ort</th>
-                        <td>{{ entity.austragenderVerein }}</td>
+                        <td>{{ spieltag.austragenderVerein }}</td>
                     </tr>
                     <tr>
                         <th>Datum</th>
-                        <td>{{ entity.datum|date('d.m.Y H:i') }}</td>
+                        <td>{{ spieltag.datum|date('d.m.Y H:i') }}</td>
                     </tr>
                     <tr>
                         <th>Excelfile der Tabelle</th>
-                        <td><a class="btn btn-default pull-right" href="{{ path('spieltag_excel_ergebnisse', { 'id': entity.id }) }}"><i class="icon-list-alt"></i></a> </td>
+                        <td>
+                            <a class="btn btn-default pull-right" href="{{ path('spieltag_excel_ergebnisse', { 'id': spieltag.id }) }}">
+                                <i class="fa fa-file-excel-o"></i>
+                            </a> 
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="col-md-6">
-            {{ render(controller('LiganetCoreBundle:SpielRunde:showList',{ 'spieltag_id': entity.id })) }}
+            {{ include('spielrunde/showList.html.twig',{ 'spieltag': spieltag }) }}
         </div>
     </div>
 {% endblock %}

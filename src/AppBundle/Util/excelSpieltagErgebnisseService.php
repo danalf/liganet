@@ -3,9 +3,8 @@
 namespace AppBundle\Util;
 
 use Doctrine\ORM\EntityManager;
-use Liganet\CoreBundle\Entity;
+use AppBundle\Entity;
 use \PHPExcel;
-use \PHPExcel_IOFactory;
 
 /**
  * Description of class
@@ -43,13 +42,13 @@ class excelSpieltagErgebnisseService {
         $objPHPExcel = new PHPExcel();
         $worksheet = $objPHPExcel->setActiveSheetIndex(0);
 
-        $runden = $this->em->getRepository('LiganetCoreBundle:SpielRunde')->findBySpieltagOrdered($this->spieltag);
+        $runden = $this->em->getRepository('AppBundle:SpielRunde')->findBySpieltagOrdered($this->spieltag);
         /**
          * @var Entity\SpielRunde
          */
         $runde = array_pop($runden);
 
-        $tabelle = $this->em->getRepository('LiganetCoreBundle:Tabelle')->findByRunde($runde->getId());
+        $tabelle = $this->em->getRepository('AppBundle:Tabelle')->findByRunde($runde->getId());
         $worksheet->setCellValue("A1", "Rang");
         $worksheet->setCellValue("B1", "Mannschaft");
         $worksheet->setCellValue("C1", "Kugeln");
@@ -65,7 +64,6 @@ class excelSpieltagErgebnisseService {
             /**
              * @var Entity\Tabelle
              */
-            $zeile = new Entity\Tabelle;
             $zeile = $tabelle[$index];
             $nrZeile = $index + 2;
             $worksheet->setCellValue("A" . $nrZeile, $zeile->getRang());
@@ -88,14 +86,13 @@ class excelSpieltagErgebnisseService {
 
         // Set properties
         //echo date('H:i:s') . " Set properties\n";
-        $objPHPExcel->getProperties()->setCreator("Maarten Balliauw");
-        $objPHPExcel->getProperties()->setLastModifiedBy("Maarten Balliauw");
-        $objPHPExcel->getProperties()->setTitle("Office 2007 XLSX Test Document");
-        $objPHPExcel->getProperties()->setSubject("Office 2007 XLSX Test Document");
-        $objPHPExcel->getProperties()->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.");
+        $objPHPExcel->getProperties()->setCreator("Liganet");
+        $objPHPExcel->getProperties()->setLastModifiedBy("Liganet");
+        $objPHPExcel->getProperties()->setTitle("Liganet Spieltag Ergebnisse");
+        $objPHPExcel->getProperties()->setSubject("Liganet Spieltag Ergebnisse");
+        $objPHPExcel->getProperties()->setDescription("Liganet document for Office 2007 XLSX, generated using PHP classes.");
 
-// Rename sheet
-        //echo date('H:i:s') . " Rename sheet\n";
+        // Rename sheet
         $nameLiga = $runde->getSpieltag()->getLigaSaison()->getLiga()->getKuerzel() . " " . $runde->getSpieltag()->getLigaSaison()->getSaison()->getSaison() . " Runde " . $runde->getNummer();
         $objPHPExcel->getActiveSheet()->setTitle('Tabelle');
 

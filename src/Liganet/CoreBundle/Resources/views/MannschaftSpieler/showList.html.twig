@@ -19,7 +19,7 @@
                 <tr>
                     <td>{{ mannschaftspieler.spieler }}</td>
                     <td>{{ mannschaftspieler.status }}</td>
-                    <td>{% if mannschaftspieler.bestaetigt > 0 %}<i class="icon-ok"></i>{% endif %}</td>
+                    <td>{% if mannschaftspieler.bestaetigt > 0 %}<i class="fa fa-check"></i>{% endif %}</td>
                     <td>
                         {% if isGrantedEdit == true %}
                         <a class="btn btn-default pull-right" href="{{ path('mannschaftspieler_edit', { 'id': mannschaftspieler.id }) }}">

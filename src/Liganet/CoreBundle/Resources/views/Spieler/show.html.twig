@@ -58,7 +58,7 @@
                     <tr>
                         <th>Trainer</th>
                         <td>
-                            <i class="icon-ok"></i>
+                            <i class="fa fa-check"></i>
                         </td>
                     </tr>
                 {% endif %}
@@ -66,7 +66,7 @@
                     <tr>
                         <th>Schiedsrichter</th>
                         <td>
-                            <i class="icon-ok"></i>
+                            <i class="fa fa-check"></i>
                         </td>
                     </tr>
                 {% endif %}
@@ -88,7 +88,7 @@
                             <td><a href="{{ path('mannschaft_show', { 'id': mannschaftspieler.mannschaft.id }) }}">
                                     {{ mannschaftspieler.mannschaft }}</a></td>
                             <td> {{ mannschaftspieler.status }}</td>
-                            <td>{% if mannschaftspieler.bestaetigt > 0 %}<i class="icon-ok"></i>{% endif %}</td>
+                            <td>{% if mannschaftspieler.bestaetigt > 0 %}<i class="fa fa-check"></i>{% endif %}</td>
                         </tr>   
                     {% endfor %}
                 </tbody>

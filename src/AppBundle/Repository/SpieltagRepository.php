@@ -15,7 +15,7 @@ class SpieltagRepository extends EntityRepository
     public function findByLigaSaisonOrdered(LigaSaison $ligasaison)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT s FROM LiganetCoreBundle:Spieltag s WHERE s.ligasaison='.$ligasaison->getId()."ORDER BY s.nummer ASC")
+            ->createQuery('SELECT s FROM AppBundle:Spieltag s WHERE s.ligasaison='.$ligasaison->getId()."ORDER BY s.nummer ASC")
             ->getResult();
     }
     
@@ -23,7 +23,7 @@ class SpieltagRepository extends EntityRepository
         $qb = $this->_em->createQueryBuilder();
 
         $qb->select('t')
-                ->from('LiganetCoreBundle:Spieltag', 't')
+                ->from('AppBundle:Spieltag', 't')
                 ->orderBy('t.datum', 'DESC')
                 ->join('t.runden', 'r')
                 ->join('r.begegnungen', 'b')

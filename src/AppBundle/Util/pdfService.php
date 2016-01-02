@@ -3,7 +3,7 @@
 namespace AppBundle\Util;
 
 use Doctrine\ORM\EntityManager;
-use Liganet\CoreBundle\Entity;
+use AppBundle\Entity;
 
 //define ('K_PATH_IMAGES', $_SERVER['DOCUMENT_ROOT']."web/");
 

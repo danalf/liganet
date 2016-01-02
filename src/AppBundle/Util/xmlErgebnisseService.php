@@ -3,7 +3,7 @@
 namespace AppBundle\Util;
 
 use Doctrine\ORM\EntityManager;
-use Liganet\CoreBundle\Entity;
+use AppBundle\Entity;
 
 /**
  * Description of class
@@ -164,7 +164,7 @@ class xmlErgebnisseService {
         $modus_element->appendChild($attribut);
         $text = $this->doc->createTextNode($modus->getName());
         $attribut->appendChild($text);
-        $spielart = $this->em->getRepository('LiganetCoreBundle:SpielArt')->findByModusOrdered($modus);
+        $spielart = $this->em->getRepository('AppBundle:SpielArt')->findByModusOrdered($modus);
         foreach ($spielart as $value) {
             $xml = $this->doc->createElement('spiel');
             $modus_element->appendChild($xml);
@@ -240,7 +240,7 @@ class xmlErgebnisseService {
 
     private function createSpielrunden() {
         $element = $this->doc->createElement('spielrunden');
-        $spieltage = $this->em->getRepository('LiganetCoreBundle:Spieltag')->findByLigaSaisonOrdered($this->ligaSaison);
+        $spieltage = $this->em->getRepository('AppBundle:Spieltag')->findByLigaSaisonOrdered($this->ligaSaison);
         foreach ($spieltage as $spieltag) {
             foreach ($spieltag->getRunden() as $runde) {
                 $element->appendChild($this->createSpielRunde($runde));
@@ -272,7 +272,7 @@ class xmlErgebnisseService {
         //begegnungen
         $begegnungen = $this->doc->createElement('begegnungen');
         //von hinten durch die Brust ins Auge, weil $runde->getBegegnungen() warumauchimer nicht funktioniert
-        $runde1 = $this->em->getRepository('LiganetCoreBundle:Begegnung')->findBy(array('spielRunde' => $runde->getId()));
+        $runde1 = $this->em->getRepository('AppBundle:Begegnung')->findBy(array('spielRunde' => $runde->getId()));
 
         foreach ($runde1 as $begegnung) {
             $begegnungen->appendChild($this->createBegegnung($begegnung));
@@ -285,7 +285,7 @@ class xmlErgebnisseService {
     private function createTabelle(Entity\SpielRunde $spielrunde) {
         $element = $this->doc->createElement('tabelle');
         echo "sp" . $spielrunde->getTabelle()->count();
-        $tabellen = $this->em->getRepository('LiganetCoreBundle:Tabelle')->findBy(array('spielrunde' => $spielrunde->getId()), array('rang' => 'ASC'));
+        $tabellen = $this->em->getRepository('AppBundle:Tabelle')->findBy(array('spielrunde' => $spielrunde->getId()), array('rang' => 'ASC'));
         foreach ($tabellen as $tab) {
             $element->appendChild($this->createTabellenZeile($tab));
         }
