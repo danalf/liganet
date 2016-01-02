@@ -4,40 +4,36 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\ORM\EntityRepository;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class VereinType extends AbstractType {
-
-    public function buildForm(FormBuilderInterface $builder, array $options) {
-        $verein = $options["data"]->getId();
+class VereinType extends AbstractType
+{
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         $builder
-                ->add('name')
-                ->add('namekurz')
-                ->add('kuerzel')
-                ->add('nummer')
-                ->add('homepage')
-                ->add('document')
-                ->add('region');
-        if (isset($verein)) {
-            $builder->add('leiter', 'entity', array(
-                'class' => 'Liganet\CoreBundle\Entity\Spieler',
-                'query_builder' => function(EntityRepository $er) use($verein) {
-                    return $er->createQueryBuilder('u')
-                                    ->where('u.verein = :id')
-                                    ->setParameter('id', $verein);
-                },
-                'required' => false,
-                'empty_value' => 'Wähle einen Kontakt',
-                'multiple'  => true,
-            ));
-        }
+            ->add('name')
+            ->add('namekurz')
+            ->add('kuerzel')
+            ->add('nummer')
+            ->add('homepage')
+            ->add('document')
+            ->add('kontakt')
+            ->add('region')
+            ->add('leiter')
+        ;
     }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+    
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
         $resolver->setDefaults(array(
-            'data_class' => 'Liganet\CoreBundle\Entity\Verein'
+            'data_class' => 'AppBundle\Entity\Verein'
         ));
     }
-
 }

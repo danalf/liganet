@@ -112,7 +112,7 @@ class Verein {
         /**
      * Set anzahlInterneDuelle
      *
-     * @param string $name
+     * @param int $anzahlInterneDuelle
      */
     public function setAnzahlInterneDuelle($anzahlInterneDuelle) {
         $this->anzahlInterneDuelle = $anzahlInterneDuelle;
@@ -130,7 +130,7 @@ class Verein {
        /**
      * Set anzahlInterneDuelleGespielt
      *
-     * @param string $name
+     * @param int $anzahlInterneDuelleGespielt
      */
     public function setAnzahlInterneDuelleGespielt($anzahlInterneDuelleGespielt) {
         $this->anzahlInterneDuelleGespielt = $anzahlInterneDuelleGespielt;
@@ -160,6 +160,15 @@ class Verein {
      */
     public function increaseAnzahlInterneDuelleGespielt(){
         $this->anzahlInterneDuelleGespielt +=1;
+    }
+    
+    public function __toString() {
+        if(isset($this->namekurz)){
+            return $this->namekurz;
+        }else{
+            return "";
+        }
+        
     }
 
     /**
@@ -376,14 +385,7 @@ class Verein {
         return $this->spieler;
     }
     
-    public function __toString() {
-        if(isset($this->namekurz)){
-            return $this->namekurz;
-        }else{
-            return "";
-        }
-        
-    }
+    
 
 
     /**

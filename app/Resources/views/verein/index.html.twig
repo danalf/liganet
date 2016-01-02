@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Verein list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Namekurz</th>
+                <th>Kuerzel</th>
+                <th>Nummer</th>
+                <th>Homepage</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for verein in vereins %}
+            <tr>
+                <td><a href="{{ path('verein_show', { 'id': verein.id }) }}">{{ verein.id }}</a></td>
+                <td>{{ verein.name }}</td>
+                <td>{{ verein.namekurz }}</td>
+                <td>{{ verein.kuerzel }}</td>
+                <td>{{ verein.nummer }}</td>
+                <td>{{ verein.homepage }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('verein_show', { 'id': verein.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('verein_edit', { 'id': verein.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('verein_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}
