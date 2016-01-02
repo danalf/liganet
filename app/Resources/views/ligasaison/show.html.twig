@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-11">
+            <div class="page-header">
+                <h1>{{ ligaSaison.liga }} {{ ligaSaison.saison }} 
+                    <small>{{ ligaSaison.liga.region }}</small>
+                </h1>
+                <p>{{ ligaSaison.bemerkung }}</p>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <a class="btn btn-default" href="{{ path('ligasaison_index') }}">
+                <i class="fa fa-list"></i>
+            </a>
+            {% if is_granted("edit", ligaSaison) %}
+                <a class="btn btn-default" href="{{ path('ligasaison_edit', { 'id': ligaSaison.id }) }}">
+                    <i class="fa fa-pencil"></i>
+                </a>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <form  action="{{ path('ligasaison_delete', { 'id': ligaSaison.id }) }}" method="post">
+                    {{ form_widget(delete_form) }}
+                    <button  class="btn btn-default"  type="submit"><i class="fa fa-trash"></i></button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Allgemein</h2>
+            <table class="table">
+                <tr>
+                    <th>Staffelleitung</th>
+                    <td>
+                        {% for leiter in ligaSaison.staffelleiter %}
+                            <a href="{{ path('spieler_show', { 'id': leiter.id }) }}">{{ leiter }}</a><br />
+                        {% endfor %}
+                    </td>  
+                </tr>
+                <tr>
+                    <th>gesperrt</th>
+                    <td>
+                        {% if ligaSaison.gesperrt > 0 %}
+                            <i class="icon-ok"></i>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Aktuell</th>
+                    <td>
+                        {% if ligaSaison.actual > 0 %}
+                            <i class="icon-ok"></i>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% if (ligaSaison.gesperrt == false) and (is_granted("edit", ligaSaison)) %}
+                    <tr>
+                        <th>Liga losen</th>
+                        <td><a class="btn btn-default pull-right" href="{{ path('ligasaison_losung', { 'id': ligaSaison.id }) }}"> <i class="fa fa-random"></i></a></td>  
+                    </tr>
+                {% endif %}
+                {% if is_granted("edit", ligaSaison) %}
+                    <tr>
+                        <th>XML veröffentlichen</th>
+                        <td><a class="btn btn-default pull-right" href="{{ path('ligasaison_writexml', { 'id': ligaSaison.id }) }}"><i class="fa fa-globe"></i></a> </td>
+                    </tr>
+                    <tr>
+                        <th>Spielberichtsbogen</th>
+                        <td><a class="btn btn-default pull-right" href="{{ path('ligasaison_pdf_spielberichtsbogen', { 'id': ligaSaison.id }) }}"><i class="fa fa-file-pdf-o"></i></a> </td>
+                    </tr>
+                    <tr>
+                        <th>Spielermeldebogen</th>
+                        <td><a class="btn btn-default pull-right" href="{{ path('ligasaison_pdf_spielermeldebogen', { 'id': ligaSaison.id }) }}"><i class="fa fa-file-pdf-o"></i></a> </td>
+                    </tr>
+                    <tr>
+                        <th>Email an Kapitäne</th>
+                        <td>{{ include('mannschaft/mailtoCaptains.html.twig', { 'mannschaften': ligaSaison.mannschaften }) }}</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+        <div class="col-md-3">
+            <h2>Mannschaften</h2>
+            <table class="table">
+                {% for mannschaft in ligaSaison.mannschaften %}
+                    <tr>
+                        <td>
+                            {% if mannschaft.verein.document %}
+                                <img class="media-object" alt="Logo {{ mannschaft.verein }}" src="{{ asset(mannschaft.verein.document.webpath) }}" style="height: 32px" />
+                            {% endif %}
+                        </td>
+                        <td>{{ mannschaft.verein }} {{ mannschaft.rang }}</td>
+                        <td>
+                            <a class="btn btn-default pull-right" href="{{ path('mannschaft_show', { 'id': mannschaft.id }) }}">
+                                <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-md-6">
+            {{ include('spieltag/showList.html.twig', { 'ligasaison': ligaSaison }) }}
+        </div>
+    </div>
+{% endblock %}

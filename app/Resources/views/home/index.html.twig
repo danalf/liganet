@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="jumbotron">
+        <h1>Liganet</h1>
+        <p>Willkommen in der Web-Applikation zur Verwaltung der Pétanque-Liga</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            {{ include('spieler/showStart.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,5 +1,5 @@
 services:
-    #Voters
+#Voters
     app.verein_voter:
         class: AppBundle\Security\VereinVoter
         arguments: ['@security.access.decision_manager']
@@ -18,3 +18,41 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    app.ligasaison_voter:
+        class: AppBundle\Security\LigaSaisonVoter
+        arguments: ['@security.access.decision_manager']
+        public: false
+        tags:
+            - { name: security.voter }
+    app.liga_voter:
+        class: AppBundle\Security\LigaVoter
+        arguments: ['@security.access.decision_manager']
+        public: false
+        tags:
+            - { name: security.voter }
+
+#Utils
+    app.util.losung:
+        class: AppBundle\Util\LosenService
+        arguments: ["@doctrine.orm.entity_manager"]
+    app.util.platzlosung:
+        class: AppBundle\Util\PlatzLosenService
+        arguments: ["@doctrine.orm.entity_manager"]
+    app.util.xmlErgebnisse:
+        class: AppBundle\Util\xmlErgebnisseService
+        arguments: ["@doctrine.orm.entity_manager"]
+    app.util.berechnenErgebnis:
+        class: ppBundle\Util\berechnenErgebnisService
+        arguments: ["@doctrine.orm.entity_manager"]
+    app.util.pdf.spielberichtsbogen:
+        class: AppBundle\Util\pdfSpielberichtsbogenService
+        arguments: ["@doctrine.orm.entity_manager", "@white_october.tcpdf"]
+    app.util.pdf.spielermeldebogen:
+        class: AppBundle\Util\pdfSpielermeldebogenService
+        arguments: ["@doctrine.orm.entity_manager", "@white_october.tcpdf"]
+    app.util.pdf.spielplan:
+        class: AppBundle\Util\pdfSpielplanService
+        arguments: ["@doctrine.orm.entity_manager", "@white_october.tcpdf"]
+    app.util.excel.spieltag:
+        class: AppBundle\Util\excelSpieltagErgebnisseService
+        arguments: ["@doctrine.orm.entity_manager"]    

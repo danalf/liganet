@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-11">
+            <div class="page-header">
+                <h1>Ligen</h1>
+            </div>
+        </div>
+        <div class="col-md-1">
+            {% if is_granted('ROLE_REGION_MANAGEMENT') %}
+                <a class="btn btn-default" href="{{ path('liga_new') }}">
+                    <i class="fa fa-plus"></i>
+                </a>
+            {% endif %}    
+        </div>
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Region</th>
+                <th>Name</th>
+                <th>Tabellenkopf</th>
+                <th>Tabellenüberschrift</th>
+                <th>Email</th>
+                <th>Kuerzel</th>
+                <th>Bemerkung</th>
+                <th>Newsfeed</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for liga in ligas %}
+                <tr>
+                    <td>{{ liga.region }}</td>
+                    <td>{{ liga.name }}</td>
+                    <td style="background-color: {{ liga.farbeTabellenKopf }}; color: {{ liga.farbeTabellenKopfSchrift }};">Beispiel</td>
+                    <td style="background-color: {{ liga.farbeUeberschriftHintergrund }}; color: {{ liga.farbeUeberschrift }};">Beispiel</td>
+                    <td>{{ liga.email }}</td>
+                    <td>{{ liga.kuerzel }}</td>
+                    <td>{{ liga.bemerkung }}</td>
+                    <td>{{ liga.newsfeed }}</td>
+                    <td>
+                        <a class="btn btn-default" href="{{ path('liga_show', { 'id': liga.id }) }}">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                        {% if is_granted('ROLE_LEAGUE_MANAGEMENT') %}
+                            <a class="btn btn-default" href="{{ path('liga_edit', { 'id': liga.id }) }}">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

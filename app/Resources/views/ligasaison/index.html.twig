@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-11">
+            <div class="page-header">
+                <h1>Zuordnung Liga und Saison</h1>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>Saison</th>
+                <th>Liga</th>
+                <th>Gesperrt</th>
+                <th>Aktuell</th>
+                <th>Bemerkung</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ligaSaison in ligaSaisons %}
+                <tr>
+                    <td>{{ ligaSaison.saison.saison }}</a></td>
+                    <td>{{ ligaSaison.liga.name }}</a></td>
+                    <td>
+                        {% if ligaSaison.gesperrt > 0 %}
+                            <i class="icon-ok"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if ligaSaison.actual > 0 %}
+                            <i class="icon-ok"></i>
+                        {% endif %}
+                    </td>
+                    <td>{{ ligaSaison.bemerkung }}</td>
+                    <td>
+                        <a class="btn btn-default" href="{{ path('ligasaison_show', { 'id': ligaSaison.id }) }}">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                        {% if is_granted("edit", ligaSaison) %}
+                            <a class="btn btn-default" href="{{ path('ligasaison_edit', { 'id': ligaSaison.id }) }}">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -15,9 +15,8 @@
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     </head>
     <body>
-        {{ include('menu.html.twig') }}
-
         <div class="container">
+            {{ include('menu.html.twig') }}
             {{ include('alerts.html.twig') }}
             <div>
                 {% block content %}
@@ -25,8 +24,6 @@
                     {% endblock fos_user_content %}
                 {% endblock %}
             </div>
-        {% block body %}{% endblock %}
-        <div></div>
     </div> 
     <footer>
         <p>&copy; Alfredo 2016</p>

@@ -1,0 +1,25 @@
+{% if is_granted("edit", ligaSaison) %}
+    <a class="btn btn-default pull-right" href="{{ path('spieltag_new', { 'ligasaison_id': ligasaison.id }) }}">
+        <i class="fa fa-plus"></i>
+    </a>
+{% endif %}  
+<h2>Spieltage</h2>
+<table class="table">
+    {% for spieltag in ligasaison.spieltage %}
+        <tr>
+            <td>{{ spieltag.nummer }}</td>
+            <td>{{ spieltag.datum|date('d.m.Y H:i') }}</td>
+            <td>{{ spieltag.austragenderverein }}</td>
+            <td>
+                {% for runde in spieltag.runden %}
+                    Runde {{ runde.nummer}} <br />
+                {% endfor %}    
+            </td>
+            <td>
+                <a class="btn btn-default pull-right" href="{{ path('spieltag_show', { 'id': spieltag.id }) }}">
+                    <i class="fa fa-arrow-right"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>

@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-11">
+            <div class="page-header">
+                <h1>{{ liga.name }} <small>{{ liga.region }}</small></h1>
+                <p><a href="{{ path('region_show', { 'id': liga.region.id }) }}">{{ liga.region.name }}</a></p>
+                <p>{{ liga.bemerkung }}</p>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <a class="btn btn-default" href="{{ path('liga_index') }}">
+                <i class="fa fa-list"></i>
+            </a>
+            {% if is_granted('ROLE_LEAGUE_MANAGEMENT') %}
+                <a class="btn btn-default" href="{{ path('liga_edit', { 'id': liga.id }) }}">
+                    <i class="fa fa-pencil"></i>
+                </a>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <form  action="{{ path('liga_delete', { 'id': liga.id }) }}" method="post">
+                    {{ form_widget(delete_form) }}
+                    <button  class="btn btn-default"  type="submit"><i class="fa fa-trash"></i></button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Tabellenkopf</th>
+                        <td style="background-color: {{ liga.farbeTabellenKopf }}; color: {{ liga.farbeTabellenKopfSchrift }};">Beispiel</td>
+
+                    </tr>
+                    <tr>
+                        <th>Überschrift</th>
+                        <td style="background-color: {{ liga.farbeUeberschriftHintergrund }}; color: {{ liga.farbeUeberschrift }};">Beispiel</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ liga.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Kuerzel</th>
+                        <td>{{ liga.kuerzel }}</td>
+                    </tr>
+                    <tr>
+                        <th>Newsfeed</th>
+                        <td>{{ liga.newsfeed }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="col-md-8">
+            {{ include('ligasaison/showList.html.twig', { 'liga': liga }) }}
+        </div>
+    </div>
+    <h2>Mannschaften</h2>
+    <div class="row">
+        {% for ligasaison in liga.ligasaison %}
+            <div class="col-md-2">
+                <h3>Saison {{ligasaison.saison}}</h3>
+                {% for mannschaft in ligasaison.mannschaften %}
+                    <p><a href="{{ path('mannschaft_show', { 'id': mannschaft.id }) }}">{{ mannschaft }}</a></p>
+                    {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

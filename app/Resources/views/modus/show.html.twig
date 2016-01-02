@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>Modus</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ modus.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ modus.name }}</td>
+            </tr>
+            <tr>
+                <th>Anzahlrunden</th>
+                <td>{{ modus.anzahlRunden }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('modus_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('modus_edit', { 'id': modus.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

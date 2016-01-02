@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Leider hast Du nicht die erforderlichen Rechte, um die gewünschte Aktion durchzuführen</h1>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {# ... #}
+    {% endif %}
+
+    <p>
+        The requested page couldn't be located. Checkout for any URL
+        misspelling or <a href="{{ path('home') }}">return to the homepage</a>.
+    </p>
+{% endblock %}

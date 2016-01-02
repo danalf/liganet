@@ -17,7 +17,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('verband_index') }}">Verbände</a></li>
                         <li><a href="{{ path('region_index') }}">Regionen</a></li>
-                        <li><a href="{{ path('liga') }}">Ligen</a></li>
+                        <li><a href="{{ path('liga_index') }}">Ligen</a></li>
                         <li><a href="{{ path('verein_index') }}">Vereine</a></li>
                     </ul>
                 </li>
@@ -26,8 +26,8 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ligaeinstellungen <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('saison') }}">Saison</a></li>
-                        <li><a href="{{ path('ligasaison') }}">Zuordnung Liga und Saison</a></li>
+                        <li><a href="{{ path('saison_index') }}">Saison</a></li>
+                        <li><a href="{{ path('ligasaison_index') }}">Zuordnung Liga und Saison</a></li>
                         <li><a href="{{ path('mannschaft') }}">Mannschaften</a></li>
                         <li><a href="{{ path('spieltag') }}">Spieltage</a></li>
                     </ul>
@@ -37,11 +37,10 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('anrede') }}">Anrede</a></li>
                         <li><a href="{{ path('spielerstatus') }}">Status der Mannschaftsspieler</a></li>
-                        <li><a href="{{ path('modus') }}">Modus</a></li>
+                        <li><a href="{{ path('modus_index') }}">Modus</a></li>
                         <li><a href="{{ path('modusrunden') }}">Runden bei Modus</a></li>
-                        <li><a href="{{ path('spielart') }}">Spieldefinition bei Modus</a></li>
+                        <li><a href="{{ path('spielart_index') }}">Spieldefinition bei Modus</a></li>
                         <li><a href="{{ path('document') }}">Dokumente</a></li>
                     </ul>
                 </li>

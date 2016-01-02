@@ -1,0 +1,8 @@
+<a class="btn btn-default pull-right" href="mailto: 
+   {% for mannschaft in mannschaften if mannschaft.captain %}
+   {% if mannschaft.captain.email %}
+   {{ mannschaft.captain.email }}; 
+   {% endif %}
+   {% endfor %}">
+    <i class="fa fa-envelope" />
+</a>
