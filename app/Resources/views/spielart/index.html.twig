@@ -1,49 +1,57 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <h1>SpielArt list</h1>
 
-    <table>
+    <div class="row">
+        <div class="col-md-11">
+            <div class="page-header">
+                <h1>Spielarten</h1>
+            </div>
+        </div>
+        <div class="col-md-1">
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="btn btn-default" href="{{ path('spielart_new') }}">
+                    <i class="fa fa-plus"></i>
+                </a>
+            {% endif %}    
+        </div>
+    </div>
+
+    <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Modus</th>
                 <th>Name</th>
                 <th>Namekurz</th>
                 <th>Anzahlspieler</th>
                 <th>Mixte</th>
                 <th>Nummer</th>
                 <th>Reihenfolge</th>
-                <th>Actions</th>
+                <th>Aktionen</th>
             </tr>
         </thead>
         <tbody>
-        {% for spielArt in spielArts %}
-            <tr>
-                <td><a href="{{ path('spielart_show', { 'id': spielArt.id }) }}">{{ spielArt.id }}</a></td>
-                <td>{{ spielArt.name }}</td>
-                <td>{{ spielArt.nameKurz }}</td>
-                <td>{{ spielArt.anzahlSpieler }}</td>
-                <td>{% if spielArt.mixte %}Yes{% else %}No{% endif %}</td>
-                <td>{{ spielArt.nummer }}</td>
-                <td>{{ spielArt.reihenfolge }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('spielart_show', { 'id': spielArt.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('spielart_edit', { 'id': spielArt.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
+            {% for art in spielArts %}
+                <tr>
+                    <td>{{ art.modus }}</td>
+                    <td>{{ art.name }}</td>
+                    <td>{{ art.nameKurz }}</td>
+                    <td>{{ art.anzahlSpieler }}</td>
+                    <td>{{ art.mixte }}</td>
+                    <td>{{ art.nummer }}</td>
+                    <td>{{ art.reihenfolge }}</td>
+                    <td>
+                        <a class="btn btn-default" href="{{ path('spielart_show', { 'id': art.id }) }}">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="btn btn-default" href="{{ path('spielart_edit', { 'id': art.id }) }}">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('spielart_new') }}">Create a new entry</a>
-        </li>
-    </ul>
 {% endblock %}
