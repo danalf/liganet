@@ -1,4 +1,5 @@
-{% extends '::base.html.twig' %}
+{% extends 'base.html.twig' %}
+
 {% block content %}
 
 <div class="row">
@@ -26,16 +27,16 @@
         </tr>
     </thead>
     <tbody>
-    {% for entity in entities %}
+    {% for status in spielerStatuses %}
             <tr>
-                <td>{{ entity.name }}</td>
-                <td>{{ entity.kurz }}</td>
+                <td>{{ status.name }}</td>
+                <td>{{ status.kurz }}</td>
                 <td>
-                        <a class="btn btn-default" href="{{ path('spielerstatus_show', { 'id': entity.id }) }}">
+                        <a class="btn btn-default" href="{{ path('spielerstatus_show', { 'id': status.id }) }}">
                             <i class="fa fa-arrow-right"></i>
                         </a>
-                        {% if isGrantedEdit == true %}
-                        <a class="btn btn-default" href="{{ path('spielerstatus_edit', { 'id': entity.id }) }}">
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-default" href="{{ path('spielerstatus_edit', { 'id': status.id }) }}">
                             <i class="fa fa-pencil"></i>
                         </a>
                         {% endif %}
