@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Spieler list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Vorname</th>
+                <th>Nachname</th>
+                <th>Strasse</th>
+                <th>Lkz</th>
+                <th>Plz</th>
+                <th>Ort</th>
+                <th>Email</th>
+                <th>Telefon</th>
+                <th>Fax</th>
+                <th>Bild</th>
+                <th>Nummerlizenz</th>
+                <th>Trainer</th>
+                <th>Schiedsrichter</th>
+                <th>Veraendertam</th>
+                <th>Bestaetigt</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for spieler in spielers %}
+            <tr>
+                <td><a href="{{ path('spieler_show', { 'id': spieler.id }) }}">{{ spieler.id }}</a></td>
+                <td>{{ spieler.vorname }}</td>
+                <td>{{ spieler.nachname }}</td>
+                <td>{{ spieler.strasse }}</td>
+                <td>{{ spieler.lkz }}</td>
+                <td>{{ spieler.plz }}</td>
+                <td>{{ spieler.ort }}</td>
+                <td>{{ spieler.email }}</td>
+                <td>{{ spieler.telefon }}</td>
+                <td>{{ spieler.fax }}</td>
+                <td>{{ spieler.bild }}</td>
+                <td>{{ spieler.nummerlizenz }}</td>
+                <td>{% if spieler.trainer %}Yes{% else %}No{% endif %}</td>
+                <td>{% if spieler.schiedsrichter %}Yes{% else %}No{% endif %}</td>
+                <td>{% if spieler.veraendertam %}{{ spieler.veraendertam|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if spieler.bestaetigt %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('spieler_show', { 'id': spieler.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('spieler_edit', { 'id': spieler.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('spieler_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

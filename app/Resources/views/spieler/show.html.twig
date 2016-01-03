@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-11">
+            <div class="page-header">
+                <h1>{{ spieler }} 
+                    {% if spieler.verein.document %}
+                        <img alt="Logo {{ spieler.verein }}" src="{{ asset(spieler.verein.document.webpath) }}" style="height: 60px" />
+                    {% endif %}
+                    <small><a href="{{ path('verein_show', { 'id': spieler.verein.id }) }}">{{ spieler.verein }}</a></small>
+                </h1>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <a class="btn btn-default" href="{{ path('verein_show', { 'id': spieler.verein.id }) }}">
+                <i class="fa fa-list"></i>
+            </a>
+            {% if is_granted('edit', spieler) %}
+                <a class="btn btn-default" href="{{ path('spieler_edit', { 'id': spieler.id }) }}">
+                    <i class="fa fa-pencil"></i>
+                </a>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <form  action="{{ path('spieler_delete', { 'id': spieler.id }) }}" method="post">
+                    {{ form_widget(delete_form) }}
+                    <button  class="btn btn-default"  type="submit"><i class="fa fa-trash"></i></button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <table class="table">
+                <tr>
+                    <th>Adresse</th>
+                    <td>{{ spieler.strasse }}<br />
+                        {{ spieler.lkz }} {{ spieler.plz }} {{ spieler.ort }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td><a href="mailto:{{ spieler.email }}">{{ spieler.email }}</a></td>
+                </tr>
+                <tr>
+                    <th>Telefon</th>
+                    <td>{{ spieler.telefon }}</td>
+                </tr>
+                <tr>
+                    <th>Fax</th>
+                    <td>{{ spieler.fax }}</td>
+                </tr>
+                <tr>
+                    <th>Lizenznummer</th>
+                    <td>{{ "%03s"|format(spieler.verein.region.verband.number) }}-{{ "%03s"|format(spieler.verein.nummer) }}-{{ "%03s"|format(spieler.nummerlizenz) }}</td>
+                </tr>
+                {% if spieler.trainer > 0 %}
+                    <tr>
+                        <th>Trainer</th>
+                        <td>
+                            <i class="fa fa-check"></i>
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if spieler.schiedsrichter > 0 %}
+                    <tr>
+                        <th>Schiedsrichter</th>
+                        <td>
+                            <i class="fa fa-check"></i>
+                        </td>
+                    </tr>
+                {% endif %}
+            </table>
+            <h2>Einsätze</h2>
+
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Mannschaft</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for mannschaftspieler in spieler.mannschaftspieler %}
+                        <tr>
+                            <td><a href="{{ path('mannschaft_show', { 'id': mannschaftspieler.mannschaft.id }) }}">
+                                    {{ mannschaftspieler.mannschaft }}</a></td>
+                            <td> {{ mannschaftspieler.status }}</td>
+                            <td>{% if mannschaftspieler.bestaetigt > 0 %}<i class="fa fa-check"></i>{% endif %}</td>
+                        </tr>   
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h2>Aktionen</h2>
+            <table class="table">
+                {% if is_granted('ROLE_REGION_MANAGEMENT') %}
+                    {% if not spieler.user %}
+                        <tr>
+                            <th>Als User anlegen</th>
+                            <td><a class="btn btn-default" href="{{ path('spieler_createuser', { 'id': spieler.id }) }}">
+                                    <i class="fa fa-pencil"></i>
+                                </a></td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <th>Passwort-Email absenden</th>
+                        <td>
+                            <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+                                <div>
+                                    {% if invalid_username is defined %}
+                                        <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</p>
+                                    {% endif %}
+                                    <input type="text" id="username" name="username" required="required" value="{{ spieler.user.email }}"/>
+                                </div>
+                                <div>
+                                    <input type="submit" value="Senden" />
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <th>Letzter Bearbeiter</th>
+                    <td>{{ spieler.veraendertvon }}</td>
+                </tr>
+                <tr>
+                    <th>Datensatz geändert am:</th>
+                    <td>{{ spieler.veraendertam|date('d.m.Y H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th>Bestaetigt</th>
+                    <td>{{ spieler.bestaetigt }}</td>
+                </tr>
+            </table>
+            <h3>Änderungslog</h3>
+            <table class="table">
+                {% for logeintrag in log %}
+                    <tr>
+                        <td>{{ logeintrag.date|date("d.m.Y H:i:s") }}</td>
+                        <td>{{ logeintrag.user }}</td>
+                    </tr>
+                {% endfor %}    
+            </table>
+        </div>
+        <div class="col-md-9">
+            {{ render(controller('AppBundle:Ergebnis:showBySpieler',{ 'spieler_id': entity.id })) }}
+        </div>
+    </div>
+
+{% endblock %}

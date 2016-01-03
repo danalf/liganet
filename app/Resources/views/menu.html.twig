@@ -51,7 +51,7 @@
                     <a href="#">Link</a>
                 </li>
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                    {{ include('LiganetCoreBundle:Spieler:showInMenu.html.twig') }}
+                    {{ include('spieler/showInMenu.html.twig') }}
                     <li class="divider-vertical"></li>
                     <li>
                         <a href="{{ path('fos_user_security_logout') }}">Logout</a>

@@ -41,7 +41,7 @@ class SpielerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Liganet\CoreBundle\Entity\Spieler'
+            'data_class' => 'AppBundle\Entity\Spieler'
         ));
     }
 }

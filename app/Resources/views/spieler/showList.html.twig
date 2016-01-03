@@ -1,5 +1,5 @@
 {% if is_granted("edit", verein) %}
-    <a style="float: right" class="btn btn-default" href="{{ path('spieler_new', { 'id': verein.id }) }}">
+    <a style="float: right" class="btn btn-default" href="{{ path('spieler_new', { 'verein_id': verein.id }) }}">
         <i class="fa fa-plus"></i>
     </a>
 {% endif %}  
