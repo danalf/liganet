@@ -1,221 +1,142 @@
 <?php
 
-namespace Liganet\CoreBundle\Controller;
+namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Liganet\CoreBundle\Entity\ModusRunden;
-use Liganet\CoreBundle\Form\ModusRundenType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use AppBundle\Entity\ModusRunden;
+use AppBundle\Form\ModusRundenType;
 
 /**
  * ModusRunden controller.
  *
  * @Route("/modusrunden")
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class ModusRundenController extends Controller
 {
     /**
      * Lists all ModusRunden entities.
      *
-     * @Route("/", name="modusrunden")
-     * @Template()
+     * @Route("/", name="modusrunden_index")
+     * @Method("GET")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('LiganetCoreBundle:ModusRunden')->findAll();
+        $modusRunden = $em->getRepository('AppBundle:ModusRunden')->findAll();
 
-        return array(
-            'entities' => $entities,
-            'isGrantedEdit' => $this->isGrantedEdit()
-        );
-    }
-
-    /**
-     * Finds and displays a ModusRunden entity.
-     *
-     * @Route("/{id}/show", name="modusrunden_show")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('LiganetCoreBundle:ModusRunden')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ModusRunden entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-            'isGrantedEdit' => $this->isGrantedEdit()
-        );
-    }
-
-    /**
-     * Displays a form to create a new ModusRunden entity.
-     *
-     * @Route("/new", name="modusrunden_new")
-     * @Template()
-     */
-    public function newAction()
-    {
-        if(!$this->isGrantedEdit()){
-            $this->get('session')->getFlashBag()->add('error', 'Neue Modusrunden anlegen ist für dich nicht nicht erlaubt');
-            return $this->redirect($this->generateUrl('modusrunden'));
-        }
-        $entity = new ModusRunden();
-        $form   = $this->createForm(new ModusRundenType(), $entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        return $this->render('modusrunden/index.html.twig', array(
+            'modusRunden' => $modusRunden,
+        ));
     }
 
     /**
      * Creates a new ModusRunden entity.
      *
-     * @Route("/create", name="modusrunden_create")
-     * @Method("POST")
-     * @Template("LiganetCoreBundle:ModusRunden:new.html.twig")
+     * @Route("/new", name="modusrunden_new")
+     * @Method({"GET", "POST"})
      */
-    public function createAction(Request $request)
+    public function newAction(Request $request)
     {
-        $entity  = new ModusRunden();
-        $form = $this->createForm(new ModusRundenType(), $entity);
-        $form->bind($request);
+        $modusRunden = new ModusRunden();
+        $form = $this->createForm('AppBundle\Form\ModusRundenType', $modusRunden);
+        $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+            $em->persist($modusRunden);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('modusrunden_show', array('id' => $entity->getId())));
+            return $this->redirectToRoute('modusrunden_show', array('id' => $modusrunden->getId()));
         }
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        return $this->render('modusrunden/new.html.twig', array(
+            'modusRunden' => $modusRunden,
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Finds and displays a ModusRunden entity.
+     *
+     * @Route("/{id}", name="modusrunden_show")
+     * @Method("GET")
+     */
+    public function showAction(ModusRunden $modusRunden)
+    {
+        $deleteForm = $this->createDeleteForm($modusRunden);
+
+        return $this->render('modusrunden/show.html.twig', array(
+            'modusRunde' => $modusRunden,
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
 
     /**
      * Displays a form to edit an existing ModusRunden entity.
      *
      * @Route("/{id}/edit", name="modusrunden_edit")
-     * @Template()
+     * @Method({"GET", "POST"})
      */
-    public function editAction($id)
+    public function editAction(Request $request, ModusRunden $modusRunden)
     {
-        if(!$this->isGrantedEdit()){
-            $this->get('session')->getFlashBag()->add('error', 'Diese Modusrunde zu editieren ist für Dich nicht nicht erlaubt');
-            return $this->redirect($this->generateUrl('modusrunde_show', array('id' => $id)));
-        }
-        
-        $em = $this->getDoctrine()->getManager();
+        $deleteForm = $this->createDeleteForm($modusRunden);
+        $editForm = $this->createForm('AppBundle\Form\ModusRundenType', $modusRunden);
+        $editForm->handleRequest($request);
 
-        $entity = $em->getRepository('LiganetCoreBundle:ModusRunden')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ModusRunden entity.');
-        }
-
-        $editForm = $this->createForm(new ModusRundenType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Edits an existing ModusRunden entity.
-     *
-     * @Route("/{id}/update", name="modusrunden_update")
-     * @Method("POST")
-     * @Template("LiganetCoreBundle:ModusRunden:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('LiganetCoreBundle:ModusRunden')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ModusRunden entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ModusRundenType(), $entity);
-        $editForm->bind($request);
-
-        if ($editForm->isValid()) {
-            $em->persist($entity);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($modusRunden);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('modusrunden_edit', array('id' => $id)));
+            return $this->redirectToRoute('modusrunden_edit', array('id' => $modusRunden->getId()));
         }
 
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+        return $this->render('modusrunden/edit.html.twig', array(
+            'modusRunden' => $modusRunden,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Deletes a ModusRunden entity.
      *
-     * @Route("/{id}/delete", name="modusrunden_delete")
-     * @Method("POST")
+     * @Route("/{id}", name="modusrunden_delete")
+     * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, ModusRunden $modusRunden)
     {
-        $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $form = $this->createDeleteForm($modusRunden);
+        $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LiganetCoreBundle:ModusRunden')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find ModusRunden entity.');
-            }
-
-            $em->remove($entity);
+            $em->remove($modusRunden);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('modusrunden'));
+        return $this->redirectToRoute('modusrunden_index');
     }
 
-    private function createDeleteForm($id)
+    /**
+     * Creates a form to delete a ModusRunden entity.
+     *
+     * @param ModusRunden $modusRunden The ModusRunden entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(ModusRunden $modusRunden)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('modusrunden_delete', array('id' => $modusRunden->getId())))
+            ->setMethod('DELETE')
             ->getForm()
         ;
-    }
-    
-     /**
-     * Legt fest, ob der User die Modusrunden verändern darf oder nicht
-     * @return boolean
-     */
-    private function isGrantedEdit(){
-        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            return TRUE;
-        }
-        return FALSE;
     }
 }

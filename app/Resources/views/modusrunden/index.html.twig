@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-11">
+            <div class="page-header">
+                <h1>Modus und Runden</h1>
+            </div>
+        </div>
+        <div class="col-md-1">
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="btn btn-default" href="{{ path('modusrunden_new') }}">
+                    <i class="fa fa-plus"></i>
+                </a>
+            {% endif %}    
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Beschreibung</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for runde in modusRunden %}
+                <tr>
+                    <td>{{ runde.name }}</td>
+                    <td>{{ runde.beschreibung }}</td>
+                    <td>
+                        <a class="btn btn-default" href="{{ path('modusrunden_show', { 'id': runde.id }) }}">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="btn btn-default" href="{{ path('modusrunden_edit', { 'id': runde.id }) }}">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
