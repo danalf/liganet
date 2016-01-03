@@ -136,6 +136,7 @@
                 </tr>
             </table>
             <h3>Änderungslog</h3>
+            {# todo: wieder aktivieren
             <table class="table">
                 {% for logeintrag in log %}
                     <tr>
@@ -144,9 +145,10 @@
                     </tr>
                 {% endfor %}    
             </table>
+            #}
         </div>
         <div class="col-md-9">
-            {{ render(controller('AppBundle:Ergebnis:showBySpieler',{ 'spieler_id': entity.id })) }}
+            {{ render(controller('AppBundle:Ergebnis:showBySpieler',{ 'spieler_id': spieler.id })) }}
         </div>
     </div>
 

@@ -20,7 +20,7 @@
                             {% if entity.spieler11==entity.ersatzFuer1 %}
                                 <img src="{{ asset('img/ausgewechselt.png') }}" />
                             {% endif %}
-                            {% if entity.spieler11.id==spielerid %}
+                            {% if entity.spieler11==spieler %}
                                 <strong>{{ entity.spieler11 }}</strong>
                             {% else %}
                                 {{ entity.spieler11 }}
@@ -31,7 +31,7 @@
                             {% if entity.spieler12==entity.ersatzFuer1 %}
                                 <img src="{{ asset('img/ausgewechselt.png') }}" />
                             {% endif %}
-                            {% if entity.spieler12.id==spielerid %}
+                            {% if entity.spieler12==spieler %}
                                 <strong>{{ entity.spieler12 }}</strong>
                             {% else %}
                                 {{ entity.spieler12 }}
@@ -42,7 +42,7 @@
                             {% if entity.spieler13==entity.ersatzFuer1 %}
                                 <img src="{{ asset('img/ausgewechselt.png') }}" />
                             {% endif %}
-                            {% if entity.spieler13.id==spielerid %}
+                            {% if entity.spieler13==spieler %}
                                 <strong>{{ entity.spieler13 }}</strong>
                             {% else %}
                                 {{ entity.spieler13 }}
@@ -51,7 +51,7 @@
                         {% if entity.ersatz1 %}
                             <br />
                             <img src="{{ asset('img/eingewechselt.png') }}" />
-                            {% if entity.ersatz1.id==spielerid %}
+                            {% if entity.ersatz1==spieler %}
 
                                 <strong>{{ entity.ersatz1 }}</strong>
                             {% else %}
@@ -65,7 +65,7 @@
                             {% if entity.spieler21==entity.ersatzFuer2 %}
                                 <img src="{{ asset('img/ausgewechselt.png') }}" />
                             {% endif %}
-                            {% if entity.spieler21.id==spielerid %}
+                            {% if entity.spieler21==spieler %}
                                 <strong>{{ entity.spieler21 }}</strong>
                             {% else %}
                                 {{ entity.spieler21 }}
@@ -76,7 +76,7 @@
                             {% if entity.spieler22==entity.ersatzFuer2 %}
                                 <img src="{{ asset('img/ausgewechselt.png') }}" />
                             {% endif %}
-                            {% if entity.spieler22.id==spielerid %}
+                            {% if entity.spieler22==spieler %}
                                 <strong>{{ entity.spieler22 }}</strong>
                             {% else %}
                                 {{ entity.spieler22 }}
@@ -87,7 +87,7 @@
                             {% if entity.spieler23==entity.ersatzFuer2 %}
                                 <img src="{{ asset('img/ausgewechselt.png') }}" />
                             {% endif %}
-                            {% if entity.spieler23.id==spielerid %}
+                            {% if entity.spieler23==spieler %}
                                 <strong>{{ entity.spieler23 }}</strong>
                             {% else %}
                                 {{ entity.spieler23 }}
@@ -96,7 +96,7 @@
                         {% if entity.ersatz2 %}
                             <br />
                             <img src="{{ asset('img/eingewechselt.png') }}" />
-                            {% if entity.ersatz2.id==spielerid %}
+                            {% if entity.ersatz2==spieler %}
 
                                 <strong>{{ entity.ersatz2 }}</strong>
                             {% else %}

@@ -18,7 +18,7 @@ class SpielerRepository extends EntityRepository
         return $qb->getQuery()->getSingleResult();
     }
     
-    public function zzzfindAll()
+    public function findAll()
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('s,v')

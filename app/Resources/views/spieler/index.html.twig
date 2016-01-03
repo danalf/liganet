@@ -1,67 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Spieler list</h1>
+{% block content %}
 
-    <table>
+    <div class="row">
+        <div class="col-md-11">
+            <div class="page-header">
+                <h1>Spieler</h1>
+            </div>
+        </div>
+    </div>
+
+
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Vorname</th>
-                <th>Nachname</th>
-                <th>Strasse</th>
-                <th>Lkz</th>
-                <th>Plz</th>
-                <th>Ort</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Telefon</th>
-                <th>Fax</th>
-                <th>Bild</th>
+                <th>Verein</th>
                 <th>Nummerlizenz</th>
                 <th>Trainer</th>
                 <th>Schiedsrichter</th>
-                <th>Veraendertam</th>
                 <th>Bestaetigt</th>
-                <th>Actions</th>
+                <th>Aktionen</th>
             </tr>
         </thead>
         <tbody>
-        {% for spieler in spielers %}
-            <tr>
-                <td><a href="{{ path('spieler_show', { 'id': spieler.id }) }}">{{ spieler.id }}</a></td>
-                <td>{{ spieler.vorname }}</td>
-                <td>{{ spieler.nachname }}</td>
-                <td>{{ spieler.strasse }}</td>
-                <td>{{ spieler.lkz }}</td>
-                <td>{{ spieler.plz }}</td>
-                <td>{{ spieler.ort }}</td>
-                <td>{{ spieler.email }}</td>
-                <td>{{ spieler.telefon }}</td>
-                <td>{{ spieler.fax }}</td>
-                <td>{{ spieler.bild }}</td>
-                <td>{{ spieler.nummerlizenz }}</td>
-                <td>{% if spieler.trainer %}Yes{% else %}No{% endif %}</td>
-                <td>{% if spieler.schiedsrichter %}Yes{% else %}No{% endif %}</td>
-                <td>{% if spieler.veraendertam %}{{ spieler.veraendertam|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if spieler.bestaetigt %}Yes{% else %}No{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('spieler_show', { 'id': spieler.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('spieler_edit', { 'id': spieler.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
+            {% for spieler in spielers %}
+                <tr>
+                    <td>{{ spieler.vorname }} {{ spieler.nachname }}</td>
+                    <td>
+                        {% if spieler.email %}
+                            <a href="mailto:{{ spieler.email }}"><i class="icon-envelope"></i></a>
+                            {% endif %}
+                    </td>
+                    <td>{{ spieler.telefon }}</td>
+                    <td>
+                        {% if spieler.verein %}
+                            {{ spieler.verein.namekurz }}
+                        {% endif %}
+                    </td>
+                    <td>{{ spieler.nummerlizenz }}</td>
+                    <td>{% if  spieler.trainer > 0 %}<i class="fa fa-check"></i>{% endif %}</td>
+                    <td>{% if  spieler.schiedsrichter > 0 %}<i class="fa fa-check"></i>{% endif %}</td>
+                    <td>{% if  spieler.bestaetigt > 0 %}<i class="fa fa-check"></i>{% endif %}</td>
+                    <td>
+                        <a class="btn btn-default" href="{{ path('spieler_show', { 'id': spieler.id }) }}">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                        {% if is_granted('edit', spieler) %}
+                            <a class="btn btn-default" href="{{ path('spieler_edit', { 'id': spieler.id }) }}">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('spieler_new') }}">Create a new entry</a>
-        </li>
-    </ul>
 {% endblock %}
