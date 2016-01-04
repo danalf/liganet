@@ -1,4 +1,5 @@
-{% extends '::base.html.twig' %}
+{% extends 'base.html.twig' %}
+
 {% block content %}
 
     <div class="row">
@@ -19,8 +20,8 @@
             </tr>
         </thead>
         <tbody>
-            {% for mannschaft in entities %}
-                {{ include('LiganetCoreBundle:Mannschaft:rowContent.html.twig', { 'mannschaft': mannschaft, 'isGrantedEdit': isGrantedEdit }) }}
+            {% for mannschaft in mannschaften %}
+                {{ include('mannschaft/rowContent.html.twig', { 'mannschaft': mannschaft, 'isGrantedEdit': is_granted('edit', mannschaft) }) }}
             {% endfor %}
         </tbody>
     </table>

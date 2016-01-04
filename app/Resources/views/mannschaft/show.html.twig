@@ -1,14 +1,15 @@
-{% extends '::base.html.twig' %}
+{% extends 'base.html.twig' %}
+
 {% block content %}
 <div class="row">
     <div class="col-md-11">
         <div class="page-header">
-            <h1>{{ entity }} <small>{{ entity.verein}} </small></h1>
-            <p>{{ entity.bemerkung }}</p>
-            <p>Kapitän: {{ entity.captain }}</p>
+            <h1>{{ mannschaft }} <small>{{ mannschaft.verein}} </small></h1>
+            <p>{{ mannschaft.bemerkung }}</p>
+            <p>Kapitän: {{ mannschaft.captain }}</p>
         </div>
     </div>
-            {{ include('LiganetCoreBundle::headActions.html.twig', { 'art': 'mannschaft', 'id': entity.id,'isGrantedEdit': isGrantedEdit }) }}
+            {{ include('headActions.html.twig', { 'art': 'mannschaft', 'id': mannschaft.id,'isGrantedEdit':  is_granted('edit', mannschaft) }) }}
 </div>
 <div class="row">
     <div class="col-md-6">
@@ -16,19 +17,19 @@
         <table class="table">
             <tr>
                 <th>Liga</th>
-                <td>{{ entity.ligasaison }}</td>
+                <td>{{ mannschaft.ligasaison }}</td>
             </tr>
             <tr>
                 <th>Spielplan</th>
-                <td><a class="btn btn-default pull-right" href="{{ path('mannschaft_pdf_spielplan', { 'id': entity.id }) }}"><i class=" icon-download-alt"></i></a> </td>
+                <td><a class="btn btn-default pull-right" href="{{ path('mannschaft_pdf_spielplan', { 'id': mannschaft.id }) }}"><i class="fa fa-download"></i></a> </td>
             </tr>
         </table>
-        {{ render(controller('LiganetCoreBundle:MannschaftSpieler:showList',{ 'id': entity.id })) }}  
+        {{ include('mannschaftspieler/showList.html.twig',{ 'mannschaft': mannschaft }) }}  
     </div>
     <div class="col-md-6">
         <h2>Begegnungen</h2>
         <table class="table">
-        {% for begegnung in entity.begegnungen1 %}
+        {% for begegnung in mannschaft.begegnungen1 %}
                 <tr>
                     <td>{{ begegnung.spielrunde.nummer }}</td>
                     <td>{{ begegnung.mannschaft1 }}</td>
@@ -38,7 +39,7 @@
                     <td>{{ begegnung.punkt1 }} : {{ begegnung.punkt2 }}</td>
                 </tr>
         {% endfor %}  
-        {% for begegnung in entity.begegnungen2 %}
+        {% for begegnung in mannschaft.begegnungen2 %}
                 <tr>
                     <td>{{ begegnung.spielrunde.nummer }}</td>
                     <td>{{ begegnung.mannschaft1 }}</td>

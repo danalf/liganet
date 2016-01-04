@@ -1,0 +1,24 @@
+body { 
+    padding-top: 70px; 
+    padding-bottom: 40px;
+}
+
+.logo img{
+    height: 80px;
+}
+
+footer {
+    text-align: center
+}
+
+.table-edit ul{
+    list-style:none 
+}
+
+.ergebnis-spieler{
+    width: 120px;
+}
+
+.ergebnis-kugeln{
+    width: 30px;
+}
