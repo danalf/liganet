@@ -1,6 +1,6 @@
 <h2>Spieler
     {% if is_granted('edit', mannschaft) %}
-        <a style="float: right" class="btn btn-default" href="{{ path('mannschaftspieler_new', { 'id': mannschaft.id }) }}">
+        <a style="float: right" class="btn btn-default" href="{{ path('mannschaftspieler_new', { 'mannschaft_id': mannschaft.id }) }}">
             <i class="fa fa-plus"></i>
         </a>
     {% endif %}  

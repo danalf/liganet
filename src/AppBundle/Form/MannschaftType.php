@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityRepository;
 
 class MannschaftType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -17,43 +18,46 @@ class MannschaftType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $verein = $options["data"]->getVerein();
-        $ligasaison=$options["data"]->getLigaSaison();
+        $ligasaison = $options["data"]->getLigaSaison();
         $builder
-            ->add('rang')
-            ->add('bemerkung')
-            ->add('verein');
-             if (isset($ligasaison)){
-                 $builder->add('ligasaison');
-             }else {
-                  $builder->add('ligasaison', EntityType::class, array(
+                ->add('rang')
+                ->add('bemerkung')
+                ->add('verein');
+        if (isset($ligasaison)) {
+            $builder->add('ligasaison');
+        } else {
+            $builder->add('ligasaison', EntityType::class, array(
                 'required' => true,
                 'class' => 'AppBundle\Entity\LigaSaison',
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function(EntityRepository $er) use ($verein) {
                     return $er->createQueryBuilder('ls')
-                        ->where('ls.actual = true');
-                       // ->orderBy('s.nachname', 'ASC');
+                                    ->join("ls.liga", "l")
+                                    ->join("l.region", "r")
+                                    ->where('ls.actual = true')
+                                    ->andWhere('r = ?1')
+                                    ->setParameter(1, $verein->getRegion()->getId());
                 },
                 'empty_data' => 'Wähle eine Liga',
-                'label'     => 'Liga',
+                'label' => 'Liga',
             ))
-        ;
-             }
-       
+            ;
+        }
+
         if (isset($verein)) {
             $builder->add('captain', EntityType::class, array(
                 'required' => false,
                 'class' => 'AppBundle\Entity\Spieler',
                 'query_builder' => function(EntityRepository $er) use ($verein) {
                     return $er->createQueryBuilder('s')
-                        ->innerJoin('s.verein','v',  'WITH', 'v.id ='.$verein->getId())
-                        ->orderBy('s.nachname', 'ASC');
+                                    ->innerJoin('s.verein', 'v', 'WITH', 'v.id =' . $verein->getId())
+                                    ->orderBy('s.nachname', 'ASC');
                 },
                 'empty_data' => 'Wähle einen Kapitän',
-                'label'     => 'Kapitän',
+                'label' => 'Kapitän',
             ));
         }
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
@@ -63,4 +67,5 @@ class MannschaftType extends AbstractType
             'data_class' => 'AppBundle\Entity\Mannschaft'
         ));
     }
+
 }

@@ -6,7 +6,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Entity\Mannschaft;
+use AppBundle\Entity\Verein;
 use AppBundle\Form\MannschaftType;
 
 /**
@@ -16,6 +18,7 @@ use AppBundle\Form\MannschaftType;
  */
 class MannschaftController extends Controller
 {
+
     /**
      * Lists all Mannschaft entities.
      *
@@ -29,19 +32,23 @@ class MannschaftController extends Controller
         $mannschaften = $em->getRepository('AppBundle:Mannschaft')->findAll();
 
         return $this->render('mannschaft/index.html.twig', array(
-            'mannschaften' => $mannschaften,
+                    'mannschaften' => $mannschaften,
         ));
     }
 
     /**
      * Creates a new Mannschaft entity.
      *
-     * @Route("/new", name="mannschaft_new")
+     * @Route("/new/{verein_id}", name="mannschaft_new")
      * @Method({"GET", "POST"})
+     * @ParamConverter("verein", options={"mapping": {"verein_id": "id"}})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Verein $verein)
     {
+        $this->denyAccessUnlessGranted('edit', $verein);
+
         $mannschaft = new Mannschaft();
+        $mannschaft->setVerein($verein);
         $form = $this->createForm('AppBundle\Form\MannschaftType', $mannschaft);
         $form->handleRequest($request);
 
@@ -54,8 +61,8 @@ class MannschaftController extends Controller
         }
 
         return $this->render('mannschaft/new.html.twig', array(
-            'mannschaft' => $mannschaft,
-            'form' => $form->createView(),
+                    'mannschaft' => $mannschaft,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -67,11 +74,13 @@ class MannschaftController extends Controller
      */
     public function showAction(Mannschaft $mannschaft)
     {
+        $this->denyAccessUnlessGranted('view', $mannschaft);
+
         $deleteForm = $this->createDeleteForm($mannschaft);
 
         return $this->render('mannschaft/show.html.twig', array(
-            'mannschaft' => $mannschaft,
-            'delete_form' => $deleteForm->createView(),
+                    'mannschaft' => $mannschaft,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -83,6 +92,8 @@ class MannschaftController extends Controller
      */
     public function editAction(Request $request, Mannschaft $mannschaft)
     {
+        $this->denyAccessUnlessGranted('edit', $mannschaft);
+
         $deleteForm = $this->createDeleteForm($mannschaft);
         $editForm = $this->createForm('AppBundle\Form\MannschaftType', $mannschaft);
         $editForm->handleRequest($request);
@@ -96,9 +107,9 @@ class MannschaftController extends Controller
         }
 
         return $this->render('mannschaft/edit.html.twig', array(
-            'mannschaft' => $mannschaft,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'mannschaft' => $mannschaft,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -110,6 +121,8 @@ class MannschaftController extends Controller
      */
     public function deleteAction(Request $request, Mannschaft $mannschaft)
     {
+        $this->denyAccessUnlessGranted('edit', $mannschaft->getVerein());
+
         $form = $this->createDeleteForm($mannschaft);
         $form->handleRequest($request);
 
@@ -132,18 +145,21 @@ class MannschaftController extends Controller
     private function createDeleteForm(Mannschaft $mannschaft)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('mannschaft_delete', array('id' => $mannschaft->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('mannschaft_delete', array('id' => $mannschaft->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
-    
+
     /**
      * Erstellt einen Spielberichtsbogen
      *
      * @Route("/{id}/pdf/spielplan", name="mannschaft_pdf_spielplan")
      */
-    public function pdfSpielplanAction(Mannschaft $mannschaft) {
+    public function pdfSpielplanAction(Mannschaft $mannschaft)
+    {
+        $this->denyAccessUnlessGranted('view', $mannschaft);
+
         /**
          * @var \Liganet\CoreBundle\Services\pdfSpielberichtsbogenService Description
          */
@@ -154,4 +170,5 @@ class MannschaftController extends Controller
 
         return array('entity' => $mannschaft);
     }
+
 }
