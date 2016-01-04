@@ -33,7 +33,7 @@ class RegionType extends AbstractType
                         return $er->createQueryBuilder('s')-> orderBy('s.vorname, s.nachname', 'ASC');
                     },
                     'required' => false,
-                    'empty_data' => 'Wähle einen Kontakt',
+                    'placeholder' => 'Wähle einen Kontakt',
                     'multiple' => true,
         ));
     }

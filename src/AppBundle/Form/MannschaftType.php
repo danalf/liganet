@@ -37,7 +37,7 @@ class MannschaftType extends AbstractType
                                     ->andWhere('r = ?1')
                                     ->setParameter(1, $verein->getRegion()->getId());
                 },
-                'empty_data' => 'Wähle eine Liga',
+                'placeholder' => 'Wähle eine Liga',
                 'label' => 'Liga',
             ))
             ;
@@ -52,7 +52,7 @@ class MannschaftType extends AbstractType
                                     ->innerJoin('s.verein', 'v', 'WITH', 'v.id =' . $verein->getId())
                                     ->orderBy('s.nachname', 'ASC');
                 },
-                'empty_data' => 'Wähle einen Kapitän',
+                'placeholder' => 'Wähle einen Kapitän',
                 'label' => 'Kapitän',
             ));
         }

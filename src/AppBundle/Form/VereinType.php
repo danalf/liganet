@@ -34,7 +34,7 @@ class VereinType extends AbstractType
                                     ->setParameter('id', $verein);
                 },
                 'required' => false,
-                'empty_data' => 'Wähle einen Kontakt',
+                'placeholder' => 'Wähle einen Kontakt',
                 'multiple'  => true,
             ));
         }
