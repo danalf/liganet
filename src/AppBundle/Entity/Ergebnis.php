@@ -3,12 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Tag
  *
  * @ORM\Table(name="ln_ergebnis")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TagRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ErgebnisRepository")
  */
 class Ergebnis
 {
@@ -22,7 +23,7 @@ class Ergebnis
     private $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Begegnung", inversedBy="tags", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Begegnung", inversedBy="ergebnisse", cascade={"persist"})
      * @ORM\JoinColumn(name="begegnung_id", referencedColumnName="id")
      */
     protected $begegnung;
@@ -31,6 +32,12 @@ class Ergebnis
      * @var integer
      *
      * @ORM\Column(name="kugeln1", type="smallint")
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 13,
+     *      minMessage = "Es müssen mindestens {{ limit }} Kugeln eingegeben werden",
+     *      maxMessage = "Es dürfen maximal {{ limit }} Kugeln eingegeben werden"
+     * )
      */
     private $kugeln1=0;
     
@@ -38,6 +45,12 @@ class Ergebnis
      * @var integer
      *
      * @ORM\Column(name="kugeln2", type="smallint")
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 13,
+     *      minMessage = "Es müssen mindestens {{ limit }} Kugeln eingegeben werden",
+     *      maxMessage = "Es dürfen maximal {{ limit }} Kugeln eingegeben werden"
+     * )
      */
     private $kugeln2=0;
     

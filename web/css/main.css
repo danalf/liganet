@@ -22,3 +22,9 @@ footer {
 .ergebnis-kugeln{
     width: 60px;
 }
+
+.nav-header{
+    text-align: center;
+    font-weight: bold;
+    color: grey;
+}

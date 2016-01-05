@@ -30,18 +30,42 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   "%database_driver%"
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
+        connections:
+            default:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+            extern:
+                driver:   "%database2_driver%"
+                host:     "%database2_host%"
+                port:     "%database2_port%"
+                dbname:   "%database2_name%"
+                user:     "%database2_user%"
+                password: "%database2_password%"
+                charset:  UTF8
 
     orm:
         default_entity_manager:   default
         auto_generate_proxy_classes: %kernel.debug%
-        auto_mapping: true
+        entity_managers:
+            default:
+                connection:       default
+                mappings:
+                    AppBundle:
+                        type:     annotation  
+                        dir:      Entity      
+                        prefix:   AppBundle\Entity
+            shop:
+                connection:       extern
+                mappings:
+                    AppBundle:
+                        type: annotation
+                        dir: EntityExtern
+                        prefix: AppBundle\EntityExtern
 
 # Swiftmailer Configuration
 swiftmailer:
