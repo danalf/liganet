@@ -57,7 +57,7 @@ class LigaSaisonController extends Controller
             $em->persist($ligaSaison);
             $em->flush();
 
-            return $this->redirectToRoute('ligasaison_show', array('id' => $ligasaison->getId()));
+            return $this->redirectToRoute('ligasaison_show', array('id' => $ligaSaison->getId()));
         }
 
         return $this->render('ligasaison/new.html.twig', array(
@@ -72,8 +72,12 @@ class LigaSaisonController extends Controller
      * @Route("/{id}", name="ligasaison_show")
      * @Method("GET")
      */
-    public function showAction(LigaSaison $ligaSaison)
+    public function showAction($id)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $ligaSaison = $em->getRepository('AppBundle:LigaSaison')->find($id);
+        
         $deleteForm = $this->createDeleteForm($ligaSaison);
 
         return $this->render('ligasaison/show.html.twig', array(
@@ -176,7 +180,6 @@ class LigaSaisonController extends Controller
      */
     public function pdfSpielberichtsbogenAction(LigaSaison $ligaSaison)
     {
-
         /**
          * @var \AppBundle\Util\pdfSpielberichtsbogenService Description
          */

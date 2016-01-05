@@ -22,8 +22,25 @@ class MannschaftType extends AbstractType
         $ligasaison = $options["data"]->getLigaSaison();
         $builder
                 ->add('rang')
-                ->add('bemerkung')
-                ->add('verein');
+                ->add('bemerkung');
+        if (!isset($ligasaison)) {
+            $builder->add('verein');;
+        } else {
+            $builder->add('verein', EntityType::class, array(
+                'required' => true,
+                'class' => 'AppBundle\Entity\Verein',
+                'query_builder' => function(EntityRepository $er) use ($ligasaison) {
+                    return $er->createQueryBuilder('v')
+                                    ->join("v.region", "r")
+                                    ->where('r = ?1')
+                                    ->setParameter(1, $ligasaison->getLiga()->getRegion()->getId());
+                },
+                'placeholder' => 'Wähle einen Verein',
+                'label' => 'Verein',
+            ))
+            ;
+        }
+                
         if (isset($ligasaison)) {
             $builder->add('ligasaison');
         } else {

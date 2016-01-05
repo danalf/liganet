@@ -1,36 +1,46 @@
 <?php
 
-namespace Liganet\CoreBundle\Controller;
+namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Liganet\CoreBundle\Form\Type\AdminType;
 
-class AdminController extends Controller {
+/**
+ * Admin controller.
+ *
+ * @Route("/admin")
+ */
+class AdminController extends Controller
+{
 
-    public function indexAction() {
-//        $userManager = $this->container->get('fos_user.user_manager');
-//        $user = $userManager->findUserBy(array('username' => 'Andreas'));
-//        $user->addRole('ROLE_REGION_MANAGEMENT');
-//        $userManager->updateUser($user);
-//        $this->get('session')->getFlashBag()->add('notice', 'Your changes were saved!');
+    /**
+     * Lists all User entities.
+     *
+     * @Route("/", name="admin_index")
+     * @Method("GET")
+     */
+    public function indexAction()
+    {
         $message = \Swift_Message::newInstance()
-        ->setSubject('Hello Email')
-        ->setFrom('admin@liga-net.de')
-        ->setTo('jahenschel@gmail.com')
-        ->setBody(
-            $this->renderView(
-                'LiganetCoreBundle:Admin:email.txt.twig',
-                array('name' => "Welt")
-            )
+                ->setSubject('Hello Email')
+                ->setFrom('admin@liga-net.de')
+                ->setTo('jahenschel@gmail.com')
+                ->setBody(
+                $this->renderView(
+                        'admin/email.txt.twig', array('user' => $this->getUser(), 'confirmationUrl' => 'test')
+                )
         );
-    $this->get('mailer')->send($message);
-        $users = $this->getDoctrine()->getRepository('UserBundle:User')->findAll();
+        $this->get('mailer')->send($message);
+        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
 
 
-        return $this->render('LiganetCoreBundle:Admin:index.html.twig', array('users' => $users));
+        return $this->render('admin/index.html.twig', array('users' => $users));
     }
 
-    public function editAction($id) {
+    public function editAction($id)
+    {
         $user = $this->getDoctrine()->getRepository('UserBundle:User')
                 ->find($id);
         if ($user == false) {
@@ -67,10 +77,14 @@ class AdminController extends Controller {
         return $this->render('LiganetCoreBundle:Admin:edit.html.twig', array(
                     'form' => $form->createView(),
                     'user' => $user,
-                ));
+        ));
     }
 
-    public function clearCacheAction() {
+    /**
+     * @Route("/", name="admin_clear_cache")
+     */
+    public function clearCacheAction()
+    {
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $this->get('session')->getFlashBag()->add('error', 'Nur für den Admin');
             return $this->redirect($this->generateUrl('_home'));
@@ -78,7 +92,7 @@ class AdminController extends Controller {
         $erg = $this->rec_rmdir('../app/cache/dev');
         $erg = $this->rec_rmdir('../app/cache/prod');
         //phpinfo();
-        return $this->render('LiganetCoreBundle:Admin:clearCache.html.twig', array('ergebnis' => $erg));
+        return $this->render('admin:clearCache.html.twig', array('ergebnis' => $erg));
     }
 
     // rec_rmdir - loesche ein Verzeichnis rekursiv
@@ -88,7 +102,8 @@ class AdminController extends Controller {
 //   -2 - Fehler beim Loeschen
 //   -3 - Ein Eintrag eines Verzeichnisses war keine Datei und kein Verzeichnis und
 //        kein Link
-    private function rec_rmdir($path) {
+    private function rec_rmdir($path)
+    {
         // schau' nach, ob das ueberhaupt ein Verzeichnis ist
         if (!is_dir($path)) {
             return -1;

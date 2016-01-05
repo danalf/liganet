@@ -23,7 +23,7 @@ class Begegnung
     private $id;
     
     /**
-     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="begegnung", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="begegnung", cascade={"persist", "remove"})
      */
     protected $ergebnisse;
     

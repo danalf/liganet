@@ -19,8 +19,8 @@ class SpielRundeRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('s,t,b')
                 ->from('AppBundle:SpielRunde', 's')
-                ->join('s.tabelle', 't')
-                ->join('s.begegnungen', 'b')
+                ->leftJoin('s.tabelle', 't')
+                ->leftJoin('s.begegnungen', 'b')
                 ->where('s.id = ?1')
                 ->orderBy('t.rang')
                 ->setParameter(1, $id);

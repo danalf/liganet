@@ -84,7 +84,7 @@ class xmlErgebnisseService {
         //Spielrunden
         $root->appendChild($this->createSpielrunden());
         //speichern
-        $filename = __DIR__ . '/../../../../web/xml/' . $this->ligaSaison->getSaison() . "_"
+        $filename = __DIR__ . '/../../../web/xml/' . $this->ligaSaison->getSaison() . "_"
                 . $this->ligaSaison->getLiga()->getRegion()->getName()
                 . "_" . $this->ligaSaison->getLiga()->getName() . ".xml";
         echo "<p>xml erstellen: letztes Tabellen-Element sicherstellen!!!</p>" . $filename;

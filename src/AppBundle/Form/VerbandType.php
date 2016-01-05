@@ -5,6 +5,8 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class VerbandType extends AbstractType
 {
@@ -21,11 +23,10 @@ class VerbandType extends AbstractType
                 ->add('number')
                 ->add('website')
                 ->add('description')
-                ->add('document')
-                ->add('image', 'vich_image', array(
+                ->add('imageFile', VichImageType::class, array(
                     'required' => false,
-                    'allow_delete' => true, // not mandatory, default is true
-                    'download_link' => true, // not mandatory, default is true
+                    'allow_delete' => true,
+                    'download_link' => true,
                 ))
                 ->add('save', SubmitType::class, ['label' => 'Speichern'])
         ;

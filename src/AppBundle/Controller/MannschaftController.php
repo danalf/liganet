@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Entity\Mannschaft;
 use AppBundle\Entity\Verein;
+use AppBundle\Entity\LigaSaison;
 use AppBundle\Form\MannschaftType;
 
 /**
@@ -39,7 +40,7 @@ class MannschaftController extends Controller
     /**
      * Creates a new Mannschaft entity.
      *
-     * @Route("/new/{verein_id}", name="mannschaft_new")
+     * @Route("/new/verein/{verein_id}", name="mannschaft_new")
      * @Method({"GET", "POST"})
      * @ParamConverter("verein", options={"mapping": {"verein_id": "id"}})
      */
@@ -58,6 +59,36 @@ class MannschaftController extends Controller
             $em->flush();
 
             return $this->redirectToRoute('mannschaft_show', array('id' => $mannschaft->getId()));
+        }
+
+        return $this->render('mannschaft/new.html.twig', array(
+                    'mannschaft' => $mannschaft,
+                    'form' => $form->createView(),
+        ));
+    }
+    
+    /**
+     * Creates a new Mannschaft entity.
+     *
+     * @Route("/new/ligasaison/{ligasaison_id}", name="mannschaft_new_by_ligasaison")
+     * @Method({"GET", "POST"})
+     * @ParamConverter("ligaSaison", options={"mapping": {"ligasaison_id": "id"}})
+     */
+    public function newByLigaSaisonAction(Request $request, LigaSaison $ligaSaison)
+    {
+        $this->denyAccessUnlessGranted('edit', $ligaSaison);
+
+        $mannschaft = new Mannschaft();
+        $mannschaft->setLigasaison($ligaSaison);
+        $form = $this->createForm('AppBundle\Form\MannschaftType', $mannschaft);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($mannschaft);
+            $em->flush();
+
+            return $this->redirectToRoute('ligasaison_show', array('id' => $ligaSaison->getId()));
         }
 
         return $this->render('mannschaft/new.html.twig', array(

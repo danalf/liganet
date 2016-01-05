@@ -3,6 +3,8 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Entity\LigaSaison;
+use AppBundle\Entity\Spieler;
 
 /**
  * SpieltagRepository

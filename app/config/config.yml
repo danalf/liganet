@@ -73,5 +73,5 @@ vich_uploader:
     
     mappings:
         verband_image:
-            uri_prefix:         /images/verband
+            uri_prefix:         /web/images/verband
             upload_destination: %kernel.root_dir%/../web/images/verband

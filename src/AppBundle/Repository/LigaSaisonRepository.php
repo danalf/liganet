@@ -14,9 +14,9 @@ class LigaSaisonRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('ls,m, st, r')
                 ->from('AppBundle:LigaSaison', 'ls')
-                ->join('ls.mannschaften', 'm')
-                ->join('ls.spieltage', 'st')
-                ->join('st.runden', 'r')
+                ->leftJoin('ls.mannschaften', 'm')
+                ->leftJoin('ls.spieltage', 'st')
+                ->leftJoin('st.runden', 'r')
                 ->where('ls.id = ?1')
                 ->setParameter(1, $id);
         

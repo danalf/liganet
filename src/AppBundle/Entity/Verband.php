@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\Document;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -44,12 +43,6 @@ class Verband {
      * @ORM\Column(type="text", nullable=true)
      */
     protected $description;
-
-    /**
-     * @ORM\OneToOne(targetEntity="Document",cascade={"persist"})
-     * @ORM\JoinColumn(name="logo_id", referencedColumnName="id")
-     * */
-    private $document;
     
     /**
      * @ORM\OneToMany(targetEntity="Region", mappedBy="verband")
@@ -267,30 +260,6 @@ class Verband {
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Set document
-     *
-     * @param \AppBundle\Entity\Document $document
-     *
-     * @return Verband
-     */
-    public function setDocument(\AppBundle\Entity\Document $document = null)
-    {
-        $this->document = $document;
-
-        return $this;
-    }
-
-    /**
-     * Get document
-     *
-     * @return \AppBundle\Entity\Document
-     */
-    public function getDocument()
-    {
-        return $this->document;
     }
 
     /**

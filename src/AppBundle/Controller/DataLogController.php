@@ -1,13 +1,12 @@
 <?php
 
-namespace Liganet\CoreBundle\Controller;
+namespace AppBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Liganet\CoreBundle\Entity\DataLog;
+use AppBundle\Entity\DataLog;
 
 /**
  * DataLog controller.
@@ -19,50 +18,41 @@ class DataLogController extends Controller
     /**
      * Lists all DataLog entities.
      *
-     * @Route("/", name="datalog")
-     * @Template()
+     * @Route("/", name="datalog_index")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
         $entity_array=array();
 
-        $entities = $em->getRepository('LiganetCoreBundle:DataLog')->findAll();
+        $entities = $em->getRepository('AppBundle:DataLog')->findAll();
         $i=0;
         foreach ($entities as $entity) {
             $i++;
-            if($i>100)                break;
+            if($i>100){
+                break;
+            }
             array_push($entity_array, $entity->toArray());
         }
         
-        
-        
-        return array(
+        return $this->render('datalog/index.html.twig', array(
             'entities' => $entity_array,
-        );
+        ));
     }
 
     /**
      * Finds and displays a DataLog entity.
      *
      * @Route("/{id}/show", name="datalog_show")
-     * @Template()
      */
-    public function showAction($id)
+    public function showAction(DataLog $datalog)
     {
-        $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LiganetCoreBundle:DataLog')->find($id);
+        $entity=$datalog->toArray();
         
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find DataLog entity.');
-        }
-
-        $entity=$entity->toArray();
-
-        return array(
-            'entity'      => $entity,
-        );
+        return $this->render('datalog/index.html.twig', array(
+            'entity' => $entity,
+        ));
     }
 
 }

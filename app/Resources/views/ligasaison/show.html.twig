@@ -82,6 +82,11 @@
             </table>
         </div>
         <div class="col-md-3">
+            {% if is_granted("edit", ligaSaison) %}
+                <a style="float: right" class="btn btn-default" href="{{ path('mannschaft_new_by_ligasaison', { 'ligasaison_id': ligaSaison.id }) }}">
+                    <i class="fa fa-plus"></i>
+                </a>
+            {% endif %}  
             <h2>Mannschaften</h2>
             <table class="table">
                 {% for mannschaft in ligaSaison.mannschaften %}

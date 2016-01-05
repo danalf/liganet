@@ -2,7 +2,7 @@
 
 namespace AppBundle\Util;
 
-use AppBundle\Services\pdfService;
+use AppBundle\Entity\Mannschaft;
 
 /**
  * Description of class
@@ -22,7 +22,7 @@ class pdfSpielplanService extends pdfService {
      */
     private $mannschaft;
 
-    public function setMannschaft(\Liganet\CoreBundle\Entity\Mannschaft $mannschaft) {
+    public function setMannschaft(Mannschaft $mannschaft) {
         $this->mannschaft = $mannschaft;
         $this->ligaSaison = $this->mannschaft->getLigasaison();
     }
@@ -105,12 +105,10 @@ class pdfSpielplanService extends pdfService {
         $this->pdf->SetFont('helvetica', '', 7, '', true);
 
         $spieltage = $this->em->getRepository('AppBundle:Spieltag')->findByLigaSaisonOrdered($this->ligaSaison);
-        $spieltag = new \Liganet\CoreBundle\Entity\Spieltag;
         foreach ($spieltage as $spieltag) {
             $runden = $this->em->getRepository('AppBundle:SpielRunde')->findBySpieltagOrdered($spieltag);
             foreach ($runden as $runde) {
                 $isInBegegnung = FALSE;
-                $begegnung = new \Liganet\CoreBundle\Entity\Begegnung;
                 foreach ($runde->getBegegnungen() as $begegnung) {
                     if ($begegnung->getMannschaft1()->getId() == $this->mannschaft->getId()) {
                         $text = "<strong>" . $this->mannschaft->getVerein()->getKuerzel() . " " . $this->mannschaft->getRang()

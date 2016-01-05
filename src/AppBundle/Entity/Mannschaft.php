@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Mannschaft
 {
+    
+    public $anzahlBegegnungenGelost=0;
+    
     /**
      * @var integer
      *

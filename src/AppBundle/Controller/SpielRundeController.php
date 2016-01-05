@@ -39,7 +39,7 @@ class SpielRundeController extends Controller
             $em->persist($spielRunde);
             $em->flush();
 
-            return $this->redirectToRoute('spielrunde_show', array('id' => $spielrunde->getId()));
+            return $this->redirectToRoute('spieltag_show', array('id' => $spielRunde->getSpieltag()->getId()));
         }
 
         return $this->render('spielrunde/new.html.twig', array(

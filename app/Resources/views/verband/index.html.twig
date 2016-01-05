@@ -2,59 +2,59 @@
 
 {% block content %}
 
-<div class="row">
-    <div class="col-md-11">
-        <div class="page-header">
-            <h1>Verbände</h1>
+    <div class="row">
+        <div class="col-md-11">
+            <div class="page-header">
+                <h1>Verbände</h1>
+            </div>
+        </div>
+        <div class="col-md-1">
+            {% if is_granted('ROLE_UNION_MANAGEMENT') %}
+                <a class="btn btn-default" href="{{ path('verband_new') }}">
+                    <i class="fa fa-plus"></i>
+                </a>
+            {% endif %}    
         </div>
     </div>
-    <div class="col-md-1">
-        {% if is_granted('ROLE_UNION_MANAGEMENT') %}
-        <a class="btn btn-default" href="{{ path('verband_new') }}">
-            <i class="fa fa-plus"></i>
-        </a>
-        {% endif %}    
-    </div>
-</div>
 
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Kürzel</th>
-            <th>Verbandsnummer</th>
-            <th>Website</th>
-            <th>Aktionen</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for entity in verbands %}
-        <tr>
-            <td>
-                    {% if entity.document %}
-                            <img class="media-object pull-left" alt="Logo {{ entity }}" src="{{ asset(entity.document.webpath) }}" style="height: 64px" />
-                    {% endif %}
-                        </td>
-            <td>{{ entity.name }}</td>
-            <td>{{ entity.namekurz }}</td>
-            <td>{{ entity.number }}</td>
-            <td>{{ entity.website }}</td>
-            <td>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Kürzel</th>
+                <th>Verbandsnummer</th>
+                <th>Website</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in verbands %}
+                <tr>
+                    <td>
+                        {% if entity.imageName %}
+                            <img src="{{ vich_uploader_asset(entity, 'imageFile') }}" alt="Logo {{ entity.name }}" style="height: 64px"/>
+                        {% endif %}
+                    </td>
+                    <td>{{ entity.name }}</td>
+                    <td>{{ entity.namekurz }}</td>
+                    <td>{{ entity.number }}</td>
+                    <td>{{ entity.website }}</td>
+                    <td>
                         <a class="btn btn-default" href="{{ path('verband_show', { 'id': entity.id }) }}">
                             <i class="fa fa-arrow-right"></i>
                         </a>
                         {% if is_granted('ROLE_ADMIN') %}
-                        <a class="btn btn-default" href="{{ path('verband_edit', { 'id': entity.id }) }}">
-                            <i class="fa fa-pencil"></i>
-                        </a>
+                            <a class="btn btn-default" href="{{ path('verband_edit', { 'id': entity.id }) }}">
+                                <i class="fa fa-pencil"></i>
+                            </a>
                         {% endif %}
                     </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}
 

@@ -1,7 +1,10 @@
 <?php
 
 namespace AppBundle\Util;
-use AppBundle\Services\pdfService;
+
+use AppBundle\Entity\Spieltag;
+use AppBundle\Entity\Begegnung;
+use AppBundle\Entity\Ergebnis;
 
 /**
  * Description of class
@@ -22,12 +25,12 @@ class pdfSpielberichtsbogenService extends pdfService {
         $this->setDefaults();
 
         $spieltage = $this->em->getRepository('AppBundle:Spieltag')->findByLigaSaisonOrdered($this->ligaSaison);
-        $spieltag=new \Liganet\CoreBundle\Entity\Spieltag;
+        $spieltag=new Spieltag();
         foreach ($spieltage as $spieltag) {
             $runden = $this->em->getRepository('AppBundle:SpielRunde')->findBySpieltagOrdered($spieltag);
             foreach ($runden as $runde) {
                 $begegnungen = $runde->getBegegnungen();
-                $begegnung=new \Liganet\CoreBundle\Entity\Begegnung;
+                $begegnung=new Begegnung();
                 
                 foreach ($begegnungen as $begegnung) {
                 // add a page
@@ -80,7 +83,7 @@ class pdfSpielberichtsbogenService extends pdfService {
                     $this->pdf->MultiCell(8, 0, 'B', 1, 'C', 0, 1);
                     
                     $ergebnisse = $this->em->getRepository('AppBundle:Ergebnis')->findByBegegnungOrdered($begegnung);
-                    $ergebnis = new \Liganet\CoreBundle\Entity\Ergebnis();
+                    $ergebnis = new Ergebnis();
                     foreach ($ergebnisse as $ergebnis) {
                         $spielart = $ergebnis->getSpielArt();
                         $this->pdf->setCellMargins(0, 2, 0, 0);

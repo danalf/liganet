@@ -31,7 +31,7 @@ class ModusRunden
     /**
      * @var string
      *
-     * @ORM\Column(name="beschreibung", type="text")
+     * @ORM\Column(name="beschreibung", type="text", nullable=true)
      */
     private $beschreibung;
     

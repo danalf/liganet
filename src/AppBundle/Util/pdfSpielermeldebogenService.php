@@ -2,8 +2,6 @@
 
 namespace AppBundle\Util;
 
-use AppBundle\Services\pdfService;
-
 /**
  * Description of class
  *
