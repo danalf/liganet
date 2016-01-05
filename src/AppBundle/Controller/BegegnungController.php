@@ -9,6 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Begegnung;
 use AppBundle\Form\BegegnungType;
 
+
+use AppBundle\Entity\Tag;
+
 /**
  * Begegnung controller.
  *
@@ -27,7 +30,8 @@ class BegegnungController extends Controller
     {
         //$this->get('session')->set('mannschaft1', $begegnung->getMannschaft1()->getId());
         //$this->get('session')->set('mannschaft2', $begegnung->getMannschaft2()->getId());
-        $ergebnisse=$begegnung->getErgebnisse();
+        //$ergebnisse=$begegnung->getErgebnisse();
+        
         //$editForm = $this->createForm(new BegegnungType($this->get('session')), $begegnung);
         $editForm = $this->createForm(BegegnungType::class, $begegnung);
         $editForm->handleRequest($request);

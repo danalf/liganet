@@ -113,7 +113,7 @@ class berechnenErgebnisService {
     }
 
     private function berechnenRang($tabellenArray) {
-        usort($tabellenArray, "Liganet\CoreBundle\Entity\Tabelle::compare");
+        usort($tabellenArray, "AppBundle\Entity\Tabelle::compare");
         $rang = 1;
         foreach ($tabellenArray as $current) {
             if (isset($nextBest) and Entity\Tabelle::compare($current, $nextBest) == 0) {

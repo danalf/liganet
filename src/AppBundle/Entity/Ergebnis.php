@@ -3,18 +3,17 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Ergebnis
+ * Tag
  *
- * @ORM\Table("ln_ergebnis")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ErgebnisRepository")
+ * @ORM\Table(name="ln_ergebnis")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\TagRepository")
  */
 class Ergebnis
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -23,10 +22,24 @@ class Ergebnis
     private $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Begegnung", inversedBy="ergebnisse")
+     * @ORM\ManyToOne(targetEntity="Begegnung", inversedBy="tags", cascade={"persist"})
      * @ORM\JoinColumn(name="begegnung_id", referencedColumnName="id")
      */
     protected $begegnung;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="kugeln1", type="smallint")
+     */
+    private $kugeln1=0;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="kugeln2", type="smallint")
+     */
+    private $kugeln2=0;
     
     /**
      * @ORM\ManyToOne(targetEntity="SpielArt", inversedBy="ergebnisse")
@@ -40,14 +53,13 @@ class Ergebnis
      * @ORM\Column(name="platz", type="smallint")
      */
     private $platz;
-
+    
     /**
      * @var string
      *
      * @ORM\Column(name="bemerkung", type="text", nullable=true)
      */
     private $bemerkung;
-
     
     /**
      * @ORM\ManyToOne(targetEntity="Spieler", inversedBy="spieler1_1")
@@ -109,26 +121,20 @@ class Ergebnis
      */
     protected $ersatzFuer2;
     
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="kugeln1", type="smallint")
-     */
-    private $kugeln1=0;
     
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="kugeln2", type="smallint")
-     */
-    private $kugeln2=0;
+        
+        
+    public function __toString()
+    {
+        return $this->begegnung." ".$this->spielArt;
+    }
     
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -136,91 +142,71 @@ class Ergebnis
     }
 
     /**
-     * Set platz
+     * Set task
      *
-     * @param integer $platz
-     * @return Ergebnis
+     * @param \AppBundle\Entity\Task $task
+     *
+     * @return Tag
      */
-    public function setPlatz($platz)
+    public function setTask(\AppBundle\Entity\Task $task = null)
     {
-        $this->platz = $platz;
-    
+        $this->task = $task;
+
         return $this;
     }
 
     /**
-     * Get platz
+     * Get task
      *
-     * @return integer 
+     * @return \AppBundle\Entity\Task
      */
-    public function getPlatz()
+    public function getTask()
     {
-        return $this->platz;
+        return $this->task;
     }
 
     /**
-     * Set bemerkung
+     * Set begegnung
      *
-     * @param string $bemerkung
-     * @return Ergebnis
+     * @param \AppBundle\Entity\Begegnung $begegnung
+     *
+     * @return Tag
      */
-    public function setBemerkung($bemerkung)
+    public function setBegegnung(\AppBundle\Entity\Begegnung $begegnung = null)
     {
-        $this->bemerkung = $bemerkung;
-    
+        $this->begegnung = $begegnung;
+
         return $this;
     }
 
     /**
-     * Get bemerkung
+     * Get begegnung
      *
-     * @return string 
+     * @return \AppBundle\Entity\Begegnung
      */
-    public function getBemerkung()
+    public function getBegegnung()
     {
-        return $this->bemerkung;
-    }
-
-    /**
-     * Set unterschrift_ligaleiter
-     *
-     * @param boolean $unterschriftLigaleiter
-     * @return Ergebnis
-     */
-    public function setUnterschriftLigaleiter($unterschriftLigaleiter)
-    {
-        $this->unterschrift_ligaleiter = $unterschriftLigaleiter;
-    
-        return $this;
-    }
-
-    /**
-     * Get unterschrift_ligaleiter
-     *
-     * @return boolean 
-     */
-    public function getUnterschriftLigaleiter()
-    {
-        return $this->unterschrift_ligaleiter;
+        return $this->begegnung;
     }
 
     /**
      * Set kugeln1
      *
      * @param integer $kugeln1
-     * @return Ergebnis
+     *
+     * @return Tag
      */
     public function setKugeln1($kugeln1)
     {
         $this->kugeln1 = $kugeln1;
-    
+
         return $this;
     }
 
     /**
      * Get kugeln1
      *
-     * @return integer 
+     * @return integer
      */
     public function getKugeln1()
     {
@@ -231,19 +217,20 @@ class Ergebnis
      * Set kugeln2
      *
      * @param integer $kugeln2
-     * @return Ergebnis
+     *
+     * @return Tag
      */
     public function setKugeln2($kugeln2)
     {
         $this->kugeln2 = $kugeln2;
-    
+
         return $this;
     }
 
     /**
      * Get kugeln2
      *
-     * @return integer 
+     * @return integer
      */
     public function getKugeln2()
     {
@@ -251,45 +238,47 @@ class Ergebnis
     }
 
     /**
-     * Set begegnung
+     * Set platz
      *
-     * @param \AppBundle\Entity\Begegnung $begegnung
-     * @return Ergebnis
+     * @param integer $platz
+     *
+     * @return Tag
      */
-    public function setBegegnung(\AppBundle\Entity\Begegnung $begegnung = null)
+    public function setPlatz($platz)
     {
-        $this->begegnung = $begegnung;
-    
+        $this->platz = $platz;
+
         return $this;
     }
 
     /**
-     * Get begegnung
+     * Get platz
      *
-     * @return \AppBundle\Entity\Begegnung 
+     * @return integer
      */
-    public function getBegegnung()
+    public function getPlatz()
     {
-        return $this->begegnung;
+        return $this->platz;
     }
 
     /**
      * Set spielArt
      *
      * @param \AppBundle\Entity\SpielArt $spielArt
-     * @return Ergebnis
+     *
+     * @return Tag
      */
     public function setSpielArt(\AppBundle\Entity\SpielArt $spielArt = null)
     {
         $this->spielArt = $spielArt;
-    
+
         return $this;
     }
 
     /**
      * Get spielArt
      *
-     * @return \AppBundle\Entity\SpielArt 
+     * @return \AppBundle\Entity\SpielArt
      */
     public function getSpielArt()
     {
@@ -297,22 +286,23 @@ class Ergebnis
     }
 
     /**
-     * Set spieler1_1
+     * Set spieler11
      *
      * @param \AppBundle\Entity\Spieler $spieler11
-     * @return Ergebnis
+     *
+     * @return Tag
      */
     public function setSpieler11(\AppBundle\Entity\Spieler $spieler11 = null)
     {
         $this->spieler1_1 = $spieler11;
-    
+
         return $this;
     }
 
     /**
-     * Get spieler1_1
+     * Get spieler11
      *
-     * @return \AppBundle\Entity\Spieler 
+     * @return \AppBundle\Entity\Spieler
      */
     public function getSpieler11()
     {
@@ -320,22 +310,23 @@ class Ergebnis
     }
 
     /**
-     * Set spieler1_2
+     * Set spieler12
      *
      * @param \AppBundle\Entity\Spieler $spieler12
-     * @return Ergebnis
+     *
+     * @return Tag
      */
     public function setSpieler12(\AppBundle\Entity\Spieler $spieler12 = null)
     {
         $this->spieler1_2 = $spieler12;
-    
+
         return $this;
     }
 
     /**
-     * Get spieler1_2
+     * Get spieler12
      *
-     * @return \AppBundle\Entity\Spieler 
+     * @return \AppBundle\Entity\Spieler
      */
     public function getSpieler12()
     {
@@ -343,22 +334,23 @@ class Ergebnis
     }
 
     /**
-     * Set spieler1_3
+     * Set spieler13
      *
      * @param \AppBundle\Entity\Spieler $spieler13
-     * @return Ergebnis
+     *
+     * @return Tag
      */
     public function setSpieler13(\AppBundle\Entity\Spieler $spieler13 = null)
     {
         $this->spieler1_3 = $spieler13;
-    
+
         return $this;
     }
 
     /**
-     * Get spieler1_3
+     * Get spieler13
      *
-     * @return \AppBundle\Entity\Spieler 
+     * @return \AppBundle\Entity\Spieler
      */
     public function getSpieler13()
     {
@@ -366,22 +358,23 @@ class Ergebnis
     }
 
     /**
-     * Set spieler2_1
+     * Set spieler21
      *
      * @param \AppBundle\Entity\Spieler $spieler21
-     * @return Ergebnis
+     *
+     * @return Tag
      */
     public function setSpieler21(\AppBundle\Entity\Spieler $spieler21 = null)
     {
         $this->spieler2_1 = $spieler21;
-    
+
         return $this;
     }
 
     /**
-     * Get spieler2_1
+     * Get spieler21
      *
-     * @return \AppBundle\Entity\Spieler 
+     * @return \AppBundle\Entity\Spieler
      */
     public function getSpieler21()
     {
@@ -389,22 +382,23 @@ class Ergebnis
     }
 
     /**
-     * Set spieler2_2
+     * Set spieler22
      *
      * @param \AppBundle\Entity\Spieler $spieler22
-     * @return Ergebnis
+     *
+     * @return Tag
      */
     public function setSpieler22(\AppBundle\Entity\Spieler $spieler22 = null)
     {
         $this->spieler2_2 = $spieler22;
-    
+
         return $this;
     }
 
     /**
-     * Get spieler2_2
+     * Get spieler22
      *
-     * @return \AppBundle\Entity\Spieler 
+     * @return \AppBundle\Entity\Spieler
      */
     public function getSpieler22()
     {
@@ -412,22 +406,23 @@ class Ergebnis
     }
 
     /**
-     * Set spieler2_3
+     * Set spieler23
      *
      * @param \AppBundle\Entity\Spieler $spieler23
-     * @return Ergebnis
+     *
+     * @return Tag
      */
     public function setSpieler23(\AppBundle\Entity\Spieler $spieler23 = null)
     {
         $this->spieler2_3 = $spieler23;
-    
+
         return $this;
     }
 
     /**
-     * Get spieler2_3
+     * Get spieler23
      *
-     * @return \AppBundle\Entity\Spieler 
+     * @return \AppBundle\Entity\Spieler
      */
     public function getSpieler23()
     {
@@ -438,19 +433,20 @@ class Ergebnis
      * Set ersatz1
      *
      * @param \AppBundle\Entity\Spieler $ersatz1
-     * @return Ergebnis
+     *
+     * @return Tag
      */
     public function setErsatz1(\AppBundle\Entity\Spieler $ersatz1 = null)
     {
         $this->ersatz1 = $ersatz1;
-    
+
         return $this;
     }
 
     /**
      * Get ersatz1
      *
-     * @return \AppBundle\Entity\Spieler 
+     * @return \AppBundle\Entity\Spieler
      */
     public function getErsatz1()
     {
@@ -461,19 +457,20 @@ class Ergebnis
      * Set ersatzFuer1
      *
      * @param \AppBundle\Entity\Spieler $ersatzFuer1
-     * @return Ergebnis
+     *
+     * @return Tag
      */
     public function setErsatzFuer1(\AppBundle\Entity\Spieler $ersatzFuer1 = null)
     {
         $this->ersatzFuer1 = $ersatzFuer1;
-    
+
         return $this;
     }
 
     /**
      * Get ersatzFuer1
      *
-     * @return \AppBundle\Entity\Spieler 
+     * @return \AppBundle\Entity\Spieler
      */
     public function getErsatzFuer1()
     {
@@ -484,19 +481,20 @@ class Ergebnis
      * Set ersatz2
      *
      * @param \AppBundle\Entity\Spieler $ersatz2
-     * @return Ergebnis
+     *
+     * @return Tag
      */
     public function setErsatz2(\AppBundle\Entity\Spieler $ersatz2 = null)
     {
         $this->ersatz2 = $ersatz2;
-    
+
         return $this;
     }
 
     /**
      * Get ersatz2
      *
-     * @return \AppBundle\Entity\Spieler 
+     * @return \AppBundle\Entity\Spieler
      */
     public function getErsatz2()
     {
@@ -507,22 +505,47 @@ class Ergebnis
      * Set ersatzFuer2
      *
      * @param \AppBundle\Entity\Spieler $ersatzFuer2
-     * @return Ergebnis
+     *
+     * @return Tag
      */
     public function setErsatzFuer2(\AppBundle\Entity\Spieler $ersatzFuer2 = null)
     {
         $this->ersatzFuer2 = $ersatzFuer2;
-    
+
         return $this;
     }
 
     /**
      * Get ersatzFuer2
      *
-     * @return \AppBundle\Entity\Spieler 
+     * @return \AppBundle\Entity\Spieler
      */
     public function getErsatzFuer2()
     {
         return $this->ersatzFuer2;
+    }
+
+    /**
+     * Set bemerkung
+     *
+     * @param string $bemerkung
+     *
+     * @return Tag
+     */
+    public function setBemerkung($bemerkung)
+    {
+        $this->bemerkung = $bemerkung;
+
+        return $this;
+    }
+
+    /**
+     * Get bemerkung
+     *
+     * @return string
+     */
+    public function getBemerkung()
+    {
+        return $this->bemerkung;
     }
 }

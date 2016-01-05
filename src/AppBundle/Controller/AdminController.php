@@ -26,7 +26,7 @@ class AdminController extends Controller
         $message = \Swift_Message::newInstance()
                 ->setSubject('Hello Email')
                 ->setFrom('admin@liga-net.de')
-                ->setTo('jahenschel@gmail.com')
+                ->setTo('alfredo@danalf.de')
                 ->setBody(
                 $this->renderView(
                         'admin/email.txt.twig', array('user' => $this->getUser(), 'confirmationUrl' => 'test')

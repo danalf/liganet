@@ -54,7 +54,7 @@ services:
         class: AppBundle\Util\xmlErgebnisseService
         arguments: ["@doctrine.orm.entity_manager"]
     app.util.berechnenErgebnis:
-        class: ppBundle\Util\berechnenErgebnisService
+        class: AppBundle\Util\berechnenErgebnisService
         arguments: ["@doctrine.orm.entity_manager"]
     app.util.pdf.spielberichtsbogen:
         class: AppBundle\Util\pdfSpielberichtsbogenService

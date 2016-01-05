@@ -114,357 +114,6 @@ class Begegnung
      * @ORM\Column(name="bemerkung", type="text", nullable=true)
      */
     private $bemerkung;
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set kugeln1
-     *
-     * @param integer $kugeln1
-     * @return Begegnung
-     */
-    public function setKugeln1($kugeln1)
-    {
-        $this->kugeln1 = $kugeln1;
-    
-        return $this;
-    }
-
-    /**
-     * Get kugeln1
-     *
-     * @return integer 
-     */
-    public function getKugeln1()
-    {
-        return $this->kugeln1;
-    }
-
-    /**
-     * Set kugeln2
-     *
-     * @param integer $kugeln2
-     * @return Begegnung
-     */
-    public function setKugeln2($kugeln2)
-    {
-        $this->kugeln2 = $kugeln2;
-    
-        return $this;
-    }
-
-    /**
-     * Get kugeln2
-     *
-     * @return integer 
-     */
-    public function getKugeln2()
-    {
-        return $this->kugeln2;
-    }
-
-    /**
-     * Set siege1
-     *
-     * @param integer $siege1
-     * @return Begegnung
-     */
-    public function setSiege1($siege1)
-    {
-        $this->siege1 = $siege1;
-    
-        return $this;
-    }
-
-    /**
-     * Get siege1
-     *
-     * @return integer 
-     */
-    public function getSiege1()
-    {
-        return $this->siege1;
-    }
-
-    /**
-     * Set siege2
-     *
-     * @param integer $siege2
-     * @return Begegnung
-     */
-    public function setSiege2($siege2)
-    {
-        $this->siege2 = $siege2;
-    
-        return $this;
-    }
-
-    /**
-     * Get siege2
-     *
-     * @return integer 
-     */
-    public function getSiege2()
-    {
-        return $this->siege2;
-    }
-
-    /**
-     * Set punkt1
-     *
-     * @param boolean $punkt1
-     * @return Begegnung
-     */
-    public function setPunkt1($punkt1)
-    {
-        $this->punkt1 = $punkt1;
-    
-        return $this;
-    }
-
-    /**
-     * Get punkt1
-     *
-     * @return boolean 
-     */
-    public function getPunkt1()
-    {
-        return $this->punkt1;
-    }
-
-    /**
-     * Set punkt2
-     *
-     * @param boolean $punkt2
-     * @return Begegnung
-     */
-    public function setPunkt2($punkt2)
-    {
-        $this->punkt2 = $punkt2;
-    
-        return $this;
-    }
-
-    /**
-     * Get punkt2
-     *
-     * @return boolean 
-     */
-    public function getPunkt2()
-    {
-        return $this->punkt2;
-    }
-
-    /**
-     * Set unterschrift1
-     *
-     * @param boolean $unterschrift1
-     * @return Begegnung
-     */
-    public function setUnterschrift1($unterschrift1)
-    {
-        $this->unterschrift1 = $unterschrift1;
-    
-        return $this;
-    }
-
-    /**
-     * Get unterschrift1
-     *
-     * @return boolean 
-     */
-    public function getUnterschrift1()
-    {
-        return $this->unterschrift1;
-    }
-
-    /**
-     * Set unterschrift2
-     *
-     * @param boolean $unterschrift2
-     * @return Begegnung
-     */
-    public function setUnterschrift2($unterschrift2)
-    {
-        $this->unterschrift2 = $unterschrift2;
-    
-        return $this;
-    }
-
-    /**
-     * Get unterschrift2
-     *
-     * @return boolean 
-     */
-    public function getUnterschrift2()
-    {
-        return $this->unterschrift2;
-    }
-
-    /**
-     * Set unterschriftLeiter
-     *
-     * @param boolean $unterschriftLeiter
-     * @return Begegnung
-     */
-    public function setUnterschriftLeiter($unterschriftLeiter)
-    {
-        $this->unterschriftLeiter = $unterschriftLeiter;
-    
-        return $this;
-    }
-
-    /**
-     * Get unterschriftLeiter
-     *
-     * @return boolean 
-     */
-    public function getUnterschriftLeiter()
-    {
-        return $this->unterschriftLeiter;
-    }
-
-    /**
-     * Set bemerkung
-     *
-     * @param string $bemerkung
-     * @return Begegnung
-     */
-    public function setBemerkung($bemerkung)
-    {
-        $this->bemerkung = $bemerkung;
-    
-        return $this;
-    }
-
-    /**
-     * Get bemerkung
-     *
-     * @return string 
-     */
-    public function getBemerkung()
-    {
-        return $this->bemerkung;
-    }
- 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->ergebnisse = new ArrayCollection();
-    }
-     
-    /**
-     * Add ergebnisse
-     *
-     * @param \AppBundle\Entity\Ergebnis $ergebnisse
-     * @return Begegnung
-     */
-    public function addErgebnisse(\AppBundle\Entity\Ergebnis $ergebnisse)
-    {
-        $this->ergebnisse[] = $ergebnisse;
-    
-        return $this;
-    }
-
-    /**
-     * Remove ergebnisse
-     *
-     * @param \AppBundle\Entity\Ergebnis $ergebnisse
-     */
-    public function removeErgebnisse(\AppBundle\Entity\Ergebnis $ergebnisse)
-    {
-        $this->ergebnisse->removeElement($ergebnisse);
-    }
-
-    /**
-     * Get ergebnisse
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getErgebnisse()
-    {
-        return $this->ergebnisse;
-    }
-
-    /**
-     * Set spielRunde
-     *
-     * @param \AppBundle\Entity\SpielRunde $spielRunde
-     * @return Begegnung
-     */
-    public function setSpielRunde(\AppBundle\Entity\SpielRunde $spielRunde = null)
-    {
-        $this->spielRunde = $spielRunde;
-    
-        return $this;
-    }
-
-    /**
-     * Get spielRunde
-     *
-     * @return \AppBundle\Entity\SpielRunde 
-     */
-    public function getSpielRunde()
-    {
-        return $this->spielRunde;
-    }
-
-    /**
-     * Set mannschaft1
-     *
-     * @param \AppBundle\Entity\Mannschaft $mannschaft1
-     * @return Begegnung
-     */
-    public function setMannschaft1(\AppBundle\Entity\Mannschaft $mannschaft1 = null)
-    {
-        $this->mannschaft1 = $mannschaft1;
-    
-        return $this;
-    }
-
-    /**
-     * Get mannschaft1
-     *
-     * @return \AppBundle\Entity\Mannschaft 
-     */
-    public function getMannschaft1()
-    {
-        return $this->mannschaft1;
-    }
-
-    /**
-     * Set mannschaft2
-     *
-     * @param \AppBundle\Entity\Mannschaft $mannschaft2
-     * @return Begegnung
-     */
-    public function setMannschaft2(\AppBundle\Entity\Mannschaft $mannschaft2 = null)
-    {
-        $this->mannschaft2 = $mannschaft2;
-    
-        return $this;
-    }
-
-    /**
-     * Get mannschaft2
-     *
-     * @return \AppBundle\Entity\Mannschaft 
-     */
-    public function getMannschaft2()
-    {
-        return $this->mannschaft2;
-    }
     
     public function __toString() {
         return $this->getSpielRunde()." ".$this->getMannschaft1()->getNameKurz()." : ".$this->getMannschaft2()->getNameKurz();
@@ -543,4 +192,369 @@ class Begegnung
         if($this->getSiege2()>$this->getSiege1()) 
             $this->setPunkt2(1);
     }
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->ergebnisse = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set kugeln1
+     *
+     * @param integer $kugeln1
+     *
+     * @return Begegnung
+     */
+    public function setKugeln1($kugeln1)
+    {
+        $this->kugeln1 = $kugeln1;
+
+        return $this;
+    }
+
+    /**
+     * Get kugeln1
+     *
+     * @return integer
+     */
+    public function getKugeln1()
+    {
+        return $this->kugeln1;
+    }
+
+    /**
+     * Set kugeln2
+     *
+     * @param integer $kugeln2
+     *
+     * @return Begegnung
+     */
+    public function setKugeln2($kugeln2)
+    {
+        $this->kugeln2 = $kugeln2;
+
+        return $this;
+    }
+
+    /**
+     * Get kugeln2
+     *
+     * @return integer
+     */
+    public function getKugeln2()
+    {
+        return $this->kugeln2;
+    }
+
+    /**
+     * Set siege1
+     *
+     * @param integer $siege1
+     *
+     * @return Begegnung
+     */
+    public function setSiege1($siege1)
+    {
+        $this->siege1 = $siege1;
+
+        return $this;
+    }
+
+    /**
+     * Get siege1
+     *
+     * @return integer
+     */
+    public function getSiege1()
+    {
+        return $this->siege1;
+    }
+
+    /**
+     * Set siege2
+     *
+     * @param integer $siege2
+     *
+     * @return Begegnung
+     */
+    public function setSiege2($siege2)
+    {
+        $this->siege2 = $siege2;
+
+        return $this;
+    }
+
+    /**
+     * Get siege2
+     *
+     * @return integer
+     */
+    public function getSiege2()
+    {
+        return $this->siege2;
+    }
+
+    /**
+     * Set punkt1
+     *
+     * @param boolean $punkt1
+     *
+     * @return Begegnung
+     */
+    public function setPunkt1($punkt1)
+    {
+        $this->punkt1 = $punkt1;
+
+        return $this;
+    }
+
+    /**
+     * Get punkt1
+     *
+     * @return boolean
+     */
+    public function getPunkt1()
+    {
+        return $this->punkt1;
+    }
+
+    /**
+     * Set punkt2
+     *
+     * @param boolean $punkt2
+     *
+     * @return Begegnung
+     */
+    public function setPunkt2($punkt2)
+    {
+        $this->punkt2 = $punkt2;
+
+        return $this;
+    }
+
+    /**
+     * Get punkt2
+     *
+     * @return boolean
+     */
+    public function getPunkt2()
+    {
+        return $this->punkt2;
+    }
+
+    /**
+     * Set unterschrift1
+     *
+     * @param boolean $unterschrift1
+     *
+     * @return Begegnung
+     */
+    public function setUnterschrift1($unterschrift1)
+    {
+        $this->unterschrift1 = $unterschrift1;
+
+        return $this;
+    }
+
+    /**
+     * Get unterschrift1
+     *
+     * @return boolean
+     */
+    public function getUnterschrift1()
+    {
+        return $this->unterschrift1;
+    }
+
+    /**
+     * Set unterschrift2
+     *
+     * @param boolean $unterschrift2
+     *
+     * @return Begegnung
+     */
+    public function setUnterschrift2($unterschrift2)
+    {
+        $this->unterschrift2 = $unterschrift2;
+
+        return $this;
+    }
+
+    /**
+     * Get unterschrift2
+     *
+     * @return boolean
+     */
+    public function getUnterschrift2()
+    {
+        return $this->unterschrift2;
+    }
+
+    /**
+     * Set unterschriftLeiter
+     *
+     * @param boolean $unterschriftLeiter
+     *
+     * @return Begegnung
+     */
+    public function setUnterschriftLeiter($unterschriftLeiter)
+    {
+        $this->unterschriftLeiter = $unterschriftLeiter;
+
+        return $this;
+    }
+
+    /**
+     * Get unterschriftLeiter
+     *
+     * @return boolean
+     */
+    public function getUnterschriftLeiter()
+    {
+        return $this->unterschriftLeiter;
+    }
+
+    /**
+     * Set bemerkung
+     *
+     * @param string $bemerkung
+     *
+     * @return Begegnung
+     */
+    public function setBemerkung($bemerkung)
+    {
+        $this->bemerkung = $bemerkung;
+
+        return $this;
+    }
+
+    /**
+     * Get bemerkung
+     *
+     * @return string
+     */
+    public function getBemerkung()
+    {
+        return $this->bemerkung;
+    }
+
+    /**
+     * Add ergebnisse
+     *
+     * @param \AppBundle\Entity\Ergebnis $ergebnisse
+     *
+     * @return Begegnung
+     */
+    public function addErgebnisse(\AppBundle\Entity\Ergebnis $ergebnisse)
+    {
+        $this->ergebnisse[] = $ergebnisse;
+
+        return $this;
+    }
+
+    /**
+     * Remove ergebnisse
+     *
+     * @param \AppBundle\Entity\Ergebnis $ergebnisse
+     */
+    public function removeErgebnisse(\AppBundle\Entity\Ergebnis $ergebnisse)
+    {
+        $this->ergebnisse->removeElement($ergebnisse);
+    }
+
+    /**
+     * Get ergebnisse
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getErgebnisse()
+    {
+        return $this->ergebnisse;
+    }
+
+    /**
+     * Set spielRunde
+     *
+     * @param \AppBundle\Entity\SpielRunde $spielRunde
+     *
+     * @return Begegnung
+     */
+    public function setSpielRunde(\AppBundle\Entity\SpielRunde $spielRunde = null)
+    {
+        $this->spielRunde = $spielRunde;
+
+        return $this;
+    }
+
+    /**
+     * Get spielRunde
+     *
+     * @return \AppBundle\Entity\SpielRunde
+     */
+    public function getSpielRunde()
+    {
+        return $this->spielRunde;
+    }
+
+    /**
+     * Set mannschaft1
+     *
+     * @param \AppBundle\Entity\Mannschaft $mannschaft1
+     *
+     * @return Begegnung
+     */
+    public function setMannschaft1(\AppBundle\Entity\Mannschaft $mannschaft1 = null)
+    {
+        $this->mannschaft1 = $mannschaft1;
+
+        return $this;
+    }
+
+    /**
+     * Get mannschaft1
+     *
+     * @return \AppBundle\Entity\Mannschaft
+     */
+    public function getMannschaft1()
+    {
+        return $this->mannschaft1;
+    }
+
+    /**
+     * Set mannschaft2
+     *
+     * @param \AppBundle\Entity\Mannschaft $mannschaft2
+     *
+     * @return Begegnung
+     */
+    public function setMannschaft2(\AppBundle\Entity\Mannschaft $mannschaft2 = null)
+    {
+        $this->mannschaft2 = $mannschaft2;
+
+        return $this;
+    }
+
+    /**
+     * Get mannschaft2
+     *
+     * @return \AppBundle\Entity\Mannschaft
+     */
+    public function getMannschaft2()
+    {
+        return $this->mannschaft2;
+    }
+
 }
