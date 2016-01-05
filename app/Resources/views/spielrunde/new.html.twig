@@ -1,10 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <h1>SpielRunde erstellen</h1>
-
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Erstellen" />
-    {{ form_end(form) }}
+    <h1>SpielRunde anlegen</h1>
+    {{ form(form, { 'style': 'horizontal' }) }}
 {% endblock %}

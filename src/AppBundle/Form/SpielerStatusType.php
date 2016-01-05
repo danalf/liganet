@@ -5,9 +5,11 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SpielerStatusType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -15,11 +17,12 @@ class SpielerStatusType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('kurz')
+                ->add('name')
+                ->add('kurz')
+                ->add('save', SubmitType::class, ['label' => 'Speichern'])
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
@@ -29,4 +32,5 @@ class SpielerStatusType extends AbstractType
             'data_class' => 'AppBundle\Entity\SpielerStatus'
         ));
     }
+
 }

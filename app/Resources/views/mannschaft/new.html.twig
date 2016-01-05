@@ -1,10 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <h1>Mannschaft creation</h1>
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <input type="submit" value="Erstellen" />
-    {{ form_end(form) }}
+    <h1>Mannschaft anlegen</h1>
+    
+    {{ form(form, { 'style': 'horizontal' }) }}
 {% endblock %}

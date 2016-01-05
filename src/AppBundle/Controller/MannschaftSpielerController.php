@@ -39,31 +39,13 @@ class MannschaftSpielerController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($mannschaftSpieler);
             $em->flush();
-
-            return $this->redirectToRoute('mannschaftspieler_show', array('id' => $mannschaftspieler->getId()));
+            
+            return $this->redirectToRoute('mannschaft_show', array('id' => $mannschaftSpieler->getMannschaft()->getId()));
         }
 
         return $this->render('mannschaftspieler/new.html.twig', array(
             'mannschaftSpieler' => $mannschaftSpieler,
             'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a MannschaftSpieler entity.
-     *
-     * @Route("/{id}", name="mannschaftspieler_show")
-     * @Method("GET")
-     */
-    public function showAction(MannschaftSpieler $mannschaftSpieler)
-    {
-        $this->denyAccessUnlessGranted('view', $mannschaftSpieler->getMannschaft());
-        
-        $deleteForm = $this->createDeleteForm($mannschaftSpieler);
-
-        return $this->render('mannschaftspieler/show.html.twig', array(
-            'mannschaftSpieler' => $mannschaftSpieler,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -86,12 +68,12 @@ class MannschaftSpielerController extends Controller
             $em->persist($mannschaftSpieler);
             $em->flush();
 
-            return $this->redirectToRoute('mannschaftspieler_edit', array('id' => $mannschaftSpieler->getId()));
+            return $this->redirectToRoute('mannschaft_show', array('id' => $mannschaftSpieler->getMannschaft()->getId()));
         }
 
         return $this->render('mannschaftspieler/edit.html.twig', array(
             'mannschaftSpieler' => $mannschaftSpieler,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

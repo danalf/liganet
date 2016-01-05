@@ -1,14 +1,13 @@
 <?php
 
-namespace Liganet\CoreBundle\Controller;
+namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Liganet\CoreBundle\Entity\Begegnung;
-use Liganet\CoreBundle\Form\BegegnungType;
+use AppBundle\Entity\Begegnung;
+use AppBundle\Form\BegegnungType;
 
 /**
  * Begegnung controller.
@@ -17,214 +16,39 @@ use Liganet\CoreBundle\Form\BegegnungType;
  */
 class BegegnungController extends Controller
 {
-    /**
-     * Lists all Begegnung entities.
-     *
-     * @Route("/", name="begegnung")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('LiganetCoreBundle:Begegnung')->findAll();
-
-        return array(
-            'entities' => $entities,
-        );
-    }
-
-    /**
-     * Finds and displays a Begegnung entity.
-     *
-     * @Route("/{id}/show", name="begegnung_show")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('LiganetCoreBundle:Begegnung')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Begegnung entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Displays a form to create a new Begegnung entity.
-     *
-     * @Route("/new", name="begegnung_new")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new Begegnung();
-        $form   = $this->createForm(new BegegnungType(), $entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Creates a new Begegnung entity.
-     *
-     * @Route("/create", name="begegnung_create")
-     * @Method("POST")
-     * @Template("LiganetCoreBundle:Begegnung:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $entity  = new Begegnung();
-        $form = $this->createForm(new BegegnungType($this->get('session')), $entity);
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('begegnung_show', array('id' => $entity->getId())));
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
 
     /**
      * Displays a form to edit an existing Begegnung entity.
      *
      * @Route("/{id}/edit", name="begegnung_edit")
-     * @Template()
+     * @Method({"GET", "POST"})
      */
-    public function editAction($id)
+    public function editAction(Request $request, Begegnung $begegnung)
     {
-        $em = $this->getDoctrine()->getManager();
+        //$this->get('session')->set('mannschaft1', $begegnung->getMannschaft1()->getId());
+        //$this->get('session')->set('mannschaft2', $begegnung->getMannschaft2()->getId());
+        $ergebnisse=$begegnung->getErgebnisse();
+        //$editForm = $this->createForm(new BegegnungType($this->get('session')), $begegnung);
+        $editForm = $this->createForm(BegegnungType::class, $begegnung);
+        $editForm->handleRequest($request);
 
-        $entity = $em->getRepository('LiganetCoreBundle:Begegnung')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Begegnung entity.');
-        }
-        $this->get('session')->set('mannschaft1', $entity->getMannschaft1()->getId());
-        $this->get('session')->set('mannschaft2', $entity->getMannschaft2()->getId());
-
-        $editForm = $this->createForm(new BegegnungType($this->get('session')), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Edits an existing Begegnung entity.
-     *
-     * @Route("/{id}/update", name="begegnung_update")
-     * @Method("POST")
-     * @Template("LiganetCoreBundle:Begegnung:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('LiganetCoreBundle:Begegnung')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Begegnung entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new BegegnungType($this->get('session')), $entity);
-        $editForm->bind($request);
-
-        if ($editForm->isValid()) {
-            $entity->setErgebnisse();
-            $em->persist($entity);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $begegnung->setErgebnisse();
+            $em->persist($begegnung);
             $em->flush();
             
             /* @var $berechnen \Liganet\CoreBundle\Services\berechnenErgebnisService */
-            $berechnen = $this->get('liganet_core.berechnenErgebnis');
-            $berechnen->setLigaSaison($entity->getSpielRunde()->getSpieltag()->getLigaSaison());
+            $berechnen = $this->get('app.util.berechnenErgebnis');
+            $berechnen->setLigaSaison($begegnung->getSpielRunde()->getSpieltag()->getLigaSaison());
             $berechnen->makeTabellen();
 
-            return $this->redirect($this->generateUrl('spielrunde_show', array('id' => $entity->getSpielRunde()->getId())));
+            return $this->redirectToRoute('spielrunde_show', array('id' => $begegnung->getSpielRunde()->getId()));
         }
 
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-
-    /**
-     * Deletes a Begegnung entity.
-     *
-     * @Route("/{id}/delete", name="begegnung_delete")
-     * @Method("POST")
-     */
-    public function zzz_deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LiganetCoreBundle:Begegnung')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Begegnung entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('begegnung'));
-    }
-
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
-        ;
-    }
-    
-    /**
-     * Zeigt die Ergebnisliste an
-     *
-     * @Route("/{runde_id}/showList", name="begegnung_showlist")
-     * @Template()
-     */
-    public function showListAction($runde_id) {
-        $em = $this->getDoctrine()->getManager();
-        $runde = $em->getRepository('LiganetCoreBundle:SpielRunde')->find($runde_id);
-        $entities = $runde->getBegegnungen();
-        $spielart=$em->getRepository('LiganetCoreBundle:SpielArt')->findBy(
-                array('modus' => $runde->getSpieltag()->getLigaSaison()->getLiga()->getModus()->getId()), 
-                array('nummer' => 'ASC')
-                );
-
-        return array(
-            'entities' => $entities,
-            'runde' => $runde,
-            'spielarten' => $spielart
-        );
+        return $this->render('begegnung/edit.html.twig', array(
+            'begegnung' => $begegnung,
+            'form' => $editForm->createView(),
+        ));
     }
 }

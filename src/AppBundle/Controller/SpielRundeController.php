@@ -83,12 +83,12 @@ class SpielRundeController extends Controller
             $em->persist($spielRunde);
             $em->flush();
 
-            return $this->redirectToRoute('spielrunde_edit', array('id' => $spielRunde->getId()));
+            return $this->redirectToRoute('spielrunde_show', array('id' => $spielRunde->getId()));
         }
 
         return $this->render('spielrunde/edit.html.twig', array(
             'spielRunde' => $spielRunde,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

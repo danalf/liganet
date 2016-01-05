@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Begegnung
@@ -22,7 +23,7 @@ class Begegnung
     private $id;
     
     /**
-     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="begegnung")
+     * @ORM\OneToMany(targetEntity="Ergebnis", mappedBy="begegnung", cascade={"persist"})
      */
     protected $ergebnisse;
     
@@ -354,14 +355,15 @@ class Begegnung
     {
         return $this->bemerkung;
     }
+ 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->ergebnisse = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ergebnisse = new ArrayCollection();
     }
-    
+     
     /**
      * Add ergebnisse
      *

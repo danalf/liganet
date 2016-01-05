@@ -5,9 +5,11 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SaisonType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -15,10 +17,11 @@ class SaisonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('saison')
+                ->add('saison')
+                ->add('save', SubmitType::class, ['label' => 'Speichern'])
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
@@ -28,4 +31,5 @@ class SaisonType extends AbstractType
             'data_class' => 'AppBundle\Entity\Saison'
         ));
     }
+
 }

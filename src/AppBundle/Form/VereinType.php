@@ -6,10 +6,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityRepository;
 
 class VereinType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -35,11 +37,12 @@ class VereinType extends AbstractType
                 },
                 'required' => false,
                 'placeholder' => 'Wähle einen Kontakt',
-                'multiple'  => true,
+                'multiple' => true,
             ));
         }
+        $builder->add('save', SubmitType::class, ['label' => 'Speichern']);
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
@@ -49,4 +52,5 @@ class VereinType extends AbstractType
             'data_class' => 'AppBundle\Entity\Verein'
         ));
     }
+
 }

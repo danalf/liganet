@@ -100,12 +100,12 @@ class SpieltagController extends Controller
             $em->persist($spieltag);
             $em->flush();
 
-            return $this->redirectToRoute('spieltag_edit', array('id' => $spieltag->getId()));
+            return $this->redirectToRoute('spieltag_show', array('id' => $spieltag->getId()));
         }
 
         return $this->render('spieltag/edit.html.twig', array(
             'spieltag' => $spieltag,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

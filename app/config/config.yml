@@ -13,7 +13,7 @@ framework:
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
-    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
+    templating:      { engines: ['twig'] } 
     default_locale:  %locale%
     #trust_proxy_headers: false # Whether or not the Request object should trust proxy headers (X_FORWARDED_FOR/HTTP_CLIENT_IP)
     session:         ~
@@ -23,6 +23,9 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    form_themes:
+        - 'VichUploaderBundle:Form:fields.html.twig'
+        - BraincraftedBootstrapBundle:Form:bootstrap.html.twig
 
 # Doctrine Configuration
 doctrine:
@@ -60,8 +63,15 @@ fos_user:
         mailer: fos_user.mailer.twig_swift
     resetting:
         email:
-            template: LiganetCoreBundle:Admin:email.txt.twig
+            template: AppBundle:admin:email.txt.twig
     #registration:
     #    confirmation:
     #        enabled:    true
+
+vich_uploader:
+    db_driver: orm
     
+    mappings:
+        verband_image:
+            uri_prefix:         /images/verband
+            upload_destination: %kernel.root_dir%/../web/images/verband

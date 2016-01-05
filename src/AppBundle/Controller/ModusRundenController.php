@@ -94,12 +94,12 @@ class ModusRundenController extends Controller
             $em->persist($modusRunden);
             $em->flush();
 
-            return $this->redirectToRoute('modusrunden_edit', array('id' => $modusRunden->getId()));
+            return $this->redirectToRoute('modusrunden_show', array('id' => $modusRunden->getId()));
         }
 
         return $this->render('modusrunden/edit.html.twig', array(
             'modusRunden' => $modusRunden,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

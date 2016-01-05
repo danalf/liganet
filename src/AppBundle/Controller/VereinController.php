@@ -95,12 +95,12 @@ class VereinController extends Controller
             $em->persist($verein);
             $em->flush();
 
-            return $this->redirectToRoute('verein_edit', array('id' => $verein->getId()));
+            return $this->redirectToRoute('verein_show', array('id' => $verein->getId()));
         }
 
         return $this->render('verein/edit.html.twig', array(
             'verein' => $verein,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

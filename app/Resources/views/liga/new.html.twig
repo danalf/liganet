@@ -1,18 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Liga creation</h1>
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <p>
-        <button type="submit">Erstellen</button>
-    </p>
-    {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('liga_index') }}">Back to the list</a>
-        </li>
-    </ul>
+{% block content %}
+    <h1>Liga anlegen</h1>
+    
+    {{ form(form, { 'style': 'horizontal' }) }}
 {% endblock %}

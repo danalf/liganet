@@ -101,12 +101,12 @@ class LigaSaisonController extends Controller
             $em->persist($ligaSaison);
             $em->flush();
 
-            return $this->redirectToRoute('ligasaison_edit', array('id' => $ligaSaison->getId()));
+            return $this->redirectToRoute('ligasaison_show', array('id' => $ligaSaison->getId()));
         }
 
         return $this->render('ligasaison/edit.html.twig', array(
                     'ligaSaison' => $ligaSaison,
-                    'edit_form' => $editForm->createView(),
+                    'form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -166,7 +166,7 @@ class LigaSaisonController extends Controller
         $xml->createXmlErgebnisse();
         $this->get('session')->getFlashBag()->add('success', 'XML für die Ligasaison erstellt');
 
-        return $this->redirect($this->generateUrl('ligasaison_show', array('id' => $ligaSaison->getId())));
+        return $this->redirectToRoute('ligasaison_show', array('id' => $ligaSaison->getId()));
     }
 
     /**

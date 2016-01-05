@@ -1,10 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <h1>Mannschaft edit</h1>
-
-    {{ form_start(edit_form) }}
-    {{ form_widget(edit_form) }}
-    <input type="submit" value="Speichern" />
-    {{ form_end(edit_form) }}
+    <h1>Mannschaft bearbeiten</h1>
+    
+    {{ form(form, { 'style': 'horizontal' }) }}
 {% endblock %}

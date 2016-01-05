@@ -105,6 +105,7 @@
                                 </a></td>
                         </tr>
                     {% endif %}
+                    {% if spieler.user %}
                     <tr>
                         <th>Passwort-Email absenden</th>
                         <td>
@@ -121,6 +122,7 @@
                             </form>
                         </td>
                     </tr>
+                    {% endif %}
                 {% endif %}
                 <tr>
                     <th>Letzter Bearbeiter</th>

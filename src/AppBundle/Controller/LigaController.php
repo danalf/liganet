@@ -7,7 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Entity\Liga;
+use AppBundle\Entity\Region;
 use AppBundle\Form\LigaType;
 
 /**
@@ -37,13 +39,15 @@ class LigaController extends Controller
     /**
      * Creates a new Liga entity.
      *
-     * @Route("/new", name="liga_new")
+     * @Route("/new/{region_id}", name="liga_new")
      * @Method({"GET", "POST"})
      * @Security("has_role('ROLE_LEAGUE_MANAGEMENT')")
+     * @ParamConverter("region", options={"mapping": {"region_id": "id"}})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Region $region)
     {
         $liga = new Liga();
+        $liga->setRegion($region);
         $form = $this->createForm('AppBundle\Form\LigaType', $liga);
         $form->handleRequest($request);
 
@@ -95,12 +99,12 @@ class LigaController extends Controller
             $em->persist($liga);
             $em->flush();
 
-            return $this->redirectToRoute('liga_edit', array('id' => $liga->getId()));
+            return $this->redirectToRoute('liga_show', array('id' => $liga->getId()));
         }
 
         return $this->render('liga/edit.html.twig', array(
             'liga' => $liga,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

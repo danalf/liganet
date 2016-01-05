@@ -2,9 +2,6 @@
 
 {% block content %}
     <h1>Mannschaftspieler anlegen</h1>
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <input type="submit" value="Anlegen" />
-    {{ form_end(form) }}
+    
+    {{ form(form, { 'style': 'horizontal' }) }}
 {% endblock %}

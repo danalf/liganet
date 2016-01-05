@@ -103,12 +103,12 @@ class MannschaftController extends Controller
             $em->persist($mannschaft);
             $em->flush();
 
-            return $this->redirectToRoute('mannschaft_edit', array('id' => $mannschaft->getId()));
+            return $this->redirectToRoute('mannschaft_show', array('id' => $mannschaft->getId()));
         }
 
         return $this->render('mannschaft/edit.html.twig', array(
                     'mannschaft' => $mannschaft,
-                    'edit_form' => $editForm->createView(),
+                    'form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
         ));
     }

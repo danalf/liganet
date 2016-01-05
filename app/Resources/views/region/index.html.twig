@@ -8,13 +8,6 @@
                 <h1>Regionen</h1>
             </div>
         </div>
-        <div class="col-md-1">
-            {% if is_granted('ROLE_UNION_MANAGEMENT') %}
-                <a class="btn btn-default" href="{{ path('region_new', { 'verband_id': 0 }) }}">
-                    <i class="fa fa-plus"></i>
-                </a>
-            {% endif %}    
-        </div>
     </div>
 
     <table class="table">

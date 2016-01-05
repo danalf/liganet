@@ -1,44 +1,45 @@
-{% extends '::base.html.twig' %}
+{% extends 'base.html.twig' %}
+
 {% block content %}
     <div class="page-header">
         <h1>Ergebnisformular</h1>
         <table class="table">
             <tr>
                 <th>Liga</th>
-                <td>{{ entity.spielrunde.spieltag.ligasaison }}</td>
+                <td>{{ begegnung.spielrunde.spieltag.ligasaison }}</td>
             </tr>
             <tr>
                 <th>Spielort</th>
-                <td>{{ entity.spielrunde.spieltag.austragenderverein }}</td>
+                <td>{{ begegnung.spielrunde.spieltag.austragenderverein }}</td>
             </tr>
             <tr>
                 <th>Spieltag</th>
-                <td>{{ entity.spielrunde.spieltag.nummer }}</td>
+                <td>{{ begegnung.spielrunde.spieltag.nummer }}</td>
             </tr>
             <tr>
                 <th>Begegnung</th>
-                <td>{{ entity.spielrunde.nummer }}</td>
+                <td>{{ begegnung.spielrunde.nummer }}</td>
             </tr>
         </table>
     </div>
     <div class="row">
         <div class="col-md-4 offset1" style="text-align: center">
-            {% if entity.mannschaft1.verein.document %}
-                <img class="media-object" alt="Logo {{ entity.mannschaft1.verein }}" src="{{ asset(entity.mannschaft1.verein.document.webpath) }}" style="height: 32px" />
+            {% if begegnung.mannschaft1.verein.document %}
+                <img class="media-object" alt="Logo {{ begegnung.mannschaft1.verein }}" src="{{ asset(begegnung.mannschaft1.verein.document.webpath) }}" style="height: 32px" />
             {% endif %}
-            {{ entity.mannschaft1 }}
+            {{ begegnung.mannschaft1 }}
         </div>
         <div class="col-md-4" style="text-align: center">
-            {% if entity.mannschaft2.verein.document %}
-                <img class="media-object" alt="Logo {{ entity.mannschaft2.verein }}" src="{{ asset(entity.mannschaft2.verein.document.webpath) }}" style="height: 32px" />
+            {% if begegnung.mannschaft2.verein.document %}
+                <img class="media-object" alt="Logo {{ begegnung.mannschaft2.verein }}" src="{{ asset(begegnung.mannschaft2.verein.document.webpath) }}" style="height: 32px" />
             {% endif %}
-            {{ entity.mannschaft2 }}
+            {{ begegnung.mannschaft2 }}
         </div>
     </div>
     <hr />
-    <form action="{{ path('begegnung_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_start(form) }}
         {# iterate over each existing tag and render its only field: name #}
-        {% for ergebnis in edit_form.ergebnisse %}
+        {#{% for ergebnis in form.ergebnisse %}
             <div class="row">   
                 <div class="col-md-1">
                     <p>Platz</p>
@@ -72,32 +73,32 @@
             </div>
             {{ form_rest(ergebnis) }}
             <hr />
-        {% endfor %}
+        {% endfor %}#}
 
         <div class="row">
             <div class="col-md-2">
-                <p>Unterschrift Kapitän {{ entity.mannschaft1.namekurz }}</p>
-                {{ form_errors(edit_form.unterschrift1) }}{{ form_widget(edit_form.unterschrift1) }}
+                <p>Unterschrift Kapitän {{ begegnung.mannschaft1.namekurz }}</p>
+                {{ form_errors(form.unterschrift1) }}{{ form_widget(form.unterschrift1) }}
             </div>
             <div class="col-md-2">
-                <p>Unterschrift Kapitän {{ entity.mannschaft2.namekurz }}</p>
-                {{ form_errors(edit_form.unterschrift2) }}{{ form_widget(edit_form.unterschrift2) }}
+                <p>Unterschrift Kapitän {{ begegnung.mannschaft2.namekurz }}</p>
+                {{ form_errors(form.unterschrift2) }}{{ form_widget(form.unterschrift2) }}
             </div>
             <div class="col-md-2">
                 <p>Unterschrift<br />Staffelleiter</p>
-                    {{ form_errors(edit_form.unterschriftLeiter) }}{{ form_widget(edit_form.unterschriftLeiter) }}
+                    {{ form_errors(form.unterschriftLeiter) }}{{ form_widget(form.unterschriftLeiter) }}
             </div>
             <div class="col-md-4">
                 <p>Bemerkungen</p>
-                {{ form_errors(edit_form.bemerkung) }}{{ form_widget(edit_form.bemerkung) }}
+                {{ form_errors(form.bemerkung) }}{{ form_widget(form.bemerkung) }}
             </div>
             <div class="col-md-2">
-                {{ form_rest(edit_form) }}
+                {{ form_rest(form) }}
                 <p>
-                    <button class="btn btn-default" type="submit">Edit</button>
+                    <button class="btn btn-default" type="submit">Speichern</button>
                 </p>
             </div>
         </div>
+{{ form_end(form) }}
 
-    </form>
 {% endblock %}

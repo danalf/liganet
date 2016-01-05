@@ -1,16 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block content %}
     <h1>Verband erstellen</h1>
-
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Erstellen" />
-    {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('verband_index') }}">Verbandsliste</a>
-        </li>
-    </ul>
+    {{ form(form, { 'style': 'horizontal' }) }}
 {% endblock %}

@@ -4,12 +4,5 @@
     <div class="page-header">
         <h1>Verein bearbeiten: {{ verein.namekurz }}</h1>
     </div>
-
-    {{ form_start(edit_form) }}
-    {{ form_widget(edit_form) }}
-    <p>
-        <button class="btn btn-default" type="submit">Speichern</button>
-    </p>
-    {{ form_end(edit_form) }}
-
+    {{ form(form, { 'style': 'horizontal' }) }}
 {% endblock %}

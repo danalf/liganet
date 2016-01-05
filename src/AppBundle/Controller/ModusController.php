@@ -95,12 +95,12 @@ class ModusController extends Controller
             $em->persist($modus);
             $em->flush();
 
-            return $this->redirectToRoute('modus_edit', array('id' => $modus->getId()));
+            return $this->redirectToRoute('modus_show', array('id' => $modus->getId()));
         }
 
         return $this->render('modus/edit.html.twig', array(
             'modus' => $modus,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

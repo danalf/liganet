@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Spieler;
 use AppBundle\Entity\Verein;
+use AppBundle\Entity\User;
 use AppBundle\Form\SpielerType;
 
 /**
@@ -71,7 +72,7 @@ class SpielerController extends Controller
      * Finds and displays a Spieler entity.
      *
      * @Route("/{id}", name="spieler_show")
-     * @Method("GET")
+     * 
      */
     public function showAction(Spieler $spieler)
     {        
@@ -104,12 +105,12 @@ class SpielerController extends Controller
             $em->persist($spieler);
             $em->flush();
 
-            return $this->redirectToRoute('spieler_edit', array('id' => $spieler->getId()));
+            return $this->redirectToRoute('spieler_show', array('id' => $spieler->getId()));
         }
 
         return $this->render('spieler/edit.html.twig', array(
             'spieler' => $spieler,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -150,5 +151,54 @@ class SpielerController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+    
+    /**
+     * Legt einen SPieler als User an
+     *
+     * @Route("/{id}/createUser", name="spieler_createuser")
+     */
+    public function createUserAction(Spieler $spieler) {
+
+        $userManager = $this->container->get('fos_user.user_manager');
+        $user_exist = $userManager->findUserBy(array('spieler' => $spieler->getId()));
+        if (isset($user_exist)) {
+            $this->get('session')->getFlashBag()->add('error', 'Der Spieler ist bereis als User angelegt');
+            return $this->redirectToRoute('spieler_show', array('id' => $id));
+        }
+
+        if (!$spieler) {
+            throw $this->createNotFoundException('Unable to find Spieler entity.');
+        }
+        $email = $spieler->getEmail();
+        if (!strrpos($email, "@")) {
+            $this->get('session')->getFlashBag()->add('error', 'Für den Spieler wurde keine Email hinterlegt.');
+            return $this->redirectToRoute('spieler_show', array('id' => $id));
+        }
+        /**
+         * @var User 
+         */
+        $user = $userManager->createUser();
+        $user->setUsername($spieler);
+        $user->setPassword("rftgknxdr kcjgs undrgtfg nfr");
+        $user->setSpieler($spieler);
+        $user->setEmail($spieler->getEmail());
+        $user->setEnabled(true);
+
+        $userManager->updateUser($user);
+
+        $message = \Swift_Message::newInstance()
+                ->setSubject('Willkommen zum Liganet')
+                ->setFrom('admin@liga-net.de')
+                ->setTo($user->getEmail())
+                ->setBody(
+                $this->renderView(
+                        'AppBundle:admin:emailNew.txt.twig', array('user' => $user)
+                )
+        );
+        $this->get('mailer')->send($message);
+
+        $this->get('session')->getFlashBag()->add('success', 'Der Spieler wurde als User hinzugefügt.');
+        return $this->redirectToRoute('spieler_show', array('id' => $id));
     }
 }

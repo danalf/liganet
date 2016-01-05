@@ -4,41 +4,41 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use AppBundle\Form\ErgebnisType;
 
 class BegegnungType extends AbstractType
 {
-    private $session;
-        public function __construct($session)
-        {
-            $this->session = $session;
-        }
-        
-        
+
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $begegnung=$options["data"];
+        $begegnung = $builder->getData();
+
+        //echo "<pre>";
+        //\Doctrine\Common\Util\Debug::dump($begegnung); 
+        //\Doctrine\Common\Util\Debug::dump($begegnung->getErgebnisse()); 
+        //echo "</pre>";
         $builder
-            ->add('ergebnisse', 'collection', array(
-                'type' => new ErgebnisType($this->session),
+                ->add('ergebnisse', CollectionType::class, array(
+                    'entry_type' => ErgebnisType::class,
                 ))
-            //->add('kugeln1')
-            //->add('kugeln2')
-            //->add('siege1')
-            //->add('siege2')
-            //->add('punkt1')
-            //->add('punkt2')
-            ->add('unterschrift1')
-            ->add('unterschrift2')
-            ->add('unterschriftLeiter')
-            ->add('bemerkung')
-            //->add('spielRunde')
-            //->add('mannschaft1')
-            //->add('mannschaft2')
+                ->add('unterschrift1')
+                ->add('unterschrift2')
+                ->add('unterschriftLeiter')
+                ->add('bemerkung')
+                ->add('save', SubmitType::class, ['label' => 'Speichern'])
         ;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Begegnung'

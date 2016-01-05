@@ -95,12 +95,12 @@ class VerbandController extends Controller
             $em->persist($verband);
             $em->flush();
 
-            return $this->redirectToRoute('verband_edit', array('id' => $verband->getId()));
+            return $this->redirectToRoute('verband_show', array('id' => $verband->getId()));
         }
 
         return $this->render('verband/edit.html.twig', array(
             'verband' => $verband,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

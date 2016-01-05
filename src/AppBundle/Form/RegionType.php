@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityRepository;
 
 class RegionType extends AbstractType
@@ -30,12 +31,14 @@ class RegionType extends AbstractType
                 ->add('leiter', EntityType::class, array(
                     'class' => 'AppBundle:Spieler',
                     'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('s')-> orderBy('s.vorname, s.nachname', 'ASC');
+                        return $er->createQueryBuilder('s')->orderBy('s.vorname, s.nachname', 'ASC');
                     },
                     'required' => false,
                     'placeholder' => 'Wähle einen Kontakt',
                     'multiple' => true,
-        ));
+                ))
+                ->add('save', SubmitType::class, ['label' => 'Speichern'])
+                ;
     }
 
     /**

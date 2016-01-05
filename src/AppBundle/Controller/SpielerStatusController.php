@@ -94,12 +94,12 @@ class SpielerStatusController extends Controller
             $em->persist($spielerStatus);
             $em->flush();
 
-            return $this->redirectToRoute('spielerstatus_edit', array('id' => $spielerStatus->getId()));
+            return $this->redirectToRoute('spielerstatus_show', array('id' => $spielerStatus->getId()));
         }
 
         return $this->render('spielerstatus/edit.html.twig', array(
             'spielerStatus' => $spielerStatus,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

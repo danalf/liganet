@@ -95,12 +95,12 @@ class SpielArtController extends Controller
             $em->persist($spielArt);
             $em->flush();
 
-            return $this->redirectToRoute('spielart_edit', array('id' => $spielArt->getId()));
+            return $this->redirectToRoute('spielart_show', array('id' => $spielArt->getId()));
         }
 
         return $this->render('spielart/edit.html.twig', array(
             'spielArt' => $spielArt,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

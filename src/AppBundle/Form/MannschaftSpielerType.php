@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityRepository;
 
 class MannschaftSpielerType extends AbstractType
@@ -50,7 +51,9 @@ class MannschaftSpielerType extends AbstractType
                 ->add('mannschaft', EntityType::class, array(
                     'class' => 'AppBundle\Entity\Mannschaft',
                     'disabled' => true,
-        ));
+                ))
+                ->add('save', SubmitType::class, ['label' => 'Speichern'])
+        ;
     }
 
     /**

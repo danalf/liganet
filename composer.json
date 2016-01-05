@@ -25,7 +25,9 @@
         "tecnickcom/tcpdf": "dev-master",
         "whiteoctober/tcpdf-bundle": "dev-master",
         "twitter/bootstrap": "dev-master",
-        "phpoffice/phpexcel": "^1.8"
+        "phpoffice/phpexcel": "^1.8",
+        "vich/uploader-bundle": "dev-master",
+        "braincrafted/bootstrap-bundle": "dev-develop"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

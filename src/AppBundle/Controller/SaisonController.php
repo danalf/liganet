@@ -95,12 +95,12 @@ class SaisonController extends Controller
             $em->persist($saison);
             $em->flush();
 
-            return $this->redirectToRoute('saison_edit', array('id' => $saison->getId()));
+            return $this->redirectToRoute('saison_show', array('id' => $saison->getId()));
         }
 
         return $this->render('saison/edit.html.twig', array(
             'saison' => $saison,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

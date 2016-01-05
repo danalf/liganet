@@ -6,10 +6,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityRepository;
 
 class LigaSaisonType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -17,23 +19,25 @@ class LigaSaisonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('saison')
-            ->add('liga')
-            ->add('gesperrt')
-            ->add('actual')
-            ->add('bemerkung')
-            ->add('staffelleiter', EntityType::class, array(
-                'class' => 'AppBundle\Entity\Spieler',
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('s')
-                            ->orderBy('s.vorname, s.nachname', 'ASC');
-                },
-                'required' => false,
-                'placeholder' => 'Wähle einen Kontakt',
-                'multiple'  => true,
-            ));
+                ->add('saison')
+                ->add('liga')
+                ->add('gesperrt')
+                ->add('actual')
+                ->add('bemerkung')
+                ->add('staffelleiter', EntityType::class, array(
+                    'class' => 'AppBundle\Entity\Spieler',
+                    'query_builder' => function(EntityRepository $er) {
+                        return $er->createQueryBuilder('s')
+                                ->orderBy('s.vorname, s.nachname', 'ASC');
+                    },
+                    'required' => false,
+                    'placeholder' => 'Wähle einen Kontakt',
+                    'multiple' => true,
+                ))
+                ->add('save', SubmitType::class, ['label' => 'Speichern'])
+        ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
@@ -43,4 +47,5 @@ class LigaSaisonType extends AbstractType
             'data_class' => 'AppBundle\Entity\LigaSaison'
         ));
     }
+
 }

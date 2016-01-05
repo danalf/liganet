@@ -2,15 +2,5 @@
 
 {% block content %}
     <h1>Spieler anlegen</h1>
-
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Erstellen" />
-    {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('spieler_index') }}">Back to the list</a>
-        </li>
-    </ul>
+    {{ form(form, { 'style': 'horizontal' }) }}
 {% endblock %}

@@ -53,7 +53,7 @@
                 </tbody>
             </table>
             {% if is_granted('ROLE_REGION_MANAGEMENT') %}
-                <a style="float: right" class="btn btn-default" href="{{ path('liga_new') }}">
+                <a style="float: right" class="btn btn-default" href="{{ path('liga_new', { 'region_id': region.id }) }}">
                     <i class="fa fa-plus"></i>
                 </a>
             {% endif %}

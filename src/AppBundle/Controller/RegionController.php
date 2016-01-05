@@ -7,7 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Entity\Region;
+use AppBundle\Entity\Verband;
 use AppBundle\Form\RegionType;
 
 /**
@@ -37,13 +39,15 @@ class RegionController extends Controller
     /**
      * Creates a new Region entity.
      *
-     * @Route("/new", name="region_new")
+     * @Route("/new/{verband_id}", name="region_new")
      * @Method({"GET", "POST"})
      * @Security("has_role('ROLE_UNION_MANAGEMENT')")
+     * @ParamConverter("verband", options={"mapping": {"verband_id": "id"}})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Verband $verband)
     {
         $region = new Region();
+        $region->setVerband($verband);
         $form = $this->createForm('AppBundle\Form\RegionType', $region);
         $form->handleRequest($request);
 
@@ -95,12 +99,12 @@ class RegionController extends Controller
             $em->persist($region);
             $em->flush();
 
-            return $this->redirectToRoute('region_edit', array('id' => $region->getId()));
+            return $this->redirectToRoute('region_show', array('id' => $region->getId()));
         }
 
         return $this->render('region/edit.html.twig', array(
             'region' => $region,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

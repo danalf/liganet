@@ -5,9 +5,11 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SpielerType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -15,26 +17,27 @@ class SpielerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            //->add('anrede', 'entity', array(
-            //        'class' => 'LiganetCoreBundle:Anrede',
-            //        'empty_value' => 'Wähle das Geschlecht',
-            //        ))
-            ->add('vorname')
-            ->add('nachname')
-            ->add('verein')
-            ->add('nummerlizenz')
-            ->add('email')
-            ->add('telefon')
-            ->add('fax')
-            ->add('trainer')
-            ->add('schiedsrichter')  
-            ->add('strasse')
-            ->add('lkz')
-            ->add('plz')
-            ->add('ort')
+                //->add('anrede', 'entity', array(
+                //        'class' => 'LiganetCoreBundle:Anrede',
+                //        'placeholder' => 'Wähle das Geschlecht',
+                //        ))
+                ->add('vorname')
+                ->add('nachname')
+                ->add('verein')
+                ->add('nummerlizenz')
+                ->add('email')
+                ->add('telefon')
+                ->add('fax')
+                ->add('trainer')
+                ->add('schiedsrichter')
+                ->add('strasse')
+                ->add('lkz')
+                ->add('plz')
+                ->add('ort')
+                ->add('save', SubmitType::class, ['label' => 'Speichern'])
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
@@ -44,4 +47,5 @@ class SpielerType extends AbstractType
             'data_class' => 'AppBundle\Entity\Spieler'
         ));
     }
+
 }
