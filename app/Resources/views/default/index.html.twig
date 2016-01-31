@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for verein in vereine %}
+                <tr>
+                    <td>{{ verein.id }}</td>
+                    <td>{{ verein.name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
