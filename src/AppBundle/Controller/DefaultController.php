@@ -13,9 +13,14 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $sync=$this->get("app.util.sync.verein");
+        $sync->getNewDataSets();
+        $em = $this->get('doctrine')->getManager('extern');
+        $vereine = $em->getRepository('AppBundle\Entity\VereinExtern')->findAll();
+        
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', array(
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
+            'vereine' => $vereine,
         ));
     }
 }
