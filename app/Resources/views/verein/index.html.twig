@@ -32,8 +32,8 @@
             {% for verein in vereins %}
                 <tr>
                     <td>
-                        {% if verein.document %}
-                            <img class="media-object" alt="Logo {{ verein }}" src="{{ asset(verein.document.webpath) }}" style="height: 64px" />
+                        {% if verein.imageName %}
+                            <img src="{{ vich_uploader_asset(verein, 'imageFile') }}" alt="Logo {{ verein.name }}" style="height: 64px"/>
                         {% endif %}
                     </td>
                     <td>{{ verein.namekurz }}</td>

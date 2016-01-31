@@ -10,8 +10,8 @@
         {% for region in verband.regions %}
             <tr>
                 <td>
-                    {% if region.document %}
-                        <img class="media-object" alt="Logo {{ region }}" src="{{ asset(region.document.webpath) }}" style="height: 32px" />
+                    {% if region.imageName %}
+                        <img src="{{ vich_uploader_asset(region, 'imageFile') }}" alt="Logo {{ region.name }}" style="height: 64px"/>
                     {% endif %}
                 </td>
                 <td>{{ region }}</td>

@@ -15,6 +15,9 @@ app/spool/*
 app/bootstrap/*
 app/config/parameters.ini
 app/config/parameters.yml
+var/logs/*
+var/cache/*
+var/sessions/*
 vendor/*
 web/uploads/*
 web/bundles/*
@@ -27,3 +30,5 @@ web/components/*
 *~
 ligasd_db1.sql
 .directory
+api/
+pw_server.txt

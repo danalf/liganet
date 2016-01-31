@@ -23,24 +23,24 @@
             </tr>
         </thead>
         <tbody>
-            {% for entity in regions %}
+            {% for region in regions %}
                 <tr>
                     <td>
-                        {% if entity.document %}
-                            <img class="media-object" alt="Logo {{ entity }}" src="{{ asset(entity.document.webpath) }}" style="height: 64px" />
-                        {% endif %}
-                    </td>
-                    <td>{{ entity.name }}</td>
-                    <td>{{ entity.namekurz }}</td>
-                    <td>{{ entity.description }}</td>
-                    <td style="background-color: {{ entity.farbeTabelleHintergrund }}; color: {{ entity.farbeTabelleSchrift }};">Beispiel</td>
-                    <td style="background-color: {{ entity.farbeTabelleZeile2Hintergrund }}; color: {{ entity.farbeTabelleZeile2Schrift }};">Beispiel</td>
+                    {% if region.imageName %}
+                        <img src="{{ vich_uploader_asset(region, 'imageFile') }}" alt="Logo {{ region.name }}" style="height: 64px"/>
+                    {% endif %}
+                </td>
+                    <td>{{ region.name }}</td>
+                    <td>{{ region.namekurz }}</td>
+                    <td>{{ region.description }}</td>
+                    <td style="background-color: {{ region.farbeTabelleHintergrund }}; color: {{ region.farbeTabelleSchrift }};">Beispiel</td>
+                    <td style="background-color: {{ region.farbeTabelleZeile2Hintergrund }}; color: {{ region.farbeTabelleZeile2Schrift }};">Beispiel</td>
                     <td>
-                        <a class="btn btn-default" href="{{ path('region_show', { 'id': entity.id }) }}">
+                        <a class="btn btn-default" href="{{ path('region_show', { 'id': region.id }) }}">
                             <i class="fa fa-arrow-right"></i>
                         </a>
                         {% if is_granted('ROLE_REGION_MANAGEMENT') %}
-                            <a class="btn btn-default" href="{{ path('region_edit', { 'id': entity.id }) }}">
+                            <a class="btn btn-default" href="{{ path('region_edit', { 'id': region.id }) }}">
                                 <i class="fa fa-pencil"></i>
                             </a>
                         {% endif %}

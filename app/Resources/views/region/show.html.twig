@@ -4,8 +4,8 @@
     <div class="row">
         <div class="col-md-11">
             <div class="page-header">
-                {% if region.document %}
-                    <img alt="Logo {{ region.namekurz }}" src="{{ asset(region.document.webpath) }}" class="img-polaroid pull-left" style="height: 96px; margin-right: 5px"/> 
+                {% if region.imageName %}
+                    <img alt="Logo {{ region.namekurz }}" src="{{ vich_uploader_asset(region, 'imageFile') }}" class="img-polaroid pull-left" style="height: 96px; margin-right: 5px"/> 
                 {% endif %}
                 <h1>{{ region.name }} <small>{{ region.namekurz }}</small></h1>
                 <p><a href="{{ path('verband_show', { 'id': region.verband.id }) }}">{{ region.verband.name }}</a></p>

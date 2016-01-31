@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use Doctrine\ORM\EntityRepository;
 
 class VereinType extends AbstractType
@@ -26,7 +27,12 @@ class VereinType extends AbstractType
                 ->add('nummer')
                 ->add('homepage')
                 ->add('document')
-                ->add('region');
+                ->add('region')
+                ->add('imageFile', VichImageType::class, array(
+                    'required' => false,
+                    'allow_delete' => true,
+                    'download_link' => true,
+                ));
         if (isset($verein)) {
             $builder->add('leiter', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Spieler',

@@ -5,7 +5,7 @@
         <div class="col-md-11">
             <div class="page-header">
                 {% if verein.document %}
-                    <img alt="Logo {{ verein.namekurz }}" src="{{ asset(verein.document.webpath) }}" class="img-polaroid pull-left" style="height: 96px; margin-right: 5px"/> 
+                    <img alt="Logo {{ verein.namekurz }}" src="{{ vich_uploader_asset(verein, 'imageFile') }}" class="img-polaroid pull-left" style="height: 96px; margin-right: 5px"/> 
                 {% endif %}
                 <h1>{{ verein.namekurz }}</h1>
                 <h1><small>{{ verein.name }}</small></h1>

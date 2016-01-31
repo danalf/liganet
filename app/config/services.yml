@@ -1,4 +1,7 @@
 services:
+#fix
+    fos_user.doctrine_registry:
+        alias: doctrine
 #Voters
     app.verein_voter:
         class: AppBundle\Security\VereinVoter

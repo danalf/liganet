@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use Doctrine\ORM\EntityRepository;
 
 class RegionType extends AbstractType
@@ -28,6 +29,11 @@ class RegionType extends AbstractType
                 ->add('farbeTabelleZeile2Hintergrund')
                 ->add('document')
                 ->add('verband')
+                ->add('imageFile', VichImageType::class, array(
+                    'required' => false,
+                    'allow_delete' => true,
+                    'download_link' => true,
+                ))
                 ->add('leiter', EntityType::class, array(
                     'class' => 'AppBundle:Spieler',
                     'query_builder' => function (EntityRepository $er) {

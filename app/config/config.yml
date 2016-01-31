@@ -99,3 +99,9 @@ vich_uploader:
         verband_image:
             uri_prefix:         /web/images/verband
             upload_destination: %kernel.root_dir%/../web/images/verband
+        verein_image:
+            uri_prefix:         /web/images/verein
+            upload_destination: %kernel.root_dir%/../web/images/verein
+        region_image:
+            uri_prefix:         /web/images/region
+            upload_destination: %kernel.root_dir%/../web/images/region

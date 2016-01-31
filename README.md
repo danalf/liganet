@@ -10,3 +10,4 @@ todo:
 * Regionslogo im pdf-Service
 * Emails versenden
 * uploaderbundle aktivieren
+* neuer logoort im pdf berücksichtigen
