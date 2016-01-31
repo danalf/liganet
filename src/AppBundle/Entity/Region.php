@@ -10,6 +10,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity
  * @ORM\Table(name="ln_region")
+ * @Vich\Uploadable
  */
 class Region {
 
