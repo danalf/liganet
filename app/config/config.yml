@@ -59,13 +59,13 @@ doctrine:
                         type:     annotation  
                         dir:      Entity      
                         prefix:   AppBundle\Entity
-            shop:
+            extern:
                 connection:       extern
                 mappings:
                     AppBundle:
                         type: annotation
-                        dir: EntityExtern
-                        prefix: AppBundle\EntityExtern
+                        dir: Entity
+                        prefix: AppBundle\Entity
 
 # Swiftmailer Configuration
 swiftmailer:
