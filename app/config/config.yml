@@ -97,11 +97,11 @@ vich_uploader:
     
     mappings:
         verband_image:
-            uri_prefix:         /web/images/verband
+            uri_prefix:         /images/verband
             upload_destination: %kernel.root_dir%/../web/images/verband
         verein_image:
-            uri_prefix:         /web/images/verein
+            uri_prefix:         /images/verein
             upload_destination: %kernel.root_dir%/../web/images/verein
         region_image:
-            uri_prefix:         /web/images/region
+            uri_prefix:         /images/region
             upload_destination: %kernel.root_dir%/../web/images/region
