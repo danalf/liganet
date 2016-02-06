@@ -8,6 +8,4 @@ todo:
 * alle Forms mit Zusatz überprüfen
 * Datum in Formularen verschönern
 * Regionslogo im pdf-Service
-* Emails versenden
-* uploaderbundle aktivieren
 * neuer logoort im pdf berücksichtigen
