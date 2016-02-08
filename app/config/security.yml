@@ -38,6 +38,7 @@ security:
             anonymous: ~
 
     access_control:
+        - { path: ^.*/xml, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/ligasaison/extern/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/spieltag/extern/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/css/, role: IS_AUTHENTICATED_ANONYMOUSLY }
