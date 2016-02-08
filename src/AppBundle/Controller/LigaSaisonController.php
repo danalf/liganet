@@ -269,9 +269,9 @@ class LigaSaisonController extends Controller
     /**
      * get xml information about leagues in a ligasaison
      *
-     * @Route("/leagues/saison/{saison}/region/{region_kuerzel}/{_format}", 
-     *          name="ligasaison_get_leagues", 
-     *          defaults={"_format"="xml"}, 
+     * @Route("/leagues/saison/{saison}/region/{region_kuerzel}/{_format}",
+     *          name="ligasaison_get_leagues",
+     *          defaults={"_format"="xml"},
      *          requirements = { "_format" = "xml" })
      * @Method({"GET", "POST"})
      */
@@ -279,6 +279,9 @@ class LigaSaisonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $ligaSaisons = $em->getRepository('AppBundle:LigaSaison')->findBySaisonAndRegion($saison, $region_kuerzel);
+        if (!$ligaSaisons) {
+            throw $this->createNotFoundException('Diese Ligasaison exisistiert nicht');
+        }
         return $this->render('ligasaison/leagues.' . $_format . '.twig', array(
                     'ligaSaisons' => $ligaSaisons
         ));
