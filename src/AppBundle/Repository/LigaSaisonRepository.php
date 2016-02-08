@@ -22,4 +22,20 @@ class LigaSaisonRepository extends EntityRepository
         
         return $qb->getQuery()->getSingleResult();
     }
+    
+    public function findBySaisonAndRegion($saison, $region_kuerzel)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('ls,l,r')
+                ->from('AppBundle:LigaSaison', 'ls')
+                ->join('ls.liga', 'l')
+                ->join('ls.saison', 's')
+                ->join('l.region', 'r')
+                ->where('s.saison = ?1')
+                ->andWhere('r.name_kurz = ?2')
+                ->setParameter(1, $saison)
+                ->setParameter(2, $region_kuerzel);
+        
+        return $qb->getQuery()->getResult();
+    }
 }

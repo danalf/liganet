@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Entity\LigaSaison;
 use AppBundle\Entity\Liga;
+use AppBundle\Entity\Saison;
+use AppBundle\Entity\Region;
 use AppBundle\Form\LigaSaisonType;
 
 /**
@@ -46,7 +48,7 @@ class LigaSaisonController extends Controller
     public function newAction(Request $request, Liga $liga)
     {
         $this->denyAccessUnlessGranted('edit', $liga);
-        
+
         $ligaSaison = new LigaSaison();
         $ligaSaison->setLiga($liga);
         $form = $this->createForm('AppBundle\Form\LigaSaisonType', $ligaSaison);
@@ -77,7 +79,7 @@ class LigaSaisonController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $ligaSaison = $em->getRepository('AppBundle:LigaSaison')->find($id);
-        
+
         $deleteForm = $this->createDeleteForm($ligaSaison);
 
         return $this->render('ligasaison/show.html.twig', array(
@@ -232,8 +234,8 @@ class LigaSaisonController extends Controller
 
         $deleteForm = $this->createDeleteForm($ligaSaison);
         return $this->render('ligasaison/losung.html.twig', array(
-            'entity' => $ligaSaison,
-            'delete_form' => $deleteForm->createView()
+                    'entity' => $ligaSaison,
+                    'delete_form' => $deleteForm->createView()
         ));
     }
 
@@ -259,8 +261,26 @@ class LigaSaisonController extends Controller
 
         $deleteForm = $this->createDeleteForm($ligaSaison);
         return $this->render('ligasaison/losung.html.twig', array(
-            'entity' => $ligaSaison,
-            'delete_form' => $deleteForm->createView()
+                    'entity' => $ligaSaison,
+                    'delete_form' => $deleteForm->createView()
+        ));
+    }
+
+    /**
+     * get xml information about leagues in a ligasaison
+     *
+     * @Route("/leagues/saison/{saison}/region/{region_kuerzel}/{_format}", 
+     *          name="ligasaison_get_leagues", 
+     *          defaults={"_format"="xml"}, 
+     *          requirements = { "_format" = "xml" })
+     * @Method({"GET", "POST"})
+     */
+    public function getLeaguesAction($saison, $region_kuerzel, $_format)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ligaSaisons = $em->getRepository('AppBundle:LigaSaison')->findBySaisonAndRegion($saison, $region_kuerzel);
+        return $this->render('ligasaison/leagues.' . $_format . '.twig', array(
+                    'ligaSaisons' => $ligaSaisons
         ));
     }
 

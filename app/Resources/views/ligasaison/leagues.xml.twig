@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<ligasaison saison="{{ ligaSaisons[0].saison }}" region="{{ ligaSaisons[0].liga.region }}">
+    <region>{{ ligaSaisons[0].liga.region }}</region>
+        {% for  ligaSaison in ligaSaisons %}
+            {% set liga = ligaSaison.liga %}
+        <liga>
+            <liga name="{{ liga.name }}" 
+                  farbeTabellenKopf="{{ liga.farbeTabellenKopf }}" 
+                  farbeTabellenKopfSchrift="{{ liga.farbeTabellenKopfSchrift }}" 
+                  farbeUeberschriftHintergrund="{{ liga.farbeUeberschriftHintergrund }}" 
+                  farbeUeberschrift="{{ liga.farbeUeberschrift }}">
+                {% for  staffelleiter in ligaSaison.staffelleiter %}
+                    <staffelleiter>{{ staffelleiter }}</staffelleiter>
+                    {% endfor %}
+                <anzahl_spieltage>{{ ligaSaison.spieltage.count }}</anzahl_spieltage>
+            </liga>
+        </liga>
+    {% endfor %}
+</ligasaison>
