@@ -73,14 +73,9 @@
             </table>
         </div>
         <div class="col-md-6">
-            {% if is_granted('ROLE_REGION_MANAGEMENT') %}
-                <a style="float: right" class="btn btn-default" href="{{ path('verein_new') }}">
-                    <i class="fa fa-plus"></i>
-                </a>
-            {% endif %}    
             <h2>Vereine</h2>
             <table class="table">
-                {% for verein in region.vereine %}
+                {% for verein in region.vereine if verein.vereinextern and verein.vereinextern.aktiv==1 %}
                     <tr>
                         <td>
                             {% if verein.document %}

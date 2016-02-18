@@ -24,10 +24,7 @@ class VereinType extends AbstractType
                 ->add('name')
                 ->add('namekurz')
                 ->add('kuerzel')
-                ->add('nummer')
                 ->add('homepage')
-                ->add('document')
-                ->add('region')
                 ->add('imageFile', VichImageType::class, array(
                     'required' => false,
                     'allow_delete' => true,

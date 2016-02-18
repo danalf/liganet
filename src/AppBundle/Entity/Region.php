@@ -46,6 +46,13 @@ class Region {
      * @ORM\JoinColumn(name="logo_id", referencedColumnName="id")
      * */
     private $document;
+    
+    /**
+     * @var string 
+     *
+     * @ORM\Column(name="LigabezirkID", type="string", length=10)
+     */
+    private $ligabezirkID;
 
     /**
      * @ORM\Column(type="string", length=7)
@@ -493,5 +500,53 @@ class Region {
     public function getLeiter()
     {
         return $this->leiter;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Region
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set ligabezirkID
+     *
+     * @param string $ligabezirkID
+     *
+     * @return Region
+     */
+    public function setLigabezirkID($ligabezirkID)
+    {
+        $this->ligabezirkID = $ligabezirkID;
+
+        return $this;
+    }
+
+    /**
+     * Get ligabezirkID
+     *
+     * @return string
+     */
+    public function getLigabezirkID()
+    {
+        return $this->ligabezirkID;
     }
 }

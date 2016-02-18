@@ -16,7 +16,7 @@ class DefaultController extends Controller
         $sync=$this->get("app.util.sync.verein");
         $sync->getNewDataSets();
         $em = $this->get('doctrine')->getManager('extern');
-        //$vereine = $em->getRepository('AppBundle\Entity\VereinExtern')->findAll();
+        $vereine = $em->getRepository('AppBundle\Entity\VereinExtern')->findAll();
         
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', array(

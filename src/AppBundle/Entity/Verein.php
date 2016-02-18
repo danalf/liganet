@@ -11,7 +11,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * Acme\DemoBundle\Entity\Tblverein
  *
  * @ORM\Table(name="ln_verein")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\VereinRepository")
  * @Vich\Uploadable
  */
 class Verein {
@@ -101,6 +101,12 @@ class Verein {
     protected $ausgerichteterSpieltag;
     
     /**
+     * @ORM\OneToOne(targetEntity="VereinExtern", inversedBy="verein")
+     * @ORM\JoinColumn(name="verein_extern_id", referencedColumnName="Vereinsnummer", nullable=true)
+     */
+    protected $vereinExtern;
+    
+    /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
      * @Vich\UploadableField(mapping="verein_image", fileNameProperty="imageName")
@@ -110,7 +116,7 @@ class Verein {
     private $imageFile;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @var string
      */
@@ -580,5 +586,29 @@ class Verein {
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set vereinExtern
+     *
+     * @param \AppBundle\Entity\VereinExtern $vereinExtern
+     *
+     * @return Verein
+     */
+    public function setVereinExtern(\AppBundle\Entity\VereinExtern $vereinExtern = null)
+    {
+        $this->vereinExtern = $vereinExtern;
+
+        return $this;
+    }
+
+    /**
+     * Get vereinExtern
+     *
+     * @return \AppBundle\Entity\VereinExtern
+     */
+    public function getVereinExtern()
+    {
+        return $this->vereinExtern;
     }
 }

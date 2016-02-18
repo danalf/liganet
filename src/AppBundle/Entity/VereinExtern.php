@@ -185,6 +185,11 @@ class VereinExtern {
      */
     private $ligaKuerzel;
     
+    /**
+     * @ORM\OneToOne(targetEntity="Verein", mappedBy="vereinExtern")
+     */
+    protected $verein;
+    
     /*
      * ab hier generiert
      */
@@ -787,5 +792,30 @@ class VereinExtern {
     public function getLigaKuerzel()
     {
         return $this->ligaKuerzel;
+    }
+
+
+    /**
+     * Set verein
+     *
+     * @param \AppBundle\Entity\Verein $verein
+     *
+     * @return VereinExtern
+     */
+    public function setVerein(\AppBundle\Entity\Verein $verein = null)
+    {
+        $this->verein = $verein;
+
+        return $this;
+    }
+
+    /**
+     * Get verein
+     *
+     * @return \AppBundle\Entity\Verein
+     */
+    public function getVerein()
+    {
+        return $this->verein;
     }
 }
