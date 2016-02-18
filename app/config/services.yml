@@ -74,3 +74,6 @@ services:
     app.util.sync.verein:
         class: AppBundle\Util\VereinSync
         arguments: ["@doctrine", "@doctrine.orm.entity_manager", "@doctrine.orm.extern_entity_manager"]    
+    app.util.sync.spieler:
+        class: AppBundle\Util\SpielerSync
+        arguments: ["@doctrine", "@doctrine.orm.entity_manager", "@doctrine.orm.extern_entity_manager"]  

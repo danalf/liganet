@@ -10,10 +10,10 @@
             </tr>
         </thead>
         <tbody>
-            {% for verein in vereine %}
+            {% for spieler in spielers %}
                 <tr>
-                    <td>{{ verein.id }}</td>
-                    <td>{{ verein.name }}</td>
+                    <td>{{ spieler.id }}</td>
+                    <td>{{ spieler.vorname }} {{ spieler.nachname }}</td>
                 </tr>
             {% endfor %}
         </tbody>

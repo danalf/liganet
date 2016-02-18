@@ -22,6 +22,12 @@ class Spieler {
     private $id;
 
     /**
+     * @ORM\OneToOne(targetEntity="SpielerExtern", inversedBy="spieler")
+     * @ORM\JoinColumn(name="spieler_extern_id", referencedColumnName="SpielerID", nullable=true)
+     */
+    private $spielerExtern;
+
+    /**
      * @var string $vorname
      *
      * @ORM\Column(name="vorname", type="string", length=45, nullable=false)
@@ -1214,5 +1220,30 @@ class Spieler {
     public function getUser()
     {
         return $this->user;
+    }
+
+
+    /**
+     * Set spielerExtern
+     *
+     * @param \AppBundle\Entity\SpielerExtern $spielerExtern
+     *
+     * @return Spieler
+     */
+    public function setSpielerExtern(\AppBundle\Entity\SpielerExtern $spielerExtern = null)
+    {
+        $this->spielerExtern = $spielerExtern;
+
+        return $this;
+    }
+
+    /**
+     * Get spielerExtern
+     *
+     * @return \AppBundle\Entity\SpielerExtern
+     */
+    public function getSpielerExtern()
+    {
+        return $this->spielerExtern;
     }
 }

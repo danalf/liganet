@@ -68,4 +68,37 @@ class SpielerRepository extends EntityRepository
 //            ->setParameter(1, $verein_id);
         return $qb->getResult();
     }
+    
+    /**
+     * 
+     * @param string $lizenznummer
+     * @param string $vorname
+     * @param string $nachname
+     * @return type
+     */
+    public function findOneByLizenznummerAndName($lizenznummer, $vorname, $nachname){
+        $numbers = explode('-', $lizenznummer);
+        if (count($numbers) != 3){
+            return null;
+        }
+        
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('s')
+                ->from('AppBundle:Spieler', 's')
+                ->innerJoin('s.verein', 'v')
+                ->innerJoin('v.region', 'r')
+                ->innerJoin('r.verband', 'vb')
+                ->where('vb.number = ?1')
+                ->andWhere('v.nummer = ?2')
+                ->andWhere('s.nummerlizenz = ?3')
+                ->andWhere('s.vorname = ?4')
+                ->andWhere('s.nachname = ?5')
+                ->setParameter(1, (int)$numbers[0])
+                ->setParameter(2, (int)$numbers[1])
+                ->setParameter(3, (int)$numbers[2])
+                ->setParameter(4, $vorname)
+                ->setParameter(5, $nachname);
+        
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

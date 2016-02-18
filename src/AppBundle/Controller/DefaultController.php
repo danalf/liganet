@@ -13,14 +13,14 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $sync=$this->get("app.util.sync.verein");
+        $sync=$this->get("app.util.sync.spieler");
         $sync->getNewDataSets();
         $em = $this->get('doctrine')->getManager('extern');
-        $vereine = $em->getRepository('AppBundle\Entity\VereinExtern')->findAll();
+        $spieler = $em->getRepository('AppBundle\Entity\SpielerExtern')->findAll();
         
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', array(
-            'vereine' => $vereine,
+            'spielers' => $spielers,
         ));
     }
 }

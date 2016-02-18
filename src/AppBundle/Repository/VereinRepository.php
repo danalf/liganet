@@ -28,4 +28,22 @@ class VereinRepository extends EntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
     
+    /**
+     * 
+     * @param string $lizenznummer like 01-123-0123
+     */
+    public function findOneByLizenznummer($lizenznummer){
+        $numbers = explode('-', $lizenznummer);
+        if (count($numbers) != 3){
+            return null;
+        }
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('v')
+                ->from('AppBundle:Verein', 'v')
+                ->where('v.nummer = ?1')
+                ->setParameter(1, (int)$numbers[1]);
+        
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+    
 }

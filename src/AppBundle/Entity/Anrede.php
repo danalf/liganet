@@ -33,6 +33,13 @@ class Anrede
      * @ORM\Column(name="brief", type="string", length=20, nullable=false)
      */
     private $brief;
+    
+    /**
+     * @var string $geschlecht
+     *
+     * @ORM\Column(name="geschlecht", type="string", length=20, nullable=false)
+     */
+    private $geschlecht;
 
     
     public function __toString() {
@@ -95,5 +102,29 @@ class Anrede
     public function getBrief()
     {
         return $this->brief;
+    }
+
+    /**
+     * Set geschlecht
+     *
+     * @param string $geschlecht
+     *
+     * @return Anrede
+     */
+    public function setGeschlecht($geschlecht)
+    {
+        $this->geschlecht = $geschlecht;
+
+        return $this;
+    }
+
+    /**
+     * Get geschlecht
+     *
+     * @return string
+     */
+    public function getGeschlecht()
+    {
+        return $this->geschlecht;
     }
 }
