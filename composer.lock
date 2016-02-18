@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/braincrafted/bootstrap-bundle.git",
-                "reference": "23ae42061668d0fdc999b63db55c264265e037ab"
+                "reference": "41aaa9f3212add20d46faac86e6ebcb4651cde57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/braincrafted/bootstrap-bundle/zipball/23ae42061668d0fdc999b63db55c264265e037ab",
-                "reference": "23ae42061668d0fdc999b63db55c264265e037ab",
+                "url": "https://api.github.com/repos/braincrafted/bootstrap-bundle/zipball/41aaa9f3212add20d46faac86e6ebcb4651cde57",
+                "reference": "41aaa9f3212add20d46faac86e6ebcb4651cde57",
                 "shasum": ""
             },
             "require": {
@@ -65,7 +65,7 @@
             "keywords": [
                 "bootstrap"
             ],
-            "time": "2016-01-23 17:44:32"
+            "time": "2016-02-16 20:59:02"
         },
         {
             "name": "doctrine/annotations",
@@ -417,16 +417,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "1.6.1",
+            "version": "1.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "c4ffef2b2296e9d0179eb0b5248e5ae25c9bba3b"
+                "reference": "e9c2ccf573b59b7cea566390f34254fed3c20ed9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/c4ffef2b2296e9d0179eb0b5248e5ae25c9bba3b",
-                "reference": "c4ffef2b2296e9d0179eb0b5248e5ae25c9bba3b",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/e9c2ccf573b59b7cea566390f34254fed3c20ed9",
+                "reference": "e9c2ccf573b59b7cea566390f34254fed3c20ed9",
                 "shasum": ""
             },
             "require": {
@@ -442,6 +442,7 @@
                 "doctrine/orm": "~2.3",
                 "phpunit/phpunit": "~4",
                 "satooshi/php-coveralls": "~0.6.1",
+                "symfony/phpunit-bridge": "~2.7|~3.0",
                 "symfony/validator": "~2.2|~3.0",
                 "symfony/yaml": "~2.2|~3.0",
                 "twig/twig": "~1.10"
@@ -491,7 +492,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2015-11-16 17:11:46"
+            "time": "2016-01-10 17:21:44"
         },
         {
             "name": "doctrine/doctrine-cache-bundle",
@@ -838,12 +839,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "8f1fc2273b37c61ddcc1620abf4500320a23763e"
+                "reference": "e770bfa2fd0fc665f55cd7cfeb34bddeffb892f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/8f1fc2273b37c61ddcc1620abf4500320a23763e",
-                "reference": "8f1fc2273b37c61ddcc1620abf4500320a23763e",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/e770bfa2fd0fc665f55cd7cfeb34bddeffb892f4",
+                "reference": "e770bfa2fd0fc665f55cd7cfeb34bddeffb892f4",
                 "shasum": ""
             },
             "require": {
@@ -899,7 +900,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2016-01-27 09:36:48"
+            "time": "2016-02-11 16:30:08"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1196,16 +1197,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "1.1.6",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "e6f80ab77885151908d0ec743689ca700886e8b0"
+                "reference": "b0e69d10852716b2ccbdff69c75c477637220790"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/e6f80ab77885151908d0ec743689ca700886e8b0",
-                "reference": "e6f80ab77885151908d0ec743689ca700886e8b0",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/b0e69d10852716b2ccbdff69c75c477637220790",
+                "reference": "b0e69d10852716b2ccbdff69c75c477637220790",
                 "shasum": ""
             },
             "require": {
@@ -1240,7 +1241,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-01-29 16:19:52"
+            "time": "2016-02-06 03:52:05"
         },
         {
             "name": "phpoffice/phpexcel",
@@ -1339,16 +1340,16 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v5.0.3",
+            "version": "v5.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "419c1824af940e2be0f833aca2327e1181a6b503"
+                "reference": "2c167426fc24f9de116345195bc1697a748ee847"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/419c1824af940e2be0f833aca2327e1181a6b503",
-                "reference": "419c1824af940e2be0f833aca2327e1181a6b503",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/2c167426fc24f9de116345195bc1697a748ee847",
+                "reference": "2c167426fc24f9de116345195bc1697a748ee847",
                 "shasum": ""
             },
             "require": {
@@ -1387,7 +1388,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2015-12-18 17:44:11"
+            "time": "2016-02-12 16:21:30"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -1940,16 +1941,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.0.1",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "979d7323716fec847508eac3e62d59b117612a6e"
+                "reference": "18c3d4f356931a5b6a4afb0cc679a2c58931c795"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/979d7323716fec847508eac3e62d59b117612a6e",
-                "reference": "979d7323716fec847508eac3e62d59b117612a6e",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/18c3d4f356931a5b6a4afb0cc679a2c58931c795",
+                "reference": "18c3d4f356931a5b6a4afb0cc679a2c58931c795",
                 "shasum": ""
             },
             "require": {
@@ -2021,6 +2022,7 @@
                 "monolog/monolog": "~1.11",
                 "ocramius/proxy-manager": "~0.4|~1.0",
                 "phpdocumentor/reflection": "^1.0.7",
+                "symfony/polyfill-apcu": "~1.1",
                 "symfony/security-acl": "~2.8|~3.0"
             },
             "type": "library",
@@ -2034,7 +2036,6 @@
                     "Symfony\\Bridge\\Doctrine\\": "src/Symfony/Bridge/Doctrine/",
                     "Symfony\\Bridge\\Monolog\\": "src/Symfony/Bridge/Monolog/",
                     "Symfony\\Bridge\\ProxyManager\\": "src/Symfony/Bridge/ProxyManager/",
-                    "Symfony\\Bridge\\Swiftmailer\\": "src/Symfony/Bridge/Swiftmailer/",
                     "Symfony\\Bridge\\Twig\\": "src/Symfony/Bridge/Twig/",
                     "Symfony\\Bundle\\": "src/Symfony/Bundle/",
                     "Symfony\\Component\\": "src/Symfony/Component/"
@@ -2065,7 +2066,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2015-12-26 16:49:48"
+            "time": "2016-02-03 12:42:23"
         },
         {
             "name": "tecnickcom/tcpdf",
@@ -2197,12 +2198,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "6ff1573f84c5f84ff9ed79fa6d853180e50f933f"
+                "reference": "1037e33347c8b08952ee66bc5111181eb7b3c93f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/6ff1573f84c5f84ff9ed79fa6d853180e50f933f",
-                "reference": "6ff1573f84c5f84ff9ed79fa6d853180e50f933f",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/1037e33347c8b08952ee66bc5111181eb7b3c93f",
+                "reference": "1037e33347c8b08952ee66bc5111181eb7b3c93f",
                 "shasum": ""
             },
             "replace": {
@@ -2240,7 +2241,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2016-01-23 10:55:07"
+            "time": "2016-02-16 22:25:26"
         },
         {
             "name": "vich/uploader-bundle",
@@ -2248,12 +2249,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dustin10/VichUploaderBundle.git",
-                "reference": "5aa399d92dd734112f886ee0bbb61e6892456230"
+                "reference": "de4006e73e3bd14ac3d784f72971ddf5cf112b97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dustin10/VichUploaderBundle/zipball/5aa399d92dd734112f886ee0bbb61e6892456230",
-                "reference": "5aa399d92dd734112f886ee0bbb61e6892456230",
+                "url": "https://api.github.com/repos/dustin10/VichUploaderBundle/zipball/de4006e73e3bd14ac3d784f72971ddf5cf112b97",
+                "reference": "de4006e73e3bd14ac3d784f72971ddf5cf112b97",
                 "shasum": ""
             },
             "require": {
@@ -2311,7 +2312,7 @@
                 "file uploads",
                 "upload"
             ],
-            "time": "2016-01-30 10:46:20"
+            "time": "2016-02-16 08:43:21"
         },
         {
             "name": "whiteoctober/tcpdf-bundle",

@@ -1,12 +1,7 @@
-{% if is_granted("edit", verein) %}
-    <a style="float: right" class="btn btn-default" href="{{ path('spieler_new', { 'verein_id': verein.id }) }}">
-        <i class="fa fa-plus"></i>
-    </a>
-{% endif %}  
 <h2>Spieler</h2>
 <table class="table table-striped">
     <tbody>
-        {% for spieler in verein.spieler %}
+        {% for spieler in verein.spieler if spieler.spielerextern %}
             <tr>
                 <td><a href="{{ path('spieler_show', { 'id': spieler.id }) }}">
                         {{ spieler.vorname }} {{ spieler.nachname }}

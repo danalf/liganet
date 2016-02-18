@@ -25,15 +25,18 @@ class MannschaftSpielerType extends AbstractType
 
         if (is_object($options["data"]->getMannschaft())) {
             $verein = $options["data"]->getMannschaft()->getVerein();
+            $saison = $options["data"]->getMannschaft()->getLigasaison()->getSaison()->getSaison();
             $builder
                     ->add('spieler', EntityType::class, array(
                         'required' => false,
                         'class' => 'AppBundle\Entity\Spieler',
-                        'query_builder' => function(EntityRepository $er) use ($verein) {
+                        'query_builder' => function(EntityRepository $er) use ($verein, $saison) {
                             return $er->createQueryBuilder('s')
                                     ->innerJoin('s.verein', 'v', 'WITH', 'v.id =' . $verein->getId())
+                                    ->innerJoin('s.spielerExtern', 'se')
                                     ->orderBy('s.nachname', 'ASC')
-                                    ->where('s.nummerlizenz > 0');
+                                    ->where('s.nummerlizenz > 0')
+                                    ->andWhere("se.lizenzJahr = $saison");
                         },
                         'required' => true,
                         'placeholder' => 'Wähle einen Spieler',
