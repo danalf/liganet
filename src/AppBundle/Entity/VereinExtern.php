@@ -789,28 +789,4 @@ class VereinExtern {
         return $this->ligaKuerzel;
     }
 
-
-    /**
-     * Set verein
-     *
-     * @param \AppBundle\Entity\Verein $verein
-     *
-     * @return VereinExtern
-     */
-    public function setVerein(\AppBundle\Entity\Verein $verein = null)
-    {
-        $this->verein = $verein;
-
-        return $this;
-    }
-
-    /**
-     * Get verein
-     *
-     * @return \AppBundle\Entity\Verein
-     */
-    public function getVerein()
-    {
-        return $this->verein;
-    }
 }

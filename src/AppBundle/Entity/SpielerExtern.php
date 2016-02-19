@@ -511,27 +511,4 @@ class SpielerExtern {
         return $this->bezirk;
     }
 
-    /**
-     * Set spieler
-     *
-     * @param \AppBundle\Entity\Spieler $spieler
-     *
-     * @return SpielerExtern
-     */
-    public function setSpieler(\AppBundle\Entity\Spieler $spieler = null)
-    {
-        $this->spieler = $spieler;
-
-        return $this;
-    }
-
-    /**
-     * Get spieler
-     *
-     * @return \AppBundle\Entity\Spieler
-     */
-    public function getSpieler()
-    {
-        return $this->spieler;
-    }
 }
