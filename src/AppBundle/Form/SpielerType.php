@@ -17,23 +17,8 @@ class SpielerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                //->add('anrede', 'entity', array(
-                //        'class' => 'LiganetCoreBundle:Anrede',
-                //        'placeholder' => 'Wähle das Geschlecht',
-                //        ))
-                ->add('vorname')
-                ->add('nachname')
-                ->add('verein')
-                ->add('nummerlizenz')
                 ->add('email')
                 ->add('telefon')
-                ->add('fax')
-                ->add('trainer')
-                ->add('schiedsrichter')
-                ->add('strasse')
-                ->add('lkz')
-                ->add('plz')
-                ->add('ort')
                 ->add('save', SubmitType::class, ['label' => 'Speichern'])
         ;
     }
