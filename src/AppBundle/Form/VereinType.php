@@ -21,9 +21,7 @@ class VereinType extends AbstractType
     {
         $verein = $options["data"]->getId();
         $builder
-                ->add('name')
                 ->add('namekurz')
-                ->add('kuerzel')
                 ->add('homepage')
                 ->add('imageFile', VichImageType::class, array(
                     'required' => false,

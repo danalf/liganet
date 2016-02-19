@@ -77,18 +77,19 @@ class VereinSync
     public function setNewDatasets(VereinExtern $vereinExtern, Verein $verein=null){
         if (!$verein){
             $verein = new Verein();
+            $verein->setNamekurz($vereinExtern->getName());
         }
         $verein->setName($vereinExtern->getName() . " " .$vereinExtern->getZusatz());
-        $verein->setNamekurz($vereinExtern->getName());
+        
         $nummer = explode('-', $vereinExtern->getId());
         $verein->setNummer((int)$nummer[1]);
         $verein->setVereinExtern($vereinExtern);
+        $verein->setKuerzel($vereinExtern->getLigaKuerzel());
         $region = $this->emDefault->getRepository('AppBundle\Entity\Region')->findOneBy(['ligabezirkID' => $vereinExtern->getLigaBezirkID()] );
         if (!$region){
             throw new Exception("Region nicht über ligaBezirkId gefunden");
         }
         $verein->setRegion($region);
-        $verein->setKuerzel($vereinExtern->getLigaKuerzel());
         $verein->setUpdatedAt(new \DateTime());
         $this->emDefault->persist($verein);
     }
