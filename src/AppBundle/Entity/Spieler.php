@@ -22,7 +22,7 @@ class Spieler {
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="SpielerExtern", inversedBy="spieler")
+     * @ORM\OneToOne(targetEntity="SpielerExtern")
      * @ORM\JoinColumn(name="spieler_extern_id", referencedColumnName="SpielerID", nullable=true)
      */
     private $spielerExtern;

@@ -64,9 +64,11 @@ class SpielerSync
         $this->emDefault->persist($spielerBridge);
     }
     
-    public function setNewDatasets(SpielerExtern $spielerExtern){
-        $spieler = new Spieler();
-        $spieler->setSpielerExtern($spielerExtern);
+    public function setNewDatasets(SpielerExtern $spielerExtern, Spieler $spieler=null){
+        if (!$spieler){
+            $spieler = new Spieler();
+            $spieler->setSpielerExtern($spielerExtern);
+        }
         $spieler->setVorname($spielerExtern->getVorname());
         $spieler->setNachname($spielerExtern->getNachname());
         $nummer = explode('-', $spielerExtern->getLizenznummer());

@@ -2,6 +2,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Entity\SpielerExtern;
 
 
 class SpielerRepository extends EntityRepository
@@ -98,6 +99,17 @@ class SpielerRepository extends EntityRepository
                 ->setParameter(3, (int)$numbers[2])
                 ->setParameter(4, $vorname)
                 ->setParameter(5, $nachname);
+        
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+    
+    public function findOneBySpielerExtern(SpielerExtern $spielerExtern){
+        
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('s')
+                ->from('AppBundle:Spieler', 's')
+                ->where('s.spielerExtern = ?1')
+                ->setParameter(1, $spielerExtern->getId());
         
         return $qb->getQuery()->getOneOrNullResult();
     }

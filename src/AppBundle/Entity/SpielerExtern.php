@@ -122,11 +122,6 @@ class SpielerExtern {
      */
     private $bezirk;
     
-    /**
-     * @ORM\OneToOne(targetEntity="Spieler", mappedBy="spielerExtern")
-     */
-    protected $spieler;
-    
 
     /*
      * ab hier generiert

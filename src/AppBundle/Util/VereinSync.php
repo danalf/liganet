@@ -78,12 +78,11 @@ class VereinSync
         if (!$verein){
             $verein = new Verein();
             $verein->setNamekurz($vereinExtern->getName());
+            $nummer = explode('-', $vereinExtern->getId());
+            $verein->setNummer((int)$nummer[1]);
+            $verein->setVereinExtern($vereinExtern);
         }
         $verein->setName($vereinExtern->getName() . " " .$vereinExtern->getZusatz());
-        
-        $nummer = explode('-', $vereinExtern->getId());
-        $verein->setNummer((int)$nummer[1]);
-        $verein->setVereinExtern($vereinExtern);
         $verein->setKuerzel($vereinExtern->getLigaKuerzel());
         $region = $this->emDefault->getRepository('AppBundle\Entity\Region')->findOneBy(['ligabezirkID' => $vereinExtern->getLigaBezirkID()] );
         if (!$region){

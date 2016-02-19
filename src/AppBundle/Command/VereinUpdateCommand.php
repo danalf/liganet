@@ -12,7 +12,7 @@ class VereinUpdateCommand extends ContainerAwareCommand
     {
         $this
             ->setName('app:verein:update')
-            ->setDescription('Set new vereine to table Verein')
+            ->setDescription('Update table Verein')
         ;
     }
 
