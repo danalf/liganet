@@ -32,12 +32,8 @@ class VereinSync
     }
     
     public function getNewDataSets(){
-        $vereine = $this->doctrine
-            ->getRepository('AppBundle\Entity\VereinExtern', 'extern')
-            ->findAll()
-        ;
-        //$vereine = $this->emExtern->getRepository('AppBundle\Entity\VereinExtern')->findAll();
-        
+        $vereine = $this->emExtern->getRepository('AppBundle\Entity\VereinExtern')->findAll();
+
         foreach ($vereine as $vereinExtern) {
             $vereinBridge = $this->emDefault->getRepository('AppBundle\Entity\VereinExtern')->find($vereinExtern->getId());
             if ($vereinBridge == null) {
@@ -78,8 +74,10 @@ class VereinSync
         $this->emDefault->persist($vereinBridge);
     }
     
-    public function setNewDatasets(VereinExtern $vereinExtern){
-        $verein = new Verein();
+    public function setNewDatasets(VereinExtern $vereinExtern, Verein $verein=null){
+        if (!$verein){
+            $verein = new Verein();
+        }
         $verein->setName($vereinExtern->getName() . " " .$vereinExtern->getZusatz());
         $verein->setNamekurz($vereinExtern->getName());
         $nummer = explode('-', $vereinExtern->getId());

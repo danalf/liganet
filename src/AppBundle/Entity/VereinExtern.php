@@ -185,11 +185,6 @@ class VereinExtern {
      */
     private $ligaKuerzel;
     
-    /**
-     * @ORM\OneToOne(targetEntity="Verein", mappedBy="vereinExtern")
-     */
-    protected $verein;
-    
     /*
      * ab hier generiert
      */

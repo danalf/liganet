@@ -101,7 +101,7 @@ class Verein {
     protected $ausgerichteterSpieltag;
     
     /**
-     * @ORM\OneToOne(targetEntity="VereinExtern", inversedBy="verein")
+     * @ORM\OneToOne(targetEntity="VereinExtern")
      * @ORM\JoinColumn(name="verein_extern_id", referencedColumnName="Vereinsnummer", nullable=true)
      */
     protected $vereinExtern;

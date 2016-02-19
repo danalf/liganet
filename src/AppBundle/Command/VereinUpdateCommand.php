@@ -6,12 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class VereinSetNewCommand extends ContainerAwareCommand
+class VereinUpdateCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('app:verein:setnew')
+            ->setName('app:verein:update')
             ->setDescription('Set new vereine to table Verein')
         ;
     }
@@ -20,6 +20,7 @@ class VereinSetNewCommand extends ContainerAwareCommand
     {
         $sync= $this->getContainer()->get("app.util.sync.verein");
         $em = $this->getContainer()->get('doctrine')->getManager('default');
+        $sync->getNewDataSets();
         $vereine = $em->getRepository('AppBundle\Entity\VereinExtern')->findAll();
         
         foreach ($vereine as $vereinExtern) {
@@ -27,6 +28,8 @@ class VereinSetNewCommand extends ContainerAwareCommand
             if (!$verein){
                 $sync->setNewDatasets($vereinExtern);
                 $output->writeln("Verein hinzugefügt: ".$vereinExtern->getName());
+            } else {
+                $sync->setNewDatasets($vereinExtern, $verein);
             }
         }
         
