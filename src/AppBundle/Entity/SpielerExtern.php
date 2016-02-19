@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  *
  * @ORM\Table(name="liga_lizenzspieler")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SpielerExternRepository")
  */
 class SpielerExtern {
                 
