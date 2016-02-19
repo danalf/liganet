@@ -18,7 +18,9 @@ class SpielerFindExternCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $sync= $this->getContainer()->get("app.util.sync.spieler");
         $em = $this->getContainer()->get('doctrine')->getManager('default');
+        $sync->getNewDataSets();
         $spielers = $em->getRepository('AppBundle\Entity\SpielerExtern')->findAll();
         $i=0;
         foreach ($spielers as $spielerExtern) {
