@@ -32,7 +32,7 @@ class AdminController extends Controller
                         'admin/email.txt.twig', array('user' => $this->getUser(), 'confirmationUrl' => 'test')
                 )
         );
-        //$this->get('mailer')->send($message);
+        $this->get('mailer')->send($message);
         $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
 
 

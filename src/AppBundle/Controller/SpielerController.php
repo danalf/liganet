@@ -175,16 +175,16 @@ class SpielerController extends Controller
             $this->get('session')->getFlashBag()->add('error', 'Für den Spieler wurde keine Email hinterlegt.');
             return $this->redirectToRoute('spieler_show', array('id' => $id));
         }
+        
         /**
          * @var User 
          */
         $user = $userManager->createUser();
-        $user->setUsername($spieler);
+        $user->setUsername($spieler->__toString());
         $user->setPassword("rftgknxdr kcjgs undrgtfg nfr");
         $user->setSpieler($spieler);
         $user->setEmail($spieler->getEmail());
         $user->setEnabled(true);
-
         $userManager->updateUser($user);
 
         $message = \Swift_Message::newInstance()
@@ -193,12 +193,14 @@ class SpielerController extends Controller
                 ->setTo($user->getEmail())
                 ->setBody(
                 $this->renderView(
-                        'AppBundle:admin:emailNew.txt.twig', array('user' => $user)
+                        'admin/emailNew.txt.twig', array('user' => $user)
                 )
         );
         $this->get('mailer')->send($message);
 
         $this->get('session')->getFlashBag()->add('success', 'Der Spieler wurde als User hinzugefügt.');
-        return $this->redirectToRoute('spieler_show', array('id' => $id));
+        $deleteForm = $this->createDeleteForm($spieler);
+
+        return $this->redirectToRoute('spieler_show', array('id' => $spieler->getId()));
     }
 }

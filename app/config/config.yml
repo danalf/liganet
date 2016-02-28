@@ -89,10 +89,10 @@ fos_user:
         mailer: fos_user.mailer.twig_swift
     resetting:
         email:
-            template: AppBundle:admin:email.txt.twig
-    #registration:
-    #    confirmation:
-    #        enabled:    true
+            template: FOSUserBundle:Resetting:email.txt.twig 
+    registration:
+        confirmation:
+            enabled:    true
 
 vich_uploader:
     db_driver: orm

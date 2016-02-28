@@ -3,7 +3,6 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\Spieler;
 
 
 /**
@@ -51,7 +50,7 @@ class User extends BaseUser {
      */
     public function setSpieler(\AppBundle\Entity\Spieler $spieler = null)
     {
-        $this->spieler = $spieler->getId();
+        $this->spieler = $spieler;
     
         return $this;
     }

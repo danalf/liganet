@@ -1,12 +1,15 @@
-{% trans_default_domain 'FOSUserBundle' %}
-{% block subject %}
-{% autoescape false %}
-{{ 'registration.email.subject'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}) }}
-{% endautoescape %}
-{% endblock %}
 {% block body_text %}
 {% autoescape false %}
-{{ 'registration.email.message'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}) }}
+Hallo {{ user.username }} !
+
+Du wurdest als User im Liganet zur Ligaverwaltung im Pétanque angemeldet. Du erreichst das Liganet unter http://www.liga-net.de/
+
+Eine Email zum Setzen Deines Passworts folgt separat.
+
+Solltest Du fälschlicherweise angeschrieben sein, kannst Du diese Email ignorieren oder Dich an admin@liga-net.de wenden.
+
+Liebe Grüße,
+
+Der Liganet-Admin
 {% endautoescape %}
 {% endblock %}
-{% block body_html %}{% endblock %}
