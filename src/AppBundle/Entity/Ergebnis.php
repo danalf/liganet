@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Entity\Spieler;
 
 /**
  * Tag
@@ -133,10 +134,7 @@ class Ergebnis
      * @ORM\JoinColumn(name="ersatzFuer2", referencedColumnName="id")
      */
     protected $ersatzFuer2;
-    
-    
-        
-        
+         
     public function __toString()
     {
         return $this->begegnung." ".$this->spielArt;
