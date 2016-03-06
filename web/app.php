@@ -2,6 +2,9 @@
 
 use Symfony\Component\HttpFoundation\Request;
 
+define('K_PATH_IMAGES', '/web/');
+require_once('../vendor/tecnickcom/tcpdf/tcpdf.php');
+
 /**
  * @var Composer\Autoload\ClassLoader
  */
