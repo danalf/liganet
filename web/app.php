@@ -2,7 +2,7 @@
 
 use Symfony\Component\HttpFoundation\Request;
 
-define('K_PATH_IMAGES', '/web/');
+define('K_PATH_IMAGES', '/');
 require_once('../vendor/tecnickcom/tcpdf/tcpdf.php');
 
 /**
