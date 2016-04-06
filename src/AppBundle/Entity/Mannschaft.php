@@ -102,6 +102,14 @@ class Mannschaft
     {
         return $this->nrRundeGespielt;
     }
+    
+    public function getSpieler(){
+        $spieler = new \Doctrine\Common\Collections\ArrayCollection();
+        foreach ($this->getMannschaftSpieler as $value) {
+            $spieler->add($value->getSpieler());
+        }
+        return $spieler;
+    }
 
 
     /**
