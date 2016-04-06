@@ -105,7 +105,7 @@ class Mannschaft
     
     public function getSpieler(){
         $spieler = new \Doctrine\Common\Collections\ArrayCollection();
-        foreach ($this->getMannschaftSpieler as $value) {
+        foreach ($this->getMannschaftSpieler() as $value) {
             $spieler->add($value->getSpieler());
         }
         return $spieler;
