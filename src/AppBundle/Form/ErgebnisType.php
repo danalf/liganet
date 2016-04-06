@@ -19,7 +19,7 @@ class ErgebnisType extends AbstractType
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $ergebnis = $event->getData();
-            $mannschaft1 = $ergebnis->getBegegnung()->getMannschaft1()->getMannschaftSpieler()->getSpieler();
+            $mannschaft1 = $ergebnis->getBegegnung()->getMannschaft1()->getSpieler();
             $mannschaft2 = $ergebnis->getBegegnung()->getMannschaft2()->getId();
             $form = $event->getForm();
             $form
