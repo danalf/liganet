@@ -233,6 +233,10 @@ class Spieler {
     public function __toString() {
         return trim($this->vorname . " " . $this->nachname);
     }
+    
+    public function getLicenseAndName(){
+        return $this->nummerlizenz." ".$this->__toString();
+    }
 
 
     /**
