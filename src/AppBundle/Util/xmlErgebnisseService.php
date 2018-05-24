@@ -147,8 +147,8 @@ class xmlErgebnisseService {
         foreach ($this->ligaSaison->getStaffelleiter() as $staffelleiter) {
             $xml = $this->doc->createElement('staffelleiter');
             $ligaElement->appendChild($xml);
-            $text = $this->doc->createTextNode($staffelleiter);
-            $xml->appendChild($text);
+            //$text = $this->doc->createTextNode($staffelleiter);
+            //$xml->appendChild($text);
         }
         $xml = $this->doc->createElement('anzahl_spieltage');
         $ligaElement->appendChild($xml);
@@ -214,7 +214,9 @@ class xmlErgebnisseService {
     private function createSpieler(Entity\MannschaftSpieler $spieler) {
         $element = $this->doc->createElement('spieler');
         $attribut = $this->doc->createAttribute('name');
-        $text = $this->doc->createTextNode($spieler->getSpieler());
+        //add empty text due to DSGVO
+        //$text = $this->doc->createTextNode($spieler->getSpieler());
+        $text = $this->doc->createTextNode("");
         $attribut->appendChild($text);
         $element->appendChild($attribut);
         //$nummer=$spieler->getSpieler()->getNummerlizenz();
