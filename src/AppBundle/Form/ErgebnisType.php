@@ -19,7 +19,7 @@ class ErgebnisType extends AbstractType
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $ergebnis = $event->getData();
-            $mannschaft1 = $ergebnis->getBegegnung()->getMannschaft1()->getSpieler();
+            $mannschaft1 = $ergebnis->getBegegnung()->getMannschaft1()->getId();
             
             $mannschaft2 = $ergebnis->getBegegnung()->getMannschaft2()->getId();
             $form = $event->getForm();
@@ -27,7 +27,14 @@ class ErgebnisType extends AbstractType
                     ->add('spieler1_1', EntityType::class, array(
                         'required' => false,
                         'class' => 'AppBundle\Entity\Spieler',
-                        'choices' => $mannschaft1,
+                        'query_builder' => function(EntityRepository $er) use ($mannschaft1) {
+                            return $er->createQueryBuilder('s')
+                                    ->innerJoin('s.mannschaftSpieler', 'ms')
+                                    ->innerJoin('ms.mannschaft', 'm', 'WITH', 'm.id = :id')
+                                    ->orderBy('s.nummerlizenz', 'ASC')
+                                    ->setParameter('id', $mannschaft1)
+                            ;
+                        },
                         'choice_label' => function ($spieler) {
                             return $spieler->getLicenseAndName();
                         },
@@ -36,7 +43,14 @@ class ErgebnisType extends AbstractType
                     ->add('spieler1_2', EntityType::class, array(
                         'required' => false,
                         'class' => 'AppBundle\Entity\Spieler',
-                        'choices' => $mannschaft1,
+                        'query_builder' => function(EntityRepository $er) use ($mannschaft1) {
+                            return $er->createQueryBuilder('s')
+                                    ->innerJoin('s.mannschaftSpieler', 'ms')
+                                    ->innerJoin('ms.mannschaft', 'm', 'WITH', 'm.id = :id')
+                                    ->orderBy('s.nummerlizenz', 'ASC')
+                                    ->setParameter('id', $mannschaft1)
+                            ;
+                        },
                         'choice_label' => function ($spieler) {
                             return $spieler->getLicenseAndName();
                         },
@@ -45,7 +59,14 @@ class ErgebnisType extends AbstractType
                     ->add('spieler1_3', EntityType::class, array(
                         'required' => false,
                         'class' => 'AppBundle\Entity\Spieler',
-                        'choices' => $mannschaft1,
+                        'query_builder' => function(EntityRepository $er) use ($mannschaft1) {
+                            return $er->createQueryBuilder('s')
+                                    ->innerJoin('s.mannschaftSpieler', 'ms')
+                                    ->innerJoin('ms.mannschaft', 'm', 'WITH', 'm.id = :id')
+                                    ->orderBy('s.nummerlizenz', 'ASC')
+                                    ->setParameter('id', $mannschaft1)
+                            ;
+                        },
                         'choice_label' => function ($spieler) {
                             return $spieler->getLicenseAndName();
                         },
@@ -54,7 +75,14 @@ class ErgebnisType extends AbstractType
                     ->add('ersatz1', EntityType::class, array(
                         'required' => false,
                         'class' => 'AppBundle\Entity\Spieler',
-                        'choices' => $mannschaft1,
+                        'query_builder' => function(EntityRepository $er) use ($mannschaft1) {
+                            return $er->createQueryBuilder('s')
+                                    ->innerJoin('s.mannschaftSpieler', 'ms')
+                                    ->innerJoin('ms.mannschaft', 'm', 'WITH', 'm.id = :id')
+                                    ->orderBy('s.nummerlizenz', 'ASC')
+                                    ->setParameter('id', $mannschaft1)
+                            ;
+                        },
                         'choice_label' => function ($spieler) {
                             return $spieler->getLicenseAndName();
                         },
@@ -63,7 +91,14 @@ class ErgebnisType extends AbstractType
                     ->add('ersatzFuer1', EntityType::class, array(
                         'required' => false,
                         'class' => 'AppBundle\Entity\Spieler',
-                        'choices' => $mannschaft1,
+                        'query_builder' => function(EntityRepository $er) use ($mannschaft1) {
+                            return $er->createQueryBuilder('s')
+                                    ->innerJoin('s.mannschaftSpieler', 'ms')
+                                    ->innerJoin('ms.mannschaft', 'm', 'WITH', 'm.id = :id')
+                                    ->orderBy('s.nummerlizenz', 'ASC')
+                                    ->setParameter('id', $mannschaft1)
+                            ;
+                        },
                         'choice_label' => function ($spieler) {
                             return $spieler->getLicenseAndName();
                         },
@@ -72,6 +107,9 @@ class ErgebnisType extends AbstractType
                     ->add('spieler2_1', EntityType::class, array(
                         'required' => false,
                         'class' => 'AppBundle\Entity\Spieler',
+                        'choice_label' => function ($spieler) {
+                            return $spieler->getLicenseAndName();
+                        },
                         'query_builder' => function(EntityRepository $er) use ($mannschaft2) {
                             return $er->createQueryBuilder('s')
                                     ->innerJoin('s.mannschaftSpieler', 'ms')
@@ -85,6 +123,9 @@ class ErgebnisType extends AbstractType
                     ->add('spieler2_2', EntityType::class, array(
                         'required' => false,
                         'class' => 'AppBundle\Entity\Spieler',
+                        'choice_label' => function ($spieler) {
+                            return $spieler->getLicenseAndName();
+                        },
                         'query_builder' => function(EntityRepository $er) use ($mannschaft2) {
                             return $er->createQueryBuilder('s')
                                     ->innerJoin('s.mannschaftSpieler', 'ms')
@@ -98,6 +139,9 @@ class ErgebnisType extends AbstractType
                     ->add('spieler2_3', EntityType::class, array(
                         'required' => false,
                         'class' => 'AppBundle\Entity\Spieler',
+                        'choice_label' => function ($spieler) {
+                            return $spieler->getLicenseAndName();
+                        },
                         'query_builder' => function(EntityRepository $er) use ($mannschaft2) {
                             return $er->createQueryBuilder('s')
                                     ->innerJoin('s.mannschaftSpieler', 'ms')
@@ -111,6 +155,9 @@ class ErgebnisType extends AbstractType
                     ->add('ersatz2', EntityType::class, array(
                         'required' => false,
                         'class' => 'AppBundle\Entity\Spieler',
+                        'choice_label' => function ($spieler) {
+                            return $spieler->getLicenseAndName();
+                        },
                         'query_builder' => function(EntityRepository $er) use ($mannschaft2) {
                             return $er->createQueryBuilder('s')
                                     ->innerJoin('s.mannschaftSpieler', 'ms')
@@ -124,6 +171,9 @@ class ErgebnisType extends AbstractType
                     ->add('ersatzFuer2', EntityType::class, array(
                         'required' => false,
                         'class' => 'AppBundle\Entity\Spieler',
+                        'choice_label' => function ($spieler) {
+                            return $spieler->getLicenseAndName();
+                        },
                         'query_builder' => function(EntityRepository $er) use ($mannschaft2) {
                             return $er->createQueryBuilder('s')
                                     ->innerJoin('s.mannschaftSpieler', 'ms')
