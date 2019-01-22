@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class SaisonRepository extends EntityRepository
 {
-    public function findLast()
+    public function findLastYear()
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('max(s.saison) as year')

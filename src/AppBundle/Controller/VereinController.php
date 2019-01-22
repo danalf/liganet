@@ -73,7 +73,7 @@ class VereinController extends Controller
         $deleteForm = $this->createDeleteForm($verein);
 
         $em = $this->getDoctrine()->getManager();
-        $lastSaison = $em->getRepository('AppBundle:Saison')->findLast();
+        $lastSaison = $em->getRepository('AppBundle:Saison')->findLastYear();
 
         return $this->render('verein/show.html.twig', array(
             'verein' => $verein,
