@@ -60,7 +60,7 @@
             {{ include('mannschaft/showList.html.twig', { 'verein': verein }) }}
         </div>
         <div class="col-md-4">
-            {{ include("spieler/showList.html.twig" , { 'verein': verein }) }}
+            {{ include("spieler/showList.html.twig" , { 'verein': verein, 'lastSaison': lastSaison }) }}
         </div>
     </div>
 {% endblock %}

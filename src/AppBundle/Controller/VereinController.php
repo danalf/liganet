@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Verein;
+use AppBundle\Entity\Saison;
 use AppBundle\Form\VereinType;
 
 /**
@@ -71,8 +72,12 @@ class VereinController extends Controller
 
         $deleteForm = $this->createDeleteForm($verein);
 
+        $em = $this->getDoctrine()->getManager();
+        $lastSaison = $em->getRepository('AppBundle:Saison')->findLast();
+
         return $this->render('verein/show.html.twig', array(
             'verein' => $verein,
+            'lastSaison' => $lastSaison,
             'delete_form' => $deleteForm->createView(),
         ));
     }
