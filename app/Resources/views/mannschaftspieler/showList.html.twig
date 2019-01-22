@@ -21,7 +21,7 @@
                 <td>{{ mannschaftspieler.status }}</td>
                 <td>{% if mannschaftspieler.bestaetigt > 0 %}<i class="fa fa-check"></i>{% endif %}</td>
                 <td>
-                    {% if is_granted('edit', mannschaft) %}
+                    {% if is_granted('edit', mannschaftspieler) %}
                         <a class="btn btn-default pull-right" href="{{ path('mannschaftspieler_edit', { 'id': mannschaftspieler.id }) }}">
                             <i class="fa fa-pencil"></i>
                         </a>

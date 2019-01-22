@@ -57,7 +57,7 @@ class MannschaftSpielerController extends Controller
      */
     public function editAction(Request $request, MannschaftSpieler $mannschaftSpieler)
     {
-        $this->denyAccessUnlessGranted('edit', $mannschaftSpieler->getMannschaft());
+        $this->denyAccessUnlessGranted('edit', $mannschaftSpieler);
         
         $deleteForm = $this->createDeleteForm($mannschaftSpieler);
         $editForm = $this->createForm('AppBundle\Form\MannschaftSpielerType', $mannschaftSpieler);
