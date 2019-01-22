@@ -4,7 +4,7 @@
         {% for spieler in verein.spieler if spieler.spielerextern and lastSaison == spieler.spielerextern.lizenzJahr %}
             <tr>
                 <td><a href="{{ path('spieler_show', { 'id': spieler.id }) }}">
-                        {{ spieler.vorname }} {{ spieler.nachname }} {{ spieler.spielerextern.lizenzJahr }}
+                        {{ spieler.vorname }} {{ spieler.nachname }}
                     </a></td>
                 <td>{{ spieler.nummerlizenz }}</td>
                 <td>
