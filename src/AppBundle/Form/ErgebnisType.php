@@ -22,6 +22,8 @@ class ErgebnisType extends AbstractType
             $mannschaft1 = $ergebnis->getBegegnung()->getMannschaft1()->getId();
             
             $mannschaft2 = $ergebnis->getBegegnung()->getMannschaft2()->getId();
+
+            $anzahlSpieler = $ergebnis->getSpielArt()->getAnzahlSpieler();
             $form = $event->getForm();
             $form
                     ->add('spieler1_1', EntityType::class, array(
@@ -55,7 +57,9 @@ class ErgebnisType extends AbstractType
                             return $spieler->getLicenseAndName();
                         },
                         'placeholder' => '',
-                    ))
+                    ));
+            if ($anzahlSpieler > 2) {
+                $form
                     ->add('spieler1_3', EntityType::class, array(
                         'required' => false,
                         'class' => 'AppBundle\Entity\Spieler',
@@ -71,7 +75,9 @@ class ErgebnisType extends AbstractType
                             return $spieler->getLicenseAndName();
                         },
                         'placeholder' => '',
-                    ))
+                ));
+            };
+            $form
                     ->add('ersatz1', EntityType::class, array(
                         'required' => false,
                         'class' => 'AppBundle\Entity\Spieler',
@@ -135,23 +141,27 @@ class ErgebnisType extends AbstractType
                             ;
                         },
                         'placeholder' => '',
-                    ))
-                    ->add('spieler2_3', EntityType::class, array(
-                        'required' => false,
-                        'class' => 'AppBundle\Entity\Spieler',
-                        'choice_label' => function ($spieler) {
-                            return $spieler->getLicenseAndName();
-                        },
-                        'query_builder' => function(EntityRepository $er) use ($mannschaft2) {
-                            return $er->createQueryBuilder('s')
-                                    ->innerJoin('s.mannschaftSpieler', 'ms')
-                                    ->innerJoin('ms.mannschaft', 'm', 'WITH', 'm.id = :id')
-                                    ->orderBy('s.nummerlizenz', 'ASC')
-                                    ->setParameter('id', $mannschaft2)
-                            ;
-                        },
-                        'placeholder' => '',
-                    ))
+                    ));
+                if ($anzahlSpieler > 2) {
+                    $form
+                        ->add('spieler2_3', EntityType::class, array(
+                            'required' => false,
+                            'class' => 'AppBundle\Entity\Spieler',
+                            'choice_label' => function ($spieler) {
+                                return $spieler->getLicenseAndName();
+                            },
+                            'query_builder' => function(EntityRepository $er) use ($mannschaft2) {
+                                return $er->createQueryBuilder('s')
+                                        ->innerJoin('s.mannschaftSpieler', 'ms')
+                                        ->innerJoin('ms.mannschaft', 'm', 'WITH', 'm.id = :id')
+                                        ->orderBy('s.nummerlizenz', 'ASC')
+                                        ->setParameter('id', $mannschaft2)
+                                ;
+                            },
+                            'placeholder' => '',
+                    ));
+                };
+                $form
                     ->add('ersatz2', EntityType::class, array(
                         'required' => false,
                         'class' => 'AppBundle\Entity\Spieler',
