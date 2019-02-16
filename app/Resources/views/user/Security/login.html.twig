@@ -1,6 +1,6 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
-{% block fos_user_content %}
+{% block fosusercontent %}
 {% if error %}
     <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
 {% endif %}
@@ -20,4 +20,4 @@
 
     <input type="submit" id="_submit" name="_submit" value="Einloggen" />
 </form>
-{% endblock fos_user_content %}
+{% endblock fosusercontent %}

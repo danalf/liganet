@@ -1,11 +1,11 @@
 {
   "name": "liganet",
-  "version": "2.0.0",
+  "version": "2.3.0",
   "dependencies": {
-    "bootstrap": "~3.3.5",
-    "modernizr": "~3.2.0",
-    "jquery": "~2.1.4",
-    "fontawesome": "~4.5.*"
+    "bootstrap": "~3.3.7",
+    "modernizr": "~3.6.0",
+    "jquery": "~2.2.4",
+    "fontawesome": "~4.7.*"
   },
   "private": true
 }

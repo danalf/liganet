@@ -1,1 +1,0 @@
-/home/alfredo/Entwicklung/test2/vendor/doctrine/orm/bin/doctrine.php

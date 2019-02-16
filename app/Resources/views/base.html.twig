@@ -20,13 +20,13 @@
             {{ include('alerts.html.twig') }}
             <div>
                 {% block content %}
-                    {% block fos_user_content %}
-                    {% endblock fos_user_content %}
+                    {% block fosusercontent %}
+                    {% endblock fosusercontent %}
                 {% endblock %}
             </div>
     </div> 
     <footer>
-        <p>&copy; Alfredo 2016 - {{ gittag }}</p>
+        <p>&copy; Alfredo 2019 - {{ gittag }}</p>
     </footer>
     <script src="{{ asset('js/modernizr.custom.31856.js') }}"></script>
     <script src="{{ asset('components/jquery/dist/jquery.min.js') }}"></script>

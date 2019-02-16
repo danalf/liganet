@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class LigaSaisonRepository extends EntityRepository
 {
-    public function find($id)
+    public function find($id, $lockMode = NULL, $lockVersion = NULL)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('ls,m, st, r')

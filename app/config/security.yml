@@ -24,6 +24,7 @@ security:
                 csrf_token_generator: security.csrf.token_manager
             logout:       true
             anonymous:    true
+            logout_on_user_change: true
             
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
@@ -36,6 +37,7 @@ security:
                 path:   /logout
                 target: /
             anonymous: ~
+            logout_on_user_change: true
 
     access_control:
         - { path: ^.*/xml, role: IS_AUTHENTICATED_ANONYMOUSLY }

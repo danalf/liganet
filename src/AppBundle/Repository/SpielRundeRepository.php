@@ -14,7 +14,7 @@ use AppBundle\Entity\LigaSaison;
  */
 class SpielRundeRepository extends EntityRepository
 {
-    public function find($id)
+    public function find($id, $lockMode = NULL, $lockVersion = NULL)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('s,t,b')

@@ -32,3 +32,6 @@ ligasd_db1.sql
 .directory
 api/
 pw_server.txt
+liganet.code-workspace
+*.sql
+./*.log

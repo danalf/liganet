@@ -1,12 +1,9 @@
 {% extends '::base.html.twig' %}
 {% block content %}
 <h1>Document creation</h1>
-
-<form action="{{ path('document_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_start(form, {'action': path('document_create'), 'method': 'POST'}) }}
     {{ form_widget(form) }}
-    <p>
-        <button type="submit">Erstellen</button>
-    </p>
+    {{ form_end(form) }}
 </form>
 
 <ul class="record_actions">
