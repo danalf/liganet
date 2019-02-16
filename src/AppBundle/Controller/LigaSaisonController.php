@@ -287,4 +287,57 @@ class LigaSaisonController extends Controller
         ));
     }
 
+    /**
+     * Get the table for a ligasaison
+     * 
+     * @param int    $saison         The saison like 2019
+     * @param string $region_kuerzel Short of region like RNL
+     * @param string $liga_kuerzel   short of league like OL for Oberliga
+     *
+     * @Route("/extern/{saison}/{region_kuerzel}/{liga_kuerzel}/tabelle",
+     *          name="ligasaison_extern_tabelle")
+     * @Method({"GET", "POST"})
+     */
+    public function getExternTabelleAction($saison, $region_kuerzel, $liga_kuerzel)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ligaSaison = $em->getRepository('AppBundle:LigaSaison')->findOneBySaisonRegionLiga($saison, $region_kuerzel, $liga_kuerzel);
+        if (!$ligaSaison) {
+            throw $this->createNotFoundException('Diese Ligasaison exisistiert nicht');
+        }
+        return $this->render(
+            'ligasaison/showExternTabelle.html.twig', array(
+            'ligaSaison' => $ligaSaison,
+            )
+        );
+    }
+
+    /**
+     * Get the results for a ligasaison
+     * 
+     * @param int    $saison         The saison like 2019
+     * @param string $region_kuerzel Short of region like RNL
+     * @param string $liga_kuerzel   short of league like OL for Oberliga
+     *
+     * @Route("/extern/{saison}/{region_kuerzel}/{liga_kuerzel}/ergebnis",
+     *          name="ligasaison_extern_ergebnis")
+     * @Method({"GET", "POST"})
+     */
+    public function getExternErgebnisAction($saison, $region_kuerzel, $liga_kuerzel)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ligaSaison = $em->getRepository('AppBundle:LigaSaison')->findOneBySaisonRegionLiga($saison, $region_kuerzel, $liga_kuerzel);
+        if (!$ligaSaison) {
+            throw $this->createNotFoundException('Diese Ligasaison exisistiert nicht');
+        }
+        $spielarten = $ligaSaison->getLiga()->getModus()->getSpielArt();
+
+        return $this->render(
+            'ligasaison/showExternErgebnis.html.twig', array(
+            'ligaSaison' => $ligaSaison,
+            'spielarten' => $spielarten,
+            )
+        );
+    }
+
 }

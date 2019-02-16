@@ -41,6 +41,7 @@ class SpielRunde
     
     /**
      * @ORM\OneToMany(targetEntity="Tabelle", mappedBy="spielrunde")
+     * @ORM\OrderBy({"rang" = "ASC"})
      */
     protected $tabelle;
 

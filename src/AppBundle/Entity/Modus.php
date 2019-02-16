@@ -48,6 +48,7 @@ class Modus
     
     /**
      * @ORM\OneToMany(targetEntity="SpielArt", mappedBy="modus")
+     * @ORM\OrderBy({"nummer" = "ASC"})
      */
     protected $spielArt;
 
