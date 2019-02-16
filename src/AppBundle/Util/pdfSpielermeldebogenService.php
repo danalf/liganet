@@ -25,10 +25,10 @@ class pdfSpielermeldebogenService extends pdfService {
             $this->pdf->AddPage();
             $y = $this->pdf->GetY();
             $this->pdf->SetAlpha(0.15);
-            $logo=$verein->getDocument();
-            if ($logo) {
+            //$logo=$verein->getDocument();
+            //if ($logo) {
                 //$this->pdf->Image($logo->getWebPath(), 50, 75, 100, 0, strtoupper(substr($logo, strpos($logo, ".") + 1)), '', 'M', TRUE, 300, '');
-            }
+            //}
             $this->pdf->SetAlpha(1);
             $this->pdf->SetY($y);
             //Allgemein Infos
@@ -67,11 +67,12 @@ class pdfSpielermeldebogenService extends pdfService {
                 $this->pdf->MultiCell(5, 6, '', 0, 'L', 0, 0);
                 $this->pdf->MultiCell(15, 6, $spieler->getNummerLizenz(), 1, 'C', 0, 0, '', '', TRUE, 0, FALSE, TRUE, 6, 'T', TRUE);
                 $this->pdf->MultiCell(5, 6, '', 0, 'L', 0, 0);
-                $geschlecht = '';
-                if ($spieler->getAnrede()->getId() == 1)
-                    $geschlecht = 'm';
-                if ($spieler->getAnrede()->getId() == 2)
-                    $geschlecht = 'w';
+                if ($spieler->getAnrede()) {
+                    if ($spieler->getAnrede()->getId() == 1)
+                        $geschlecht = 'm';
+                    if ($spieler->getAnrede()->getId() == 2)
+                        $geschlecht = 'w';
+                }
                 $this->pdf->MultiCell(15, 6, $geschlecht, 1, 'C', 0, 0, '', '', TRUE, 0, FALSE, TRUE, 6, 'T', TRUE);
                 $this->pdf->MultiCell(5, 6, '', 0, 'L', 0, 0);
                 $this->pdf->MultiCell(15, 6, substr($mannschaftspieler->getStatus(), 0, 1), 1, 'C', 0, 1, '', '', TRUE, 0, FALSE, TRUE, 6, 'T', TRUE);
