@@ -26,7 +26,7 @@
         "whiteoctober/tcpdf-bundle": "dev-master",
         "twitter/bootstrap": "3.3",
         "phpoffice/phpexcel": "^1.8",
-        "vich/uploader-bundle": "1.2",
+        "vich/uploader-bundle": "1.0",
         "braincrafted/bootstrap-bundle": "dev-develop"
     },
     "require-dev": {

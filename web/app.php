@@ -9,7 +9,7 @@ require_once('../vendor/tecnickcom/tcpdf/tcpdf.php');
  * @var Composer\Autoload\ClassLoader
  */
 $loader = require __DIR__.'/../app/autoload.php';
-include_once __DIR__.'/../app/bootstrap.php.cache';
+//include_once __DIR__.'/../app/bootstrap.php.cache';
 
 // Enable APC for autoloading to improve performance.
 // You should change the ApcClassLoader first argument to a unique prefix
@@ -23,7 +23,7 @@ $apcLoader->register(true);
 
 //require_once __DIR__.'/../app/AppCache.php';
 
-$kernel = new AppKernel('prod', false);
+$kernel = new AppKernel('prod', true);
 //$kernel = new AppCache($kernel);
 
 // When using the HttpCache, you need to call the method in your front controller instead of relying on the configuration parameter
