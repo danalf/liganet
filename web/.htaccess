@@ -66,3 +66,9 @@ DirectoryIndex app.php
         # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
+
+<ifModule mod_deflate.c>
+    <filesMatch "\.(js|css|html|xml)$">
+        SetOutputFilter DEFLATE
+    </filesMatch>
+</ifModule>
