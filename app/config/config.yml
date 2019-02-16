@@ -5,24 +5,25 @@ imports:
 
 framework:
     #esi:             ~
-    translator:      { fallback: %locale% }
-    secret:          %secret%
+    translator:      { fallback: "%locale%" }
+    secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
-        strict_requirements: %kernel.debug%
+        strict_requirements: "%kernel.debug%"
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig'] } 
-    default_locale:  %locale%
+    default_locale:  "%locale%"
     #trust_proxy_headers: false # Whether or not the Request object should trust proxy headers (X_FORWARDED_FOR/HTTP_CLIENT_IP)
-    session:         ~
+    session:
+        save_path: /var/lib/php/sessions
     assets: ~
 
 # Twig Configuration
 twig:
-    debug:            %kernel.debug%
-    strict_variables: %kernel.debug%
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
     form_themes:
         - 'VichUploaderBundle:Form:fields.html.twig'
         - BraincraftedBootstrapBundle:Form:bootstrap.html.twig
@@ -52,7 +53,7 @@ doctrine:
 
     orm:
         default_entity_manager:   default
-        auto_generate_proxy_classes: %kernel.debug%
+        auto_generate_proxy_classes: "%kernel.debug%"
         entity_managers:
             default:
                 connection:       default
@@ -71,11 +72,11 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: %mailer_transport%
+    transport: "%mailer_transport%"
     #auth_mode: %mailer_login%
-    host:      %mailer_host%
-    username:  %mailer_user%
-    password:  %mailer_password%
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
     spool:     { type: memory }
 
 fos_user:
@@ -100,10 +101,10 @@ vich_uploader:
     mappings:
         verband_image:
             uri_prefix:         /images/verband
-            upload_destination: %kernel.root_dir%/../web/images/verband
+            upload_destination: "%kernel.root_dir%/../web/images/verband"
         verein_image:
             uri_prefix:         /images/verein
-            upload_destination: %kernel.root_dir%/../web/images/verein
+            upload_destination: "%kernel.root_dir%/../web/images/verein"
         region_image:
             uri_prefix:         /images/region
-            upload_destination: %kernel.root_dir%/../web/images/region
+            upload_destination: "%kernel.root_dir%/../web/images/region"
