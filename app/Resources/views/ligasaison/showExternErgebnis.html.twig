@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+    </head>
+    <body>
+        <style type="text/css">
+            .table-zeile1{
+                background-color: {{ ligaSaison.liga.farbeTabellenKopf }};
+                color: {{ ligaSaison.liga.farbeTabellenKopfSchrift }};
+            }
+            .table-zeile2{
+                background-color: {{ ligaSaison.liga.region.farbeTabelleZeile2Hintergrund }};
+                color: {{ ligaSaison.liga.region.farbeTabelleZeile2Schrift }};
+            }
+            .table-content{
+                background-color: {{ ligaSaison.liga.region.farbeTabelleHintergrund }};
+                color: {{ ligaSaison.liga.region.farbeTabelleSchrift }};
+            }
+            table.ergebnis td {
+                text-align: center;
+            }
+            .table {
+                width: 100%;
+            }
+        </style>
+        {% for spieltag in ligaSaison.spieltage %}
+            {% for runde in spieltag.runden %}
+                {{ include('spielrunde/showErgebnisse.html.twig', { 'runde': runde, 'spielarten': spielarten }) }}
+            {% endfor %}
+            <br />
+        {% endfor %}
+    </body>
+</html>
+
