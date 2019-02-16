@@ -33,9 +33,9 @@
                     <td>{{ verein.kuerzel }}</td>
                     <td>{{ verein.nummer }}</td>
                     <td>
-                        {% if verein.kontakt %}
-                            <a href="{{ path('spieler_show', { 'id': verein.kontakt.id }) }}">{{ verein.kontakt }}</a>
-                        {% endif %}
+                        {% for leiter in verein.leiter %}
+                            <a href="{{ path('spieler_show', { 'id': leiter.id }) }}">{{ leiter }}</a><br />
+                        {% endfor %}
                     </td>
                     <td><a href="{{ verein.homepage }}" target="_blank">{{ verein.homepage }}</a></td>
                     <td>
