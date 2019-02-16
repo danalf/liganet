@@ -27,7 +27,7 @@ twig:
         - 'VichUploaderBundle:Form:fields.html.twig'
         - BraincraftedBootstrapBundle:Form:bootstrap.html.twig
     globals:
-        gittag: v2.2.1
+        gittag: v2.3.0
 
 # Doctrine Configuration
 doctrine:
