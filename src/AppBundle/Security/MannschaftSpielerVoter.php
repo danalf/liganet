@@ -13,6 +13,7 @@ class MannschaftSpielerVoter extends Voter
 
     const VIEW = 'view';
     const EDIT = 'edit';
+    const CONFIRM = 'confirm';
 
     private $decisionManager;
 
@@ -23,7 +24,7 @@ class MannschaftSpielerVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        if (!in_array($attribute, array(self::VIEW, self::EDIT))) {
+        if (!in_array($attribute, array(self::VIEW, self::EDIT, self::CONFIRM))) {
             return false;
         }
 
@@ -54,6 +55,8 @@ class MannschaftSpielerVoter extends Voter
                 return $this->canView($mannschaftSpieler, $user);
             case self::EDIT:
                 return $this->canEdit($mannschaftSpieler, $user);
+            case self::CONFIRM:
+                return $this->_canConfirm($mannschaftSpieler, $user);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -64,30 +67,62 @@ class MannschaftSpielerVoter extends Voter
         return true;
     }
 
+    /**
+     * Check if entity is allowed to edit for user
+     * 
+     * @param MannschaftSpieler $mannschaftSpieler the entity to edit
+     * @param User              $user              The user who wants to edit
+     * 
+     * @return boolean Is editing allowed?
+     */
     private function canEdit(MannschaftSpieler $mannschaftSpieler, User $user)
     {
-        $spieler=$user->getSpieler();
+        $spieler = $user->getSpieler();
         $mannschaft = $mannschaftSpieler->getMannschaft();
         $verein = $mannschaft->getVerein();
-        foreach ($verein->getLeiter() as $leiter) {
-            if ($spieler == $leiter) {
+        // Vereinsleiter and Staffelleiter only allowed to change if bestaetigt is false
+        if ($mannschaftSpieler->getBestaetigt() == false ) {
+            if ($verein->getLeiter()->contains($spieler)) {
+                return true;
+            }
+            if ($mannschaft->getLigasaison()->getStaffelleiter()->contains($spieler)) {
                 return true;
             }
         }
-        foreach ($verein->getRegion()->getLeiter() as $leiter) {
-            if ($spieler == $leiter) {
+        if ($verein->getRegion()->getLeiter()->contains($spieler)) {
+            return true;
+        }
+        if ($mannschaft->getLigasaison()->getLiga()->getRegion()->getLeiter()->contains($spieler)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if entity is allowed to confirm for user
+     * 
+     * @param MannschaftSpieler $mannschaftSpieler the entity to edit
+     * @param User              $user              The user who wants to edit
+     * 
+     * @return boolean Is confirming allowed?
+     */
+    private function _canConfirm(MannschaftSpieler $mannschaftSpieler, User $user)
+    {
+        $spieler = $user->getSpieler();
+        $mannschaft = $mannschaftSpieler->getMannschaft();
+        $verein = $mannschaft->getVerein();
+        // Vereinsleiter and Staffelleiter only allowed to change if bestaetigt is false
+        if ($mannschaftSpieler->getBestaetigt() == false ) {
+            if ($mannschaft->getLigasaison()->getStaffelleiter()->contains($spieler)) {
                 return true;
             }
         }
-        foreach ($mannschaft->getLigasaison()->getStaffelleiter() as $leiter) {
-            if ($spieler == $leiter){
-                return true;
-            }
+        if ($verein->getRegion()->getLeiter()->contains($spieler)) {
+            return true;
         }
-        foreach ($mannschaft->getLigasaison()->getLiga()->getRegion()->getLeiter() as $leiter) {
-            if ($spieler == $leiter){
-                return true;
-            }
+        if ($mannschaft->getLigasaison()->getLiga()->getRegion()->getLeiter()->contains($spieler)) {
+            return true;
         }
 
         return false;

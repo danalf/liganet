@@ -82,4 +82,10 @@ services:
         arguments: ["@doctrine", "@doctrine.orm.entity_manager", "@doctrine.orm.extern_entity_manager"]    
     app.util.sync.spieler:
         class: AppBundle\Util\SpielerSync
-        arguments: ["@doctrine", "@doctrine.orm.entity_manager", "@doctrine.orm.extern_entity_manager"]  
+        arguments: ["@doctrine", "@doctrine.orm.entity_manager", "@doctrine.orm.extern_entity_manager"]
+
+    app.security.form.mannschaftspieler:
+        class: AppBundle\Form\MannschaftSpielerType
+        arguments: ['@security.authorization_checker']
+        tags:
+            - { name: form.type }

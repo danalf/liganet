@@ -2,15 +2,19 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Security\MannschaftSpielerVoter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
 class MannschaftSpielerType extends AbstractType
 {
+    private $_authorizationChecker;
 
     /**
      * @param FormBuilderInterface $builder
@@ -18,11 +22,11 @@ class MannschaftSpielerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $mannschaftSpieler =  $options["data"];
         $spieler_disabled = false;
         if (is_object($options["data"]->getSpieler())) {
             $spieler_disabled = true;
         }
-
         if (is_object($options["data"]->getMannschaft())) {
             $verein = $options["data"]->getMannschaft()->getVerein();
             $saison = $options["data"]->getMannschaft()->getLigasaison()->getSaison()->getSaison();
@@ -55,8 +59,16 @@ class MannschaftSpielerType extends AbstractType
                     'class' => 'AppBundle\Entity\Mannschaft',
                     'disabled' => true,
                 ))
-                ->add('save', SubmitType::class, ['label' => 'Speichern'])
         ;
+        if ($this->_authorizationChecker->isGranted(MannschaftSpielerVoter::CONFIRM, $mannschaftSpieler)) {
+            $builder->add('bestaetigt');
+        } else {
+            $builder->add(
+                'bestaetigt',
+                CheckboxType::class, array('disabled' => true)
+            );
+        }
+        $builder->add('save', SubmitType::class, ['label' => 'Speichern']);
     }
 
     /**
@@ -64,9 +76,16 @@ class MannschaftSpielerType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\MannschaftSpieler'
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'AppBundle\Entity\MannschaftSpieler'
+            )
+        );
+    }
+
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->_authorizationChecker = $authorizationChecker;
     }
 
 }
