@@ -187,7 +187,7 @@ class SpielerController extends Controller
         $user->setEnabled(true);
         $userManager->updateUser($user);
 
-        $message = \Swift_Message::newInstance()
+        $message = (new \Swift_Message())
                 ->setSubject('Willkommen zum Liganet')
                 ->setFrom('admin@liga-net.de')
                 ->setTo($user->getEmail())
