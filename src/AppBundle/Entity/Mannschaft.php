@@ -215,7 +215,12 @@ class Mannschaft
     }
     
     public function __toString() {
-        $saison=(string) $this->ligasaison->getSaison()->getSaison();
+        $ligasaison = $this->getLigasaison();
+        if ($ligasaison != null) {
+            $saison=(string) $this->getLigasaison()->getSaison();
+        } else {
+            $saison="";
+        }
         return $this->verein->getKuerzel().$this->rang." (".$saison.")";
     }
     /**
