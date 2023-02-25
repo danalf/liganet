@@ -22,7 +22,7 @@
         "sensio/framework-extra-bundle": "5.1",
         "incenteev/composer-parameter-handler": "^2.1",
         "friendsofsymfony/user-bundle": "~2.1",
-        "tecnickcom/tcpdf": "dev-master",
+        "tecnickcom/tcpdf": "~6.0",
         "whiteoctober/tcpdf-bundle": "dev-master",
         "twitter/bootstrap": "3.3",
         "phpoffice/phpexcel": "^1.8",
